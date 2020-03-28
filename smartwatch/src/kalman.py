@@ -36,27 +36,32 @@ class Kalman(object):
 
 def callback(data):
 
+	linear_acceleration = Vector3()
 
-    rospy.loginfo("Imu result: %lf %lf %lf", data.x,data.y,data.z)
+	linear_acceleration.x = data.linear_acceleration.x
+	linear_acceleration.y = data.linear_acceleration.y
+	linear_acceleration.z = data.linear_acceleration.z
 
-    Z = np.matrix([data.x,data.y,data.z]).getT()
+	rospy.loginfo("Imu result: %lf %lf %lf", linear_acceleration.x,linear_acceleration.y,linear_acceleration.z)
 
-    if kalman.first:
-        kalman.x = Y
-        kalman.first = False
+	Z = np.matrix([linear_acceleration.x,linear_acceleration.y,linear_acceleration.z]).getT()
 
-    
-    kalman.predict()
-    kalman.update(Y)
+	if kalman.first:
+		kalman.x = Z
+		kalman.first = False
 
-    vec = Vector3()
+	
+	kalman.predict()
+	kalman.update(Z)
 
-    vec.x = kalman.x[0]
-    vec.y = kalman.x[1]
-    vec.z = kalman.x[2]
+	vec = Vector3()
+
+	vec.x = kalman.x[0]
+	vec.y = kalman.x[1]
+	vec.z = kalman.x[2]
 
 
-    rospy.loginfo("Kalman result: %lf %lf %lf", vec.x,vec.y,vec.z)
+	rospy.loginfo("Kalman result: %lf %lf %lf", vec.x,vec.y,vec.z)
     
 def listener():
 
