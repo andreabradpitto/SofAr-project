@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import numpy as np
+import tf
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Vector3
 
@@ -34,10 +35,23 @@ class Kalman(object):
 		self.x = self.x + H * w
 		self.sigma = (self.I - H * self.G) * self.sigma
 
+# rotate vector v1 by quaternion q1 
+def qv_mult(q1, v1):
+
+	#v1 = tf.transformations.unit_vector(v1)
+	q2 = list(v1)
+	q2.append(0.0)
+
+	return tf.transformations.quaternion_multiply(
+		tf.transformations.quaternion_multiply(q1, q2), 
+		tf.transformations.quaternion_conjugate(q1)
+	)[:3]
+
 
 def callback(data):
 
 	linear_acceleration = Vector3()
+	orientation = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
 
 	linear_acceleration.x = data.linear_acceleration.x
 	linear_acceleration.y = data.linear_acceleration.y
@@ -55,14 +69,19 @@ def callback(data):
 	kalman.predict()
 	kalman.update(Z)
 
-	vec = Vector3()
+	vec = [kalman.x[0], kalman.x[1], kalman.x[2]]
 
-	vec.x = kalman.x[0]
-	vec.y = kalman.x[1]
-	vec.z = kalman.x[2]
+	rospy.loginfo("Kalman result: %lf %lf %lf", vec[0],vec[1],vec[2])
 
+	vec = qv_mult(orientation,vec)
 
-	rospy.loginfo("Kalman result: %lf %lf %lf", vec.x,vec.y,vec.z)
+	rospy.loginfo("Rotation result: %lf %lf %lf", vec[0],vec[1],vec[2])
+
+	for i in range(1,3):
+		vec[i] = vec[i] + g_vector[i]
+
+	rospy.loginfo("Final result: %lf %lf %lf", vec[0],vec[1],vec[2])
+	
 	
 def listener():
 
@@ -86,5 +105,7 @@ def listener():
 if __name__ == '__main__':
 
 	kalman = Kalman(n_states = 3, n_sensors = 3)
+
+	g_vector = [0.0, 0.0, -9.81]
 
 	listener()
