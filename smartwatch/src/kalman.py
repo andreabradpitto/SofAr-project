@@ -57,7 +57,7 @@ def callback(data):
 	linear_acceleration.y = data.linear_acceleration.y
 	linear_acceleration.z = data.linear_acceleration.z
 
-	rospy.loginfo("Imu result: %lf %lf %lf", linear_acceleration.x,linear_acceleration.y,linear_acceleration.z)
+	rospy.loginfo("Imu result:      %lf %lf %lf", linear_acceleration.x,linear_acceleration.y,linear_acceleration.z)
 
 	Z = np.matrix([linear_acceleration.x,linear_acceleration.y,linear_acceleration.z]).getT()
 
@@ -71,7 +71,7 @@ def callback(data):
 
 	vec = [kalman.x[0], kalman.x[1], kalman.x[2]]
 
-	rospy.loginfo("Kalman result: %lf %lf %lf", vec[0],vec[1],vec[2])
+	rospy.loginfo("Kalman result:   %lf %lf %lf", vec[0],vec[1],vec[2])
 
 	vec = qv_mult(orientation,vec)
 
@@ -80,7 +80,7 @@ def callback(data):
 	for i in range(1,3):
 		vec[i] = vec[i] + g_vector[i]
 
-	rospy.loginfo("Final result: %lf %lf %lf", vec[0],vec[1],vec[2])
+	rospy.loginfo("Final result:    %lf %lf %lf", vec[0],vec[1],vec[2])
 	
 	
 def listener():
