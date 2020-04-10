@@ -16,7 +16,7 @@ class Kalman(object):
 		self.sigma = np.matrix(np.identity(n_states)) 
 		self.F = np.matrix(np.identity(n_states))
 		self.u = np.matrix(np.zeros(shape=(n_states,1)))
-		self.G = np.matrix(np.zeros(shape=(n_sensors, n_states)))
+		self.G = np.matrix(np.identity(n_states))
 		self.R = np.matrix(np.identity(n_sensors))
 		self.I = np.matrix(np.identity(n_states))
 
@@ -33,7 +33,7 @@ class Kalman(object):
 		S = self.G * self.sigma * self.G.getT() + self.R
 		H = self.sigma * self.G.getT() * S.getI()
 		self.x = self.x + H * w
-		self.sigma = (self.I - H * self.G) * self.sigma
+		self.sigma = self.sigma - (H * S * H.getT())
 
 # rotate vector v1 by quaternion q1 
 def qv_mult(q1, v1):
@@ -51,7 +51,7 @@ def qv_mult(q1, v1):
 def callback(data):
 
 	linear_acceleration = Vector3()
-	orientation = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
+	orientation = [data.orientation.w, data.orientation.x, data.orientation.y, data.orientation.z]
 
 	linear_acceleration.x = data.linear_acceleration.x
 	linear_acceleration.y = data.linear_acceleration.y
@@ -64,7 +64,6 @@ def callback(data):
 	if kalman.first:
 		kalman.x = Z
 		kalman.first = False
-
 	
 	kalman.predict()
 	kalman.update(Z)
@@ -94,8 +93,6 @@ def listener():
 
 	rospy.Subscriber("android/imu", Imu, callback)
 
-	
-	kalman.H = np.matrix(np.identity(kalman.n_states))
 	kalman.sigma *= 0.1
 	kalman.R *= 0.01
 
