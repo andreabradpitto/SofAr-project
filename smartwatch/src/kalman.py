@@ -12,10 +12,10 @@ class Kalman(object):
 		self.n_states = n_states
 		self.n_sensors = n_sensors
 
-		self.x = np.matrix(np.zeros(shape=(n_states,1)))
+		self.x = np.matrix(np.zeros(shape=(n_states, 1)))
 		self.sigma = np.matrix(np.identity(n_states)) 
 		self.F = np.matrix(np.identity(n_states))
-		self.u = np.matrix(np.zeros(shape=(n_states,1)))
+		self.u = np.matrix(np.zeros(shape=(n_states, 1)))
 		self.G = np.matrix(np.identity(n_states))
 		self.R = np.matrix(np.identity(n_sensors))
 		self.I = np.matrix(np.identity(n_states))
@@ -50,16 +50,13 @@ def qv_mult(q1, v1):
 
 def callback(data):
 
-	linear_acceleration = Vector3()
 	orientation = [data.orientation.w, data.orientation.x, data.orientation.y, data.orientation.z]
+	#angular_velocity = [data.angular_velocity.x, data.angular_velocity.y, data.angular_velocity.z]
+	linear_acceleration = [data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z]
 
-	linear_acceleration.x = data.linear_acceleration.x
-	linear_acceleration.y = data.linear_acceleration.y
-	linear_acceleration.z = data.linear_acceleration.z
+	rospy.loginfo("Imu result:      %lf %lf %lf", linear_acceleration[0], linear_acceleration[1], linear_acceleration[2])
 
-	rospy.loginfo("Imu result:      %lf %lf %lf", linear_acceleration.x,linear_acceleration.y,linear_acceleration.z)
-
-	Z = np.matrix([linear_acceleration.x,linear_acceleration.y,linear_acceleration.z]).getT()
+	Z = np.matrix(linear_acceleration).getT()
 
 	if kalman.first:
 		kalman.x = Z
@@ -70,16 +67,16 @@ def callback(data):
 
 	vec = [kalman.x[0], kalman.x[1], kalman.x[2]]
 
-	rospy.loginfo("Kalman result:   %lf %lf %lf", vec[0],vec[1],vec[2])
+	rospy.loginfo("Kalman result:   %lf %lf %lf", vec[0], vec[1], vec[2])
 
-	vec = qv_mult(orientation,vec)
+	vec = qv_mult(orientation, vec)
 
-	rospy.loginfo("Rotation result: %lf %lf %lf", vec[0],vec[1],vec[2])
+	rospy.loginfo("Rotation result: %lf %lf %lf", vec[0], vec[1], vec[2])
 
-	for i in range(1,3):
+	for i in range(1, 3):
 		vec[i] = vec[i] + g_vector[i]
 
-	rospy.loginfo("Final result:    %lf %lf %lf", vec[0],vec[1],vec[2])
+	rospy.loginfo("Final result:    %lf %lf %lf\n", vec[0], vec[1], vec[2])
 	
 	
 def listener():
