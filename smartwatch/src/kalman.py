@@ -35,17 +35,18 @@ class Kalman(object):
 		self.x = self.x + H * w
 		self.sigma = self.sigma - (H * S * H.getT())
 
-# rotate vector v1 by quaternion q1 
+# rotate vector v1 by quaternion q1
 def qv_mult(q1, v1):
 
 	#v1 = tf.transformations.unit_vector(v1)
 	q2 = list(v1)
-	q2.append(0.0)
+	# set the real part of the newly created quaternion to zero
+	q2.insert(0, 0.0)
 
 	return tf.transformations.quaternion_multiply(
 		tf.transformations.quaternion_multiply(q1, q2), 
 		tf.transformations.quaternion_conjugate(q1)
-	)[:3]
+	)[1:]
 
 
 def callback(data):
@@ -83,11 +84,14 @@ def listener():
 
 	# In ROS, nodes are uniquely named. If two nodes with the same
 	# name are launched, the previous one is kicked off. The
-	# anonymous=True flag means that rospy will choose a unique
+	# anonymous = True flag means that rospy will choose a unique
 	# name for our 'listener' node so that multiple listeners can
 	# run simultaneously.
-	rospy.init_node('listener', anonymous=True)
+	rospy.init_node('listener', anonymous = True)
 
+	# This declares that your node subscribes to the android/imu topic,
+	# which is of type sensor_msgs.msg.Imu. When new data is received,
+	# callback is invoked with that data as argument. 
 	rospy.Subscriber("android/imu", Imu, callback)
 
 	kalman.sigma *= 0.1
