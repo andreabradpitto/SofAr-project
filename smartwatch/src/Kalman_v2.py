@@ -66,10 +66,12 @@ def eulerAnglesToRotationMatrix(angles) : #angles[x,y,z]
     return R
 
 def anglesCompensate(angles) :
-	compensatedAngles = [0, 0, 0]
-	rospy.loginfo("angles before :   %lf %lf %lf",angles[0], angles[1], angles[2])
+	#reduce sensibility of sensor: we don't need rotation under 1 deg
 
-	for i in compensatedAngles:
+	compensatedAngles = [0, 0, 0]
+	#rospy.loginfo("angles before :   %lf %lf %lf",angles[0], angles[1], angles[2])
+
+	for i in range (0,3):
 		if abs(angles[i]/ dx) >= 1 : 
 			compensatedAngles[i] = angles[i]
 	#rospy.loginfo("angles after:   %lf %lf %lf",compensatedAngles[0], compensatedAngles[1], compensatedAngles[2])
@@ -81,7 +83,7 @@ def removeGravity(lin_acc, Rot_m):
 	g_frame_i = np.dot(Rot_m, g)
 	g_removed = [0, 0, 0] # define linear acceleration without gravity
 	
-	#rospy.loginfo("%lf %lf %lf", Rot_m[0,0], Rot_m[0,1], Rot_m[0,2])
+	#rospy.loginfo("%lf %lf %lf\n\n", Rot_m[0,0], Rot_m[0,1], Rot_m[0,2])
 	#rospy.loginfo("%lf %lf %lf", Rot_m[1,0], Rot_m[1,1], Rot_m[1,2])
 	#rospy.loginfo("%lf %lf %lf\n\n", Rot_m[2,0], Rot_m[2,1], Rot_m[2,2])
 
@@ -91,20 +93,24 @@ def removeGravity(lin_acc, Rot_m):
 		if lin_acc[i] <0:
 			g_removed[i] = lin_acc[i] + abs(g_frame_i[i])
 
-	rospy.loginfo("Lin_acc x %lf = lin_acc %lf + g %lf", g_removed[0],lin_acc[0],g_frame_i[0])
-	rospy.loginfo("Lin_acc y %lf = lin_acc %lf + g %lf", g_removed[1],lin_acc[1],g_frame_i[1])
-	rospy.loginfo("Lin_acc z %lf = lin_acc %lf + g %lf\n\n", g_removed[2],lin_acc[2],g_frame_i[2])
+	rospy.loginfo("Acc_x %lf = lin_acc %lf + g %lf", g_removed[0],lin_acc[0],g_frame_i[0])
+	rospy.loginfo("Acc_y %lf = lin_acc %lf + g %lf", g_removed[1],lin_acc[1],g_frame_i[1])
+	rospy.loginfo("Acc_z %lf = lin_acc %lf + g %lf\n\n", g_removed[2],lin_acc[2],g_frame_i[2])
 
-	return res
+	return g_removed
 
 def callback(data):
 	global pastAngles
 
-	orientation = [data.orientation.w, data.orientation.x, data.orientation.y, data.orientation.z]
+	#get data from
+	orientation = [ data.orientation.x, data.orientation.y, data.orientation.z,data.orientation.w]
+
+	#transform quaternion to euler angles
+	angles = tf.transformations.euler_from_quaternion(orientation,"sxyz")
 	#angular_velocity = [data.angular_velocity.x, data.angular_velocity.y, data.angular_velocity.z]
 	linear_acceleration = [data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z]
 
-	angles = anglesCompensate([ data.orientation.x, data.orientation.y, data.orientation.z ])
+	angles = anglesCompensate(angles)
 	for i in range(0,3) :
 		pastAngles[i] = angles[i]
 	
