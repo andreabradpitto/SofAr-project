@@ -5,12 +5,10 @@ import tf
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Vector3
 import math
-import time
 
-g = [ 0, 0,-9.801]
-#flag = 1
-dx = 0.0174533 # min angle sensed [rad], 1 [deg]
-
+g = [ 0, 0, 9.801]
+dx = 0.0174 # min angle sensed [rad],about 1 [deg]
+#dx = 0.087 # min angle sesed [rad], about 5 [deg]
 pastAngles = [0, 0, 0]
 
 class Kalman(object):
@@ -45,28 +43,27 @@ class Kalman(object):
 
 def eulerAnglesToRotationMatrix(angles) : #angles[x,y,z]
     
-    R_x = np.array([[1,         0,                  0                     ],
-                    [0,         math.cos(angles[0]), -math.sin(angles[0]) ],
-                    [0,         math.sin(angles[0]),  math.cos(angles[0]) ]
+    R_z = np.array([[1,         0,                  0                     ],
+                    [0,         math.cos(angles[2]),   math.sin(angles[0]) ],
+                    [0,         -math.sin(angles[2]),  math.cos(angles[0]) ]
                     ])
                     
-    R_y = np.array([[math.cos(angles[1]),    0,      math.sin(angles[1])  ],
+    R_y = np.array([[math.cos(angles[1]),    0,      -math.sin(angles[1])  ],
                     [0,                      1,      0                    ],
-                    [-math.sin(angles[1]),   0,      math.cos(angles[1])  ]
+                    [math.sin(angles[1]),    0,      math.cos(angles[1])  ]
                     ])
                 
-    R_z = np.array([[math.cos(angles[2]),    -math.sin(angles[2]),     0],
-                    [math.sin(angles[2]),     math.cos(angles[2]),     0],
-                    [0,                       0,                       1]
+    R_x = np.array([[math.cos(angles[0]),      math.sin(angles[0]),     0],
+                    [-math.sin(angles[0]),     math.cos(angles[0]),     0],
+                    [0,                        0,                       1]
                     ])
-                    
-                    
+                                 
     R = np.dot(R_z, np.dot( R_y, R_x ))
 
     return R
 
 def anglesCompensate(angles) :
-	#reduce sensibility of sensor: we don't need rotation under 1 deg
+	#reduce sensibility of sensor: minimum precision is dx
 
 	compensatedAngles = [0, 0, 0]
 	#rospy.loginfo("angles before :   %lf %lf %lf",angles[0], angles[1], angles[2])
@@ -77,15 +74,16 @@ def anglesCompensate(angles) :
 	#rospy.loginfo("angles after:   %lf %lf %lf",compensatedAngles[0], compensatedAngles[1], compensatedAngles[2])
 		
 	return compensatedAngles
-
+	
 def removeGravity(lin_acc, Rot_m):
 	#rotate g vector in the current frame 
 	g_frame_i = np.dot(Rot_m, g)
 	g_removed = [0, 0, 0] # define linear acceleration without gravity
 	
-	#rospy.loginfo("%lf %lf %lf\n\n", Rot_m[0,0], Rot_m[0,1], Rot_m[0,2])
-	#rospy.loginfo("%lf %lf %lf", Rot_m[1,0], Rot_m[1,1], Rot_m[1,2])
-	#rospy.loginfo("%lf %lf %lf\n\n", Rot_m[2,0], Rot_m[2,1], Rot_m[2,2])
+	rospy.loginfo("%lf %lf %lf", Rot_m[0,0], Rot_m[0,1], Rot_m[0,2])
+	rospy.loginfo("%lf %lf %lf", Rot_m[1,0], Rot_m[1,1], Rot_m[1,2])
+	rospy.loginfo("%lf %lf %lf\n\n", Rot_m[2,0], Rot_m[2,1], Rot_m[2,2])
+
 
 	for i in range(0,3):
 		if lin_acc[i] >= 0:
@@ -93,14 +91,13 @@ def removeGravity(lin_acc, Rot_m):
 		if lin_acc[i] <0:
 			g_removed[i] = lin_acc[i] + abs(g_frame_i[i])
 
-	rospy.loginfo("Acc_x %lf = lin_acc %lf + g %lf", g_removed[0],lin_acc[0],g_frame_i[0])
-	rospy.loginfo("Acc_y %lf = lin_acc %lf + g %lf", g_removed[1],lin_acc[1],g_frame_i[1])
-	rospy.loginfo("Acc_z %lf = lin_acc %lf + g %lf\n\n", g_removed[2],lin_acc[2],g_frame_i[2])
+	#rospy.loginfo("Acc_x=lin_acc+g\t%lf\t%lf\t%lf", g_removed[0],lin_acc[0],g_frame_i[0])
+	#rospy.loginfo("Acc_y=lin_acc+g\t%lf\t%lf\t%lf", g_removed[1],lin_acc[1],g_frame_i[1])
+	#rospy.loginfo("Acc_z=lin_acc+g\t%lf\t%lf\t%lf\n\n", g_removed[2],lin_acc[2],g_frame_i[2])
 
 	return g_removed
 
 def callback(data):
-	global pastAngles
 
 	#get data from
 	orientation = [ data.orientation.x, data.orientation.y, data.orientation.z,data.orientation.w]
@@ -116,18 +113,18 @@ def callback(data):
 	
 	rot_matrix = eulerAnglesToRotationMatrix(angles)
 
-	no_g = removeGravity(linear_acceleration, rot_matrix)
+	lin_acc_no_g = removeGravity(linear_acceleration, rot_matrix)
 
-	Z = np.matrix(linear_acceleration).getT()
+	#Z = np.matrix(linear_acceleration).getT()
 
-	if kalman.first:
-		kalman.x = Z
-		kalman.first = False
+	#if kalman.first:
+	#	kalman.x = Z
+	#	kalman.first = False
 	
-	kalman.predict()
-	kalman.update(Z)
+	#kalman.predict()
+	#kalman.update(Z)
 
-	vec = [kalman.x[0], kalman.x[1], kalman.x[2]]
+	#vec = [kalman.x[0], kalman.x[1], kalman.x[2]]
 
 	#rospy.loginfo("Kalman result:   %lf %lf %lf", vec[0], vec[1], vec[2])
 	#rospy.loginfo("Rotation result: %lf %lf %lf", vec[0], vec[1], vec[2])
@@ -158,4 +155,5 @@ if __name__ == '__main__':
 
 
 	listener()
+
 
