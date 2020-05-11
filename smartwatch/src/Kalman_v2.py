@@ -15,15 +15,15 @@ pastAngles = [0, 0, 0]
 index=1 #used for storing data for offline analysis
 
 #initialize files to store datas
-with open('lin_acc.csv','w') as file:
+with open('lin_acc_NO_EKF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
 
-with open('orientation.csv','w') as file:
+with open('orientation_NO_EKF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
 
-with open('angVel.csv','w') as file:
+with open('angVel_NO_EKF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
 
@@ -132,15 +132,15 @@ def callback(data):
 	lin_acc_no_g = removeGravity(linear_acceleration, rot_matrix)
 
 	#write datas
-	with open('lin_acc.csv','a') as file:
+	with open('lin_acc_NO_EKF.csv','a') as file:
 		writer = csv.writer(file)
 		writer.writerow([index,lin_acc_no_g[0],lin_acc_no_g[1],lin_acc_no_g[2]])
 		
-	with open('orientation.csv','a') as file:
+	with open('orientation_NO_EKF.csv','a') as file:
 		writer = csv.writer(file)
 		writer.writerow([index,(angles[0]* 180) / math.pi, (angles[1]*180 )/ math.pi,(angles[2]*180) / math.pi])
 	
-	with open('angVel.csv','a') as file:
+	with open('angVel_NO_EKF.csv','a') as file:
 		writer = csv.writer(file)
 		writer.writerow([index,angular_velocity[0],angular_velocity[1],angular_velocity[2]])
 	index+=1
@@ -159,14 +159,14 @@ def listener():
 	# callback is invoked with that data as argument. 
 	rospy.Subscriber("android/imu", Imu, callback)
 
-	kalman.sigma *= 0.1
-	kalman.R *= 0.01
+	#kalman.sigma *= 0.1
+	#kalman.R *= 0.01
 	# spin() simply keeps python from exiting until this node is stopped
 	rospy.spin()
 
 if __name__ == '__main__':
 
-	kalman = Kalman(n_states = 3, n_sensors = 3)
+	#kalman = Kalman(n_states = 3, n_sensors = 3)
 
 	listener()
 
