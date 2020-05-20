@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import rospy
 import numpy as np
 import tf
@@ -7,11 +6,14 @@ from geometry_msgs.msg import Vector3
 import math
 import csv
 
+#flags for different feature
+flagWriteData=1 # write simple data received from imu, after removed gravity
+flagWriteFilteredData=0 # used if you want to store filtered data, if any
+
 #global variables
 g = [ 0, 0, 9.81]
 dx = 0.0174 # min angle sensed [rad],about 1 [deg]
 #dx = 0.087 # min angle sesed [rad], about 5 [deg]
-pastAngles = [0, 0, 0]
 index=1 #used for storing data for offline analysis
 
 #initialize files to store datas
@@ -26,36 +28,6 @@ with open('orientation_NO_EKF.csv','w') as file:
 with open('angVel_NO_EKF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
-
-class Kalman(object):
-	"""docstring for Kalman"""
-	def __init__(self, n_states, n_sensors):
-		super(Kalman, self).__init__()
-		self.n_states = n_states
-		self.n_sensors = n_sensors
-
-		self.x = np.matrix(np.zeros(shape=(n_states, 1)))
-		self.sigma = np.matrix(np.identity(n_states)) 
-		self.F = np.matrix(np.identity(n_states))
-		self.u = np.matrix(np.zeros(shape=(n_states, 1)))
-		self.G = np.matrix(np.identity(n_states))
-		self.R = np.matrix(np.identity(n_sensors))
-		self.I = np.matrix(np.identity(n_states))
-
-		self.first = True
-
-	def predict(self):
-		self.x = self.F * self.x + self.u
-		self.sigma = self.F * self.sigma * self.F.getT()
-
-	def update(self, Y):
-		'''Y: new sensor values as numpy matrix'''
-
-		w = Y - self.G * self.x
-		S = self.G * self.sigma * self.G.getT() + self.R
-		H = self.sigma * self.G.getT() * S.getI()
-		self.x = self.x + H * w
-		self.sigma = self.sigma - (H * S * H.getT())
 
 def eulerAnglesToRotationMatrix(angles) : #angles[x,y,z]
     
@@ -80,7 +52,6 @@ def eulerAnglesToRotationMatrix(angles) : #angles[x,y,z]
 
 def anglesCompensate(angles) :
 	#reduce sensibility of sensor: minimum precision is dx
-
 	compensatedAngles = [0, 0, 0]
 	#rospy.loginfo("angles before :   %lf %lf %lf",angles[0], angles[1], angles[2])
 
@@ -112,6 +83,11 @@ def removeGravity(lin_acc, Rot_m):
 
 	return g_removed
 
+def storeDataInFiles(fileName,modality, data):
+	with open(fileName,modality) as file:
+		writer = csv.writer(file)
+		writer.writerow([ index,data[0], data[1], data[2] ])
+
 def callback(data):
 	global index
 
@@ -120,30 +96,29 @@ def callback(data):
 
 	#transform quaternion to euler angles
 	angles = tf.transformations.euler_from_quaternion(orientation,"sxyz")
+
 	angular_velocity = [data.angular_velocity.x, data.angular_velocity.y, data.angular_velocity.z]
 	linear_acceleration = [data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z]
 
 	angles = anglesCompensate(angles)
-	for i in range(0,3) :
-		pastAngles[i] = angles[i]
 	
 	rot_matrix = eulerAnglesToRotationMatrix(angles)
 
 	lin_acc_no_g = removeGravity(linear_acceleration, rot_matrix)
 
-	#write datas
-	with open('lin_acc_NO_EKF.csv','a') as file:
-		writer = csv.writer(file)
-		writer.writerow([index,lin_acc_no_g[0],lin_acc_no_g[1],lin_acc_no_g[2]])
-		
-	with open('orientation_NO_EKF.csv','a') as file:
-		writer = csv.writer(file)
-		writer.writerow([index,(angles[0]* 180) / math.pi, (angles[1]*180 )/ math.pi,(angles[2]*180) / math.pi])
-	
-	with open('angVel_NO_EKF.csv','a') as file:
-		writer = csv.writer(file)
-		writer.writerow([index,angular_velocity[0],angular_velocity[1],angular_velocity[2]])
-	index+=1
+	if flagWriteData==1:
+		#write data without any filter
+		storeDataInFiles('lin_acc_NO_EKF.csv','a',lin_acc_no_g)
+
+		angles_in_deg =[ (angles[0]* 180) / math.pi, (angles[1]*180 )/ math.pi,(angles[2]*180) / math.pi]
+		storeDataInFiles('orientation_NO_EKF.csv','a',angles_in_deg)
+
+		storeDataInFiles('angVel_NO_EKF.csv','a',angular_velocity)
+
+		#if flagWriteFilteredData==1:
+			#now write data after filter
+
+		index+=1
 
 def listener():
 
@@ -159,15 +134,11 @@ def listener():
 	# callback is invoked with that data as argument. 
 	rospy.Subscriber("android/imu", Imu, callback)
 
-	#kalman.sigma *= 0.1
-	#kalman.R *= 0.01
 	# spin() simply keeps python from exiting until this node is stopped
 	rospy.spin()
 
 if __name__ == '__main__':
-
-	#kalman = Kalman(n_states = 3, n_sensors = 3)
-
+	
 	listener()
 
 
