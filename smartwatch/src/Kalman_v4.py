@@ -14,6 +14,7 @@ dx = 0.0174 # min angle sensed [rad],about 1 [deg]
 # dx = 0.087 # min angle sesed [rad], about 5 [deg]
 pastAngles_hat = [0, 0, 0]
 index=1 # used for storing data for offline analysis
+deltaT = 0.01 # between 2 measurements
 
 # initialize files to store datas
 with open('lin_acc.csv','w') as file:
@@ -38,6 +39,9 @@ class Kalman(object):
 		self.x = np.zeros((n_state_variables, 1))
 		self.sigma = np.identity(n_state_variables) 
 		self.F = np.identity(n_state_variables)
+		self.F[0, 3] = deltaT
+		self.F[1, 4] = deltaT
+		self.F[2, 5] = deltaT
 		self.G = np.identity(n_state_variables)
 		self.R = np.identity(n_measurements)
 		self.I = np.identity(n_state_variables)
