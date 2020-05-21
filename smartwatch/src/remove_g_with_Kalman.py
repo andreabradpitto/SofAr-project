@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import rospy
 import numpy as np
 import tf
@@ -7,14 +6,16 @@ from geometry_msgs.msg import Vector3
 import math
 import csv
 from scipy.linalg import block_diag
+from KalmanFilter import Kalman 
+
+#flags for different features
+flagWriteData=1  # flagWriteData=1 means to store data received from imu, after having removed gravity
 
 # global variables
 g = [ 0, 0, 9.81]
 dx = 0.0174 # min angle sensed [rad],about 1 [deg]
 # dx = 0.087 # min angle sesed [rad], about 5 [deg]
-pastAngles_hat = [0, 0, 0]
 index=1 # used for storing data for offline analysis
-deltaT = 0.01 # between 2 measurements
 
 # initialize files to store datas
 with open('lin_acc.csv','w') as file:
@@ -28,38 +29,6 @@ with open('orientation.csv','w') as file:
 with open('angVel.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
-
-class Kalman(object):
-
-	def __init__(self, n_state_variables, n_measurements):
-		super(Kalman, self).__init__()
-		self.n_state_variables = n_state_variables
-		self.n_measurements = n_measurements
-
-		self.x = np.zeros((n_state_variables, 1))
-		self.sigma = np.identity(n_state_variables) 
-		self.F = np.identity(n_state_variables)
-		self.F[0, 3] = deltaT
-		self.F[1, 4] = deltaT
-		self.F[2, 5] = deltaT
-		self.G = np.identity(n_state_variables)
-		self.R = np.identity(n_measurements)
-		self.I = np.identity(n_state_variables)
-
-		self.first = True
-
-	def predict(self):
-		self.x = np.dot(self.F, self.x)
-		self.sigma = np.dot(self.F, np.dot(self.sigma, self.F.T))
-
-	def update(self, Y):
-
-		# Y: new sensor values
-		w = Y - np.dot(self.G, self.x)
-		S = np.dot(self.G, np.dot(self.sigma, self.G.T)) + self.R
-		H = np.dot(self.sigma, np.dot(self.G.T, np.linalg.inv(S)))
-		self.x = self.x + np.dot(H, w)
-		self.sigma = self.sigma - np.dot(H, np.dot(S, H.T))
 
 def readDataFromSensors(data):
 
@@ -75,10 +44,6 @@ def readDataFromSensors(data):
 	measurements = np.concatenate((angles, angular_velocity), axis=0)
 	measurements = np.concatenate((measurements, linear_acceleration), axis=0)
 	measurements = np.array([measurements]).T
-
-	rospy.loginfo("Measured angles (degrees): %lf %lf %lf", math.degrees(angles[0]), math.degrees(angles[1]), math.degrees(angles[2]))
-	rospy.loginfo("Measured ang vel: %lf %lf %lf", angular_velocity[0], angular_velocity[1], angular_velocity[2])
-	rospy.loginfo("Measured lin acc: %lf %lf %lf\n", linear_acceleration[0], linear_acceleration[1], linear_acceleration[2])
 
 	return measurements
 
@@ -107,12 +72,10 @@ def anglesCompensate(angles):
 	# reduce sensibility of sensor: minimum precision is dx
 
 	compensatedAngles = [0, 0, 0]
-	#rospy.loginfo("angles before :   %lf %lf %lf",angles[0], angles[1], angles[2])
 
 	for i in range (0,3):
 		if abs(angles[i]/ dx) >= 1 : 
 			compensatedAngles[i] = angles[i]
-	#rospy.loginfo("angles after:   %lf %lf %lf",compensatedAngles[0], compensatedAngles[1], compensatedAngles[2])
 		
 	return compensatedAngles
 	
@@ -120,31 +83,25 @@ def removeGravity(lin_acc, Rot_m):
 	# rotate g vector in the current frame 
 	g_frame_i = np.dot(Rot_m, g)
 	g_removed = [0, 0, 0] # define linear acceleration without gravity
-	
-	#rospy.loginfo("%lf %lf %lf", Rot_m[0,0], Rot_m[0,1], Rot_m[0,2])
-	#rospy.loginfo("%lf %lf %lf", Rot_m[1,0], Rot_m[1,1], Rot_m[1,2])
-	#rospy.loginfo("%lf %lf %lf\n\n", Rot_m[2,0], Rot_m[2,1], Rot_m[2,2])
 
 	for i in range(0,3):
 		if lin_acc[i] >= 0:
 			g_removed[i] = lin_acc[i] - abs(g_frame_i[i])
 		if lin_acc[i] <0:
 			g_removed[i] = lin_acc[i] + abs(g_frame_i[i])
-
-	#rospy.loginfo("Acc_x=lin_acc+g\t%lf\t%lf\t%lf", g_removed[0],lin_acc[0],g_frame_i[0])
-	#rospy.loginfo("Acc_y=lin_acc+g\t%lf\t%lf\t%lf", g_removed[1],lin_acc[1],g_frame_i[1])
-	#rospy.loginfo("Acc_z=lin_acc+g\t%lf\t%lf\t%lf\n\n", g_removed[2],lin_acc[2],g_frame_i[2])
-
+			
 	return g_removed
+
+def storeDataInFiles(fileName,modality, data):
+	with open(fileName,modality) as file:
+		writer = csv.writer(file)
+		writer.writerow([ index,data[0], data[1], data[2] ])
 
 def callback(data):
 
 	global index
 
 	measurements = readDataFromSensors(data)
-
-	#rospy.loginfo("Imu angles: %lf %lf %lf", measurements[0], measurements[1], measurements[2])
-	#rospy.loginfo("Imu acc: %lf %lf %lf", measurements[6], measurements[7], measurements[9])
 
 	# Kalman initialization
 	if kalman.first:
@@ -182,34 +139,22 @@ def callback(data):
 	angles_hat = np.concatenate((np.concatenate((kalman.x[0],kalman.x[1]), axis=0), kalman.x[2]), axis=0) 
 	angular_velocity_hat = np.concatenate((np.concatenate((kalman.x[3],kalman.x[4]), axis=0), kalman.x[5]), axis=0)
 	linear_acceleration_hat = np.concatenate((np.concatenate((kalman.x[6],kalman.x[7]), axis=0), kalman.x[8]), axis=0)
-
-	rospy.loginfo("Kalman angles (degrees): %lf %lf %lf", math.degrees(angles_hat[0]), math.degrees(angles_hat[1]), math.degrees(angles_hat[2]))
-	rospy.loginfo("Kalman ang vel: %lf %lf %lf", angular_velocity_hat[0], angular_velocity_hat[1], angular_velocity_hat[2])
-	rospy.loginfo("Kalman lin acc: %lf %lf %lf\n", linear_acceleration_hat[0], linear_acceleration_hat[1], linear_acceleration_hat[2])
-
-	#angles_hat = anglesCompensate(angles_hat)
-	#for i in range(0,3) :
-	#	pastAngles_hat[i] = angles_hat[i]
 	
 	rot_matrix = eulerAnglesToRotationMatrix(angles_hat)
 
 	lin_acc_no_g = removeGravity(linear_acceleration_hat, rot_matrix)
 
-	rospy.loginfo("Acc without g: %lf %lf %lf\n\n\n", lin_acc_no_g[0], lin_acc_no_g[1], lin_acc_no_g[2])
+	#write data
+	if flagWriteData==1:
+		#write data without any filter
+		storeDataInFiles('lin_acc.csv','a',lin_acc_no_g)
 
-	# write data
-	with open('lin_acc.csv','a') as file:
-		writer = csv.writer(file)
-		writer.writerow([index,lin_acc_no_g[0],lin_acc_no_g[1],lin_acc_no_g[2]])
-		
-	with open('orientation.csv','a') as file:
-		writer = csv.writer(file)
-		writer.writerow([index,(angles_hat[0]* 180) / math.pi, (angles_hat[1]*180 )/ math.pi,(angles_hat[2]*180) / math.pi])
-	
-	with open('angVel.csv','a') as file:
-		writer = csv.writer(file)
-		writer.writerow([index,angular_velocity_hat[0],angular_velocity_hat[1],angular_velocity_hat[2]])
-	index+=1
+		angles_in_deg =[ (angles_hat[0]* 180) / math.pi, (angles_hat[1]*180 )/ math.pi,(angles_hat[2]*180) / math.pi]
+		storeDataInFiles('orientation.csv','a',angles_in_deg)
+
+		storeDataInFiles('angVel.csv','a',angular_velocity_hat)
+
+		index+=1
 
 def listener():
 

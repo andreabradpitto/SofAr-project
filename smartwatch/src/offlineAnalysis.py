@@ -2,8 +2,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 
-flag = 0 # set this flag to 1 in order to see the results
-          # obtained  without EKF
+flag = 0 # set this flag to 1 in order to plot the results
+         # obtained  without Kalman Filter ( if any)
 
 font = {'family': 'serif',
         'color':  'darkred',
@@ -23,46 +23,45 @@ def plotDatas(df,subplt,x_axis,y_lable,titlePlot):
 
 if __name__ == '__main__':
 
-    df_linacc_NO_EKF = pd.read_csv('lin_acc_NO_EKF.csv',names=['X','Y','Z'], header=0,decimal=',') 
-    df_rot_NO_EKF = pd.read_csv('orientation_NO_EKF.csv',names=['X','Y','Z'],header=0,decimal=',')
-    df_angVel_NO_EKF = pd.read_csv('angVel_NO_EKF.csv',names=['X','Y','Z'],header=0,decimal=',')
-
+    df_linacc = pd.read_csv('lin_acc.csv',names=['X','Y','Z'], header=0,decimal=',') 
+    df_rot = pd.read_csv('orientation.csv',names=['X','Y','Z'],header=0,decimal=',')
+    df_angVel = pd.read_csv('angVel.csv',names=['X','Y','Z'],header=0,decimal=',')
+    
     # initialize x axis using number of rows of datas
-    t=len(df_linacc_NO_EKF.X)
-    x_axis = np.arange(start=1 ,stop=t+1,step=1)
+    t=len(df_linacc.X)
+    x_axis = np.arange(start=1,stop=t+1,step=1)
 
     #plots data 
     plt.figure(figsize=(12,12))
-    temp = df_linacc_NO_EKF.astype(float)
-    plotDatas(temp,311,x_axis,'linear acceleration [m/s^2]','Linear Acceleration NO EKF')
+    temp = df_linacc.astype(float)
+    plotDatas(temp,311,x_axis,'Filtered linear acceleration [m/s^2]','Linear Acceleration')
 
-    temp = df_rot_NO_EKF.astype(float)
-    plotDatas(temp,312,x_axis,'Orientation [deg]','Orientation angles (yaw, pitch, roll) NO EKF')
+    temp = df_rot.astype(float)
+    plotDatas(temp,312,x_axis,'Filtered Orientation [deg]','Orientation angles (yaw, pitch, roll)')
 
-    temp = df_angVel_NO_EKF.astype(float)
-    plotDatas(temp,313,x_axis,'angular vel [rad/s]','Angular velocities NO EKF')
+    temp = df_angVel.astype(float)
+    plotDatas(temp,313,x_axis,'Filtered angular vel [rad/s]','Angular velocities')
 
  #------do it only if you want to see results from imu withouth EKF----------
  # set flag = 1 at start of this file
     if flag == 1:
         plt.figure(figsize=(12,12))
-
-        df_linacc = pd.read_csv('lin_acc.csv',names=['X','Y','Z'], header=0,decimal=',') 
-        df_rot = pd.read_csv('orientation.csv',names=['X','Y','Z'],header=0,decimal=',')
-        df_angVel = pd.read_csv('angVel.csv',names=['X','Y','Z'],header=0,decimal=',')
-
+        df_linacc_NO_KF = pd.read_csv('lin_acc_NO_KF.csv',names=['X','Y','Z'], header=0,decimal=',') 
+        df_rot_NO_KF = pd.read_csv('orientation_NO_KF.csv',names=['X','Y','Z'],header=0,decimal=',')
+        df_angVel_NO_KF = pd.read_csv('angVel_NO_KF.csv',names=['X','Y','Z'],header=0,decimal=',')
+    
         # initialize x axis using number of rows of datas
-        t=len(df_linacc.X)
-        x_axis = np.arange(start=1,stop=t+1,step=1)
+        t=len(df_linacc_NO_KF.X)
+        x_axis = np.arange(start=1 ,stop=t+1,step=1)
+        #plots data 
+        plt.figure(2)
+        temp = df_linacc_NO_KF.astype(float)
+        plotDatas(temp,311,x_axis,'linear acceleration [m/s^2]','Linear Acceleration computed withouth the Kalman Filter')
 
-        #plot data
-        temp = df_linacc.astype(float)
-        plotDatas(temp,311,x_axis,'linear acceleration [m/s^2]','Estimated Linear Acceleration without gravity')
+        temp = df_rot_NO_KF.astype(float)
+        plotDatas(temp,312,x_axis,'Orientation [deg]','Orientation angles (yaw, pitch, roll) computed withouth the Kalman Filter')
 
-        temp = df_rot.astype(float)
-        plotDatas(temp,312,x_axis,'Orientation [deg]','Orientation angles (yaw, pitch, roll)')
-
-        temp = df_angVel.astype(float)
-        plotDatas(temp,313,x_axis,'angular vel [rad/s]','Angular velocities')
+        temp = df_angVel_NO_KF.astype(float)
+        plotDatas(temp,313,x_axis,'angular vel [rad/s]','Angular velocities computed withouth the Kalman Filter')
     
     plt.show()

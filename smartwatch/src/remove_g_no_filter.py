@@ -7,8 +7,7 @@ import math
 import csv
 
 #flags for different feature
-flagWriteData=1 # write simple data received from imu, after removed gravity
-flagWriteFilteredData=0 # used if you want to store filtered data, if any
+flagWriteData=1 # flagWriteData=1 means to store simple data received from imu, after having removed gravity
 
 #global variables
 g = [ 0, 0, 9.81]
@@ -17,19 +16,19 @@ dx = 0.0174 # min angle sensed [rad],about 1 [deg]
 index=1 #used for storing data for offline analysis
 
 #initialize files to store datas
-with open('lin_acc_NO_EKF.csv','w') as file:
+with open('lin_acc_NO_KF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
 
-with open('orientation_NO_EKF.csv','w') as file:
+with open('orientation_NO_KF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
 
-with open('angVel_NO_EKF.csv','w') as file:
+with open('angVel_NO_KF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
 
-def eulerAnglesToRotationMatrix(angles) : #angles[x,y,z]
+def eulerAnglesToRotationMatrix(angles) : #angles[yaw, pitch, roll]
     
     R_z = np.array([[1,         0,                  0                     ],
                     [0,         math.cos(angles[2]),   math.sin(angles[0]) ],
@@ -53,12 +52,10 @@ def eulerAnglesToRotationMatrix(angles) : #angles[x,y,z]
 def anglesCompensate(angles) :
 	#reduce sensibility of sensor: minimum precision is dx
 	compensatedAngles = [0, 0, 0]
-	#rospy.loginfo("angles before :   %lf %lf %lf",angles[0], angles[1], angles[2])
 
 	for i in range (0,3):
 		if abs(angles[i]/ dx) >= 1 : 
 			compensatedAngles[i] = angles[i]
-	#rospy.loginfo("angles after:   %lf %lf %lf",compensatedAngles[0], compensatedAngles[1], compensatedAngles[2])
 		
 	return compensatedAngles
 	
@@ -66,20 +63,12 @@ def removeGravity(lin_acc, Rot_m):
 	#rotate g vector in the current frame 
 	g_frame_i = np.dot(Rot_m, g)
 	g_removed = [0, 0, 0] # define linear acceleration without gravity
-	
-	#rospy.loginfo("%lf %lf %lf", Rot_m[0,0], Rot_m[0,1], Rot_m[0,2])
-	#rospy.loginfo("%lf %lf %lf", Rot_m[1,0], Rot_m[1,1], Rot_m[1,2])
-	#rospy.loginfo("%lf %lf %lf\n\n", Rot_m[2,0], Rot_m[2,1], Rot_m[2,2])
 
 	for i in range(0,3):
 		if lin_acc[i] >= 0:
 			g_removed[i] = lin_acc[i] - abs(g_frame_i[i])
 		if lin_acc[i] <0:
 			g_removed[i] = lin_acc[i] + abs(g_frame_i[i])
-
-	#rospy.loginfo("Acc_x=lin_acc+g\t%lf\t%lf\t%lf", g_removed[0],lin_acc[0],g_frame_i[0])
-	#rospy.loginfo("Acc_y=lin_acc+g\t%lf\t%lf\t%lf", g_removed[1],lin_acc[1],g_frame_i[1])
-	#rospy.loginfo("Acc_z=lin_acc+g\t%lf\t%lf\t%lf\n\n", g_removed[2],lin_acc[2],g_frame_i[2])
 
 	return g_removed
 
@@ -107,16 +96,13 @@ def callback(data):
 	lin_acc_no_g = removeGravity(linear_acceleration, rot_matrix)
 
 	if flagWriteData==1:
-		#write data without any filter
-		storeDataInFiles('lin_acc_NO_EKF.csv','a',lin_acc_no_g)
+		#store data to .csv files in order to analyse them offline
+		storeDataInFiles('lin_acc_NO_KF.csv','a',lin_acc_no_g)
 
 		angles_in_deg =[ (angles[0]* 180) / math.pi, (angles[1]*180 )/ math.pi,(angles[2]*180) / math.pi]
-		storeDataInFiles('orientation_NO_EKF.csv','a',angles_in_deg)
+		storeDataInFiles('orientation_NO_KF.csv','a',angles_in_deg)
 
-		storeDataInFiles('angVel_NO_EKF.csv','a',angular_velocity)
-
-		#if flagWriteFilteredData==1:
-			#now write data after filter
+		storeDataInFiles('angVel_NO_KF.csv','a',angular_velocity)
 
 		index+=1
 
