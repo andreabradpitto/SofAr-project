@@ -6,16 +6,16 @@ from geometry_msgs.msg import Vector3
 import math
 import csv
 
-#flags for different feature
-flagWriteData=1 # flagWriteData=1 means to store simple data received from imu, after having removed gravity
+#flags used to turn on features
+flagWriteData = 1 # flagWriteData = 1 means to store simple data received from imu, after gravity removal
 
 #global variables
 g = [ 0, 0, 9.81]
-dx = 0.0174 # min angle sensed [rad],about 1 [deg]
-#dx = 0.087 # min angle sesed [rad], about 5 [deg]
-index=1 #used for storing data for offline analysis
+dx = 0.0174 # min angle perceived [rad], about 1 [deg]
+#dx = 0.087 # min angle perceived [rad], about 5 [deg]
+index = 1 #used to store data for offline analysis
 
-#initialize files to store datas
+#initialize files to store data
 with open('lin_acc_NO_KF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
@@ -28,11 +28,11 @@ with open('angVel_NO_KF.csv','w') as file:
 	writer = csv.writer(file)
 	writer.writerow(["X","Y","Z"])
 
-def eulerAnglesToRotationMatrix(angles) : #angles[yaw, pitch, roll]
+def eulerAnglesToRotationMatrix(angles) : #angles [yaw, pitch, roll]
     
     R_z = np.array([[1,         0,                  0                     ],
-                    [0,         math.cos(angles[2]),   math.sin(angles[0]) ],
-                    [0,         -math.sin(angles[2]),  math.cos(angles[0]) ]
+                    [0,         math.cos(angles[2]),   math.sin(angles[2]) ],
+                    [0,         -math.sin(angles[2]),  math.cos(angles[2]) ]
                     ])
                     
     R_y = np.array([[math.cos(angles[1]),    0,      -math.sin(angles[1])  ],
@@ -53,7 +53,7 @@ def anglesCompensate(angles) :
 	#reduce sensibility of sensor: minimum precision is dx
 	compensatedAngles = [0, 0, 0]
 
-	for i in range (0,3):
+	for i in range (0,3): # i = 0, 1, 2
 		if abs(angles[i]/ dx) >= 1 : 
 			compensatedAngles[i] = angles[i]
 		
@@ -67,12 +67,12 @@ def removeGravity(lin_acc, Rot_m):
 	for i in range(0,3):
 		if lin_acc[i] >= 0:
 			g_removed[i] = lin_acc[i] - abs(g_frame_i[i])
-		if lin_acc[i] <0:
+		if lin_acc[i] < 0:
 			g_removed[i] = lin_acc[i] + abs(g_frame_i[i])
 
 	return g_removed
 
-def storeDataInFiles(fileName,modality, data):
+def storeDataInFiles(fileName, modality, data):
 	with open(fileName,modality) as file:
 		writer = csv.writer(file)
 		writer.writerow([ index,data[0], data[1], data[2] ])
@@ -81,7 +81,7 @@ def callback(data):
 	global index
 
 	#get data
-	orientation = [ data.orientation.x, data.orientation.y, data.orientation.z,data.orientation.w]
+	orientation = [data.orientation.x, data.orientation.y, data.orientation.z,data.orientation.w]
 
 	#transform quaternion to euler angles
 	angles = tf.transformations.euler_from_quaternion(orientation,"sxyz")
@@ -95,16 +95,16 @@ def callback(data):
 
 	lin_acc_no_g = removeGravity(linear_acceleration, rot_matrix)
 
-	if flagWriteData==1:
-		#store data to .csv files in order to analyse them offline
+	if flagWriteData == 1:
+		#store data into .csv files in order to analyse them offline
 		storeDataInFiles('lin_acc_NO_KF.csv','a',lin_acc_no_g)
 
-		angles_in_deg =[ (angles[0]* 180) / math.pi, (angles[1]*180 )/ math.pi,(angles[2]*180) / math.pi]
+		angles_in_deg = [(angles[0]*180) / math.pi, (angles[1]*180) / math.pi,(angles[2]*180) / math.pi]
 		storeDataInFiles('orientation_NO_KF.csv','a',angles_in_deg)
 
 		storeDataInFiles('angVel_NO_KF.csv','a',angular_velocity)
 
-		index+=1
+		index += 1
 
 def listener():
 
@@ -126,5 +126,3 @@ def listener():
 if __name__ == '__main__':
 	
 	listener()
-
-
