@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
@@ -34,7 +35,7 @@ if __name__ == '__main__':
     # plots data 
     plt.figure(figsize = (12,12))
     temp = df_linacc.astype(float)
-    plotDatas(temp,311,x_axis,'Filtered linear acceleration [m/s^2]','Linear Acceleration')
+    plotData(temp,311,x_axis,'Filtered linear acceleration [m/s^2]','Linear Acceleration')
 
     temp = df_rot.astype(float)
     plotData(temp,312,x_axis,'Filtered Orientation [deg]','Orientation angles (yaw, pitch, roll)')
