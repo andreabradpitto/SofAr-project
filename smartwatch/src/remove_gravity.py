@@ -17,23 +17,23 @@ dx = 0.0174 # min angle perceived [rad], about 1 [deg]
 index = 1 #used to store data for offline analysis
 
 #initialize files to store data
-with open('lin_acc_NO_KF.csv','w') as file:
+with open('lin_acc.csv','w') as file:
 	writer = csv.writer(file)
-	writer.writerow(["X","Y","Z"])
+	writer.writerow(["","X","Y","Z"])
 
-with open('orientation_NO_KF.csv','w') as file:
+with open('orientation.csv','w') as file:
 	writer = csv.writer(file)
-	writer.writerow(["X","Y","Z"])
+	writer.writerow(["","X","Y","Z"])
 
-with open('angVel_NO_KF.csv','w') as file:
+with open('angVel.csv','w') as file:
 	writer = csv.writer(file)
-	writer.writerow(["X","Y","Z"])
+	writer.writerow(["","X","Y","Z"])
 
 def eulerAnglesToRotationMatrix(angles) : #angles [yaw, pitch, roll]
     
     R_z = np.array([[1,         0,                  0                     ],
-                    [0,         math.cos(angles[2]),   math.sin(angles[2]) ],
-                    [0,         -math.sin(angles[2]),  math.cos(angles[2]) ]
+                    [0,         math.cos(angles[0]),   math.sin(angles[0]) ],
+                    [0,         -math.sin(angles[0]),  math.cos(angles[0]) ]
                     ])
                     
     R_y = np.array([[math.cos(angles[1]),    0,      -math.sin(angles[1])  ],
@@ -41,8 +41,8 @@ def eulerAnglesToRotationMatrix(angles) : #angles [yaw, pitch, roll]
                     [math.sin(angles[1]),    0,      math.cos(angles[1])  ]
                     ])
                 
-    R_x = np.array([[math.cos(angles[0]),      math.sin(angles[0]),     0],
-                    [-math.sin(angles[0]),     math.cos(angles[0]),     0],
+    R_x = np.array([[math.cos(angles[2]),      math.sin(angles[2]),     0],
+                    [-math.sin(angles[2]),     math.cos(angles[2]),     0],
                     [0,                        0,                       1]
                     ])
                                  
@@ -98,12 +98,12 @@ def callback(data):
 
 	if flagWriteData == 1:
 		#store data into .csv files in order to analyse them offline
-		storeDataInFiles('lin_acc_NO_KF.csv','a',lin_acc_no_g)
+		storeDataInFiles('lin_acc.csv','a',lin_acc_no_g)
 
 		angles_in_deg = [(angles[0]*180) / math.pi, (angles[1]*180) / math.pi,(angles[2]*180) / math.pi]
-		storeDataInFiles('orientation_NO_KF.csv','a',angles_in_deg)
+		storeDataInFiles('orientation.csv','a',angles_in_deg)
 
-		storeDataInFiles('angVel_NO_KF.csv','a',angular_velocity)
+		storeDataInFiles('angVel.csv','a',angular_velocity)
 
 		index += 1
 
