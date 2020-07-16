@@ -6,6 +6,15 @@ from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Vector3
 import math
 import csv
+import os
+
+script_dir = os.path.dirname(__file__)  # absolute directory the script is in
+rel_path1 = "output/lin_acc.csv"
+abs_file_path1 = os.path.join(script_dir, rel_path1)
+rel_path2 = "output/orientation.csv"
+abs_file_path2 = os.path.join(script_dir, rel_path2)
+rel_path3 = "output/angVel.csv"
+abs_file_path3 = os.path.join(script_dir, rel_path3)
 
 # flags used to turn on features
 # flagWriteData = 1 means to store simple data received from imu, after gravity removal
@@ -18,15 +27,15 @@ dx = 0.0174  # min angle perceived [rad], about 1 [deg]
 index = 1  # used to store data for offline analysis
 
 # initialize files to store data
-with open('./src/smartwatch/src/output/lin_acc.csv', 'w') as file:
+with open(abs_file_path1, 'w') as file:
     writer = csv.writer(file)
     writer.writerow(["", "X", "Y", "Z"])
 
-with open('./src/smartwatch/src/output/orientation.csv', 'w') as file:
+with open(abs_file_path2, 'w') as file:
     writer = csv.writer(file)
     writer.writerow(["", "X", "Y", "Z"])
 
-with open('./src/smartwatch/src/output/angVel.csv', 'w') as file:
+with open(abs_file_path3, 'w') as file:
     writer = csv.writer(file)
     writer.writerow(["", "X", "Y", "Z"])
 
@@ -107,16 +116,13 @@ def callback(data):
 
     if flagWriteData == 1:
         # store data into .csv files in order to analyse them offline
-        storeDataInFiles(
-            './src/smartwatch/src/output/lin_acc.csv', 'a', lin_acc_no_g)
+        storeDataInFiles(abs_file_path1, 'a', lin_acc_no_g)
 
         angles_in_deg = [(angles[0]*180) / math.pi,
                          (angles[1]*180) / math.pi, (angles[2]*180) / math.pi]
-        storeDataInFiles(
-            './src/smartwatch/src/output/orientation.csv', 'a', angles_in_deg)
+        storeDataInFiles(abs_file_path2, 'a', angles_in_deg)
 
-        storeDataInFiles(
-            './src/smartwatch/src/output/angVel.csv', 'a', angular_velocity)
+        storeDataInFiles(abs_file_path3, 'a', angular_velocity)
 
         index += 1
 

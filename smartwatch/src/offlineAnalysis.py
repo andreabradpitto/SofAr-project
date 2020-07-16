@@ -2,7 +2,15 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
+import os
 
+script_dir = os.path.dirname(__file__)  # absolute directory the script is in
+rel_path1 = "output/lin_acc.csv"
+abs_file_path1 = os.path.join(script_dir, rel_path1)
+rel_path2 = "output/orientation.csv"
+abs_file_path2 = os.path.join(script_dir, rel_path2)
+rel_path3 = "output/angVel.csv"
+abs_file_path3 = os.path.join(script_dir, rel_path3)
 
 font = {'family': 'serif',
         'color': 'darkred',
@@ -24,11 +32,11 @@ def plotData(df, subplt, x_axis, y_lable, titlePlot):
 
 if __name__ == '__main__':
 
-    df_linacc = pd.read_csv('./src/smartwatch/src/output/lin_acc.csv',
-                            names=['X', 'Y', 'Z'], header=0, decimal=',')
-    df_rot = pd.read_csv('./src/smartwatch/src/output/orientation.csv', names=[
+    df_linacc = pd.read_csv(abs_file_path1, names=[
+                            'X', 'Y', 'Z'], header=0, decimal=',')
+    df_rot = pd.read_csv(abs_file_path2, names=[
                          'X', 'Y', 'Z'], header=0, decimal=',')
-    df_angVel = pd.read_csv('./src/smartwatch/src/output/angVel.csv', names=[
+    df_angVel = pd.read_csv(abs_file_path3, names=[
                             'X', 'Y', 'Z'], header=0, decimal=',')
 
     # initialize x axis using number of rows of data
