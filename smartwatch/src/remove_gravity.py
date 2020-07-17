@@ -40,9 +40,9 @@ with open(abs_file_path3, 'w') as file:
     writer.writerow(["", "X", "Y", "Z"])
 
 
-def eulerAnglesToRotationMatrix(angles):  # angles [yaw, pitch, roll]
+def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
 
-    R_z = np.array([[1,         0,                  0],
+    R_x = np.array([[1,         0,                  0],
                     [0,         math.cos(angles[0]),   math.sin(angles[0])],
                     [0,         -math.sin(angles[0]),  math.cos(angles[0])]
                     ])
@@ -52,12 +52,12 @@ def eulerAnglesToRotationMatrix(angles):  # angles [yaw, pitch, roll]
                     [math.sin(angles[1]),    0,      math.cos(angles[1])]
                     ])
 
-    R_x = np.array([[math.cos(angles[2]),      math.sin(angles[2]),     0],
+    R_z = np.array([[math.cos(angles[2]),      math.sin(angles[2]),     0],
                     [-math.sin(angles[2]),     math.cos(angles[2]),     0],
                     [0,                        0,                       1]
                     ])
 
-    R = np.dot(R_z, np.dot(R_y, R_x))
+    R = np.dot(R_x, np.dot(R_y, R_z))
 
     return R
 
