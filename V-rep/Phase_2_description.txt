@@ -1,0 +1,73 @@
+# Second phase for V-REP component
+
+## Objectives definition
+
+For this second part of the project the following objectives were defined to be achieved:
+	-change the message type to be received and sent bt the v-rep component to a proper one
+	-create a file where the values of joints position at each step are saved (logger.txt)
+	-create a launch-file such that the whole V-REP component is launched and ready to work just with a command line
+	-make the baxter package plug and play by eliminating any relative address
+	-create an interface to help the user in handling the simulation
+
+## Solution development
+
+### sensor_msgs/JointState
+
+The type of input and output message of the simulator is changed from Float32MultiArrays (from std_msgs class) to JointState of sensor_msgs class. 
+This is more adequate, because:
+	-it allows to give a name to each joint we have 
+	-we can exploit some proper fields as the velocity and the position associated each joint 
+	-when we use the field "velocity" for the input message and the "position" array for the output message the other field remains empty without any issue.
+
+### logger.txt
+
+We thought about the usefulness of recording somehow the output message of the V-REP component at each cycle to save the resulting baxter joints configuration according to a velocity input.
+To do that we slightly changed the Subscriber cpp file:
+	-the main function opens that specific file logger.txt where it is only possible to write in 
+	-the CallBack function write in that file the message read from the proper topic (logtopic)
+
+### baxter_sim.launch
+
+In order to start up a master and all the involved nodes, a launch file is written down. The launched nodes are:
+	-the ROS Publisher (c++ script)
+	-the bash script that allows to run V-REP 
+	-the c++ script encoding the user interface
+	-the bash script taht calls the ROS Subscriber
+
+### baxter package plug and play
+
+To avoid the user intervention in resolving resource conflicts by modifying each script with its specific addresses we decided to make the baxter package plug and play. 
+To do this two bash scripts are developed:
+	-coppelialauncher.sh allows to find the path of the CoppeliaSim package and that of our scene (baxter_sofar.ttt) inside the user resources and let the simulator open and run the correct environment
+	-file.sh with the same code let the Subscriber run and the logger.txt file to be found inside a specific folder (baxter_scene)  
+
+### user interface
+
+The user interface handles the control of the simulation and was thought to have a wider use in the whole project as it could handle different parts of it.
+It has four main commands:
+	-Start: which initiates the simulation in CoppeliaSim without the user actually touching the software.
+	-Pause: to momentarily stop the simulation which will start from the same point and configuration after a start command.
+	-Stop: that will take the simulation back to time 0.
+	-Set_default: to easily set the starting configuration of the simulation robot so that it could match the human.
+	-Exit: to orderly kill all the running ROS nodes and close the CoppeliaSim environment.
+Two ulterior notes can be made:
+	-There is an help command to remind the use of the various commands.
+	-The Set_default should not be done after a Pause as it creates discrepancies.
+
+ 
+## Results and considerations
+
+The points we developed in this phase were:
+	-a launch file: which automatize the opening of the various parts of this components as CoppeliaSim, the dummy publisher and the logger. It was created to be as a plug-and-play software, using bash scripts that handle the search for the correct address of all files and opening them.
+	-a user interface: which is meant to be multi-purpose for any simulator that handles the subscription to a ROS topic and that was made envisioning a broader scope of control over the software, while in this version it only handles the simulation process.
+	-the logging file: that registers all 7 joints position and that can be easily modified to handle 14 (as in the case of dual arms control). We notice how the writing process introduces a delay, such that the last 7 values that occur in the log file do not correspond to the last simulated baxter arm configuration. On the other hand we check that the position values are published on the logtopic in real time and they are properly available for whatever subscriber to such a topic.
+	To guaratee some consistency we made the logging text file inside the same folder of the baxter scene (baxter/baxter_scene).
+
+
+## Afterward proposals
+
+We can now take a look at the proposals for a future improvement of this component development.
+
+In particular we decided to focus on the motion of only one baxter arm, the left one, but we can go a step further and make both the arms moving. To do that we can simply add a new child script in the V-REP environment to be attached to the right arm branch and use the very same commands shown for the left side.
+Another improvement would be exploit the humanoid item inside V-REP to study which would be the output joints configuration due to specific velocity inputs. That could be a good way to understand how a human really behaves if certain velocities have to be performed by its arm and thanks to these results we can try to estimate more accurate inputs when we are interested in reaching a desired position of each baxter joint.
+

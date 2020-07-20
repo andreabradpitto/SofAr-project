@@ -1,0 +1,64 @@
+# First phase for V-REP component
+
+## Objectives definition
+
+For this first part of the project the following objectives were defined to be achieved:
+	- Create and enviroment for communication in ROS, creating a dummy publisher and subscriber, in order to send and receive informations with the V-REP enviroment
+	- Understand how the simulation inside the V-REP enviroment works and how information flow
+	- Create a custom scene to achieve the guided movement of the virtual Baxter
+	- Receive the joint configuration of baxter in ROS
+	- Extract the main feature parameters that will be important in the future phases and that will need group communication to be determined and optimised
+
+## Solution development
+
+The results presentation will be devided in two parts, according to the working enviroments of this component.
+Each enviroment will be taken into account the description of the work done and how the choices influence the current state of the results and the future developments.
+
+### ROS enviroment
+
+The ROS enviroment development was concentrated, as already said, in writing a publisher and subscriber to handle communications with the simulation and mimic the interaction with the other components within the project.
+
+Publisher:
+
+ 	- C++ script with the form of a ROS publisher
+ 	- Sends Float32MultiArrays
+ 	- Publication rate set to 10 Hz as a temporary arbitrary decision for test purposes
+ 	- Works with a message with constant values or a message with random values
+ 	- All values are taken from the range -1 to 1
+
+Subscriber:
+	
+	- C++ script with the form of a ROS subscriber
+ 	- Receives Float32MultiArrays
+
+### V-REP enviroment
+
+In the V-REP enviroment, the original scene we started from worked as a synchronous script used to inform each arm which set (in application represented by a single hardwired pose to be reached) it should be at, and informing the main script that the objective was obtained.
+This type of setup was not convenient for our objectives, so we opted for a different approch:
+	- Using one asynchronous customization script to handle the communication with ROS and sending the velocity command to the correct arm
+	- Modifying the arm script in order to read the message, applying the desired velocity to each arm and sending back the various joints configuration
+
+As already said, the customization scripts comprises both the publish and subscribe actions: 
+	- It can read the message from ROS, even if in this phase still reads only 7 Floats variables and send just to the left arm.
+	- It reads asynchronously the message sent by the arm, containing the arm joints configuration, and publish it to a ROS topic for its use by the other components.
+For the velocity control of the arm, it was necessary to edit the joint objects properties to disable the control loop in order to avoid interferences with the API function setJointTargetVelocity, which was used to impose the desired velocity to the joint. 
+
+On the other hand, the arm script just concernes itself in the reading of the command message from the customization script, applying the correct command to each joint of the arm, obtaining each joint configuration and sending it back to the other script.
+ 
+## Results and considerations
+
+At the end of this phase development, the simulated baxter is able to correctly interact with the ROS enviroment and produce the movement as given by the ROS enviroment.
+Having said this, which is equivalent to the achievement of all the first phases objectives, some considerations have to be made.
+First of all is the message transmission from ROS to the arm: we noted that the precision of the message was not infinite, for example after the eighth decimal digit there were numbers whose value we couldn't control. To solve this situation we decided to an 8 digit precision, which we arbitrary chose as sufficient and that can be modified if needed, using a little rounding algorithm which slightly increments the computational time but gives nicer results.
+The second consideration we made was on the maximum allowed speed. At first this was a concerning point, as we didn't know if collision inside the simulation created cathastrophic effects. Fortunately, we observed that collisions are handled in a acceptable way by the simulator.
+Anyway, we constrained the speed values between -1 and 1 deg/s as it highlighted the behavior of the robot, when we will have more realistic data from the mathematic component we will decide whether to use it or resizing it according to the requirements.
+
+## Second phase proposals
+
+Having shown that, we can now take a step forward in the proposals for the second phase of this component development.
+Foundamentally, these are the proposals:
+	- write a launch file that also handles the V-REP enviroment
+	- write a user interface to activate/deactivate the simulation and can be use for debug purposes and coming back to the standard configuration, moreover it has to choose the setup for the use
+	- Write a logging node, able to take both the command message and the resulting configuration
+	- Write a test text file containing realistic values taken from mathematica
+	
