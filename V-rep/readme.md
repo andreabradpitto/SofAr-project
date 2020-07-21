@@ -14,10 +14,18 @@ All the produced code was made on Ubuntu 16.04, with the CoppeliaSim Edu V4 and 
 ### Installing
 
 Obtain a copy of this component 
-- Copy the component folder "baxter" from its current position inside the ROS workspace source folder, using the graphic interface or the shell command
+- If the copy is not inside the ROS workspace source folder, copy the component folder "baxter" from its current position to it, using the graphic interface or the shell command
 
 ```sh
 mv baxter /absolute/path/of/catkin/workspace/src/baxter
+```
+- Activate the bash scripts
+
+```sh
+cd /absolute/path/of/catkin/workspace/src/baxter
+cd src
+chmod +x logger_launcher.sh
+chmod +x coppelialaucher.sh
 ```
 
 - Do a catkin make inside the catkin workspace main folder
@@ -34,7 +42,7 @@ catkin_make
 In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_sim.launch by digiting on the shell the command line
 
 ```sh
-     roslaunch baxter baxter_test.launch
+roslaunch baxter baxter_test.launch
 ```
 
 By doing this the CoppeliaSim environment will be opened on the correct scene.
@@ -51,23 +59,23 @@ At this point on the shell a message occurs inviting the user to write a command
 To change the input rate, the shell commands from inside the “baxter” folder are:
 
 ```sh
- cd src
- gedit publisher_ROS_VREP
+cd src
+gedit publisher_ROS_VREP
 ```
 
 At line 41 the rate can be changed.
 
 ```cpp
-   ros::Rate loop_rate(50);
+ros::Rate loop_rate(50);
 ```
 
 Then, after saving the file, back again in the shell:
 
 ```sh
-   cd ..
-   cd ..
-   cd ...
-   catkin_make
+cd ..
+cd ..
+cd ...
+catkin_make
 ```
 
 In order to apply the changes.
@@ -75,10 +83,10 @@ In order to apply the changes.
 
 ## Deployment
 
-To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is *placeholder* and the fact that the system needs to publish to the simulation component. (of course the simulation must be activated before the publisher)
+To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is baxter_sim.launch and the fact that the system needs to publish to the simulation component.
 
 ```sh
-     roslaunch baxter baxter_sim.launch
+roslaunch baxter baxter_sim.launch
 ```
 
 
