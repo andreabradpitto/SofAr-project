@@ -34,7 +34,7 @@ catkin_make
 In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_sim.launch by digiting on the shell the command line
 
 ```sh
-     roslaunch baxter baxter_sim.launch
+     roslaunch baxter baxter_test.launch
 ```
 
 By doing this the CoppeliaSim environment will be opened on the correct scene.
