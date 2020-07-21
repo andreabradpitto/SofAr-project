@@ -213,5 +213,5 @@ include_directories(
  add_executable(logger src/logger.cpp)
  target_link_libraries(logger ${catkin_LIBRARIES})
 
-add_executable(Test src/Test.cpp)
- target_link_libraries(Test ${catkin_LIBRARIES})
+add_executable(Interface src/Interface.cpp)
+ target_link_libraries(Interface ${catkin_LIBRARIES})

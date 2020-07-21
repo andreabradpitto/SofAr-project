@@ -1,4 +1,5 @@
 <launch>
+<node name="publisher_ROS_VREP" pkg="baxter" type="publisher_ROS_VREP"/>
 <node name="logger_launcher" pkg="baxter" type="logger_launcher.sh" />
 <node name="coppelialauncher" pkg="baxter" type="coppelialauncher.sh" />
 <!-- output="screen" enables terminal output -->
