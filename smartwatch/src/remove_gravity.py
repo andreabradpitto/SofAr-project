@@ -5,6 +5,7 @@ import tf
 import math
 import csv
 import os
+from rotationMatrix import eulerAnglesToRotationMatrix
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Vector3
 from datetime import datetime
@@ -24,9 +25,9 @@ flagWriteData = 1
 #global variables
 g = [0, 0, 9.81]
 dx = 0.0174  # min angle perceived [rad], about 1 [deg]
-# dx = 0.087 # min angle perceived [rad], about 5 [deg]
 index = 1  # used to store data for offline analysis
 header = 0 # used to create header in imu message ( publisher )
+
 # initialize files to store data
 with open(abs_file_path1, 'w') as file:
     writer = csv.writer(file)
@@ -40,29 +41,6 @@ with open(abs_file_path3, 'w') as file:
     writer = csv.writer(file)
     writer.writerow(["", "X", "Y", "Z"])
 
-
-def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
-
-    R_x = np.array([[1,         0,                  0],
-                    [0,         math.cos(angles[0]),   math.sin(angles[0])],
-                    [0,         -math.sin(angles[0]),  math.cos(angles[0])]
-                    ])
-
-    R_y = np.array([[math.cos(angles[1]),    0,      -math.sin(angles[1])],
-                    [0,                      1,      0],
-                    [math.sin(angles[1]),    0,      math.cos(angles[1])]
-                    ])
-
-    R_z = np.array([[math.cos(angles[2]),      math.sin(angles[2]),     0],
-                    [-math.sin(angles[2]),     math.cos(angles[2]),     0],
-                    [0,                        0,                       1]
-                    ])
-
-    R = np.dot(R_x, np.dot(R_y, R_z))
-
-    return R
-
-
 def anglesCompensate(angles):
     # reduce sensibility of sensor: minimum precision is dx
     compensatedAngles = [0, 0, 0]
@@ -72,7 +50,6 @@ def anglesCompensate(angles):
             compensatedAngles[i] = angles[i]
 
     return compensatedAngles
-
 
 def removeGravity(lin_acc, Rot_m):
     # rotate g vector in the current frame
@@ -87,12 +64,10 @@ def removeGravity(lin_acc, Rot_m):
 
     return g_removed
 
-
 def storeDataInFiles(fileName, modality, data):
     with open(fileName, modality) as file:
         writer = csv.writer(file)
         writer.writerow([index, data[0], data[1], data[2]])
-
 
 def callback(data):
     global index, header
@@ -145,7 +120,9 @@ def callback(data):
     msg.angular_velocity.y = angular_velocity[1]
     msg.angular_velocity.z = angular_velocity[2]
   
+    #publish message
     talker(msg)
+    #update header
     header+=1
     
 def listener():
