@@ -1,5 +1,5 @@
 /**
- * @file Test
+ * @file Interface
  * @author  Elena Merlo - Matteo Palmas
  * @version 1.0
  *
