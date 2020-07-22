@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd

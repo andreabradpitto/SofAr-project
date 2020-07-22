@@ -1,12 +1,12 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 import rospy
 import numpy as np
 import tf
-from sensor_msgs.msg import Imu
-from geometry_msgs.msg import Vector3
 import math
 import csv
 import os
+from sensor_msgs.msg import Imu
+from geometry_msgs.msg import Vector3
 
 script_dir = os.path.dirname(__file__)  # absolute directory the script is in
 rel_path1 = "output/lin_acc.csv"
