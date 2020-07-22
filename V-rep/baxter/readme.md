@@ -74,7 +74,7 @@ Then, after saving the file, back again in the shell:
 ```sh
 cd ..
 cd ..
-cd ...
+cd ..
 catkin_make
 ```
 
