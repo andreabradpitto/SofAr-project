@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 	  		//command message publishing
 			SimPub.publish(msg);
 
-		//! The command 'set_default' is for setting a desired default configuration for each one of the 7 joints. In the original default configuration each joint is set to 0 and only values belonging to the interval [-1,1] are allowed
+		//! The command 'set_default' is for setting a desired default configuration for each one of the 7 joints. In the original default configuration each joint is set to 0
   		}else if(strcmp(string,"set_default")==0){
   			sensor_msgs::JointState msg;
   			double array[7];

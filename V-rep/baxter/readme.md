@@ -38,8 +38,8 @@ catkin_make
 
 ## Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
 
-- Digit "roslaunch baxter baxter_sim.launch" and press enter.
-In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_sim.launch by digiting on the shell the command line
+- Digit "roslaunch baxter baxter_test.launch" and press enter.
+In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_test.launch by digiting on the shell the command line
 
 ```sh
 roslaunch baxter baxter_test.launch
@@ -52,7 +52,7 @@ At this point on the shell a message occurs inviting the user to write a command
 	- start the simulation (‘start’); 
 	- put it in pause in order to restart from the last configuration you reached (‘pause’); 
 	- stop the simulation (‘stop’) leading the robot arm to the default configuration; 
-	- set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint is set to 0 and only values belonging to the interval [-1,1] are allowed.
+	- set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint is set to 0.
 	- close the user interface, all the running topics and the simulator environment ('exit')
 
 
@@ -88,7 +88,8 @@ To deploy to a live system the procedures are identical to the one observed in t
 ```sh
 roslaunch baxter baxter_sim.launch
 ```
-
+To send commands to the simulation enviroment, you must create a ROS node that publish a JointState message (with a 7 values array in the velocity field) to /cmdtopic.
+In order to gain information from CoppeliaSim, you must subscribe to /logtopic where the joints configuration is coded as a 7 values array in the position field.
 
 ## Versioning
 
