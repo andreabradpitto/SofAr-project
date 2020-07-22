@@ -7,6 +7,7 @@ import csv
 import os
 from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Vector3
+from datetime import datetime
 
 script_dir = os.path.dirname(__file__)  # absolute directory the script is in
 rel_path1 = "output/lin_acc.csv"
@@ -25,7 +26,7 @@ g = [0, 0, 9.81]
 dx = 0.0174  # min angle perceived [rad], about 1 [deg]
 # dx = 0.087 # min angle perceived [rad], about 5 [deg]
 index = 1  # used to store data for offline analysis
-
+header = 0 # used to create header in imu message ( publisher )
 # initialize files to store data
 with open(abs_file_path1, 'w') as file:
     writer = csv.writer(file)
@@ -94,21 +95,21 @@ def storeDataInFiles(fileName, modality, data):
 
 
 def callback(data):
-    global index
+    global index, header
 
     # get data
     orientation = [data.orientation.x, data.orientation.y,
                    data.orientation.z, data.orientation.w]
 
     # transform quaternion to euler angles
-    angles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
+    tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
 
     angular_velocity = [data.angular_velocity.x,
                         data.angular_velocity.y, data.angular_velocity.z]
     linear_acceleration = [data.linear_acceleration.x,
                            data.linear_acceleration.y, data.linear_acceleration.z]
 
-    angles = anglesCompensate(angles)
+    angles = anglesCompensate(tempAngles)
 
     rot_matrix = eulerAnglesToRotationMatrix(angles)
 
@@ -126,7 +127,27 @@ def callback(data):
 
         index += 1
 
+    #create Imu message
+    msg = Imu()
+    now = datetime.now()
+    msg.header.frame_id = header
+    msg.header.stamp = now
+    msg.orientation.x = orientation[0]
+    msg.orientation.y = orientation[1]
+    msg.orientation.z = orientation[2]
+    msg.orientation.w = orientation[3]
 
+    msg.linear_acceleration.x = lin_acc_no_g[0]
+    msg.linear_acceleration.y = lin_acc_no_g[1]
+    msg.linear_acceleration.z = lin_acc_no_g[2]
+
+    msg.angular_velocity.x = angular_velocity[0]
+    msg.angular_velocity.y = angular_velocity[1]
+    msg.angular_velocity.z = angular_velocity[2]
+  
+    talker(msg)
+    header+=1
+    
 def listener():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
@@ -144,6 +165,10 @@ def listener():
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
+def talker(msg):
+    pub = rospy.Publisher('smarthWatch',Imu)
+    rospy.loginfo(msg)
+    pub.publish(msg)
 
 if __name__ == '__main__':
 
