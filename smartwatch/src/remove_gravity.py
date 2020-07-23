@@ -102,28 +102,25 @@ def callback(data):
 
         index += 1
 
-    #create Imu message
-    msg = Imu()
-    now = datetime.now()
-    msg.header.frame_id = header
-    msg.header.stamp = now
-    msg.orientation.x = orientation[0]
-    msg.orientation.y = orientation[1]
-    msg.orientation.z = orientation[2]
-    msg.orientation.w = orientation[3]
+    #modify Imu message to be sent
 
-    msg.linear_acceleration.x = lin_acc_no_g[0]
-    msg.linear_acceleration.y = lin_acc_no_g[1]
-    msg.linear_acceleration.z = lin_acc_no_g[2]
+    ###COMMENTED PART###
+    #now = datetime.now()
+    #msg.header.frame_id = header
+    #msg.header.stamp = now
+    #########################
 
-    msg.angular_velocity.x = angular_velocity[0]
-    msg.angular_velocity.y = angular_velocity[1]
-    msg.angular_velocity.z = angular_velocity[2]
+    data.linear_acceleration.x = lin_acc_no_g[0]
+    data.linear_acceleration.y = lin_acc_no_g[1]
+    data.linear_acceleration.z = lin_acc_no_g[2]
   
     #publish message
-    talker(msg)
+    try:
+        talker(data)
+    except rospy.ROSInterruptException:
+        pass
     #update header
-    header+=1
+    #header+=1
     
 def listener():
 
@@ -143,8 +140,7 @@ def listener():
     rospy.spin()
 
 def talker(msg):
-    pub = rospy.Publisher('smarthWatch',Imu)
-    rospy.loginfo(msg)
+    pub = rospy.Publisher('smartwatch', Imu, queue_size=10)
     pub.publish(msg)
 
 if __name__ == '__main__':
