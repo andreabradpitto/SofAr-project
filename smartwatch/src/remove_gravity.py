@@ -21,27 +21,24 @@ abs_file_path3 = os.path.join(script_dir, rel_path3)
 # flags used to turn on features
 # flagWriteData = 1 means to store simple data received from imu, after gravity removal
 flagWriteData = 1
-
-#global variables
-g = [0, 0, 9.81]
-dx = 0.0174  # min angle perceived [rad], about 1 [deg]
 index = 1  # used to store data for offline analysis
-header = 0 # used to create header in imu message ( publisher )
 
-# initialize files to store data
-with open(abs_file_path1, 'w') as file:
-    writer = csv.writer(file)
-    writer.writerow(["", "X", "Y", "Z"])
+if flagWriteData == 1:
+    # initialize files to store data
+    with open(abs_file_path1, 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(["", "X", "Y", "Z"])
 
-with open(abs_file_path2, 'w') as file:
-    writer = csv.writer(file)
-    writer.writerow(["", "X", "Y", "Z"])
+    with open(abs_file_path2, 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(["", "X", "Y", "Z"])
 
-with open(abs_file_path3, 'w') as file:
-    writer = csv.writer(file)
-    writer.writerow(["", "X", "Y", "Z"])
+    with open(abs_file_path3, 'w') as file:
+        writer = csv.writer(file)
+        writer.writerow(["", "X", "Y", "Z"])
 
 def anglesCompensate(angles):
+    dx = 0.0174  # min angle perceived [rad], about 1 [deg]
     # reduce sensibility of sensor: minimum precision is dx
     compensatedAngles = [0, 0, 0]
 
@@ -52,8 +49,11 @@ def anglesCompensate(angles):
     return compensatedAngles
 
 def removeGravity(lin_acc, Rot_m):
+    g = [0, 0, 9.81]
+
     # rotate g vector in the current frame
     g_frame_i = np.dot(Rot_m, g)
+    g = [0, 0, 9.81]
     g_removed = [0, 0, 0]  # define linear acceleration without gravity
 
     for i in range(0, 3):
@@ -97,19 +97,11 @@ def callback(data):
         angles_in_deg = [(angles[0]*180) / math.pi,
                          (angles[1]*180) / math.pi, (angles[2]*180) / math.pi]
         storeDataInFiles(abs_file_path2, 'a', angles_in_deg)
-
         storeDataInFiles(abs_file_path3, 'a', angular_velocity)
 
-        index += 1
+        index += 1 #update index
 
     #modify Imu message to be sent
-
-    ###COMMENTED PART###
-    #now = datetime.now()
-    #msg.header.frame_id = header
-    #msg.header.stamp = now
-    #########################
-
     data.linear_acceleration.x = lin_acc_no_g[0]
     data.linear_acceleration.y = lin_acc_no_g[1]
     data.linear_acceleration.z = lin_acc_no_g[2]
@@ -119,8 +111,6 @@ def callback(data):
         talker(data)
     except rospy.ROSInterruptException:
         pass
-    #update header
-    #header+=1
     
 def listener():
 
