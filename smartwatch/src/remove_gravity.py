@@ -37,6 +37,7 @@ if flagWriteData == 1:
         writer = csv.writer(file)
         writer.writerow(["", "X", "Y", "Z"])
 
+
 def anglesCompensate(angles):
     dx = 0.0174  # min angle perceived [rad], about 1 [deg]
     # reduce sensibility of sensor: minimum precision is dx
@@ -47,6 +48,7 @@ def anglesCompensate(angles):
             compensatedAngles[i] = angles[i]
 
     return compensatedAngles
+
 
 def removeGravity(lin_acc, Rot_m):
     g = [0, 0, 9.81]
@@ -64,10 +66,12 @@ def removeGravity(lin_acc, Rot_m):
 
     return g_removed
 
+
 def storeDataInFiles(fileName, modality, data):
     with open(fileName, modality) as file:
         writer = csv.writer(file)
         writer.writerow([index, data[0], data[1], data[2]])
+
 
 def callback(data):
     global index, header
@@ -99,19 +103,20 @@ def callback(data):
         storeDataInFiles(abs_file_path2, 'a', angles_in_deg)
         storeDataInFiles(abs_file_path3, 'a', angular_velocity)
 
-        index += 1 #update index
+        index += 1  # update index
 
-    #modify Imu message to be sent
+    # modify Imu message to be sent
     data.linear_acceleration.x = lin_acc_no_g[0]
     data.linear_acceleration.y = lin_acc_no_g[1]
     data.linear_acceleration.z = lin_acc_no_g[2]
-  
-    #publish message
+
+    # publish message
     try:
         talker(data)
     except rospy.ROSInterruptException:
         pass
-    
+
+
 def listener():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
@@ -129,9 +134,11 @@ def listener():
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
+
 def talker(msg):
     pub = rospy.Publisher('smartwatch', Imu, queue_size=10)
     pub.publish(msg)
+
 
 if __name__ == '__main__':
 
