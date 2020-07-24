@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 
   ros::Publisher chatter_pub = n.advertise<sensor_msgs::JointState>("cmdtopic", 1000); //publisher advertisement 
 
-  ros::Rate loop_rate(50); //loop rate set at 50 Hz
+  ros::Rate loop_rate(110);//loop rate set at 50 Hz
 
   //while loop -> we want to continue to publish messages, as long the node is alive
 

@@ -1,8 +1,0 @@
-<launch>
-<node name="logger_launcher" pkg="baxter" type="logger_launcher.sh" />
-<node name="coppelialauncher" pkg="baxter" type="coppelialauncher.sh" />
-<!-- output="screen" enables terminal output -->
-<node name="Interface" pkg="baxter" type="Interface" output="screen"/>
-</launch>
-
-

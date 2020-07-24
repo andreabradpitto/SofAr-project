@@ -17,12 +17,12 @@ Obtain a copy of this component
 - If the copy is not inside the ROS workspace source folder, copy the component folder "baxter" from its current position to it, using the graphic interface or the shell command
 
 ```sh
-mv baxter /absolute/path/of/catkin/workspace/src/baxter
+mv V-rep /absolute/path/of/catkin/workspace/src/V-rep
 ```
 - Activate the bash scripts
 
 ```sh
-cd /absolute/path/of/catkin/workspace/src/baxter
+cd /absolute/path/of/catkin/workspace/src/V-rep
 cd src
 chmod +x logger_launcher.sh
 chmod +x coppelialaucher.sh
@@ -38,11 +38,11 @@ catkin_make
 
 ## Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
 
-- Digit "roslaunch baxter baxter_test.launch" and press enter.
+- Digit "roslaunch V-rep baxter_test.launch" and press enter.
 In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_test.launch by digiting on the shell the command line
 
 ```sh
-roslaunch baxter baxter_test.launch
+roslaunch V-rep baxter_test.launch
 ```
 
 By doing this the CoppeliaSim environment will be opened on the correct scene.
@@ -52,11 +52,11 @@ At this point on the shell a message occurs inviting the user to write a command
 	- start the simulation (‘start’); 
 	- put it in pause in order to restart from the last configuration you reached (‘pause’); 
 	- stop the simulation (‘stop’) leading the robot arm to the default configuration; 
-	- set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint is set to 0.
+	- set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint is set to 0 and only values belonging to the interval [-1,1] are allowed.
 	- close the user interface, all the running topics and the simulator environment ('exit')
 
 
-To change the input rate, the shell commands from inside the “baxter” folder are:
+To change the input rate, the shell commands from inside the “V-rep” folder are:
 
 ```sh
 cd src
@@ -86,10 +86,9 @@ In order to apply the changes.
 To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is baxter_sim.launch and the fact that the system needs to publish to the simulation component.
 
 ```sh
-roslaunch baxter baxter_sim.launch
+roslaunch V-rep baxter_sim.launch
 ```
-To send commands to the simulation enviroment, you must create a ROS node that publish a JointState message (with a 7 values array in the velocity field) to /cmdtopic.
-In order to gain information from CoppeliaSim, you must subscribe to /logtopic where the joints configuration is coded as a 7 values array in the position field.
+
 
 ## Versioning
 

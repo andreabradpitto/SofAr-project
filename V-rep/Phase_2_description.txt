@@ -6,7 +6,7 @@ For this second part of the project the following objectives were defined to be 
 	-change the message type to be received and sent bt the v-rep component to a proper one
 	-create a file where the values of joints position at each step are saved (logger.txt)
 	-create a launch-file such that the whole V-REP component is launched and ready to work just with a command line
-	-make the baxter package plug and play by eliminating any relative address
+	-make the V-rep package plug and play by eliminating any relative address
 	-create an interface to help the user in handling the simulation
 
 ## Solution development
@@ -34,9 +34,9 @@ In order to start up a master and all the involved nodes, a launch file is writt
 	-the c++ script encoding the user interface
 	-the bash script taht calls the ROS Subscriber
 
-### baxter package plug and play
+### V-rep package plug and play
 
-To avoid the user intervention in resolving resource conflicts by modifying each script with its specific addresses we decided to make the baxter package plug and play. 
+To avoid the user intervention in resolving resource conflicts by modifying each script with its specific addresses we decided to make the V-rep package plug and play. 
 To do this two bash scripts are developed:
 	-coppelialauncher.sh allows to find the path of the CoppeliaSim package and that of our scene (baxter_sofar.ttt) inside the user resources and let the simulator open and run the correct environment
 	-file.sh with the same code let the Subscriber run and the logger.txt file to be found inside a specific folder (baxter_scene)  
@@ -61,7 +61,7 @@ The points we developed in this phase were:
 	-a launch file: which automatize the opening of the various parts of this components as CoppeliaSim, the dummy publisher and the logger. It was created to be as a plug-and-play software, using bash scripts that handle the search for the correct address of all files and opening them.
 	-a user interface: which is meant to be multi-purpose for any simulator that handles the subscription to a ROS topic and that was made envisioning a broader scope of control over the software, while in this version it only handles the simulation process.
 	-the logging file: that registers all 7 joints position and that can be easily modified to handle 14 (as in the case of dual arms control). We notice how the writing process introduces a delay, such that the last 7 values that occur in the log file do not correspond to the last simulated baxter arm configuration. On the other hand we check that the position values are published on the logtopic in real time and they are properly available for whatever subscriber to such a topic.
-	To guaratee some consistency we made the logging text file inside the same folder of the baxter scene (baxter/baxter_scene).
+	To guaratee some consistency we made the logging text file inside the same folder of the baxter scene (V-rep/baxter_scene).
 
 
 ## Afterward proposals
