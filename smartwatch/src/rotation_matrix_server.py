@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+
+"""
+Documentation for the rotation matrix sever
+This file waits for rotation matrix transformations requests;
+it has been made mostly for convenience of the optimization project subgroup
+"""
+
 import rospy
 import numpy as np
 import tf
@@ -15,6 +22,11 @@ angles = [0, 0, 0]
 
 
 def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
+    """!
+    Function that transforms euler angle coordinates into the rotation matrix
+    @param angles euler angles, i.e. orientation with respect to X, Y, Z axes
+    @returns rotation matrix
+    """
 
     R_x = np.array([[1,         0,                  0],
                     [0,         math.cos(angles[0]),   math.sin(angles[0])],
@@ -37,6 +49,12 @@ def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
 
 
 def anglesCompensate(angles):
+    """!
+    Function used to filter unwanted minimal incoming data fluctuations,
+    due to noise as well as human operator shake
+    @param angles orientation with respect to X, Y, Z axes
+    @returns returns a filtered version (if necessary) of the input angles
+    """
     # reduce sensibility of sensor: minimum precision is dx
     compensatedAngles = [0, 0, 0]
 
@@ -48,6 +66,11 @@ def anglesCompensate(angles):
 
 
 def callback(data):
+    """!
+    This is the callback function: it is invoked every time there is incoming data.
+    It transforms a quaternion into euler angles, and the invokes anglesCompensate()
+    @param data incoming from the imu sensor
+    """
     global angles
 
     # get data
@@ -61,6 +84,11 @@ def callback(data):
 
 
 def serv_callback():
+    """!
+    This is the server callback function. It simply formats the data coming from the Imu in order
+    to be compatible with the Optimization subgroup's code
+    @returns the a formatted version of the rotation matrix
+    """
 
     serv_rot_matrix = Float64MultiArray()
     serv_rot_matrix.layout.dim.append(MultiArrayDimension())
@@ -75,6 +103,11 @@ def serv_callback():
 
 
 def smartwatch_server_setup():
+    """!
+    Setup of the server. Inside this function there is the 'smartwatch_service' node initialization
+    and the subscription to the 'android/imu' topic, from which it receives incoming data
+    of smarthpone/smartwatch accelerometers. Finally, the rotation matrix server is activated
+    """
 
     # In ROS, nodes are uniquely named. If two nodes with the same
     # name are launched, the previous one is kicked off. The
@@ -97,5 +130,7 @@ def smartwatch_server_setup():
 
 
 if __name__ == '__main__':
-
+    """!
+    Main function
+    """
     smartwatch_server_setup()

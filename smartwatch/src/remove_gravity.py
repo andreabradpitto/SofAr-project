@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+
+"""
+Documentation for the gravity removal tool
+This is the main piece of code of the subproject: it handles the problem of the removal of Earth gravity, while also 
+"""
+
 import rospy
 import numpy as np
 import tf
@@ -39,6 +45,12 @@ if flagWriteData == 1:
 
 
 def anglesCompensate(angles):
+    """!
+    Function used to filter unwanted minimal incoming data fluctuations,
+    due to noise as well as human operator shake
+    @param orientation with respect to X, Y, Z axes
+    @returns returns a filtered version (if necessary) of the input angles
+    """
     dx = 0.0174  # min angle perceived [rad], about 1 [deg]
     # reduce sensibility of sensor: minimum precision is dx
     compensatedAngles = [0, 0, 0]
@@ -51,6 +63,12 @@ def anglesCompensate(angles):
 
 
 def removeGravity(lin_acc, Rot_m):
+    """!
+    This function is the one that actually carries out the gravity removal
+    @param lin_acc linear acceleration data incoming from the accelerometer
+    @param Rot_m rotation matrix computed with eulerAnglesToRotationMatrix()
+    @returns the output is the same linear acceleration vector provided, but without the influence of the gravity
+    """
     g = [0, 0, 9.81]
 
     # rotate g vector in the current frame
@@ -68,12 +86,25 @@ def removeGravity(lin_acc, Rot_m):
 
 
 def storeDataInFiles(fileName, modality, data):
+    """!
+    Function whose aim to simply to paste incoming accelerometer data into .csv files
+    @params fileName name of the generated file
+    @params modality parameter requested by the open() function: 'a' stands for 'open for appending at the end of the file without truncating it'
+    @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity)
+    """
     with open(fileName, modality) as file:
         writer = csv.writer(file)
         writer.writerow([index, data[0], data[1], data[2]])
 
 
 def callback(data):
+    """!
+    This is the callback function: it is invoked every time there is incoming data and
+    has the duty of calling all the previously mentioned functions as well as eulerAnglesToRotationMatrix().
+    After these calls, it finally invokes the talker(). In order to achieve all of this,
+    it translates incoming quaternions into euler angles beforehand
+    @param data incoming from the imu sensor
+    """
     global index, header
 
     # get data
@@ -118,6 +149,10 @@ def callback(data):
 
 
 def listener():
+    """!
+    The listener is used to instantiate the homonymous node and to subscribe to the android/imu topic,
+    from which it receives incoming data of smarthpone/smartwatch accelerometers
+    """
 
     # In ROS, nodes are uniquely named. If two nodes with the same
     # name are launched, the previous one is kicked off. The
@@ -136,10 +171,16 @@ def listener():
 
 
 def talker(msg):
+    """!
+    The talker is used to publish the refined data on the so called 'smartwatch' topic
+    """
     pub = rospy.Publisher('smartwatch', Imu, queue_size=10)
     pub.publish(msg)
 
 
 if __name__ == '__main__':
+    """!
+    Main function
+    """
 
     listener()

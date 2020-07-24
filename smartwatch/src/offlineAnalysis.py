@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+
+"""
+Documentation for the offline analysis tool
+This piece of code is mostly used to run tests relative to the incoming imu data
+and filtering/transformation performed in 'remove_gravity.py'
+"""
+
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
@@ -20,6 +27,14 @@ font = {'family': 'serif',
 
 
 def plotData(df, subplt, x_axis, y_lable, titlePlot):
+    """!
+    This function simply plots data into a a graph
+    @param df specifies the data set (orientation/linear acceleration/angular velocity) to be plotted
+    @param subplt this specifies the position of the plot in the figure
+    @param x_axis ascending numbers (i.e. data samples)
+    @param y_lable data type and measurement unit
+    @param titlePlot title of the plot
+    """
     plt.subplot(subplt)
     plt.plot(x_axis, df.X)
     plt.plot(x_axis, df.Y)
@@ -31,6 +46,9 @@ def plotData(df, subplt, x_axis, y_lable, titlePlot):
 
 
 if __name__ == '__main__':
+    """!
+    Main function. It reads data from .csv files and plots it by using plotData()
+    """
 
     df_linacc = pd.read_csv(abs_file_path1, names=[
                             'X', 'Y', 'Z'], header=0, decimal=',')
