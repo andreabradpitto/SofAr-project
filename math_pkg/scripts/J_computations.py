@@ -26,7 +26,6 @@ def geometric_vectors(T_abs):
   return geom_v
 
 ## Computes jacobians.
-# Specificaly it returns in a list the overall J, linear J, angular J.
 #
 def jacob(k, r, n_joints, info):
   pass
@@ -36,7 +35,6 @@ def jacob(k, r, n_joints, info):
   Jl = np.array([[],
                  [],
                  []])
-  Js = []
 
   for i in range(n_joints):
     if info[i] == 1:
@@ -58,8 +56,4 @@ def jacob(k, r, n_joints, info):
 ##      Jl = np.concatenate((Jl, k[i]), axis = 1)
   J = np.concatenate((Jl, Ja), axis = 0)
 
-  Js.append(J)
-  Js.append(Jl)
-  Js.append(Ja)
-
-  return Js
+  return J
