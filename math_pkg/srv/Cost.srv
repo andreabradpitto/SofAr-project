@@ -1,0 +1,5 @@
+---
+sensor_msgs/JointState qdot1opt1
+sensor_msgs/JointState qdot1opt2
+sensor_msgs/JointState qdot2opt1
+sensor_msgs/JointState qdot2opt2
