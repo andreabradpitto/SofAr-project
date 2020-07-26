@@ -108,7 +108,7 @@ int main(int argc,char **argv) {
     ros::NodeHandle n; // define node handle
 
     int queSize = 10;
-    ros::Subscriber sub = n.subscribe("Jac", queSize, costCallbackJ); // subscribe for Jacobian
+    ros::Subscriber sub = n.subscribe("jacobian", queSize, costCallbackJ); // subscribe for Jacobian
 
     ros::ServiceServer service = n.advertiseService("cost", computeOptqdot); // activate Cost service
     

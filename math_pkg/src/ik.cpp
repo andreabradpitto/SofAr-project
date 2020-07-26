@@ -158,7 +158,7 @@ int main(int argc,char **argv) {
     ros::init(argc, argv, "ik_server"); // initialize node
     ros::NodeHandle n; // define node handle
     int queSize = 10;
-    ros::Subscriber sub1 = n.subscribe("Jac", queSize, ikCallbackJ); // subscribe to Jacobian
+    ros::Subscriber sub1 = n.subscribe("jacobian", queSize, ikCallbackJ); // subscribe to Jacobian
     ros::Subscriber sub2 = n.subscribe("errors", queSize, ikCallbackErr); // subscribe to errors
     ros::Subscriber sub3 = n.subscribe("tracking", queSize, ikCallbackVwa); // subscribe to tracking signals
     ros::Subscriber sub4 = n.subscribe("jointvel", queSize, ikCallbackqdot); // describe to weighter
