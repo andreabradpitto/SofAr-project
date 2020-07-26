@@ -26,8 +26,8 @@ math_pkg::Cost costSrv;
 */
 int getAllqdots(vector<double> qdots[], bool obtained[]) {
 	bool costObtained; // will be true if call to Cost service will succeed.
-	bool transpObtained; // same with Jtra
-	bool sixDofsObtained; // same with J6dofs
+	bool transpObtained=true; // same with Jtra
+	bool sixDofsObtained=true; // same with J6dofs
 
 	int num_obtained = 0; // initialization
 	// Each service call is performed in parallel.
