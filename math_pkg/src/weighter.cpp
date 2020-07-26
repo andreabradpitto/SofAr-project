@@ -1,3 +1,5 @@
+/*! \file */
+
 #include <algorithm>
 #include <iostream>
 #include "math_pkg/Cost.h"

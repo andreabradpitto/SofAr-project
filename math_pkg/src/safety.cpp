@@ -15,19 +15,14 @@
 
 /*! Availability flag for joint angles vector.*/
 bool readyq;
-
 /*! Availability flag for joint velocities vector.*/
 bool readyqdot;
-
 /*! Array whose i-th element keeps the current position correction pole for joint i if joint i is being brought back from being close to a joint limit, 0 otherwise.*/
 double currentAnglePole[NJOINTS];
-
 /*! Array whose i-th element keeps the current position correction pole for joint i if joint i is being slowed down because it was close to its saturation velocity, 0 otherwise.*/
 double currentVelPole[NJOINTS];
-
 /*! Array of joint angle values.*/
 double q[NJOINTS];
-
 /*! Array of joint velocity values..*/
 double qdot[NJOINTS];
 
@@ -72,9 +67,8 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 	bool angleOk;
 	double rdot_i,Adiag_i;
 	for(short i = 0; i<NJOINTS; i++) { // for all joints
-		angleOk = false; // initialize angleOk for joint i
 		// Compute and store the i-th element of rdot and of the diagonal of A, based on the angle constraint task.
-	    jointConstr(q[i],QMIN[i],QMAX[i],JOINTS_MARGIN,JOINTS_MAXPOLE,JOINTS_MAJ,currentAnglePole[i],0,true,angleOk,rdot_i,Adiag_i);
+	    angleOk = jointConstr(q[i],QMIN[i],QMAX[i],JOINTS_MARGIN,JOINTS_MAXPOLE,JOINTS_MAJ,currentAnglePole[i],true,rdot_i,Adiag_i);
 	    rdot(i) = rdot_i;
 	    Adiag(i) = Adiag_i;
 
@@ -82,7 +76,7 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 		if (angleOk) {
 
 			// Compute and store the i-th element of rdot and of the diagonal of A, based on the velocity constraint task.
-			jointConstr(qdot[i],-QDOTMAX[i],QDOTMAX[i],VEL_MARGIN,VEL_MAXPOLE,VEL_MAJ,currentVelPole[i],DT,false,angleOk,rdot_i,Adiag_i);
+			jointConstr(qdot[i],-QDOTMAX[i],QDOTMAX[i],VEL_MARGIN,VEL_MAXPOLE,VEL_MAJ,currentVelPole[i],false,rdot_i,Adiag_i);
 		}
 		// Update i-th element of the output vectors.
 	    rdot(i) = rdot_i;
@@ -135,7 +129,7 @@ bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Respo
 
 
 
-/*! Main function of the program.
+/*! Main function of the node.
 */  
 int main(int argc,char **argv) {
 
