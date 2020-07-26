@@ -1,3 +1,5 @@
+/*! \file */
+
 #include <algorithm>
 #include <iostream>
 #include <thread>
@@ -6,118 +8,139 @@
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
 #include "utilities.h"
-#include <message_filters/subscriber.h>
+/*#include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
-#include <message_filters/sync_policies/approximate_time.h>
+#include <message_filters/sync_policies/approximate_time.h>*/
 #include <ctime>
 
-bool angleOk,readyq,readyqdot;
+/*! Availability flag for joint angles vector.*/
+bool readyq;
+
+/*! Availability flag for joint velocities vector.*/
+bool readyqdot;
+
+/*! Array whose i-th element keeps the current position correction pole for joint i if joint i is being brought back from being close to a joint limit, 0 otherwise.*/
 double currentAnglePole[NJOINTS];
+
+/*! Array whose i-th element keeps the current position correction pole for joint i if joint i is being slowed down because it was close to its saturation velocity, 0 otherwise.*/
 double currentVelPole[NJOINTS];
+
+/*! Array of joint angle values.*/
 double q[NJOINTS];
+
+/*! Array of joint velocity values..*/
 double qdot[NJOINTS];
 
-void safetyCallback(const JointStateConstPtr& msgq,
+/*void safetyCallback(const JointStateConstPtr& msgq,
 const JointStateConstPtr& msgqdot) {
 	vector<double> rcvd_q = msgq->position;
 	vector<double> rcvd_qdot = msgqdot->velocity;
 	std::copy(rcvd_q.begin(), rcvd_q.end(), q);
 	std::copy(rcvd_qdot.begin(), rcvd_qdot.end(), q);
 	readyq = readyqdot = true;
-}
+}*/
 
+
+
+/*! Callback function for joint angles.
+    \param msg The received joint angles vector.
+*/
 void safetyCallbackq(const sensor_msgs::JointState &msg) { 
 	vector<double> rcvd_q = msg.position;
 	std::copy(rcvd_q.begin(), rcvd_q.end(), q);
 	readyq = true;
 }
 
+
+
+/*! Callback function for joint velocities.
+    \param msg The received joint velocities vector.
+*/
 void safetyCallbackqdot(const sensor_msgs::JointState &msg) {
 	vector<double> rcvd_qdot = msg.velocity;
 	std::copy(rcvd_qdot.begin(), rcvd_qdot.end(), q);
 	readyqdot = true;
 }
 
-inline double cos_sigmoid(double x,double y,double mrgn) {
-	return (.5 + .5 * cos((x - y) * M_PI/mrgn));
+
+
+/*! Function that computes the derivative of the task vector and the diagonal of the activation matrix
+    \param rdot Vector passed by reference; on return it will contain the derivative of the task vector.
+	\param Adiag Vector passed by reference; on return it will contain the elements of the diagonal of the activation matrix A.
+*/
+void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
+	bool angleOk;
+	double rdot_i,Adiag_i;
+	for(short i = 0; i<NJOINTS; i++) { // for all joints
+		angleOk = false; // initialize angleOk for joint i
+		// Compute and store the i-th element of rdot and of the diagonal of A, based on the angle constraint task.
+	    jointConstr(q[i],QMIN[i],QMAX[i],JOINTS_MARGIN,JOINTS_MAXPOLE,JOINTS_MAJ,currentAnglePole[i],0,true,angleOk,rdot_i,Adiag_i);
+	    rdot(i) = rdot_i;
+	    Adiag(i) = Adiag_i;
+
+		// If joint i has a safe rotation angle, check for the safety of its velocity. Otherwise, the angle correction task will automatically bring the joint velocity to 0.
+		if (angleOk) {
+
+			// Compute and store the i-th element of rdot and of the diagonal of A, based on the velocity constraint task.
+			jointConstr(qdot[i],-QDOTMAX[i],QDOTMAX[i],VEL_MARGIN,VEL_MAXPOLE,VEL_MAJ,currentVelPole[i],DT,false,angleOk,rdot_i,Adiag_i);
+		}
+		// Update i-th element of the output vectors.
+	    rdot(i) = rdot_i;
+	    Adiag(i) = Adiag_i;
+	}
 }
 
 
-Safety jointConstr(double x,const double xmin,const double xmax,
-	const double mrgn,const double maxPole,const double maj,
-	double &currentPole,const double DT,bool isJoint,bool &angleOk) {
-	double rdot,Adiag;
-	if (x > xmax - mrgn) {
-		if (currentPole == 0)
-			currentPole = min(maxPole,float(maj)/abs(x-xmax));
-		if (isJoint)
-			rdot = currentPole * (-x + xmax - mrgn);
-		else
-			rdot = currentPole * (-x + xmax - mrgn) * DT + x;
-		if (x > xmax)
-			Adiag = 1;
-		else
-			Adiag = cos_sigmoid(x,xmax,mrgn);
-	}
-	else if (x < xmin + mrgn) {
-		if (currentPole == 0)
-			currentPole = min(maxPole,float(maj)/abs(x-xmax));
-		if (isJoint)
-			rdot = currentPole * (-x + xmin + mrgn);
-		else
-			rdot = currentPole * (-x + xmin + mrgn) * DT + x;
-		if (x < xmin)
-			Adiag = 1;
-		else
-			Adiag = cos_sigmoid(x,xmin,mrgn);
-	}
-	else {
-		Adiag = 0;
-		rdot = 0;
-		angleOk = true;
-	}
-	return Safety(rdot,Adiag);
-}
 
-
+/*! Service function for the Safety service, which computes the partial joint velocities based on the safety task.
+    \param req Empty.
+	\param res Safety-constrained joint velocities.
+    \return true if client-service call succeeded, false otherwise.
+*/
 bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Response &res) {
-	//clock_t begin = clock();
-	if (!(readyq && readyqdot)) {
+	clock_t begin = clock(); // timing
+	if (!(readyq && readyqdot)) { // at least one subscribtion data is missing
+		readyq = readyqdot = false; // reset availability flag
     	ROS_ERROR("safety service could not run: missing data.");
 		return false;
 	}
-	readyq = readyqdot = false;
-	VectorXd partial_qdot(NJOINTS);VectorXd rdot(NJOINTS);VectorXd Adiag(NJOINTS);
-	res.qdot.velocity.clear();
 
-	for(short i = 0; i<NJOINTS; i++) {
-		angleOk = false;
-	    Safety safety = jointConstr(q[i],QMIN[i],QMAX[i],JOINTS_MARGIN,JOINTS_MAXPOLE,JOINTS_MAJ,currentAnglePole[i],0,true,angleOk);
-	    rdot(i) = safety.rdot;
-	    Adiag(i) = safety.Adiag;
-		if (angleOk) {
-			Safety safety = jointConstr(qdot[i],-QDOTMAX[i],QDOTMAX[i],VEL_MARGIN,VEL_MAXPOLE,VEL_MAJ,currentVelPole[i],0,false,angleOk);
-	    	rdot(i) = safety.rdot;
-	    	Adiag(i) = safety.Adiag;
-		}
-	}
-    MatrixXd A = Adiag.asDiagonal();
+	readyq = readyqdot = false; // reset availability flag
+	VectorXd partial_qdot(NJOINTS),rdot(NJOINTS),Adiag(NJOINTS);
+
+	// Obtain the derivative of the task vector and the activation values, stored in 1D vectors.
+	safetyLoop(rdot,Adiag);
+    MatrixXd A = Adiag.asDiagonal(); // store the diagonal of A into a sparse matrix structure (needed for the following computations)
+
+	// For the safety task, the Jacobian is the identity and Q is the zero matrix.
 	MatrixXd pinvJ = regPinv(ID_MATRIX_NJ,A,ZERO_MATRIX_NJ,ETA);
-	MatrixXd Q2 = ID_MATRIX_NJ - pinvJ;
-	Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
-	
+
+	MatrixXd Q2 = ID_MATRIX_NJ - pinvJ; // Q2 will be needed for the tracking task.
 	partial_qdot = pinvJ * rdot;
+
+	// Store Q2 into a 1D vector so that it can be sent to the client in a Float64MultiArray object.
+	Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
+
+	// Fill response object.
 	res.qdot.velocity = vector<double> (partial_qdot.data(), partial_qdot.data() + partial_qdot.size());
 	res.Q2.data = vector<double> (Q2v.data(), Q2v.data() + Q2v.size());
-	/*clock_t end = clock();
+	
+	// Timing.
+	clock_t end = clock();
 	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	cout << "SFT TOOK " << elapsed_secs << " SECS" << endl;*/
-	return true;
+	cout << "SFT TOOK " << elapsed_secs << " SECS" << endl;
+
+	return true; // request successful
 }
 
+
+
+/*! Main function of the program.
+*/  
 int main(int argc,char **argv) {
-    ros::init(argc, argv, "safety_server");
-    ros::NodeHandle n;
+
+    ros::init(argc, argv, "safety_server"); // initialize node
+    ros::NodeHandle n; // define node handle
     int queSize = 10;
 	
 	// With sync:
@@ -128,10 +151,11 @@ int main(int argc,char **argv) {
   	sync.registerCallback(boost::bind(&safetyCallback, _1, _2));*/
 	
 	// Without sync:
-	ros::Subscriber sub1 = n.subscribe("cmdtopic", queSize, safetyCallbackq);
-    ros::Subscriber sub2 = n.subscribe("joint_vel", queSize, safetyCallbackqdot);
+	ros::Subscriber sub1 = n.subscribe("cmdtopic", queSize, safetyCallbackq); // subscribe to VREP
+    ros::Subscriber sub2 = n.subscribe("jointvel", queSize, safetyCallbackqdot); // subscribe to weighter
     
-	ros::ServiceServer service = n.advertiseService("safety", computePartialqdot);
+	ros::ServiceServer service = n.advertiseService("safety", computePartialqdot); // activate safety service
+
     cout << "SAFETY WILL NOW PROCEED TO SPIN" << endl;
     ros::spin();
     return 0;
