@@ -13,55 +13,38 @@
 
 /*! First step flag.*/
 bool firstStep = true;
-
 /*! Availability flag for Jacobian matrix.*/
 bool readyJ;
-
 /*! Availability flag for error vector.*/
 bool readyErr;
-
 /*! Availability flag for tracking signals.*/
 bool readyVwa;
-
 /*! Availability flag for joint velocities vector.*/
 bool readyqdot;
-
 /*! Current Jacobian matrix.*/
 MatrixXd J;
-
 /*! Current linear part of the Jacobian matrix.*/
 MatrixXd JL;
-
 /*! Current derivative of Jacobian matrix.*/
 MatrixXd JLdot;
-
 /*! Previous value of linear part of the Jacobian matrix.*/
 MatrixXd JLold;
-
 /*! Current linear error vector.*/
 VectorXd eta;
-
 /*! Current rotational error vector.*/
 VectorXd rho;
-
 /*! Current linear velocity error vector.*/
-VectorXd ni;
-
+VectorXd nu;
 /*! Current linear velocity vector.*/
 VectorXd v;
-
 /*! Current angular velocity vector.*/
 VectorXd w;
-
 /*! Current linear acceleration vector.*/
 VectorXd a;
-
 /*! Current joint velocities vector.*/
 VectorXd qdot;
-
 /*! Client object needed to perform service calls.*/
 ros::ServiceClient client;
-
 /*! Safety server object.*/
 math_pkg::Safety safeSrv;
 
@@ -87,7 +70,7 @@ void ikCallbackErr(const std_msgs::Float64MultiArray &msg)
 	vector<double> rcvdErr = msg.data;
 	rho = Map<VectorXd>(rcvdErr.data(),3);
 	eta = Map<VectorXd>(rcvdErr.data()+3,3);
-	ni = Map<VectorXd>(rcvdErr.data()+6,3);
+	nu = Map<VectorXd>(rcvdErr.data()+6,3);
 	readyErr = true;
 }
 
@@ -146,7 +129,7 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		// Compute the non-optimized joint velocities.
 		VectorXd qdot1; // will contain qdot computed according to closed loop IK first order.
 		VectorXd qdot2; // will contain qdot computed according to closed loop IK second order.
-		computeqdot(partialqdot,Q2,J,JL,JLdot,qdot,eta,rho,ni,v,w,a,qdot1,qdot2);
+		computeqdot(partialqdot,Q2,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2);
 		JLold = JL; // update JLold
 
 		// Fill response objects.
