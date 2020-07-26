@@ -2,17 +2,18 @@
 
 import rospy
 import numpy as np
-from rospy.numpy_msg import numpy_msg
-from rospy_tutorials.msg import Floats
+##from rospy.numpy_msg import numpy_msg
+##from rospy_tutorials.msg import Floats
 from threading import Lock
-from sensor_msgs.msg import JointState
+from sensor_msgs.msg import JointState, Float64MultiArray
 import T_computations as t
 import J_computations as j
 
 # GLOBAL VARIABLES
 
-pub_err = rospy.Publisher('Data_for_errors', numpy_msg(Floats), queue_size=10)
-pub_track = rospy.Publisher('tracking', numpy_msg(Floats), queue_size=10)
+pub_err = rospy.Publisher('Data_for_errors', Float64MultiArray, queue_size=10)
+pub_track = rospy.Publisher('tracking', Float64MultiArray, queue_size=10)
+pub_jac = rospy.Publisher('jacobian', Float64MultiArray, queue_size=10)
 
 mutex = Lock()
 
@@ -90,27 +91,54 @@ a_imu_inert = np.zeros((3,1))
 omega_0e = np.zeros((3,1))
 a_0e = np.zeros((3,1))
 
+def init_float64_multiarray(rows,columns):
+    """!
+    Function that initializes a Float64MultiArray of size rows x columns.
+    @param rows: Number of rows of the returned multiarray.
+    @param columns: Number of columns of the returned multiarray.
+    @return empty Float64MultiArray instance.
+    """
+    a = Float64MultiArray()
+    a.layout.dim.append(MultiArrayDimension())
+    a.layout.dim.append(MultiArrayDimension())
+    a.layout.dim[0].label ="rows"
+    a.layout.dim[0].size = rows
+    a.layout.dim[1].label ="columns"
+    a.layout.dim[1].size = columns
+    return a
+
 def main_callback():
 
     ######################################################################
     # Entry point when receveing all the data, from smart and baxter.
-    global x_0e_kmin1B, x_0e_k, v_0e_kmin1B, v_0e_k, a_0e, omega_0e, R0e_kmin1, R0e_k
+    global x_0e_kmin1B, x_0e_k, v_0e_kmin1B, v_0e_k, a_0e, omega_0e, R0e_kmin1, R0e_k, Jkmin1
 
+    ################################
+    # Send Jacobian matrix
+    ################################
+    J = init_float64_multiarray(6, 7)
+    J.data = Jkmin1
+    pub_jack.publish(J)
+    
     ################################
     # Send to Error block the data
     ################################
 
     # Send R0e_k, R0e_kmin1; x_0e_k, x_0e_kmin1B; v_0e_k, v_0e_kmin1B;
-    Rg_Re_xg_xe_vg_ve = np.array([R0e_k[0][0], R0e_k[0][1], R0e_k[0][2], R0e_k[1][0], R0e_k[1][1], R0e_k[1][2], R0e_k[2][0], R0e_k[2][1], R0e_k[2][2], R0e_kmin1[0][0], R0e_kmin1[0][1], R0e_kmin1[0][2], R0e_kmin1[1][0], R0e_kmin1[1][1], R0e_kmin1[1][2], R0e_kmin1[2][0], R0e_kmin1[2][1], R0e_kmin1[2][2], x_0e_k[0][0], x_0e_k[1][0], x_0e_k[2][0], x_0e_kmin1B[0][0], x_0e_kmin1B[1][0], x_0e_kmin1B[2][0], v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], v_0e_kmin1B[0][0], v_0e_kmin1B[1][0], v_0e_kmin1B[2][0]], dtype=np.float32)
-    pub_err.publish(Rg_Re_xg_xe_vg_ve)
+    Rg_Re_xg_xe_vg_ve = np.array([R0e_k[0][0], R0e_k[0][1], R0e_k[0][2], R0e_k[1][0], R0e_k[1][1], R0e_k[1][2], R0e_k[2][0], R0e_k[2][1], R0e_k[2][2], R0e_kmin1[0][0], R0e_kmin1[0][1], R0e_kmin1[0][2], R0e_kmin1[1][0], R0e_kmin1[1][1], R0e_kmin1[1][2], R0e_kmin1[2][0], R0e_kmin1[2][1], R0e_kmin1[2][2], x_0e_k[0][0], x_0e_k[1][0], x_0e_k[2][0], x_0e_kmin1B[0][0], x_0e_kmin1B[1][0], x_0e_kmin1B[2][0], v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], v_0e_kmin1B[0][0], v_0e_kmin1B[1][0], v_0e_kmin1B[2][0]], dtype=np.float64)
+    R_x_v = init_float64_multiarray(30, 1)
+    R_x_v.data = Rg_Re_xg_xe_vg_ve
+    pub_err.publish(R_x_v)
 
     ################################
     # Send to Math block the data.
     ################################
 
     # send v_0e_k, omega_0e, a_0e
-    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float32)
-    pub_track.publish(vg_omega_a)
+    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float64)
+    v_w_a = init_float64_multiarray(9, 1)
+    v_w_a.data = vg_omega_a
+    pub_track.publish(v_w_a)
     
 
 def baxter_callback(data):
@@ -136,8 +164,7 @@ def baxter_callback(data):
     geom = j.geometric_vectors(T_abs_kmin1)
 
     # jacobian computation
-    Js = j.jacob(geom[0], geom[1], n_joints, info)
-    Jkmin1 = Js[0]
+    Jkmin1 = j.jacob(geom[0], geom[1], n_joints, info)
 
     # Transformation matrix from 0 to end effector at time k
     T0e_kmin1 = T_abs_kmin1[7]
@@ -185,7 +212,7 @@ def dot_callback(data):
     # baxter's arm.
     ###################################################################################
 
-    q_dot = np.float32(np.array([data.velocity]).transpose())
+    q_dot = np.array([data.velocity]).transpose()
 
     mutex.acquire()
     try:

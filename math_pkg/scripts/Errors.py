@@ -2,11 +2,10 @@
 
 import numpy as np
 import rospy
-from rospy_tutorials.msg import Floats
-from rospy.numpy_msg import numpy_msg
+from sensor_msgs.msg import Float64MultiArray
 
 # Initialization of publisher
-pub = rospy.Publisher('errors', numpy_msg(Floats), queue_size=10)
+pub = rospy.Publisher('errors', Float64MultiArray, queue_size=10)
 
 # Initialization of Goal and e.e. orientation matrices.
 Rg = np.zeros((3,3))
@@ -18,6 +17,22 @@ xe = np.zeros((3,1))
 
 vg = np.zeros((3,1))
 ve = np.zeros((3,1))
+
+def init_float64_multiarray(rows,columns):
+    """!
+    Function that initializes a Float64MultiArray of size rows x columns.
+    @param rows: Number of rows of the returned multiarray.
+    @param columns: Number of columns of the returned multiarray.
+    @return empty Float64MultiArray instance.
+    """
+    a = Float64MultiArray()
+    a.layout.dim.append(MultiArrayDimension())
+    a.layout.dim.append(MultiArrayDimension())
+    a.layout.dim[0].label ="rows"
+    a.layout.dim[0].size = rows
+    a.layout.dim[1].label ="columns"
+    a.layout.dim[1].size = columns
+    return a
 
 ## Computes the angular misalingment of goal frame and e.e. frame
 def ang_mis(Rg, Re):
@@ -122,8 +137,9 @@ def errors(data):
 
   # Send rho, eta, ni
   err = np.array([rho[0], rho[1], rho[2], eta[0], eta[1], eta[2], ni[0], ni[1], ni[2]], dtype=np.float32)
-
-  pub.publish(err)
+  errors = init_float64_multiarray(6, 1)
+  errors.data = err
+  pub.publish(errors)
 
 
 def listener():
@@ -141,7 +157,7 @@ def listener():
     rospy.init_node('listener', anonymous=True)
 
     # errors is the callback functions
-    rospy.Subscriber("Data_for_errors", numpy_msg(Floats), errors)
+    rospy.Subscriber("Data_for_errors", Float64MultiArray, errors)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()  
