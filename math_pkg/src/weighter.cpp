@@ -10,67 +10,127 @@
 
 #include <ctime>
 
+/*! Client objects needed for service calls.*/
 ros::ServiceClient clients[NUM_IK_SERVICES];
+
+/*! Cost server object.*/ // will also need transp, analytic
 math_pkg::Cost costSrv;
-//vector<double> qdots[NUM_IK_SOLUTIONS];
 
 
-void getAllqdots(vector<double> qdots[], bool obtained[]) {
-	bool costObtained;
+/*! Function that calls all the invkin modules and retrieves the computed joint velocities.
+    \param qdots Vector that will contain the computed qdots, to be filled.
+	\param obtained Vector that at position i contains a boolean that is true if i-th solution was retrieved, false otherwise.
+	\return number of retrieved velocities vectors.
+*/
+int getAllqdots(vector<double> qdots[], bool obtained[]) {
+	bool costObtained; // will be true if call to Cost service will succeed.
+	bool transpObtained; // same with Jtra
+	bool sixDofsObtained; // same with J6dofs
+
+	int num_obtained = 0; // initialization
+	// Each service call is performed in parallel.
 	#pragma omp sections
 	{
    		#pragma omp section
    		{
-			   costObtained = clients[0].call(costSrv);
+			   costObtained = clients[0].call(costSrv); // call service Cost
    		}
    		#pragma omp section
-		{} // call to analytic
+		{
+			 // call to analytic
+		}
 
    		#pragma omp section
-		{} // call to transp
+		{ 
+			// call to transp
+		}
 	}
-   	if (costObtained) {
-		qdots[0] = costSrv.response.qdot1opt1.velocity;
-		qdots[1] = costSrv.response.qdot1opt2.velocity;
-		qdots[2] = costSrv.response.qdot2opt1.velocity;
-		qdots[3] = costSrv.response.qdot2opt2.velocity;
+   	if (costObtained) { // store solutions obtained from Cost and update num_obtained
+		qdots[2] = costSrv.response.qdot1opt1.velocity;
+		qdots[3] = costSrv.response.qdot1opt2.velocity;
+		qdots[4] = costSrv.response.qdot2opt1.velocity;
+		qdots[5] = costSrv.response.qdot2opt2.velocity;
+		num_obtained = num_obtained + 4;
 	}
-	else {
-		// ROS ERROR... domani
-	}
-	for (int i = 0; i < NUM_OPTIMIZED_SOLUTIONS; i++) {
+	else ROS_ERROR("Call to Cost service failed.");
+	if (transpObtained) {}
+	else ROS_ERROR("Call to Jtra service failed.");
+	if (sixDofsObtained) {}
+	else ROS_ERROR("Call to J6dofs service failed.");
+
+	for (int i = 2; i < NUM_IK_SOLUTIONS; i++) {
 		obtained[i] = costObtained;
 	}
+
+	// temp:
+	obtained[0] = false;
+	obtained[1] = false;
+
+	return num_obtained;
 }
 
 
-sensor_msgs::JointState computeWeightedqdot() {
-	vector<double> finalqdot(NJOINTS,0);
-	sensor_msgs::JointState finalqdotState;
-	bool obt[NUM_IK_SOLUTIONS];
-	vector<double> qdots[NUM_IK_SOLUTIONS];
-	getAllqdots(qdots,obt);
-	double weight;
-	for (int i = 0; i < NUM_IK_SOLUTIONS; i++) {
-		if (obt[i]) {
-			weight = WEIGHTS[i];
-			transform(qdots[i].begin(), qdots[i].end(), qdots[i].begin(), [&weight](double& c){return c*weight;});
-			transform(qdots[i].begin(), qdots[i].end(), finalqdot.begin(), finalqdot.begin(), std::plus<double>());
+
+/*! Service function for the Safety service, which computes the partial joint velocities based on the safety task.
+    \return JointState object to be published, containing the weighted joint velocities vector.
+*/
+JointState computeWeightedqdot() {
+	sensor_msgs::JointState finalqdotState; // initialize object to be published
+	vector<double> finalqdot(NJOINTS,0); // initialize content of object to be published
+	vector<double> qdots[NUM_IK_SOLUTIONS]; // will contain all qdots computed by the invkin services
+	bool obt[NUM_IK_SOLUTIONS]; // i-th element is true if i-th solution was obtained, false otherwise
+	int num_obtained = getAllqdots(qdots,obt); // get all computed qdots
+	
+	vector<double> tempqdot(NJOINTS,0); // store here temporary qdot vectors
+	double weight; // will contain vector weight at each iteration
+	double residual = 0;
+	bool badMissedAndCostOk = false;
+	int firstReceivedIdx = -1;
+	for (short i = 0; i < NUM_IK_SOLUTIONS; i++) { // for all solutions
+		weight = WEIGHTS[i];
+		if (obt[i]) { // if it was obtained
+			if (firstReceivedIdx == -1) firstReceivedIdx = i; // store first obtained solution
+			if (!badMissedAndCostOk && i>1 && residual>0) badMissedAndCostOk = true; // if at least one bad one was missed but not the COST ones
+			if (badMissedAndCostOk) weight = weight + residual / 4; // distribute the lost weight over the COST solutions
+			
+			// Store the i-th vel vector times weight into tempqdot. I.e., tempqdot = weight * qdots[i].
+			transform(qdots[i].begin(), qdots[i].end(), tempqdot.begin(), [&weight](double& c){return c*weight;});
+
+			// Add up finalqdot and the weighted i-th vector (in tempqdot) and store the result in finalqdot. I.e., finalqdot = tempqdot + finalqdot.
+			transform(tempqdot.begin(), tempqdot.end(), finalqdot.begin(), finalqdot.begin(), std::plus<double>());
 		}
+		else residual = residual + weight;
 	}
-	finalqdotState.velocity = finalqdot;
+
+	// If some solution was obtained, some weights were lost AND the COST solutions were not obtained.
+	if (firstReceivedIdx >= 0 && residual > 0 && !badMissedAndCostOk) {
+			// Store the firstReceivedIdx-th vel vector times residual into tempqdot. I.e., tempqdot = residual * qdots[firstReceivedIdx].
+			transform(qdots[firstReceivedIdx].begin(), qdots[firstReceivedIdx].end(), tempqdot.begin(), [&residual](double& c){return c*residual;});
+
+			/* Add up finalqdot and the firstReceivedIdx-th vector weighted by residual and store the result in finalqdot.
+			   I.e., finalqdot = tempqdot + finalqdot. */
+			transform(tempqdot.begin(), tempqdot.end(), finalqdot.begin(), finalqdot.begin(), std::plus<double>());
+		
+	}
+
+	finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
+	//printVectord(finalqdot);
 	return finalqdotState;
 }
 
 
+
+/*! Main function of the node.
+*/  
 int main(int argc,char **argv) {
-    ros::init(argc, argv, "weighter");
-    ros::NodeHandle n;
+    ros::init(argc, argv, "weighter"); // initialize node
+    ros::NodeHandle n; // define node handle
 
     int queSize = 10;
-    ros::Publisher pub = n.advertise<sensor_msgs::JointState>("jointvel", queSize);
-    ros::Rate loopRate(1/DT);
+    ros::Publisher pub = n.advertise<sensor_msgs::JointState>("jointvel", queSize); // activate qdot publisher
+    ros::Rate loopRate(1/DT); // define publishing rate
 
+	// This node acts as a client for three services.
     clients[0] = n.serviceClient<math_pkg::Cost>("cost");
     //clients[1] = n.serviceClient<math_pkg::IK>("");
     //clients[2] = n.serviceClient<math_pkg::IK>("");
@@ -78,11 +138,14 @@ int main(int argc,char **argv) {
     cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
 
     while (ros::ok()) {
-		clock_t begin = clock();
-    	pub.publish(computeWeightedqdot());
-		clock_t end = clock();
+		//clock_t begin = clock(); // timing
+    	pub.publish(computeWeightedqdot()); // publish weighted qdot
+
+		// Timing
+		/*clock_t end = clock();
 		double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-		cout << "TOOK " << elapsed_secs << " SECS" << endl;
+		cout << "TOOK " << elapsed_secs << " SECS" << endl;*/
+
     	ros::spinOnce();
     	loopRate.sleep();
     }
