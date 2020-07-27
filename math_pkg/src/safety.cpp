@@ -145,8 +145,8 @@ int main(int argc,char **argv) {
   	sync.registerCallback(boost::bind(&safetyCallback, _1, _2));*/
 	
 	// Without sync:
-	ros::Subscriber sub1 = n.subscribe("cmdtopic", queSize, safetyCallbackq); // subscribe to VREP
-    ros::Subscriber sub2 = n.subscribe("jointvel", queSize, safetyCallbackqdot); // subscribe to weighter
+	ros::Subscriber sub1 = n.subscribe("logtopic", queSize, safetyCallbackq); // subscribe to VREP
+    ros::Subscriber sub2 = n.subscribe("cmdtopic", queSize, safetyCallbackqdot); // subscribe to weighter
     
 	ros::ServiceServer service = n.advertiseService("safety", computePartialqdot); // activate safety service
 

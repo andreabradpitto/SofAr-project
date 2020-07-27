@@ -54,7 +54,8 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 		qdots[5] = costSrv.response.qdot2opt2.velocity;
 		num_obtained = num_obtained + 4;
 	}
-	else ROS_ERROR("Call to Cost service failed.");
+	else
+		ROS_ERROR("Call to Cost service failed.");
 	if (transpObtained) {}
 	else ROS_ERROR("Call to Jtra service failed.");
 	if (sixDofsObtained) {}
@@ -129,7 +130,7 @@ int main(int argc,char **argv) {
     ros::NodeHandle n; // define node handle
 
     int queSize = 10;
-    ros::Publisher pub = n.advertise<sensor_msgs::JointState>("jointvel", queSize); // activate qdot publisher
+    ros::Publisher pub = n.advertise<sensor_msgs::JointState>("cmdtopic", queSize); // activate qdot publisher
     ros::Rate loopRate(1/DT); // define publishing rate
 
 	// This node acts as a client for three services.
@@ -140,13 +141,13 @@ int main(int argc,char **argv) {
     cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
 
     while (ros::ok()) {
-		//clock_t begin = clock(); // timing
+		clock_t begin = clock(); // timing
     	pub.publish(computeWeightedqdot()); // publish weighted qdot
 
 		// Timing
-		/*clock_t end = clock();
+		clock_t end = clock();
 		double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-		cout << "TOOK " << elapsed_secs << " SECS" << endl;*/
+		cout << "TOOK " << elapsed_secs << " SECS" << endl;
 
     	ros::spinOnce();
     	loopRate.sleep();
