@@ -1,12 +1,15 @@
+#!/usr/bin/env python
+
 import numpy as np
 
 p = np.pi
 
-## Computes the transformation matrices given the DH table of the serial link.
-#
-#
 def DH_to_T(DH):
-  pass
+  """!
+  Computes the transformation matrices given the DH table of the serial link.
+  @param DH: devavitt-hartemberg parameters.
+  @return T: transformation matrices of a joint with respect to previous joint.
+  """
   # Get the number of rows, to know how many T matrices should create.
   rows = len(DH)
 
@@ -21,11 +24,15 @@ def DH_to_T(DH):
 
   return T
 
-## Computes tranformations given T_relative, q's and the info.
-#
-#
 def transformations(T_rel_ini, q, info):
-  pass
+  """!
+  Computes tranformations given T_relatives, q's and the info.
+  @param T_rel_ini: the ones computed with DH_to_T.
+  @param q: current configuration of baxter's arm.
+  @param info: 1->revolute, 0->prismatic.
+  @return T: transformation matrices of a joint with respect to previous joint in
+  the new configuration.
+  """
   row_q = q.size
   row_info = info.size
 
@@ -56,11 +63,12 @@ def transformations(T_rel_ini, q, info):
 
   return T
   
-## Computes trasformations matrices w.r.t. 0 frame.
-#
-#
 def abs_trans(T_rel):
-  pass
+  """!
+  Computes trasformations matrices w.r.t. 0 frame.
+  @param T_rel: trasformation matrices of a joint with respect to previous one.
+  @return T: absolute transformation matrices.
+  """
   T = []
   # First is the same.
   T.append(T_rel[0])

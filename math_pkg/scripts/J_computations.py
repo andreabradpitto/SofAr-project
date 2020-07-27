@@ -1,10 +1,11 @@
 import numpy as np
 
-## Computes the vectors needed to compute geometric jacobian.
-#
-#
 def geometric_vectors(T_abs):
-  pass
+  """!
+  Computes the vectors needed to compute geometric jacobian.
+  @param Tabs: the transformation matrices from joint to 0 frame in current configuration
+  @return geom_v: geometric vectors exctracted from Tabs that allow to compute the jacobian.
+  """
   r = []
   k = []
   geom_v = []
@@ -25,10 +26,16 @@ def geometric_vectors(T_abs):
 
   return geom_v
 
-## Computes jacobians.
-#
 def jacob(k, r, n_joints, info):
-  pass
+  """!
+  Computes the jacobian matrix given the geometric vectors, number of joints and info.
+  @param k: versors of axis z of the joints projected on 0.
+  @param r: distance between joints and e.e. projected on 0.
+  @param n_joints: explains it self.
+  @param info: 1->revolute, 0->prismatic. In case there is a change in the serial chain the algorithm still works.
+  @return J: jacobian matrix.
+  """
+  
   Ja = np.array([[],
                  [],
                  []])
