@@ -2,10 +2,11 @@
 
 import rospy
 import numpy as np
-##from rospy.numpy_msg import numpy_msg
-##from rospy_tutorials.msg import Floats
+from rospy.numpy_msg import numpy_msg
+from rospy_tutorials.msg import Floats
 from threading import Lock
-from sensor_msgs.msg import JointState, Float64MultiArray
+from sensor_msgs.msg import JointState
+from std_msgs.msg import Float64MultiArray
 import T_computations as t
 import J_computations as j
 
@@ -311,8 +312,8 @@ def subs():
 
     # Receive data from smartphone and baxter.
     rospy.Subscriber("smart_data", numpy_msg(Floats), smart_callback)
-    rospy.Subscriber("baxter_data", numpy_msg(Floats), baxter_callback)
-    rospy.Subscriber("jointvel", sensor_msgs/JointState, dot_callback)
+    rospy.Subscriber("cmdtopic", JointState, baxter_callback)
+    rospy.Subscriber("jointvel", JointState, dot_callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()  
