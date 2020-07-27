@@ -1,9 +1,0 @@
-t0 FKINE manda condizioni iniziali
-t1 WEIGHTER manda qdot
-t2 VREP manda q
-// end loop
-t3 SMART manda segnali
-t4 FKINE manda roba
-ecc
-
-safety,ik,cost -> test_publisher -> forward kine -> errors -> weighter -> vrep
