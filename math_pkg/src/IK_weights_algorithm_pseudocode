@@ -1,0 +1,28 @@
+weights = [w1,...,w6]
+qdots = ... // Contains: 6dofs->transp->cost11->cost12->cost21->cost22
+obt = ...
+residual = 0 // sum of weights from qdots not obtained
+finalqdot = vector of 0s // initialize
+badMissedAndCostOk = false // becomes true when some bad solution is missed and COST solutions are not missed
+firstReceivedIdx = -1 // will contain index of first obtained vector
+
+for all solutions do
+    weight = weights(i)
+    if solution was obtained
+        if firstReceivedIdx == -1 then // if you receive something store its index into firstReceivedIdx
+            firstReceivedIdx = solution index // this guarantees that this if is entered once at most
+        endif
+        if NOT badMissedAndCostOk AND i > 1 (i.e. if this is a COST solution) AND residual > 0 (i.e. some bad solution was missed) then
+            badMissedAndCostOk = true
+        endif // this if will be entered only for solution of index 2, or never
+        if badMissedAndCostOk then weight = weight + residual / 4 endif // if some bad solution was missed, add up the residual to each COST solution
+
+        finalqdot = finalqdot + weight * qdots(i)
+    else
+        residual = residual + weight
+    endif
+endfor
+
+if firstReceivedIdx >= 0 AND residual > 0 AND NOT badMissedAndCostOk then // COST solution was missed, and also, at most, one bad solution
+    finalqdot = finalqdot + residual * qdots(firstReceivedIdx)
+endif

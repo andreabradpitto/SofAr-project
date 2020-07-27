@@ -114,7 +114,7 @@ int main(int argc,char **argv) {
     
     client = n.serviceClient<math_pkg::IK>("ik"); // Cost is a client of IK
 
-    cout << "COST WILL NOW PROCEED TO SPIN" << endl;
+    cout << "COST WILL NOW PROCEEDTO SPIN" << endl;
     ros::spin();
     return 0;
 }

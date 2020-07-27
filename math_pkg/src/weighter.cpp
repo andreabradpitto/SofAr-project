@@ -139,18 +139,24 @@ int main(int argc,char **argv) {
     //clients[2] = n.serviceClient<math_pkg::IK>("");
 
     cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
+	vector<double> tosendTestV(NJOINTS,0);
+	sensor_msgs::JointState toSendTest; // initialize object to be published
+	toSendTest.velocity = tosendTestV;
+	toSendTest.header.stamp = ros::Time::now();
+	pub.publish(toSendTest);
+    loopRate.sleep();
 
     while (ros::ok()) {
-		clock_t begin = clock(); // timing
+		//clock_t begin = clock(); // timing
+		ROS_ERROR("NOT AN ERROR");
     	pub.publish(computeWeightedqdot()); // publish weighted qdot
-
-		// Timing
-		clock_t end = clock();
-		double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-		cout << "TOOK " << elapsed_secs << " SECS" << endl;
 
     	ros::spinOnce();
     	loopRate.sleep();
+		
+		/*clock_t end = clock();
+		double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+		cout << "TOOK " << elapsed_secs << " SECS" << endl;*/
     }
 
     return 0;
