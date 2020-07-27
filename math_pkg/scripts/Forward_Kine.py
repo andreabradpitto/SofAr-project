@@ -116,8 +116,8 @@ def main_callback():
     ################################
     # Send Jacobian matrix
     ################################
-    J = init_float64_multiarray(6, 7)
-    J.data = Jkmin1
+    J = init_float64_multiarray(6*7, 1)
+    J.data = Jkmin1.reshape(6*7, 1)
     pub_jack.publish(J)
     
     ################################
