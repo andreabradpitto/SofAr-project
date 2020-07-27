@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['euleranglestorotationmatrix_20',['eulerAnglesToRotationMatrix',['../namespacerotation__matrix__server.html#a7aaa0fb233a7f3aaaac351a1a8cd3ce3',1,'rotation_matrix_server.eulerAnglesToRotationMatrix()'],['../namespacerotationMatrix.html#a7f8d3827495420668caab145a56230a0',1,'rotationMatrix.eulerAnglesToRotationMatrix()']]]
+  ['datafileinitializer_17',['dataFileInitializer',['../namespaceremove__gravity.html#a304df591bc9dd5072788d88770bbbb1f',1,'remove_gravity']]]
 ];

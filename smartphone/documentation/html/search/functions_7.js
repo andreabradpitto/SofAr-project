@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['talker_27',['talker',['../namespaceremove__gravity.html#addf2f2069d8ea3a3f83537211f7df6fe',1,'remove_gravity']]]
+  ['storedatainfiles_22',['storeDataInFiles',['../namespaceremove__gravity.html#af859cf7f76b9a272f69cf489b1649c27',1,'remove_gravity']]]
 ];

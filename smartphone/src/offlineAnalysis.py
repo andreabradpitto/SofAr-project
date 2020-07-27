@@ -12,11 +12,11 @@ import pandas as pd
 import os
 
 script_dir = os.path.dirname(__file__)  # absolute directory the script is in
-rel_path1 = "output/lin_acc.csv"
+rel_path1 = "../output/lin_acc.csv"
 abs_file_path1 = os.path.join(script_dir, rel_path1)
-rel_path2 = "output/orientation.csv"
+rel_path2 = "../output/orientation.csv"
 abs_file_path2 = os.path.join(script_dir, rel_path2)
-rel_path3 = "output/angVel.csv"
+rel_path3 = "../output/angVel.csv"
 abs_file_path3 = os.path.join(script_dir, rel_path3)
 
 font = {'family': 'serif',

@@ -2,7 +2,8 @@
 
 """
 Documentation for the gravity removal tool
-This is the main piece of code of the subproject: it handles the problem of the removal of Earth gravity, while also 
+This is the main piece of code of the subproject: it handles the problem of the removal of Earth gravity.
+This code block receives incoming Imu sensor data, performs the gravity removal, and then publishes the modified data on a topic
 """
 
 import rospy
@@ -17,19 +18,26 @@ from geometry_msgs.msg import Vector3
 from datetime import datetime
 
 script_dir = os.path.dirname(__file__)  # absolute directory the script is in
-rel_path1 = "output/lin_acc.csv"
+rel_path1 = "../output/lin_acc.csv"
 abs_file_path1 = os.path.join(script_dir, rel_path1)
-rel_path2 = "output/orientation.csv"
+rel_path2 = "../output/orientation.csv"
 abs_file_path2 = os.path.join(script_dir, rel_path2)
-rel_path3 = "output/angVel.csv"
+rel_path3 = "../output/angVel.csv"
 abs_file_path3 = os.path.join(script_dir, rel_path3)
 
 # flags used to turn on features
 # flagWriteData = 1 means to store simple data received from imu, after gravity removal
 flagWriteData = 1
 index = 1  # used to store data for offline analysis
+fileSet = 0  # used to ackowledge whether the output files have been already initialized or not
 
-if flagWriteData == 1:
+
+def dataFileInitializer():
+    """!
+    Function used initialize the files in which sensor data will be stored; it will generate three files in the 'output' folder
+    """
+    global fileSet
+
     # initialize files to store data
     with open(abs_file_path1, 'w') as file:
         writer = csv.writer(file)
@@ -42,6 +50,8 @@ if flagWriteData == 1:
     with open(abs_file_path3, 'w') as file:
         writer = csv.writer(file)
         writer.writerow(["", "X", "Y", "Z"])
+
+    fileSet = 1
 
 
 def anglesCompensate(angles):
@@ -105,7 +115,7 @@ def callback(data):
     it translates incoming quaternions into euler angles beforehand
     @param data incoming from the imu sensor
     """
-    global index, header
+    global index, fileSet
 
     # get data
     orientation = [data.orientation.x, data.orientation.y,
@@ -124,6 +134,9 @@ def callback(data):
     rot_matrix = eulerAnglesToRotationMatrix(angles)
 
     lin_acc_no_g = removeGravity(linear_acceleration, rot_matrix)
+
+    if fileSet == 0:
+        dataFileInitializer()
 
     if flagWriteData == 1:
         # store data into .csv files in order to analyse them offline
@@ -182,5 +195,4 @@ if __name__ == '__main__':
     """!
     Main function
     """
-
     listener()
