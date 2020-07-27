@@ -4,6 +4,7 @@
 #include <iostream>
 #include "math_pkg/Cost.h"
 #include "math_pkg/IK.h"
+#include "math_pkg/IK_Jtra.h"
 #include "math_pkg/Safety.h"
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
@@ -18,6 +19,9 @@ ros::ServiceClient clients[NUM_IK_SERVICES];
 /*! Cost server object.*/ // will also need transp, analytic
 math_pkg::Cost costSrv;
 
+/* Transpose server object.*/
+math_pkg::IK_Jtra traSrv;
+
 
 /*! Function that calls all the invkin modules and retrieves the computed joint velocities.
     \param qdots Vector that will contain the computed qdots, to be filled.
@@ -26,7 +30,6 @@ math_pkg::Cost costSrv;
 */
 int getAllqdots(vector<double> qdots[], bool obtained[]) {
 	bool costObtained; // will be true if call to Cost service will succeed.
-	bool transpObtained=true; // same with Jtra
 	bool sixDofsObtained=true; // same with J6dofs
 
 	int num_obtained = 0; // initialization
@@ -35,11 +38,11 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 	{
    		#pragma omp section
    		{
-			   costObtained = clients[0].call(costSrv); // call service Cost
+			costObtained = clients[0].call(costSrv); // call service Cost
    		}
    		#pragma omp section
 		{
-			 // call to analytic
+			obtained[0] = clients[1].call(traSrv);
 		}
 
    		#pragma omp section
@@ -56,7 +59,10 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 	}
 	else
 		ROS_ERROR("Call to Cost service failed.");
-	if (transpObtained) {}
+	if (obtained[0]) {
+		qdots[0] = traSrv.response.q_dot.velocity;
+		num_obtained++;
+	}
 	else ROS_ERROR("Call to Jtra service failed.");
 	if (sixDofsObtained) {}
 	else ROS_ERROR("Call to J6dofs service failed.");
@@ -66,8 +72,10 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 	}
 
 	// temp:
-	obtained[0] = false;
-	obtained[1] = false;
+	obtained[1] = false; // 6 dofs, waiting...
+
+	// Debug
+	if (obtained[0]) ROS_ERROR("NOT AN ERROR, TRANSPOSE OK");
 
 	return num_obtained;
 }
@@ -135,28 +143,28 @@ int main(int argc,char **argv) {
 
 	// This node acts as a client for three services.
     clients[0] = n.serviceClient<math_pkg::Cost>("cost");
-    //clients[1] = n.serviceClient<math_pkg::IK>("");
+    clients[1] = n.serviceClient<math_pkg::IK_Jtra>("IK_Jtransp");
     //clients[2] = n.serviceClient<math_pkg::IK>("");
 
     cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
-	vector<double> tosendTestV(NJOINTS,0);
-	sensor_msgs::JointState toSendTest; // initialize object to be published
-	toSendTest.velocity = tosendTestV;
-	toSendTest.header.stamp = ros::Time::now();
-	pub.publish(toSendTest);
+	vector<double> tosendFirstV(NJOINTS,0);
+	sensor_msgs::JointState toSendFirst; // initialize object to be published
+	toSendFirst.velocity = tosendFirstV;
+	toSendFirst.header.stamp = ros::Time::now();
+	pub.publish(toSendFirst);
     loopRate.sleep();
 
     while (ros::ok()) {
-		//clock_t begin = clock(); // timing
+		clock_t begin = clock(); // timing
 		ROS_ERROR("NOT AN ERROR");
     	pub.publish(computeWeightedqdot()); // publish weighted qdot
 
     	ros::spinOnce();
     	loopRate.sleep();
 		
-		/*clock_t end = clock();
+		clock_t end = clock();
 		double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-		cout << "TOOK " << elapsed_secs << " SECS" << endl;*/
+		ROS_ERROR("%f",elapsed_secs);
     }
 
     return 0;
