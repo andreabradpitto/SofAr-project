@@ -3,15 +3,16 @@
 import numpy as np
 import rospy
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension
+import time
 
 # Initialization of publisher
 pub = rospy.Publisher('errors', Float64MultiArray, queue_size=10)
 
-# Initialization of Goal and e.e. orientation matrices.
+# Initialization of goal and e.e. orientation matrices.
 Rg = np.zeros((3,3))
 Re = np.zeros((3,3))
 
-# Initialization of Goad and e.e. position and velocity vectors
+# Initialization of goal and e.e. position and velocity vectors
 xg = np.zeros((3,1))
 xe = np.zeros((3,1))
 
@@ -34,112 +35,125 @@ def init_float64_multiarray(rows,columns):
     a.layout.dim[1].size = columns
     return a
 
-## Computes the angular misalingment of goal frame and e.e. frame
 def ang_mis(Rg, Re):
-  
-  i = np.transpose(np.array([[1, 0, 0]]))
-  j = np.transpose(np.array([[0, 1, 0]]))
-  k = np.transpose(np.array([[0, 0, 1]]))
+    """!
+    Computes the angular misalignment between goal frame and e.e. frame.
+    @param Rg: goal orientation matrix.
+    @param Re: end effector orientation matrix.
+    @return misalignment vector.
+    """
 
-  skew_i = np.array([[0, 0, 0],
+    i = np.transpose(np.array([[1, 0, 0]]))
+    j = np.transpose(np.array([[0, 1, 0]]))
+    k = np.transpose(np.array([[0, 0, 1]]))
+
+    skew_i = np.array([[0, 0, 0],
                      [0, 0, -1],
                      [0, 1, 0]])
 
-  skew_j = np.array([[0, 0, 1],
+    skew_j = np.array([[0, 0, 1],
                      [0, 0, 0],
                      [-1, 0, 0]])
-  
-  skew_k = np.array([[0, -1, 0],
+
+    skew_k = np.array([[0, -1, 0],
                      [1, 0, 0],
                      [0, 0, 0]])
 
-  # this term equals 1 + 2cos(theta), with theta the misalignement angle
-  summ = np.dot(np.transpose(np.dot(Re, i)), np.dot(Rg, i)) + np.dot(np.transpose(np.dot(Re, j)), np.dot(Rg, j)) + np.dot(np.transpose(np.dot(Re, k)), np.dot(Rg, k))
+    # this term equals 1 + 2cos(theta), with theta the misalignement angle
+    summ = np.dot(np.transpose(np.dot(Re, i)), np.dot(Rg, i)) + np.dot(np.transpose(np.dot(Re, j)), np.dot(Rg, j)) + np.dot(np.transpose(np.dot(Re, k)), np.dot(Rg, k))
 
-  Re_ = np.transpose(Re)
-  
-  # this term equals 2*v*sin(theta), with v the angular misalignement vector
-  prod = np.dot(np.dot(Re, np.dot(skew_i, Re_)), np.dot(Rg, i)) + np.dot(np.dot(Re, np.dot(skew_j, Re_)), np.dot(Rg, j)) + np.dot(np.dot(Re, np.dot(skew_k, Re_)), np.dot(Rg, k))
+    Re_ = np.transpose(Re)
 
-  delta = (summ - 1)/2 # = cos(theta)
+    # this term equals 2*v*sin(theta), with v the angular misalignement vector
+    prod = np.dot(np.dot(Re, np.dot(skew_i, Re_)), np.dot(Rg, i)) + np.dot(np.dot(Re, np.dot(skew_j, Re_)), np.dot(Rg, j)) + np.dot(np.dot(Re, np.dot(skew_k, Re_)), np.dot(Rg, k))
 
-  if np.absolute(delta) < 1:
-    theta = np.arccos(delta)
-    v = prod/(2*np.sin(theta))
-    v = v/(np.linalg.norm(v))
-    rho = theta*v
-    
-    return rho
-  elif delta == 1:
-    # theta multiple of 2*k*pi
-    theta = 0
-    rho = np.array([[0, 0, 0]])
-    
-    return rho.transpose()
-  else:
-    theta = np.pi
-    summ1 = np.dot(Re, i) + np.dot(Re, j) + np.dot(Re, k) + np.dot(Rg, i) + np.dot(Rg, j) + np.dot(Rg, k)
-    v0 = summ1/(np.linalg.norm(summ1))
-    rho = theta*v0
-    
+    delta = (summ - 1)/2 # = cos(theta)
+
+    if np.absolute(delta) < 1:
+        theta = np.arccos(delta)
+        v = prod/(2*np.sin(theta))
+        v = v/(np.linalg.norm(v))
+        rho = theta*v
+    elif delta == 1:
+        # theta multiple of 2*k*pi
+        theta = 0
+        rho = np.array([[0, 0, 0]]).transpose()
+    else:
+        theta = np.pi
+        summ1 = np.dot(Re, i) + np.dot(Re, j) + np.dot(Re, k) + np.dot(Rg, i) + np.dot(Rg, j) + np.dot(Rg, k)
+        v0 = summ1/(np.linalg.norm(summ1))
+        rho = theta*v0
+
     return rho
 
 def errors(data):
+    """!
+    Computes the errors needed by the inverse kinematics algorithms. Specifically
+    it calculates the misaligned vector between the goal frame and e.e. frame, the
+    error due to the position of the two frames and also the error due to velocity
+    of the two frames.
+    @param data: vector coming from forward kinematics node. Constains rotation matrices,
+    vector positions and velocities.
+    """
 
-  Data = data.data
-  global Rg, Re, xg, xe, vg, ve
-  
-  # Moves along Data vector.
-  k = 0
-  
-  for i in range(3):
+    start = time.time()  
+    Data = data.data
+    global Rg, Re, xg, xe, vg, ve
+
+    # Moves along Data vector.
+    k = 0
+
+    for i in range(3):
     for j in range(3):
       Rg[i][j] = Data[k+j]
 
     k = k + 3
 
-  for i in range(3):
+    for i in range(3):
     for j in range(3):
       Re[i][j] = Data[k+j]
 
     k = k + 3
 
-  for i in range(3):
+    for i in range(3):
     xg[i][0] = Data[k+i]
 
-  k = k + 3
+    k = k + 3
 
-  for i in range(3):
+    for i in range(3):
     xe[i][0] = Data[k+i]
 
-  k = k + 3
+    k = k + 3
 
-  for i in range(3):
+    for i in range(3):
     vg[i][0] = Data[k+i]
 
-  k = k + 3
+    k = k + 3
 
-  for i in range(3):
+    for i in range(3):
     ve[i][0] = Data[k+i] 
 
-  # angular misalignment
-  rho = ang_mis(Rg, Re)  
+    # angular misalignment
+    rho = ang_mis(Rg, Re)  
 
-  # position error
-  eta = xg - xe
+    # position error
+    eta = xg - xe
 
-  # velocity error
-  ni = vg - ve
+    # velocity error
+    ni = vg - ve
 
-  ######################
-  # Send to Math block
-  ######################
+    ######################
+    # Send to Math block
+    ######################
 
-  # Send rho, eta, ni
-  err = np.array([rho[0], rho[1], rho[2], eta[0], eta[1], eta[2], ni[0], ni[1], ni[2]], dtype=np.float32)
-  errors = init_float64_multiarray(6, 1)
-  errors.data = err
-  pub.publish(errors)
+    # Send rho, eta, ni
+    err = np.array([rho[0], rho[1], rho[2], eta[0], eta[1], eta[2], ni[0], ni[1], ni[2]], dtype=np.float32)
+    errors = init_float64_multiarray(6, 1)
+    errors.data = err
+    pub.publish(errors)
+
+    end = time.time()
+    print("Error frequency: " + str(1/(end-start)))
 
 
 def listener():
