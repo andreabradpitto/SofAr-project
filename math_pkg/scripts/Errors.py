@@ -2,7 +2,7 @@
 
 import numpy as np
 import rospy
-from sensor_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64MultiArray,MultiArrayDimension
 
 # Initialization of publisher
 pub = rospy.Publisher('errors', Float64MultiArray, queue_size=10)

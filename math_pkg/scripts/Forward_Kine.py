@@ -6,7 +6,7 @@ from rospy.numpy_msg import numpy_msg
 from rospy_tutorials.msg import Floats
 from threading import Lock
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64MultiArray,MultiArrayDimension
 import T_computations as t
 import J_computations as j
 
@@ -119,7 +119,8 @@ def main_callback():
     ################################
     J = init_float64_multiarray(6*7, 1)
     J.data = Jkmin1.reshape(6*7, 1)
-    pub_jack.publish(J)
+    print("SENDING")
+    pub_jac.publish(J)
     
     ################################
     # Send to Error block the data
@@ -136,7 +137,7 @@ def main_callback():
     ################################
 
     # send v_0e_k, omega_0e, a_0e
-    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float64)
+    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega_0e[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float64)
     v_w_a = init_float64_multiarray(9, 1)
     v_w_a.data = vg_omega_a
     pub_track.publish(v_w_a)
@@ -151,7 +152,7 @@ def baxter_callback(data):
     ####################################################
     
     # configuration at time kmin1
-    q = np.array([data.position])
+    q = np.array(data.position)
 
     # relative T's with the configuration passed.
     T_rel_kmin1 = t.transformations(T_dh, q, info)
@@ -168,14 +169,14 @@ def baxter_callback(data):
     T0e_kmin1 = T_abs_kmin1[7]
 
     # end effector position of baxter at time k
-    for j in range(3):
-      x_0e_kmin1B[j] = T0e_kmin1[j][3]
+    for i in range(3):
+      x_0e_kmin1B[i] = T0e_kmin1[i][3]
 
     # end effector orientation of baxter at time k. At time 0 i have the
     # orientation of zero with respect of inertial frame also.
-    for j in range(3):
+    for i in range(3):
       for k in range(3):
-        R0e_kmin1[j][k] = T0e_kmin1[j][k]
+        R0e_kmin1[i][k] = T0e_kmin1[i][k]
 
     if ini == 0:
       R0inert = R0e_kmin1 # Constant in time.
@@ -235,6 +236,7 @@ def smart_callback(data):
 
     global omega_imu_inert, a_imu_inertial, Rimu_inert_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
     Data = data.data
+    print("Data: " + str(Data))
     #####################################################################################
     # Read from topic, get Rimu,inertial; angular velocity and linear acceleration
     # of imu with respect to inertial frame, all expressed in imu frame at time kplus1.
@@ -255,6 +257,7 @@ def smart_callback(data):
         omega_imu_inert[i] = Data[k+i]
 
     k = k + 3
+    #print("Data = " + str(Data))
     
     # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
     for i in range(3):
