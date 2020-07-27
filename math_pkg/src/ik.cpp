@@ -121,6 +121,7 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		// Map the vectors returned by the call into Eigen library objects.
     	VectorXd partialqdot = Map<VectorXd>(safeSrv.response.qdot.velocity.data(),NJOINTS);
     	MatrixXd Q2 = Map<MatrixXd>(safeSrv.response.Q2.data.data(),NJOINTS,NJOINTS);
+		res.Q2 = safeSrv.response.Q2;
 
 		JL = J.block<3,NJOINTS>(0,0); // Extract linear part of the Jacobian matrix.
 		if (firstStep) firstStep = false;

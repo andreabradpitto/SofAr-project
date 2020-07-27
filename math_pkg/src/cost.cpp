@@ -41,20 +41,23 @@ void costCallbackJ(const std_msgs::Float64MultiArray &msg)
     \param J Current Jacobian matrix.
 	\param qdot1 Joint velocity vector computed with closed loop IK of order 1.
 	\param qdot2 Joint velocity vector computed with closed loop IK of order 2.
+	\param Q2 Auxiliary matrix for tracking task.
     \param res Response to client of cost service.
 */
-void computeCostResponse(MatrixXd J,VectorXd qdot1,VectorXd qdot2,math_pkg::Cost::Response &res) {
+void computeCostResponse(MatrixXd J,VectorXd qdot1,VectorXd qdot2,MatrixXd Q2,math_pkg::Cost::Response &res) {
     VectorXd qdot1opt1,qdot1opt2,qdot2opt1,qdot2opt2; // initialization
 
     // Compute matrix G = joint kernel matrix.
     MatrixXd G = ID_MATRIX_NJ - (regPinv(J,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA)) * J;
     MatrixXd GTimesGSharp = G*regPinv(G,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA);
-    VectorXd z1 = G*ONES_VEC_NJ; // adjust here
+    MatrixXd IdMinusQ2 = ID_MATRIX_NJ - Q2;
+    MatrixXd toPinv = Q2.transpose() * Q2 + 1 * IdMinusQ2.transpose()*(IdMinusQ2);
+    MatrixXd temp1 = -regPinv(toPinv,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA) * Q2.transpose();
 
     // Each optimized velocity vector is given by: non-optimized vector + G * z, where z is a NJOINTSx1 vector.
-    qdot1opt1 = qdot1 + z1;
+    qdot1opt1 = qdot1 + temp1*qdot1;
     qdot1opt2 = qdot1 + GTimesGSharp*(QDOT_FAV - qdot1);
-    qdot2opt1 = qdot2 + z1;
+    qdot2opt1 = qdot2 + temp1*qdot2;
     qdot1opt2 = qdot1 + GTimesGSharp*(QDOT_FAV - qdot2);
 
     // Fill the response object.
@@ -82,12 +85,13 @@ bool computeOptqdot(math_pkg::Cost::Request  &req, math_pkg::Cost::Response &res
     if (client.call(ikSrv)) { // if Jacobian is available and the service call succeeded
         readyJ = false; // reset availability flag
 
-		// Map the non-optimized vectors returned by the call into Eigen library objects.
+		// Map the non-optimized vectors and matrix returned by the call into Eigen library objects.
     	VectorXd qdot1 = Map<VectorXd>(ikSrv.response.qdot1.velocity.data(),NJOINTS);
     	VectorXd qdot2 = Map<VectorXd>(ikSrv.response.qdot2.velocity.data(),NJOINTS);
+    	MatrixXd Q2 = Map<MatrixXd>(ikSrv.response.Q2.data.data(),NJOINTS,NJOINTS);
 
         // Compute optimized vectors and fill the response object.
-   	 	computeCostResponse(J,qdot1,qdot2,res);
+   	 	computeCostResponse(J,qdot1,qdot2,Q2,res);
    	}
     else { // if Jacobian is available but the service call did not succeed
         readyJ = false; // reset availability flag
