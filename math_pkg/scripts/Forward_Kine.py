@@ -77,7 +77,7 @@ v_0e_k = v_0e_kmin1
 v_0e_kmin1B = np.zeros((3,1))
 
 # Define the q's and q dots
-q = np.zeros(7)
+q = np.zeros((1,7))
 q_dot = np.zeros((7,1))
 
 # Definition of some variables that change over time when a callback is triggered
@@ -145,16 +145,13 @@ def main_callback():
 def baxter_callback(data):
 
     global ini, q, R0e_kmin1, R0inert, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
-    Data = data.data
     
     ####################################################
     # Read from publisher of v-rep the q configuration.
     ####################################################
     
     # configuration at time kmin1
-
-    for i in range(n_joints):
-        q[i] = Data[i]
+    q = np.array([data.position])
 
     # relative T's with the configuration passed.
     T_rel_kmin1 = t.transformations(T_dh, q, info)
