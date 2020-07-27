@@ -2,10 +2,9 @@
 
 import rospy
 import numpy as np
-from rospy.numpy_msg import numpy_msg
-from rospy_tutorials.msg import Floats
-from threading import Lock
-from sensor_msgs.msg import JointState
+import math
+import tf
+from sensor_msgs.msg import JointState, Imu
 from std_msgs.msg import Float64MultiArray, MultiArrayDimension
 import T_computations as t
 import J_computations as j
@@ -103,6 +102,49 @@ def init_float64_multiarray(rows,columns):
     a.layout.dim[1].size = columns
     return a
 
+def anglesCompensate(angles):
+    """!
+    Function used to filter unwanted minimal incoming data fluctuations,
+    due to noise as well as human operator shake
+    @param orientation with respect to X, Y, Z axes
+    @returns returns a filtered version (if necessary) of the input angles
+    """
+    dx = 0.0174  # min angle perceived [rad], about 1 [deg]
+    # reduce sensibility of sensor: minimum precision is dx
+    compensatedAngles = [0, 0, 0]
+
+    for i in range(0, 3):  # i = 0, 1, 2
+        if abs(angles[i] / dx) >= 1:
+            compensatedAngles[i] = angles[i]
+
+    return compensatedAngles
+
+def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
+    """!
+    Function that transforms euler angle coordinates into the rotation matrix
+    @param angles euler angles, i.e. orientation with respect to X, Y, Z axes
+    @returns rotation matrix
+    """
+
+    R_x = np.array([[1,         0,                  0],
+                    [0,         math.cos(angles[0]),   math.sin(angles[0])],
+                    [0,         -math.sin(angles[0]),  math.cos(angles[0])]
+                    ])
+
+    R_y = np.array([[math.cos(angles[1]),    0,      -math.sin(angles[1])],
+                    [0,                      1,      0],
+                    [math.sin(angles[1]),    0,      math.cos(angles[1])]
+                    ])
+
+    R_z = np.array([[math.cos(angles[2]),      math.sin(angles[2]),     0],
+                    [-math.sin(angles[2]),     math.cos(angles[2]),     0],
+                    [0,                        0,                       1]
+                    ])
+
+    R = np.dot(R_x, np.dot(R_y, R_z))
+
+    return R
+
 def main_callback():
 
     ######################################################################
@@ -147,6 +189,7 @@ def baxter_callback(data):
     
     # configuration at time kmin1
     q = np.array(data.position)
+    # print(q)
 
     # relative T's with the configuration passed.
     T_rel_kmin1 = t.transformations(T_dh, q, info)
@@ -177,10 +220,9 @@ def baxter_callback(data):
       x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
       ini = ini + 1
     
-    if key_bax == 0:
-        key_bax = key_bax + 1
+    key_bax = key_bax + 1
     
-    if (key_bax == 1 and key_dot == 1):
+    if (key_bax >= 1 and key_dot == 1):
         x_dot = np.dot(Jkmin1, q_dot)
         for i in range(3):
             v_0e_kmin1B[i][0] = x_dot[i][0]
@@ -208,7 +250,7 @@ def dot_callback(data):
     if key_dot == 0:
         key_dot = key_dot + 1
     
-    if (key_bax == 1 and key_dot == 1):
+    if (key_bax >= 1 and key_dot == 1):
         x_dot = np.dot(Jkmin1, q_dot)
         for i in range(3):
             v_0e_kmin1B[i][0] = x_dot[i][0]
@@ -231,26 +273,23 @@ def smart_callback(data):
     # of imu with respect to inertial frame, all expressed in imu frame at time kplus1.
     #####################################################################################
 
-    # Supposing all passed via array.
-    k = 0
+    # Get orientation
+    orientation = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
     
-    for i in range(3):
-        for j in range(3):
-            Rimu_inert_k[i][j] = Data[k+j]
-        k = k + 3
+    # transform quaternion to euler angles
+    tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
+
+    angles = anglesCompensate(tempAngles) # still waiting for response
     
+    Rimu_inert_k = eulerAnglesToRotationMatrix(angles)
+
     Rinert_imu_k = np.transpose(Rimu_inert_k)
     
     # angular velocity of imu (end effector) w.r.t. inertial frame projected on imu frame
-    for i in range(3):
-        omega_imu_inert[i] = Data[k+i]
-
-    k = k + 3
-    #print("Data = " + str(Data))
+    omega_imu_inert = [data.angular_velocity.x; data.angular_velocity.y; data.angular_velocity.z]
     
     # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
-    for i in range(3):
-        a_imu_inert[i] = Data[k+i]
+    a_imu_inert = [data.linear_acceleration.x; data.linear_acceleration.y; data.linear_acceleration.z]
 
     # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
     # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
@@ -274,7 +313,7 @@ def smart_callback(data):
     x_0e_k = x_0e_kmin1 + v_0e_kmin1*dt + 0.5*a_0e*dt*dt
 
     key_smart = key_smart + 1
-    if (key_bax == 1 and key_dot == 1 and key_smart >= 1):
+    if (key_bax >= 1 and key_dot == 1 and key_smart >= 1):
         key_bax = 0
         key_dot = 0
         key_smart = 0
@@ -296,9 +335,9 @@ def subs():
     rospy.init_node('subs', anonymous=True)
 
     # Receive data from smartphone and baxter.
-    rospy.Subscriber("smart_data", numpy_msg(Floats), smart_callback)
-    rospy.Subscriber("cmdtopic", JointState, baxter_callback)
-    rospy.Subscriber("jointvel", JointState, dot_callback)
+    rospy.Subscriber("smartphone", Imu, smart_callback)
+    rospy.Subscriber("logtopic", JointState, baxter_callback)
+    rospy.Subscriber("cmdtopic", JointState, dot_callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()  
