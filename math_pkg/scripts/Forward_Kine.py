@@ -6,7 +6,7 @@ from rospy.numpy_msg import numpy_msg
 from rospy_tutorials.msg import Floats
 from threading import Lock
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Float64MultiArray,MultiArrayDimension
+from std_msgs.msg import Float64MultiArray, MultiArrayDimension
 import T_computations as t
 import J_computations as j
 
@@ -16,11 +16,6 @@ pub_err = rospy.Publisher('Data_for_errors', Float64MultiArray, queue_size=10)
 pub_track = rospy.Publisher('tracking', Float64MultiArray, queue_size=10)
 pub_jac = rospy.Publisher('jacobian', Float64MultiArray, queue_size=10)
 
-mutex = Lock()
-
-#######################################
-# Define initial configuration of arm.
-#######################################
 p = np.pi
 n_joints = 7
 
@@ -119,7 +114,6 @@ def main_callback():
     ################################
     J = init_float64_multiarray(6*7, 1)
     J.data = Jkmin1.reshape(6*7, 1)
-    print("SENDING")
     pub_jac.publish(J)
     
     ################################
@@ -183,24 +177,21 @@ def baxter_callback(data):
       x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
       ini = ini + 1
     
-    mutex.acquire()
-    try:
-        if key_bax == 0:
-            key_bax = key_bax + 1
-        
-        if (key_bax == 1 and key_dot == 1):
-            x_dot = np.dot(Jkmin1, q_dot)
-            for i in range(3):
-                v_0e_kmin1B[i][0] = x_dot[i][0]
+    if key_bax == 0:
+        key_bax = key_bax + 1
+    
+    if (key_bax == 1 and key_dot == 1):
+        x_dot = np.dot(Jkmin1, q_dot)
+        for i in range(3):
+            v_0e_kmin1B[i][0] = x_dot[i][0]
 
-            if(key_smart >= 1):
-                key_bax = 0
-                key_dot = 0
-                key_smart = 0
+        if(key_smart >= 1):
+            key_bax = 0
+            key_dot = 0
+            key_smart = 0
 
-                main_callback()    
-    finally:
-        mutex.release()
+            main_callback()    
+   
 
 def dot_callback(data):
 
@@ -213,24 +204,22 @@ def dot_callback(data):
 
     q_dot = np.array([data.velocity]).transpose()
 
-    mutex.acquire()
-    try:
-        if key_dot == 0:
-            key_dot = key_dot + 1
-        
-        if (key_bax == 1 and key_dot == 1):
-            x_dot = np.dot(Jkmin1, q_dot)
-            for i in range(3):
-                v_0e_kmin1B[i][0] = x_dot[i][0]
+  
+    if key_dot == 0:
+        key_dot = key_dot + 1
+    
+    if (key_bax == 1 and key_dot == 1):
+        x_dot = np.dot(Jkmin1, q_dot)
+        for i in range(3):
+            v_0e_kmin1B[i][0] = x_dot[i][0]
 
-            if(key_smart >= 1):
-                key_bax = 0
-                key_dot = 0
-                key_smart = 0
+        if(key_smart >= 1):
+            key_bax = 0
+            key_dot = 0
+            key_smart = 0
 
-                main_callback()    
-    finally:
-        mutex.release()
+            main_callback()    
+
 
 def smart_callback(data):
 
@@ -284,17 +273,13 @@ def smart_callback(data):
     # Target position.
     x_0e_k = x_0e_kmin1 + v_0e_kmin1*dt + 0.5*a_0e*dt*dt
 
-    mutex.acquire()
-    try:
-        key_smart = key_smart + 1
-        if (key_bax == 1 and key_dot == 1 and key_smart >= 1):
-            key_bax = 0
-            key_dot = 0
-            key_smart = 0
-            main_callback()
-    finally:
-        mutex.release()
-
+    key_smart = key_smart + 1
+    if (key_bax == 1 and key_dot == 1 and key_smart >= 1):
+        key_bax = 0
+        key_dot = 0
+        key_smart = 0
+        main_callback()
+    
     # Update this vectors to compute integration at next steps.
 
     x_0e_kmin1 = x_0e_k
