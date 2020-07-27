@@ -26,8 +26,8 @@ def DH_to_T(DH):
 #
 def transformations(T_rel_ini, q, info):
   pass
-  row_q = len(q)
-  row_info = len(info)
+  row_q = q.size
+  row_info = info.size
 
   T = []
 
