@@ -4,9 +4,9 @@ import rospy
 import numpy as np
 
 # Obtained by building the file IK_Jtra.srv
-from ros_essentials_cpp.srv import IK_Jtra
-from ros_essentials_cpp.srv import IK_JtraRequest
-from ros_essentials_cpp.srv import IK_JtraResponse
+from math_pkg.srv import IK_Jtra
+from math_pkg.srv import IK_JtraRequest
+from math_pkg.srv import IK_JtraResponse
 
 # Necessary to use Numpy Arrays 
 from rospy.numpy_msg import numpy_msg
@@ -72,15 +72,15 @@ def error_callback(message):
     err_pos = np.array([message.data[3:6]]).T
     error = np.concatenate((err_pos,err_orient), axis=0)
     #error = np.array([message.data[:6]]).T
-    rospy.loginfo("Received Position Error:\n%s\n", str(error))
+    #rospy.loginfo("Received Position Error:\n%s\n", str(error))
 
 # Callback Function for the Jacobian matrix
 def jacobian_callback(message):
 
     global J
-    J = np.array(message.data[36:])
+    J = np.array(message.data)
     J = J.reshape(6,7)
-    rospy.loginfo("Received Jacobian::\n%s\n", str(J))
+    #rospy.loginfo("Received Jacobian::\n%s\n", str(J))
 
 # Main body containing 2 Subscribers and the Service defition
 def JT_server():
@@ -92,7 +92,7 @@ def JT_server():
 
     # Subscribers
     rospy.Subscriber("errors", Float64MultiArray, error_callback)
-    rospy.Subscriber("Jacobian_matrix", Float64MultiArray, jacobian_callback)
+    rospy.Subscriber("jacobian", Float64MultiArray, jacobian_callback)
 
     s = rospy.Service('IK_Jtransp', IK_Jtra, handle_IK_Jtransp)
     rospy.spin()
