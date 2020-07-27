@@ -8,6 +8,7 @@ from sensor_msgs.msg import JointState, Imu
 from std_msgs.msg import Float64MultiArray, MultiArrayDimension
 import T_computations as t
 import J_computations as j
+import time
 
 # GLOBAL VARIABLES
 
@@ -50,7 +51,8 @@ info = np.array([1, 1, 1, 1, 1, 1, 1])
 
 # Need this variable to store initial rotation matrix, because it's equal to
 # rotation matrix from 0 to inertial frame.
-ini = 0
+ini_bax = 0
+ini_dot = 0 # needed to differentiate from initial condition to computed qdots.
 
 # Sync variables
 key_bax = 0
@@ -146,9 +148,13 @@ def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
     return R
 
 def main_callback():
+    """!
+    Publish to error node and inverse kinematics nodes the data, in particular the
+    jacobian matrix, the tracking vectors and the data needed to compute the errors.
+    """
 
-    ######################################################################
-    # Entry point when receveing all the data, from smart and baxter.
+    ##########################################################################
+    # Entry point when receveing all the data, from smart, baxter and weighter.
     global x_0e_kmin1B, x_0e_k, v_0e_kmin1B, v_0e_k, a_0e, omega_0e, R0e_kmin1, R0e_k, Jkmin1
 
     ################################
@@ -180,8 +186,17 @@ def main_callback():
     
 
 def baxter_callback(data):
+    """!
+    Computes the configuration of baxter's arm whenever the data are available, then extracts the rotation
+    matrix from 0 to e.e and the position of the e.e. with respect to 0. It also computes the jacobian matrix.
+    In case all the other callbacks have been called then it computes the velocity of the
+    e.e. with respect to 0 and the end it calls the main_callback.
+    @param data: coming from baxter node which provides a JointState message.
+    """
 
-    global ini, q, R0e_kmin1, R0inert, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
+    start = time.time()
+
+    global ini_bax, q, R0e_kmin1, R0inert, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
     
     ####################################################
     # Read from publisher of v-rep the q configuration.
@@ -189,7 +204,6 @@ def baxter_callback(data):
     
     # configuration at time kmin1
     q = np.array(data.position)
-    # print(q)
 
     # relative T's with the configuration passed.
     T_rel_kmin1 = t.transformations(T_dh, q, info)
@@ -215,10 +229,10 @@ def baxter_callback(data):
       for k in range(3):
         R0e_kmin1[i][k] = T0e_kmin1[i][k]
 
-    if ini == 0:
+    if ini_bax == 0:
       R0inert = R0e_kmin1 # Constant in time.
       x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
-      ini = ini + 1
+      ini_bax = ini_bax + 1
     
     key_bax = key_bax + 1
     
@@ -232,23 +246,31 @@ def baxter_callback(data):
             key_dot = 0
             key_smart = 0
 
-            main_callback()    
-   
+            main_callback()
+
+    end = time.time()
+    print("Bax Frequency: " + str(1/(end-start)))
 
 def dot_callback(data):
-
-    global q_dot, Jkmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
+    """!
+    Reads the q_dots provided by the weighter. In case all the other callbacks have been called then it computes the velocity of the
+    e.e. with respect to 0 and the end it calls the main_callback.
+    @param data: coming from weighter node which provides a JointState message.
+    """
+    global ini_dot, q_dot, Jkmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
 
     ###################################################################################
     # Read from topic to get the generated q_dot, needed to compute the velocity of
     # baxter's arm.
     ###################################################################################
+    if ini_dot != 0:
+        q_dot = np.array([data.velocity]).transpose()
 
-    q_dot = np.array([data.velocity]).transpose()
-
-  
     if key_dot == 0:
         key_dot = key_dot + 1
+
+    if ini_dot == 0:
+        ini_dot = ini_dot + 1
     
     if (key_bax >= 1 and key_dot == 1):
         x_dot = np.dot(Jkmin1, q_dot)
@@ -264,10 +286,15 @@ def dot_callback(data):
 
 
 def smart_callback(data):
+    """!
+    Computes the linear acceleration, angular velocity projected on 0 given the data. In case all the other callbacks have been called then it computes the velocity of the
+    e.e. with respect to 0 and the end it calls the main_callback.
+    @param data: coming from smartphone which provides a Imu() message.
+    """
+
+    start = time.time()
 
     global omega_imu_inert, a_imu_inertial, Rimu_inert_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
-    Data = data.data
-    print("Data: " + str(Data))
     #####################################################################################
     # Read from topic, get Rimu,inertial; angular velocity and linear acceleration
     # of imu with respect to inertial frame, all expressed in imu frame at time kplus1.
@@ -279,23 +306,26 @@ def smart_callback(data):
     # transform quaternion to euler angles
     tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
 
-    angles = anglesCompensate(tempAngles) # still waiting for response
+    angles = anglesCompensate(tempAngles)
     
     Rimu_inert_k = eulerAnglesToRotationMatrix(angles)
 
     Rinert_imu_k = np.transpose(Rimu_inert_k)
     
     # angular velocity of imu (end effector) w.r.t. inertial frame projected on imu frame
-    omega_imu_inert = [data.angular_velocity.x; data.angular_velocity.y; data.angular_velocity.z]
+    omega_imu_inert[0][0] = data.angular_velocity.x
+    omega_imu_inert[1][0] = data.angular_velocity.y
+    omega_imu_inert[2][0] = data.angular_velocity.z
     
     # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
-    a_imu_inert = [data.linear_acceleration.x; data.linear_acceleration.y; data.linear_acceleration.z]
+    a_imu_inert[0][0] = data.linear_acceleration.x
+    a_imu_inert[1][0] = data.linear_acceleration.y
+    a_imu_inert[2][0] = data.linear_acceleration.z
 
     # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
     # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
     # i can compute R0e_k
     R0e_k = np.dot(R0inert, Rinert_imu_k)
-
     # Since inertial is not moving, the angular velocity and linear acceleration are the same
     # if calculated w.r.t. 0, however i need to project them in zero.
     omega_0e = np.dot(R0e_k, omega_imu_inert)
@@ -324,6 +354,9 @@ def smart_callback(data):
     x_0e_kmin1 = x_0e_k
     v_0e_kmin1 = v_0e_k
 
+    end = time.time()
+    print("Smart Frequency: " + str(1/(end-start)))
+
         
 def subs():
 
@@ -344,5 +377,5 @@ def subs():
 
   
 if __name__ == '__main__':
-    
+    dot_callback(0) # to set the initial conditions.
     subs()
