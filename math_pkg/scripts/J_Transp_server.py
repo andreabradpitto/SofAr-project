@@ -14,7 +14,23 @@ from rospy_tutorials.msg import Floats
 
 from std_msgs.msg import String
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension
+from sensor_msgs.msg import JointState
 
+def init_float64_multiarray(rows,columns):
+    """!
+    Function that initializes a Float64MultiArray of size rows x columns.
+    @param rows: Number of rows of the returned multiarray.
+    @param columns: Number of columns of the returned multiarray.
+    @return empty Float64MultiArray instance.
+    """
+    a = Float64MultiArray()
+    a.layout.dim.append(MultiArrayDimension())
+    a.layout.dim.append(MultiArrayDimension())
+    a.layout.dim[0].label ="rows"
+    a.layout.dim[0].size = rows
+    a.layout.dim[1].label ="columns"
+    a.layout.dim[1].size = columns
+    return a
 
 def j_transp(err, J, delta_t):
     """! 
@@ -25,12 +41,9 @@ def j_transp(err, J, delta_t):
     @param delta_t: sampling time.
     @return: a Float64MultiArray containing the Joint Velocities.
     """
-    
-    # Number of Joints
-    NJOINTS = 7
 
     # q_dot initialization
-    q_dot = init_float64_multiarray(NJOINTS,1)
+    q_dot = JointState()
 
     # Alpha (Regulation Factor) computation
     numerator = J.dot(J.T.dot(err))
@@ -40,7 +53,7 @@ def j_transp(err, J, delta_t):
     dq = alpha*(J.T.dot(err))
         
     # Joint velocities, being dq = q_dot*delta_t
-    q_dot.data = dq/delta_t
+    q_dot.velocity = dq/delta_t
 
     return q_dot
     
@@ -48,14 +61,17 @@ def j_transp(err, J, delta_t):
 # Handler for the Server
 def handle_IK_Jtransp(req):
 
-    print"Server accepted request\n"
-    return IK_JtraResponse(j_transp(error, J, 0.1))
+    print"Server J Transpose accepted request\n"
+    return IK_JtraResponse(j_transp(error, J, 0.01))
 
 # Callback Function for the error on the position (error on Xee)
 def error_callback(message):
-
+    
     global error
-    error = np.array([message.data[:6]]).T
+    err_orient = np.array([message.data[:3]]).T
+    err_pos = np.array([message.data[3:6]]).T
+    error = np.concatenate((err_pos,err_orient), axis=0)
+    #error = np.array([message.data[:6]]).T
     rospy.loginfo("Received Position Error:\n%s\n", str(error))
 
 # Callback Function for the Jacobian matrix
@@ -64,7 +80,7 @@ def jacobian_callback(message):
     global J
     J = np.array(message.data[36:])
     J = J.reshape(6,7)
-    rospy.loginfo("Received Jacobian: %s\n", str(J))
+    rospy.loginfo("Received Jacobian::\n%s\n", str(J))
 
 # Main body containing 2 Subscribers and the Service defition
 def JT_server():
@@ -75,8 +91,8 @@ def JT_server():
     rospy.loginfo("Server Initialized\n")
 
     # Subscribers
-    rospy.Subscriber("errors", numpy_msg(Floats), error_callback)
-    rospy.Subscriber("Jacobian_matrix", numpy_msg(Floats), jacobian_callback)
+    rospy.Subscriber("errors", Float64MultiArray, error_callback)
+    rospy.Subscriber("Jacobian_matrix", Float64MultiArray, jacobian_callback)
 
     s = rospy.Service('IK_Jtransp', IK_Jtra, handle_IK_Jtransp)
     rospy.spin()
