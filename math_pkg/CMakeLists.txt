@@ -218,9 +218,9 @@ add_executable(ik src/ik.cpp)
 target_link_libraries(ik ${catkin_LIBRARIES})
 add_dependencies(ik math_pkg_gencpp)
 
-#add_executable(cost src/cost.cpp)
-#target_link_libraries(cost ${catkin_LIBRARIES})
-#add_dependencies(cost math_pkg_gencpp)
+add_executable(cost src/cost.cpp)
+target_link_libraries(cost ${catkin_LIBRARIES})
+add_dependencies(cost math_pkg_gencpp)
 
 set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
 
