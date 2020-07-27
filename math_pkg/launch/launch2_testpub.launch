@@ -1,7 +1,0 @@
-<launch>
-
-  <group ns="testpub">
-    <node pkg="math_pkg" name="talker" type="test_publisher.py"/>
-  </group>
-
-</launch>

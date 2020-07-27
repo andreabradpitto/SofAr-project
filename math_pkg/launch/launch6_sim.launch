@@ -1,8 +1,0 @@
-<launch>
-
-  <group ns="sim">
-    <node pkg="math_pkg" name="vrep_node" type="pbs_vrep.py"/>
-  </group>
-	
-
-</launch>
