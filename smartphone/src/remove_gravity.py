@@ -29,15 +29,12 @@ abs_file_path3 = os.path.join(script_dir, rel_path3)
 # flagWriteData = 1 means to store simple data received from imu, after gravity removal
 flagWriteData = 1
 index = 1  # used to store data for offline analysis
-fileSet = 0  # used to ackowledge whether the output files have been already initialized or not
 
 
 def dataFileInitializer():
     """!
     Function used initialize the files in which sensor data will be stored; it will generate three files in the 'output' folder
     """
-    global fileSet
-
     # initialize files to store data
     with open(abs_file_path1, 'w') as file:
         writer = csv.writer(file)
@@ -50,8 +47,6 @@ def dataFileInitializer():
     with open(abs_file_path3, 'w') as file:
         writer = csv.writer(file)
         writer.writerow(["", "X", "Y", "Z"])
-
-    fileSet = 1
 
 
 def anglesCompensate(angles):
@@ -115,7 +110,7 @@ def callback(data):
     it translates incoming quaternions into euler angles beforehand
     @param data incoming from the imu sensor
     """
-    global index, fileSet
+    global index
 
     # get data
     orientation = [data.orientation.x, data.orientation.y,
@@ -134,9 +129,6 @@ def callback(data):
     rot_matrix = eulerAnglesToRotationMatrix(angles)
 
     lin_acc_no_g = removeGravity(linear_acceleration, rot_matrix)
-
-    if fileSet == 0:
-        dataFileInitializer()
 
     if flagWriteData == 1:
         # store data into .csv files in order to analyse them offline
@@ -193,6 +185,8 @@ def talker(msg):
 
 if __name__ == '__main__':
     """!
-    Main function
+    Main function: initialize output files with dataFileInitializer() and call listener()
     """
+    dataFileInitializer()
+
     listener()
