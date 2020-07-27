@@ -1,0 +1,7 @@
+<launch>
+
+  <group ns="fkine">
+    <node pkg="math_pkg" name="subs" type="Forward_Kine.py"/>
+  </group>
+
+</launch>

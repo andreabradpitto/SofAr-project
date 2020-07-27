@@ -1,0 +1,8 @@
+<launch>
+
+  <group ns="weighter">
+    <node pkg="math_pkg" name="weighter" type="weighter"/>
+  </group>
+	
+
+</launch>
