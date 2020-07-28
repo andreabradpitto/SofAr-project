@@ -4,7 +4,7 @@
 #include <iostream>
 #include "math_pkg/Cost.h"
 #include "math_pkg/IK.h"
-#include "math_pkg/IK_Jtra.h"
+#include "math_pkg/IK_JTA.h"
 #include "math_pkg/Safety.h"
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
@@ -20,7 +20,7 @@ ros::ServiceClient clients[NUM_IK_SERVICES];
 math_pkg::Cost costSrv;
 
 /* Transpose server object.*/
-math_pkg::IK_Jtra traSrv;
+math_pkg::IK_JTA traSrv;
 
 
 /*! Function that calls all the invkin modules and retrieves the computed joint velocities.
@@ -143,7 +143,7 @@ int main(int argc,char **argv) {
 
 	// This node acts as a client for three services.
     clients[0] = n.serviceClient<math_pkg::Cost>("cost");
-    clients[1] = n.serviceClient<math_pkg::IK_Jtra>("IK_Jtransp");
+    clients[1] = n.serviceClient<math_pkg::IK_JTA>("IK_Jtransp");
     //clients[2] = n.serviceClient<math_pkg::IK>("");
 
     cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
