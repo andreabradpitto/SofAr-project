@@ -309,6 +309,7 @@ def smart_callback(data):
     angles = anglesCompensate(tempAngles)
     
     Rimu_inert_k = eulerAnglesToRotationMatrix(angles)
+    print(Rimu_inert_k)
 
     Rinert_imu_k = np.transpose(Rimu_inert_k)
     
@@ -316,11 +317,13 @@ def smart_callback(data):
     omega_imu_inert[0][0] = data.angular_velocity.x
     omega_imu_inert[1][0] = data.angular_velocity.y
     omega_imu_inert[2][0] = data.angular_velocity.z
+    print(omega_imu_inert)
     
     # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
     a_imu_inert[0][0] = data.linear_acceleration.x
     a_imu_inert[1][0] = data.linear_acceleration.y
     a_imu_inert[2][0] = data.linear_acceleration.z
+    print(a_imu_inert)
 
     # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
     # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
