@@ -28,7 +28,7 @@ def talker():
     #pub.publish(imu)
 
     while not rospy.is_shutdown():
-        pub.publish(Rimuiner_omegaimuiner_aimuiner)
+        pub.publish(imu)
         rate.sleep()
 
 if __name__ == '__main__':
