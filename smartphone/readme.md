@@ -22,7 +22,7 @@ This project handles incoming Imu sensor data from an Android smartphone and per
 ## How to run the package
 1. Launch ROS by typing **roscore** in a terminal.
 
-2. Start the *CameraImu* app in your smartphone. Then you have to assign the IP address of your computer into the app's *Master URI* textbox (i.e. http://YOUR_IP_ADDRESS:11311). In order to find your IP address, type **hostname -I** in terminal if you are using a Unix system, or type **ipconfig** in command prompt if using Windows.
+2. Start the *CameraImu* app in your smartphone. Then you have to type the IP address of your computer into the app's *Master URI* textbox (i.e. http://YOUR_IP_ADDRESS:11311, as the default port is *11311*). In order to find your IP address, type **hostname -I** in terminal if you are using a Unix system, or type **ipconfig** in command prompt if using Windows.
 
 3. In a second terminal, subscribe to the *android/imu* topic by typing **rostopic echo /android/imu**.
 
