@@ -249,7 +249,7 @@ def baxter_callback(data):
             main_callback()
 
     end = time.time()
-    print("Bax Frequency: " + str(1/(end-start)))
+    #print("Bax Frequency: " + str(1/(end-start)))
 
 def dot_callback(data):
     """!
@@ -358,7 +358,7 @@ def smart_callback(data):
     v_0e_kmin1 = v_0e_k
 
     end = time.time()
-    print("Smart Frequency: " + str(1/(end-start)))
+    #print("Smart Frequency: " + str(1/(end-start)))
 
         
 def subs():
