@@ -10,7 +10,7 @@ This project handles incoming Imu sensor data from an Android smartphone and per
 
 ## How to install the package
 
-1. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works better with Android 8.1+; earlier os version cause frequent freezes/crashes
+1. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1+; earlier os version cause frequent freezes/crashes
 
 2. Install the following libraries: *numpy*, *matplotlib*, *pandas* (you can use **pip list** in terminal beforehand to check if these are already installed):
 
