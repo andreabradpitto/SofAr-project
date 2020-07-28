@@ -2,25 +2,34 @@
 
 import rospy
 import numpy as np
-from rospy.numpy_msg import numpy_msg
-from rospy_tutorials.msg import Floats
+from sensor_msgs.msg import Imu
+
 
 def talker():
 
-    pub = rospy.Publisher('smart_data', numpy_msg(Floats), queue_size=10)
+    pub = rospy.Publisher('smartphone', Imu, queue_size=10)
     rospy.init_node('talker', anonymous=True)
     rate = rospy.Rate(100) # 100 Hz
-  
-    Rimuiner_omegaimuiner_aimuiner = np.array([260000, 23, 677, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0], dtype=np.float32)
-    #pub.publish(Rimuiner_omegaimuiner_aimuiner)
+	
+    imu = Imu()
+    #imu.header.frame_id = imu_frame_id
+    imu.header.stamp = rospy.Time.from_sec(1)
+    imu.orientation.x = 1
+    imu.orientation.y = 0
+    imu.orientation.z = 0
+    imu.orientation.w = 0
+    imu.linear_acceleration.x = 0
+    imu.linear_acceleration.y = 0
+    imu.linear_acceleration.z = 1
+    imu.angular_velocity.x = 0
+    imu.angular_velocity.y = 1
+    imu.angular_velocity.z = 0
+
+    #pub.publish(imu)
 
     while not rospy.is_shutdown():
-    	print("test_publisher gonna publish man")
-    	print(Rimuiner_omegaimuiner_aimuiner)
         pub.publish(Rimuiner_omegaimuiner_aimuiner)
         rate.sleep()
-
-
 
 if __name__ == '__main__':
     try:
