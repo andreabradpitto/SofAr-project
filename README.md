@@ -8,7 +8,7 @@ To use this package:
 ```$ ./startMath.bash```  
 5) In the catkin folder, compile the package by running  
 ```$ catkin_make```  
-6) If you have the V-Rep package installed, go to ```src/math_pkg/launch``` and comment or delete the row of the last one (it is a node that simulates V-Rep).
+6) If you have the V-Rep package installed, go to ```src/math_pkg/launch``` and comment or delete the last ```<node>``` field (it is a node that simulates V-Rep, you do not need to launch it).
 7) In the catkin folder, launch all the math_pkg nodes by executing  
 ```$ roslaunch math_pkg mathAll.launch```  
 8) Enjoy your inverse kinematics!
