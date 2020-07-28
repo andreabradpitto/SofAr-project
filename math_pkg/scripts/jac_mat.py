@@ -11,10 +11,16 @@ import J_computations as j
 from rospy_tutorials.msg import Floats
 from rospy.numpy_msg import numpy_msg
 
+from std_msgs.msg import Float64MultiArray,MultiArrayDimension
+from sensor_msgs.msg import JointState
 
+# Obtained by building the file IK_JTA.srv
+from ros_essentials_cpp.srv import IK_JTA
+from ros_essentials_cpp.srv import IK_JTARequest
+from ros_essentials_cpp.srv import IK_JTAResponse
 
 # Calculations to compute 6 dof Jacobian
-def calculations_6(q_smarphone):
+def calculations_6(q_smartphone):
 
     p = np.pi
     n_joints = 6
@@ -45,15 +51,22 @@ def calculations_6(q_smarphone):
     # type of joints, 1 = revolute, 0 = prismatic.
     info = np.array([1, 1, 1, 1, 1, 1])
 
+    #print"Size info: %s\n"%(info.size)
+    #print"Size q_smart: %s\n"%(q_smartphone.size)
+
     # initial q
     q = np.array([0, 0, 0, 0, 0, 0])
+    
+    #print"Size q: %s\n"%(q)
 
     ########
     # Entry point when receiving q from coppeliasim!!
     # Use q_smartphone
 
+    #print"q_smartphone inside function:\n%s\n"%(q_smartphone.size)
+
     # transformations matrices given the configuration.
-    T_trans = t.transformations(T_rel_ini, q, info)
+    T_trans = t.transformations(T_rel_ini,q_smartphone, info)
 
     # T0,1 T0,2 T0,3...T0,e
     T_abs = t.abs_trans(T_trans)
@@ -68,98 +81,74 @@ def calculations_6(q_smarphone):
     r = geom_v[1] # distances end_effector, joints projected on zero.
 
     Js = j.jacob(k, r, n_joints, info)
-    J = Js[0]
-    return J
+    #print(Js)
+    return Js
 
-
-# Calculations to compute 7 dof Jacobian
-def calculations_7(q_smarphone):
-    
-    p = np.pi
-    n_joints = 7
-
-    # Links length. [mm]
-    L0 = 270.35
-    L1 = 69.00
-    L2 = 364.35
-    L3 = 69.00
-    L4 = 374.29
-    L5 = 10.00
-    L6 = 368.30
-
-    # DH table of Baxter: alpha(i-1), a(i-1), d(i), theta(i).
-    # Last row relates 7-th joint to end-effector.
-    DH = np.array([[0, 0, L0, 0],
-                   [-p/2, L1, 0, p/2],
-                   [p/2, 0, L2, 0],
-                   [-p/2, L3, 0, 0],
-                   [p/2, 0, L4, 0],
-                   [-p/2, L5, 0, 0],
-                   [p/2, 0, 0, 0],
-                   [0, 0, L6, 0]])
-
-    # Trasformation matrices given DH table. T0,1 T1,2 ... T7,e
-    T_rel_ini = t.DH_to_T(DH)
-    
-    # type of joints, 1 = revolute, 0 = prismatic.
-    info = np.array([1, 1, 1, 1, 1, 1, 1])
-
-    # initial q
-    q = np.array([0, 0, 0, 0, 0, 0, 0])
-
-    ########
-    # Entry point when receiving q from coppeliasim!!
-    # Use q_smartphone
-
-    # transformations matrices given the configuration.
-    T_trans = t.transformations(T_rel_ini, q, info)
-
-    # T0,1 T0,2 T0,3...T0,e
-    T_abs = t.abs_trans(T_trans)
-
-    # extract geometric vectors needed for computations.
-    geom_v = j.geometric_vectors(T_abs)
-
-    np.set_printoptions(precision = 4)
-    np.set_printoptions(suppress = True)
-
-    k = geom_v[0] # axis of rotation of the revolute joins projected on zero
-    r = geom_v[1] # distances end_effector, joints projected on zero.
-
-    Js = j.jacob(k, r, n_joints, info)
-    J = Js[0]
-    return J
-
-
-def jacobian(data):
-
-    q_smartphone=np.array(data.data)
-    rospy.loginfo(rospy.get_caller_id() + "\n\n\n\nJoint positions", str(q_smartphone))
+# Callback Function for the Joints Positions
+def jacobian_callback(data):
+    global J_6
+    q_smartphone = np.array(data.position)
+    q_smartphone = np.delete(q_smartphone,2,0)
+    rospy.loginfo("Joint positions: %s\n", str(q_smartphone))
     
     # Compute matrices
-    J_6=calculations_6(q_smartphone)
-    J_7=calculations_7(q_smartphone)
+    J_6 = calculations_6(q_smartphone)
+    rospy.loginfo("Jacobian:\n%s\n", J_6)
 
-    # Reshape matrices to send
-    J_ros=np.concatenate((J_6.flatten(),J_7.flatten()),axis=None)
+# Callback Function for the error on the position (error on Xee)
+def error_callback(message):
 
-    # Define publisher for Jacobian Matrix
-    pub = rospy.Publisher('Jacobian_matrix', numpy_msg(Floats), queue_size=10)
+    global error
+    err_orient = np.array([message.data[:3]]).T
+    err_pos = np.array([message.data[3:6]]).T
+    error = np.concatenate((err_pos,err_orient), axis=0)
+    rospy.loginfo("Received Position Error:\n%s\n", str(error))
 
-    # Publish jacobians
-    while not rospy.is_shutdown(): # so if there is control-C
-        rate = rospy.Rate(10) # 10hz, 10 times per second
-        rospy.loginfo(J_ros) #prints message to screen, log and rosout
-        pub.publish(J_ros)
-        rate.sleep()
+# Callback Function for the error on the position (error on Xee)
+def vel_callback(message):
+
+    global vel
+    vel = np.array([message.data[:6]]).T
+    rospy.loginfo("Received Velocities End Effector:\n%s\n", str(vel))
+
+# Handler for the Server
+def handle_IK_JAnalytic(req):
+
+    # q_dot initialization
+    q_dot = JointState()
+    
+    # Gain for the Control Law
+    K = 20
+
+    print"Server Analytic accepted request\n"
+
+    # q_dot definition, taking into account the error on the position
+    q_dot_6 = np.linalg.pinv(J_6).dot(vel+K*error)
+
+    # Since the third Joint is blocked, its velocity is 0
+    q_dot.velocity = np.insert(q_dot_6,2,0)
+
+    #q_dot.velocity = np.linalg.pinv(J_6).dot(vel+K*error)
+    return IK_JTAResponse(q_dot)
 
 def jac_mat():
 
     # Init node
     rospy.init_node('jac_mat', anonymous=True)
 
+    rospy.loginfo("Server Analytic Initialized\n")
+
+    # Subscribe for error positions
+    rospy.Subscriber("errors", Float64MultiArray, error_callback)
+
+    # Subscribe for error positions
+    rospy.Subscriber("tracking", Float64MultiArray, vel_callback)
+
     # Subscribe for joint positions
-    rospy.Subscriber("joint_pos", Floats, jacobian)
+    rospy.Subscriber("logtopic", JointState, jacobian_callback)
+
+    # Service Definition
+    s_vel = rospy.Service('IK_JAnalytic', IK_JTA, handle_IK_JAnalytic)
 
     rospy.spin()
     
