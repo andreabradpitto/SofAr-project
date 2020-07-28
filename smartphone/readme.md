@@ -16,8 +16,7 @@ This project handles incoming Imu sensor data from an Android smartphone and per
 
    1. Type **python -m pip install numpy** in terminal to install numpy. Check [SciPy.org](https://scipy.org/install.html) for more information.
    2. Type **python -m pip install -U matplotlib** in terminal to install matplotlib. Head over to [matplotlib.org](https://matplotlib.org/3.3.0/users/installing.html) for further information.
-
-3. Type **sudo apt-get install python-pandas**. In case of errors, go [here](https://pandas.pydata.org/pandas-docs/version/0.13.1/install.html) for more information.
+   3. Type **sudo apt-get install python-pandas**. In case of errors, go [here](https://pandas.pydata.org/pandas-docs/version/0.13.1/install.html) for more information.
 
 
 ## How to run the package
