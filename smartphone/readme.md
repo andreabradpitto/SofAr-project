@@ -2,7 +2,7 @@
 
 ## Authors
 
-Matteo Dicenzi, Marco Demutti, Andrea Pitto, Simone Voto
+[Matteo Dicenzi](https://github.com/mattedicenzi), [Marco Demutti](https://github.com/marcodemutti), [Andrea Pitto](https://github.com/andreabradpitto), [Simone Voto](https://github.com/Cavalletta98)
 
 ## Summary
 
@@ -10,16 +10,16 @@ This project handles incoming Imu sensor data from an Android smartphone and per
 
 ## How to install the package
 
-1. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1+; earlier os version cause frequent freezes/crashes
+1. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier o.s. versions may cause frequent freezes/crashes
 
 2. Install the following libraries: *numpy*, *matplotlib*, *pandas* (you can use **pip list** in terminal, beforehand, to check if these are already installed):
 
    1. Type **python -m pip install numpy** in terminal to install numpy. Check [SciPy.org](https://scipy.org/install.html) for more information.
    2. Type **python -m pip install -U matplotlib** in terminal to install matplotlib. Head over to [matplotlib.org](https://matplotlib.org/3.3.0/users/installing.html) for further information.
-   3. Type **sudo apt-get install python-pandas**. In case of errors, go [here](https://pandas.pydata.org/pandas-docs/version/0.13.1/install.html) for more information.
-
+   3. Type **sudo apt-get install python-pandas**. In case of errors, you can take a look [here](https://pandas.pydata.org/pandas-docs/version/0.13.1/install.html) for more information.
 
 ## How to run the package
+
 1. Launch ROS by typing **roscore** in a terminal.
 
 2. Start the *CameraImu* app in your smartphone. Then you have to type the IP address of your computer into the app's *Master URI* textbox (i.e. http://YOUR_IP_ADDRESS:11311, as the default port is *11311*). In order to find your IP address, type **hostname -I** in terminal if you are using a Unix system, or type **ipconfig** in command prompt if using Windows.
