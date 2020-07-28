@@ -4,7 +4,7 @@
 
 Matteo Dicenzi, Marco Demutti, Andrea Pitto, Simone Voto
 
-# Summary
+## Summary
 
 This project handles incoming Imu sensor data from an Android smartphone and performs a gravity removal. It then publishes on the *smartphone* topic the filtered result.
 
