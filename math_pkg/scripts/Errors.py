@@ -153,7 +153,7 @@ def errors(data):
     pub.publish(errors)
 
     end = time.time()
-    print("Error frequency: " + str(1/(end-start)))
+    #print("Error frequency: " + str(1/(end-start)))
 
 
 def listener():
