@@ -3,10 +3,10 @@
 import rospy
 import numpy as np
 
-# Obtained by building the file IK_Jtra.srv
-from math_pkg.srv import IK_Jtra
-from math_pkg.srv import IK_JtraRequest
-from math_pkg.srv import IK_JtraResponse
+# Obtained by building the file IK_JTA.srv
+from math_pkg.srv import IK_JTA
+from math_pkg.srv import IK_JTARequest
+from math_pkg.srv import IK_JTAResponse
 
 # Necessary to use Numpy Arrays 
 from rospy.numpy_msg import numpy_msg
@@ -62,7 +62,7 @@ def j_transp(err, J, delta_t):
 def handle_IK_Jtransp(req):
 
     print"Server J Transpose accepted request\n"
-    return IK_JtraResponse(j_transp(error, J, 0.01))
+    return IK_JTAResponse(j_transp(error, J, 0.01))
 
 # Callback Function for the error on the position (error on Xee)
 def error_callback(message):
@@ -94,7 +94,7 @@ def JT_server():
     rospy.Subscriber("errors", Float64MultiArray, error_callback)
     rospy.Subscriber("jacobian", Float64MultiArray, jacobian_callback)
 
-    s = rospy.Service('IK_Jtransp', IK_Jtra, handle_IK_Jtransp)
+    s = rospy.Service('IK_Jtransp', IK_JTA, handle_IK_Jtransp)
     rospy.spin()
     
 if __name__ == "__main__":
