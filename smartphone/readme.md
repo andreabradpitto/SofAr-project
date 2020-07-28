@@ -26,7 +26,7 @@ This project handles incoming Imu sensor data from an Android smartphone and per
 
 3. In a second terminal, subscribe to the *android/imu* topic by typing **rostopic echo /android/imu**.
 
-4. In a third terminal, aunch **python remove_gravity.py** to start collecting imu data and removing the gravity from incoming linear acceleration samples.
+4. In a third terminal, launch **python remove_gravity.py** to start collecting imu data and removing the gravity from incoming linear acceleration samples.
    - Remember to set *flagWriteData = 1* in the python file if you want to analyze incoming data through plots. Otherwise set *flagWriteData = 0* to skip the offline analysis.
 
 5. If you set *flagWriteData = 1* (see previous step), also run **offlineAnalysis.py** in a fourth terminal, in order to plot the data obtained by running *remove_gravity.py*
