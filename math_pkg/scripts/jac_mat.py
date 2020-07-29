@@ -15,9 +15,9 @@ from std_msgs.msg import Float64MultiArray,MultiArrayDimension
 from sensor_msgs.msg import JointState
 
 # Obtained by building the file IK_JTA.srv
-from ros_essentials_cpp.srv import IK_JTA
-from ros_essentials_cpp.srv import IK_JTARequest
-from ros_essentials_cpp.srv import IK_JTAResponse
+from math_pkg.srv import IK_JTA
+from math_pkg.srv import IK_JTARequest
+from math_pkg.srv import IK_JTAResponse
 
 # Calculations to compute 6 dof Jacobian
 def calculations_6(q_smartphone):
