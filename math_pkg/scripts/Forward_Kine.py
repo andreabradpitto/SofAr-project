@@ -36,7 +36,7 @@ DH = np.array([[0, 0, L0, 0],
                [-p/2, L3, 0, 0],
                [p/2, 0, L4, 0],
                [-p/2, L5, 0, 0],
-               [p/2, 0, 0, 0],
+               [p/2, 0, 0, -p/2],
                [0, 0, L6, 0]])
   
 
@@ -201,9 +201,9 @@ def baxter_callback(data):
     ####################################################
     # Read from publisher of v-rep the q configuration.
     ####################################################
-    
-    # configuration at time kmin1
-    q = np.array(data.position)
+    if ini_bax != 0:
+        # configuration at time kmin1
+        q = np.array(data.position)
 
     # relative T's with the configuration passed.
     T_rel_kmin1 = t.transformations(T_dh, q, info)
@@ -221,22 +221,22 @@ def baxter_callback(data):
 
     # end effector position of baxter at time k
     for i in range(3):
-      x_0e_kmin1B[i] = T0e_kmin1[i][3]
+        x_0e_kmin1B[i] = T0e_kmin1[i][3]
 
     # end effector orientation of baxter at time k. At time 0 i have the
     # orientation of zero with respect of inertial frame also.
     for i in range(3):
-      for k in range(3):
-        R0e_kmin1[i][k] = T0e_kmin1[i][k]
+        for k in range(3):
+            R0e_kmin1[i][k] = T0e_kmin1[i][k]
 
     if ini_bax == 0:
-      R0inert = R0e_kmin1 # Constant in time.
-      x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
-      ini_bax = ini_bax + 1
+        R0inert = R0e_kmin1 # Constant in time.
+        x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
+        ini_bax = ini_bax + 1
     
     key_bax = key_bax + 1
     
-    if (key_bax >= 1 and key_dot == 1):
+    if (key_bax >= 1 and key_dot >= 1):
         x_dot = np.dot(Jkmin1, q_dot)
         for i in range(3):
             v_0e_kmin1B[i][0] = x_dot[i][0]
@@ -266,13 +266,12 @@ def dot_callback(data):
     if ini_dot != 0:
         q_dot = np.array([data.velocity]).transpose()
 
-    if key_dot == 0:
-        key_dot = key_dot + 1
+    key_dot = key_dot + 1
 
     if ini_dot == 0:
         ini_dot = ini_dot + 1
     
-    if (key_bax >= 1 and key_dot == 1):
+    if (key_bax >= 1 and key_dot >= 1):
         x_dot = np.dot(Jkmin1, q_dot)
         for i in range(3):
             v_0e_kmin1B[i][0] = x_dot[i][0]
@@ -309,7 +308,7 @@ def smart_callback(data):
     angles = anglesCompensate(tempAngles)
     
     Rimu_inert_k = eulerAnglesToRotationMatrix(angles)
-    print(Rimu_inert_k)
+    #print(Rimu_inert_k)
 
     Rinert_imu_k = np.transpose(Rimu_inert_k)
     
@@ -317,13 +316,13 @@ def smart_callback(data):
     omega_imu_inert[0][0] = data.angular_velocity.x
     omega_imu_inert[1][0] = data.angular_velocity.y
     omega_imu_inert[2][0] = data.angular_velocity.z
-    print(omega_imu_inert)
+    #print(omega_imu_inert)
     
     # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
     a_imu_inert[0][0] = data.linear_acceleration.x
     a_imu_inert[1][0] = data.linear_acceleration.y
     a_imu_inert[2][0] = data.linear_acceleration.z
-    print(a_imu_inert)
+    #print(a_imu_inert)
 
     # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
     # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
@@ -346,7 +345,7 @@ def smart_callback(data):
     x_0e_k = x_0e_kmin1 + v_0e_kmin1*dt + 0.5*a_0e*dt*dt
 
     key_smart = key_smart + 1
-    if (key_bax >= 1 and key_dot == 1 and key_smart >= 1):
+    if (key_bax >= 1 and key_dot >= 1 and key_smart >= 1):
         key_bax = 0
         key_dot = 0
         key_smart = 0
@@ -380,5 +379,6 @@ def subs():
 
   
 if __name__ == '__main__':
+    baxter_callback(0) # to set the initial conditions.
     dot_callback(0) # to set the initial conditions.
     subs()
