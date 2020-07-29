@@ -16,6 +16,10 @@ from std_msgs.msg import String
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension
 from sensor_msgs.msg import JointState
 
+# Flags to define Availability of the data required by the Service
+readyErr = False
+readyJ = False
+
 def init_float64_multiarray(rows,columns):
     """!
     Function that initializes a Float64MultiArray of size rows x columns.
@@ -61,26 +65,49 @@ def j_transp(err, J, delta_t):
 # Handler for the Server
 def handle_IK_Jtransp(req):
 
+    # Declaration to work with global variables
+    global readyErr, readyJ
+
     print"Server J Transpose accepted request\n"
-    return IK_JTAResponse(j_transp(error, J, 0.01))
+
+    if (not (readyErr and readyJ)):
+        readyErr = readyJ = False
+        rospy.logerr("J Transpose service could not run: missing data.")
+        return 
+    else:
+        readyErr = readyJ = False
+        return IK_JTAResponse(j_transp(error, J, 0.01))        
+    #return IK_JTAResponse(j_transp(error, J, 0.01))
 
 # Callback Function for the error on the position (error on Xee)
 def error_callback(message):
-    
-    global error
+
+    # Declaration to work with global variables
+    global error,readyErr
+
     err_orient = np.array([message.data[:3]]).T
     err_pos = np.array([message.data[3:6]]).T
     error = np.concatenate((err_pos,err_orient), axis=0)
     #error = np.array([message.data[:6]]).T
     #rospy.loginfo("Received Position Error:\n%s\n", str(error))
+    #print(readyErr)
+    
+    # Set the Error as available
+    readyErr = True
+    #print(readyErr)
 
 # Callback Function for the Jacobian matrix
 def jacobian_callback(message):
+    
+    # Declaration to work with global variables
+    global J, readyJ
 
-    global J
     J = np.array(message.data)
     J = J.reshape(6,7)
     #rospy.loginfo("Received Jacobian::\n%s\n", str(J))
+
+    # Set the J as available
+    readyJ = True
 
 # Main body containing 2 Subscribers and the Service defition
 def JT_server():
