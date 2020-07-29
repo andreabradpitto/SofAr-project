@@ -19,6 +19,11 @@ from math_pkg.srv import IK_JTA
 from math_pkg.srv import IK_JTARequest
 from math_pkg.srv import IK_JTAResponse
 
+# Flags to define Availability of the data required by the Service
+readyErr = False
+readyJ = False
+readyVel = False
+
 # Calculations to compute 6 dof Jacobian
 def calculations_6(q_smartphone):
 
@@ -86,50 +91,80 @@ def calculations_6(q_smartphone):
 
 # Callback Function for the Joints Positions
 def jacobian_callback(data):
-    global J_6
+
+    global J_6, readyJ
+
     q_smartphone = np.array(data.position)
+    
+    # It assumes one joint to be fixed (3rd in this case), in order to pass from 7 to 6
     q_smartphone = np.delete(q_smartphone,2,0)
+
     rospy.loginfo("Joint positions: %s\n", str(q_smartphone))
     
-    # Compute matrices
+    # Compute the matrix
     J_6 = calculations_6(q_smartphone)
+
     rospy.loginfo("Jacobian:\n%s\n", J_6)
+
+    # Set the Jacobian as available
+    readyJ = True
+
 
 # Callback Function for the error on the position (error on Xee)
 def error_callback(message):
 
-    global error
+    global error,readyErr
     err_orient = np.array([message.data[:3]]).T
     err_pos = np.array([message.data[3:6]]).T
     error = np.concatenate((err_pos,err_orient), axis=0)
+
     rospy.loginfo("Received Position Error:\n%s\n", str(error))
+
+    # Set the Error as available
+    readyErr = True
 
 # Callback Function for the error on the position (error on Xee)
 def vel_callback(message):
 
-    global vel
+    global vel, readyVel
     vel = np.array([message.data[:6]]).T
+
     rospy.loginfo("Received Velocities End Effector:\n%s\n", str(vel))
+
+    # Set the Vel as available
+    readyVel = True
+
 
 # Handler for the Server
 def handle_IK_JAnalytic(req):
 
-    # q_dot initialization
-    q_dot = JointState()
-    
-    # Gain for the Control Law
-    K = 20
+    # Declaration to work with global variables
+    global readyErr, readyJ, readyVel
 
     print"Server Analytic accepted request\n"
 
-    # q_dot definition, taking into account the error on the position
-    q_dot_6 = np.linalg.pinv(J_6).dot(vel+K*error)
+    if (not (readyErr and readyJ and readyVel)):
+        readyErr = readyJ = readyVel = False
+        rospy.logerr("Analytic J_6 service could not run: missing data.")
+        return 
+    else:
+        readyErr = readyJ = readyVel = False
 
-    # Since the third Joint is blocked, its velocity is 0
-    q_dot.velocity = np.insert(q_dot_6,2,0)
+        # q_dot initialization
+        q_dot = JointState()
+    
+        # Gain for the Control Law
+        K = 20
 
-    #q_dot.velocity = np.linalg.pinv(J_6).dot(vel+K*error)
-    return IK_JTAResponse(q_dot)
+        # q_dot definition, taking into account the error on the position
+        q_dot_6 = np.linalg.pinv(J_6).dot(vel+K*error)
+
+        # Since the third Joint is blocked, its velocity is 0
+        q_dot.velocity = np.insert(q_dot_6,2,0)
+
+        #q_dot.velocity = np.linalg.pinv(J_6).dot(vel+K*error)
+        return IK_JTAResponse(q_dot)
+    
 
 def jac_mat():
 
