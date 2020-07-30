@@ -1,37 +1,3 @@
-
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@LucaTars
-andreabradpitto /
-SofAr-project
-
-0
-0
-
-    0
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-
-    Insights
-
-SofAr-project/math_pkg/scripts/Errors.py
-@Geraldone
-Geraldone commented the print
-Latest commit ee7985b 2 days ago
-History
-2 contributors
-@Geraldone
-@LucaTars
-182 lines (136 sloc) 5.02 KB
 #!/usr/bin/env python
 
 import numpy as np
