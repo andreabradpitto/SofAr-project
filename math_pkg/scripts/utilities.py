@@ -1,3 +1,5 @@
+from std_msgs.msg import Float64MultiArray, MultiArrayDimension
+
 def init_float64_multiarray(rows,columns):
     """!
     Function that initializes a Float64MultiArray of size rows x columns.
