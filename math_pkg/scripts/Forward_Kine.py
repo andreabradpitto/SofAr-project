@@ -4,8 +4,9 @@ import rospy
 import numpy as np
 import math
 import tf
+import utilities as util
 from sensor_msgs.msg import JointState, Imu
-from std_msgs.msg import Float64MultiArray, MultiArrayDimension
+from std_msgs.msg import Float64MultiArray
 import T_computations as t
 import J_computations as j
 import time
@@ -88,22 +89,6 @@ a_imu_inert = np.zeros((3,1))
 omega_0e = np.zeros((3,1))
 a_0e = np.zeros((3,1))
 
-def init_float64_multiarray(rows,columns):
-    """!
-    Function that initializes a Float64MultiArray of size rows x columns.
-    @param rows: Number of rows of the returned multiarray.
-    @param columns: Number of columns of the returned multiarray.
-    @return empty Float64MultiArray instance.
-    """
-    a = Float64MultiArray()
-    a.layout.dim.append(MultiArrayDimension())
-    a.layout.dim.append(MultiArrayDimension())
-    a.layout.dim[0].label ="rows"
-    a.layout.dim[0].size = rows
-    a.layout.dim[1].label ="columns"
-    a.layout.dim[1].size = columns
-    return a
-
 def anglesCompensate(angles):
     """!
     Function used to filter unwanted minimal incoming data fluctuations,
@@ -160,7 +145,7 @@ def main_callback():
     ################################
     # Send Jacobian matrix
     ################################
-    J = init_float64_multiarray(6*7, 1)
+    J = util.init_float64_multiarray(6*7, 1)
     J.data = Jkmin1.reshape(6*7, 1)
     pub_jac.publish(J)
     
@@ -170,7 +155,7 @@ def main_callback():
 
     # Send R0e_k, R0e_kmin1; x_0e_k, x_0e_kmin1B; v_0e_k, v_0e_kmin1B;
     Rg_Re_xg_xe_vg_ve = np.array([R0e_k[0][0], R0e_k[0][1], R0e_k[0][2], R0e_k[1][0], R0e_k[1][1], R0e_k[1][2], R0e_k[2][0], R0e_k[2][1], R0e_k[2][2], R0e_kmin1[0][0], R0e_kmin1[0][1], R0e_kmin1[0][2], R0e_kmin1[1][0], R0e_kmin1[1][1], R0e_kmin1[1][2], R0e_kmin1[2][0], R0e_kmin1[2][1], R0e_kmin1[2][2], x_0e_k[0][0], x_0e_k[1][0], x_0e_k[2][0], x_0e_kmin1B[0][0], x_0e_kmin1B[1][0], x_0e_kmin1B[2][0], v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], v_0e_kmin1B[0][0], v_0e_kmin1B[1][0], v_0e_kmin1B[2][0]], dtype=np.float64)
-    R_x_v = init_float64_multiarray(30, 1)
+    R_x_v = util.init_float64_multiarray(30, 1)
     R_x_v.data = Rg_Re_xg_xe_vg_ve
     pub_err.publish(R_x_v)
 
@@ -180,10 +165,11 @@ def main_callback():
 
     # send v_0e_k, omega_0e, a_0e
     vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega_0e[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float64)
-    v_w_a = init_float64_multiarray(9, 1)
+    v_w_a = util.init_float64_multiarray(9, 1)
     v_w_a.data = vg_omega_a
     pub_track.publish(v_w_a)
-    
+
+    print("Published")
 
 def baxter_callback(data):
     """!
@@ -204,7 +190,6 @@ def baxter_callback(data):
     if ini_bax != 0:
         # configuration at time kmin1
         q = np.array(data.position)
-
     # relative T's with the configuration passed.
     T_rel_kmin1 = t.transformations(T_dh, q, info)
     # absolute T's
