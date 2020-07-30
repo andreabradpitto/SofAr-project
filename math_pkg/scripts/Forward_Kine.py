@@ -154,7 +154,7 @@ def main_callback():
     ################################
 
     # Send R0e_k, R0e_kmin1; x_0e_k, x_0e_kmin1B; v_0e_k, v_0e_kmin1B;
-    Rg_Re_xg_xe_vg_ve = np.array([R0e_k[0][0], R0e_k[0][1], R0e_k[0][2], R0e_k[1][0], R0e_k[1][1], R0e_k[1][2], R0e_k[2][0], R0e_k[2][1], R0e_k[2][2], R0e_kmin1[0][0], R0e_kmin1[0][1], R0e_kmin1[0][2], R0e_kmin1[1][0], R0e_kmin1[1][1], R0e_kmin1[1][2], R0e_kmin1[2][0], R0e_kmin1[2][1], R0e_kmin1[2][2], x_0e_k[0][0], x_0e_k[1][0], x_0e_k[2][0], x_0e_kmin1B[0][0], x_0e_kmin1B[1][0], x_0e_kmin1B[2][0], v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], v_0e_kmin1B[0][0], v_0e_kmin1B[1][0], v_0e_kmin1B[2][0]], dtype=np.float64)
+    Rg_Re_xg_xe_vg_ve = np.array([R0e_k[0][0], R0e_k[0][1], R0e_k[0][2], R0e_k[1][0], R0e_k[1][1], R0e_k[1][2], R0e_k[2][0], R0e_k[2][1], R0e_k[2][2], R0e_kmin1[0][0], R0e_kmin1[0][1], R0e_kmin1[0][2], R0e_kmin1[1][0], R0e_kmin1[1][1], R0e_kmin1[1][2], R0e_kmin1[2][0], R0e_kmin1[2][1], R0e_kmin1[2][2], x_0e_k[0][0], x_0e_k[1][0], x_0e_k[2][0], x_0e_kmin1B[0][0], x_0e_kmin1B[1][0], x_0e_kmin1B[2][0], v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], v_0e_kmin1B[0][0], v_0e_kmin1B[1][0], v_0e_kmin1B[2][0]], dtype=np.float32)
     R_x_v = util.init_float64_multiarray(30, 1)
     R_x_v.data = Rg_Re_xg_xe_vg_ve
     pub_err.publish(R_x_v)
@@ -164,12 +164,12 @@ def main_callback():
     ################################
 
     # send v_0e_k, omega_0e, a_0e
-    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega_0e[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float64)
+    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega_0e[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float32)
     v_w_a = util.init_float64_multiarray(9, 1)
     v_w_a.data = vg_omega_a
     pub_track.publish(v_w_a)
 
-    print("Published")
+    #print("Published")
 
 def baxter_callback(data):
     """!
@@ -190,6 +190,7 @@ def baxter_callback(data):
     if ini_bax != 0:
         # configuration at time kmin1
         q = np.array(data.position)
+        
     # relative T's with the configuration passed.
     T_rel_kmin1 = t.transformations(T_dh, q, info)
     # absolute T's
@@ -216,6 +217,7 @@ def baxter_callback(data):
 
     if ini_bax == 0:
         R0inert = R0e_kmin1 # Constant in time.
+        print(R0e_kmin1)
         x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
         ini_bax = ini_bax + 1
     
@@ -249,7 +251,7 @@ def dot_callback(data):
     # baxter's arm.
     ###################################################################################
     if ini_dot != 0:
-        q_dot = np.array([data.velocity]).transpose()
+        q_dot = np.transpose(np.array([data.velocity]))
 
     key_dot = key_dot + 1
 
@@ -259,8 +261,7 @@ def dot_callback(data):
     if (key_bax >= 1 and key_dot >= 1):
         x_dot = np.dot(Jkmin1, q_dot)
         for i in range(3):
-            v_0e_kmin1B[i][0] = x_dot[i][0]
-
+            v_0e_kmin1B[i][0] = x_dot[i][0]    
         if(key_smart >= 1):
             key_bax = 0
             key_dot = 0
@@ -342,7 +343,7 @@ def smart_callback(data):
     v_0e_kmin1 = v_0e_k
 
     end = time.time()
-    #print("Smart Frequency: " + str(1/(end-start)))
+   # print("Smart Frequency: " + str(1/(end-start)))
 
         
 def subs():

@@ -91,14 +91,13 @@ def errors(data):
     for i in range(3):
        for j in range(3):
          Rg[i][j] = Data[k+j]
+       k = k + 3  
 
-    k = k + 3
 
     for i in range(3):
        for j in range(3):
           Re[i][j] = Data[k+j]
-
-    k = k + 3
+       k = k + 3
 
     for i in range(3):
        xg[i][0] = Data[k+i]
@@ -139,6 +138,7 @@ def errors(data):
 
     end = time.time()
     #print("Error frequency: " + str(1/(end-start)))
+    #print("Errors published")
 
 
 def listener():
