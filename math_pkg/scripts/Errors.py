@@ -36,7 +36,8 @@ History
 
 import numpy as np
 import rospy
-from std_msgs.msg import Float64MultiArray,MultiArrayDimension
+import utilities as util
+from std_msgs.msg import Float64MultiArray
 import time
 
 # Initialization of publisher
@@ -52,22 +53,6 @@ xe = np.zeros((3,1))
 
 vg = np.zeros((3,1))
 ve = np.zeros((3,1))
-
-def init_float64_multiarray(rows,columns):
-    """!
-    Function that initializes a Float64MultiArray of size rows x columns.
-    @param rows: Number of rows of the returned multiarray.
-    @param columns: Number of columns of the returned multiarray.
-    @return empty Float64MultiArray instance.
-    """
-    a = Float64MultiArray()
-    a.layout.dim.append(MultiArrayDimension())
-    a.layout.dim.append(MultiArrayDimension())
-    a.layout.dim[0].label ="rows"
-    a.layout.dim[0].size = rows
-    a.layout.dim[1].label ="columns"
-    a.layout.dim[1].size = columns
-    return a
 
 def ang_mis(Rg, Re):
     """!
@@ -182,7 +167,7 @@ def errors(data):
 
     # Send rho, eta, ni
     err = np.array([rho[0], rho[1], rho[2], eta[0], eta[1], eta[2], ni[0], ni[1], ni[2]], dtype=np.float32)
-    errors = init_float64_multiarray(6, 1)
+    errors = util.init_float64_multiarray(6, 1)
     errors.data = err
     pub.publish(errors)
 
