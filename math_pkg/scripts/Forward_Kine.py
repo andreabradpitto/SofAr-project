@@ -217,7 +217,7 @@ def baxter_callback(data):
 
     if ini_bax == 0:
         R0inert = R0e_kmin1 # Constant in time.
-        print(R0e_kmin1)
+        #print(R0e_kmin1)
         x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
         ini_bax = ini_bax + 1
     
