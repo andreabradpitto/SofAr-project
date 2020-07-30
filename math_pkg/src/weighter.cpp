@@ -5,6 +5,7 @@
 #include "math_pkg/Cost.h"
 #include "math_pkg/IK.h"
 #include "math_pkg/IK_JTA.h"
+#include "math_pkg/IK_Jtra.h"
 #include "math_pkg/Safety.h"
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
@@ -20,7 +21,10 @@ ros::ServiceClient clients[NUM_IK_SERVICES];
 math_pkg::Cost costSrv;
 
 /* Transpose server object.*/
-math_pkg::IK_JTA traSrv;
+math_pkg::IK_Jtra traSrv;
+
+/* Transpose server object.*/
+math_pkg::IK_JTA TASrv;
 
 
 /*! Function that calls all the invkin modules and retrieves the computed joint velocities.
@@ -30,7 +34,6 @@ math_pkg::IK_JTA traSrv;
 */
 int getAllqdots(vector<double> qdots[], bool obtained[]) {
 	bool costObtained; // will be true if call to Cost service will succeed.
-	bool sixDofsObtained=true; // same with J6dofs
 
 	int num_obtained = 0; // initialization
 	// Each service call is performed in parallel.
@@ -47,7 +50,7 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 
    		#pragma omp section
 		{ 
-			// call to transp
+			obtained[1] = clients[2].call(TASrv);
 		}
 	}
    	if (costObtained) { // store solutions obtained from Cost and update num_obtained
@@ -64,18 +67,15 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 		num_obtained++;
 	}
 	else ROS_ERROR("Call to Jtra service failed.");
-	if (sixDofsObtained) {}
+	if (obtained[1]) {
+		qdots[1] = TASrv.response.q_dot.velocity;
+		num_obtained++;
+	}
 	else ROS_ERROR("Call to J6dofs service failed.");
 
 	for (int i = 2; i < NUM_IK_SOLUTIONS; i++) {
 		obtained[i] = costObtained;
 	}
-
-	// temp:
-	obtained[1] = false; // 6 dofs, waiting...
-
-	// Debug
-	if (obtained[0]) ROS_ERROR("NOT AN ERROR, TRANSPOSE OK");
 
 	return num_obtained;
 }
@@ -85,8 +85,7 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 /*! Service function for the Safety service, which computes the partial joint velocities based on the safety task.
     \return JointState object to be published, containing the weighted joint velocities vector.
 */
-JointState computeWeightedqdot() {
-	sensor_msgs::JointState finalqdotState; // initialize object to be published
+int computeWeightedqdot(JointState &finalqdotState) {
 	vector<double> finalqdot(NJOINTS,0); // initialize content of object to be published
 	vector<double> qdots[NUM_IK_SOLUTIONS]; // will contain all qdots computed by the invkin services
 	bool obt[NUM_IK_SOLUTIONS]; // i-th element is true if i-th solution was obtained, false otherwise
@@ -125,8 +124,9 @@ JointState computeWeightedqdot() {
 	}
 
 	finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
+	finalqdotState.header.stamp = ros::Time::now();
 	//printVectord(finalqdot);
-	return finalqdotState;
+	return num_obtained ;
 }
 
 
@@ -143,28 +143,30 @@ int main(int argc,char **argv) {
 
 	// This node acts as a client for three services.
     clients[0] = n.serviceClient<math_pkg::Cost>("cost");
-    clients[1] = n.serviceClient<math_pkg::IK_JTA>("IK_Jtransp");
-    //clients[2] = n.serviceClient<math_pkg::IK>("");
+    clients[1] = n.serviceClient<math_pkg::IK_Jtra>("IK_Jtransp");
+    clients[2] = n.serviceClient<math_pkg::IK_JTA>("IK_JAnalytic");
 
     cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
-	vector<double> tosendFirstV(NJOINTS,0);
-	sensor_msgs::JointState toSendFirst; // initialize object to be published
-	toSendFirst.velocity = tosendFirstV;
-	toSendFirst.header.stamp = ros::Time::now();
-	pub.publish(toSendFirst);
+	vector<double> tosendFirst(NJOINTS,0);
+	sensor_msgs::JointState toSend; // initialize object to be published
+	toSend.velocity = tosendFirst;
+	toSend.header.stamp = ros::Time::now();
+	pub.publish(toSend);
     loopRate.sleep();
 
+	int success;
+
     while (ros::ok()) {
-		clock_t begin = clock(); // timing
-		ROS_ERROR("NOT AN ERROR");
-    	pub.publish(computeWeightedqdot()); // publish weighted qdot
+			clock_t begin = clock(); // timing
+
+		success = computeWeightedqdot(toSend);
+		pub.publish(toSend); // publish weighted qdot
+	clock_t end = clock();
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	ROS_ERROR("w took sec %f,succ=%d", elapsed_secs,success);
 
     	ros::spinOnce();
     	loopRate.sleep();
-		
-		clock_t end = clock();
-		double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-		ROS_ERROR("%f",elapsed_secs);
     }
 
     return 0;
