@@ -2,22 +2,22 @@
 
 import rospy
 import numpy as np
-from rospy.numpy_msg import numpy_msg
-from rospy_tutorials.msg import Floats
+from sensor_msgs.msg import JointState
 
 def talker():
 
-    pub = rospy.Publisher('baxter_data', numpy_msg(Floats), queue_size=10)
+    pub = rospy.Publisher('logtopic', JointState, queue_size=10)
     rospy.init_node('talker', anonymous=True)
-    #rate = rospy.Rate(100) # 100 Hz
+    rate = rospy.Rate(100) # 100 Hz
 
-    q = np.array([0, 0, 0, 0, 0, 0, 0], dtype=np.float32)
+    q = JointState()
+    q.position = [0, 0, 0, 0, 0, 0, 0]
     pub.publish(q)
 
-##  while not rospy.is_shutdown():
-##        pub.publish(q)
-##        rate.sleep()
-##
+#    while not rospy.is_shutdown():
+#         pub.publish(q)
+#         rate.sleep()
+
 
 
 if __name__ == '__main__':
