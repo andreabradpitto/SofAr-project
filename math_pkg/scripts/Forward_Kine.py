@@ -73,7 +73,7 @@ v_0e_k = v_0e_kmin1
 v_0e_kmin1B = np.zeros((3,1))
 
 # Define the q's and q dots
-q = np.zeros((1,7))
+q = np.zeros(7)
 q_dot = np.zeros((7,1))
 
 # Definition of some variables that change over time when a callback is triggered
