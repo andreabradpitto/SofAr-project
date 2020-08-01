@@ -120,8 +120,10 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 
 		// Map the vectors returned by the call into Eigen library objects.
     	VectorXd partialqdot = Map<VectorXd>(safeSrv.response.qdot.velocity.data(),NJOINTS);
-    	MatrixXd Q2 = Map<MatrixXd>(safeSrv.response.Q2.data.data(),NJOINTS,NJOINTS);
-		res.Q2 = safeSrv.response.Q2;
+    	MatrixXd Q1 = Map<MatrixXd>(safeSrv.response.Q1.data.data(),NJOINTS,NJOINTS);
+		MatrixXd Q2 = Q1*(ID_MATRIX_NJ - regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA)*J*Q1);
+		Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
+		res.Q2.data = vector<double> (Q2v.data(), Q2v.data() + Q2v.size());
 
 		JL = J.block<3,NJOINTS>(0,0); // Extract linear part of the Jacobian matrix.
 		if (firstStep) firstStep = false;
@@ -130,7 +132,7 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		// Compute the non-optimized joint velocities.
 		VectorXd qdot1; // will contain qdot computed according to closed loop IK first order.
 		VectorXd qdot2; // will contain qdot computed according to closed loop IK second order.
-		computeqdot(partialqdot,Q2,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2);
+		computeqdot(partialqdot,Q1,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2);
 		JLold = JL; // update JLold
 
 		// Fill response objects.

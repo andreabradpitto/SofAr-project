@@ -69,8 +69,6 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 	for(short i = 0; i<NJOINTS; i++) { // for all joints
 		// Compute and store the i-th element of rdot and of the diagonal of A, based on the angle constraint task.
 	    angleOk = jointConstr(q[i],QMIN[i],QMAX[i],JOINTS_MARGIN,JOINTS_MAXPOLE,JOINTS_MAJ,currentAnglePole[i],true,rdot_i,Adiag_i);
-	    rdot(i) = rdot_i;
-	    Adiag(i) = Adiag_i;
 
 		// If joint i has a safe rotation angle, check for the safety of its velocity. Otherwise, the angle correction task will automatically bring the joint velocity to 0.
 		if (angleOk) {
@@ -92,7 +90,6 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
     \return true if client-service call succeeded, false otherwise.
 */
 bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Response &res) {
-	clock_t begin = clock(); // timing
 	if (!(readyq && readyqdot)) { // at least one subscribtion data is missing
 		readyq = readyqdot = false; // reset availability flag
     	ROS_ERROR("safety service could not run: missing data.");
@@ -109,20 +106,15 @@ bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Respo
 	// For the safety task, the Jacobian is the identity and Q is the zero matrix.
 	MatrixXd pinvJ = regPinv(ID_MATRIX_NJ,A,ZERO_MATRIX_NJ,ETA);
 
-	MatrixXd Q2 = ID_MATRIX_NJ - pinvJ; // Q2 will be needed for the tracking task.
+	MatrixXd Q1 = ID_MATRIX_NJ - pinvJ; // Q2 will be needed for the tracking task.
 	partial_qdot = pinvJ * rdot;
 
 	// Store Q2 into a 1D vector so that it can be sent to the client in a Float64MultiArray object.
-	Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
+	Map<MatrixXd> Q1v (Q1.data(), NJOINTS*NJOINTS,1);
 
 	// Fill response object.
 	res.qdot.velocity = vector<double> (partial_qdot.data(), partial_qdot.data() + partial_qdot.size());
-	res.Q2.data = vector<double> (Q2v.data(), Q2v.data() + Q2v.size());
-	
-	// Timing.
-	clock_t end = clock();
-	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	cout << "SFT TOOK " << elapsed_secs << " SECS" << endl;
+	res.Q1.data = vector<double> (Q1v.data(), Q1v.data() + Q1v.size());
 
 	return true; // request successful
 }
