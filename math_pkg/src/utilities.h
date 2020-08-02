@@ -10,6 +10,7 @@
 #include "Eigen/Dense"
 #include "Eigen/SVD"
 #include "math_pkg/Cost.h"
+#include "Eigen/QR"
 
 using namespace Eigen;
 using namespace std;
@@ -19,19 +20,19 @@ using namespace sensor_msgs;
 /*! Simulation timestep.*/
 #define DT 0.01
 /*! Auxiliary parameter for pseudoinversion.*/
-#define ETA 0
+#define ETA 5
 /*! Majorant of joint angles.*/
-#define JOINTS_MAJ 3
+#define JOINTS_MAJ 3.8
 /*! Soft margin of joint angles.*/
 #define JOINTS_MARGIN 0.2
 /*! Max absolute value of correction pole for joint angles.*/
-#define JOINTS_MAXPOLE 1
+#define JOINTS_MAXPOLE 3
 /*! Linear positional gain for tracking.*/
-#define Kp 1
+#define Kp 16
 /*! Linear velocity gain for tracking.*/
-#define Kv 25
+#define Kv 8
 /*! Rotational gain for tracking.*/
-#define Krot 25
+#define Krot 2
 /*! Number of robot joint.*/
 #define NJOINTS 7
 /*! Number of invkin services.*/
@@ -45,22 +46,22 @@ using namespace sensor_msgs;
 /*! Spatial dofs of the robot.*/
 #define SPACE_DOFS 6
 /*! Majorant of joint velocities.*/
-#define VEL_MAJ 3
+#define VEL_MAJ 20
 /*! Soft margin of joint  velocities.*/
 #define VEL_MARGIN 0.2
 /*! Max absolute value of correction pole for joint velocity.*/
 #define VEL_MAXPOLE 20
 
 /*! Min joint angles.*/
-const double QMIN[] = {-5555, 6, 7, 8, 3, 4, 5};
+const double QMIN[] = {-2.4409, -0.5560, -2.9994, -0.0324, -3.0343, -1.5508, -3.0343};
 /*! Max joint angles.*/
-const double QMAX[] = {5000, 6, 7, 8, 3, 4, 5};
+const double QMAX[] = {0.8701, 2.5980, 2.9994, 2.5980, 3.0543, 2.0744, 3.0343};
 /*! Min joint velocities.*/
-const double QDOTMIN[] = {-2.4609, -0.5760, -3.0194, -0.0524, -3.0543, -1.5708, -3.0543};
+const double QDOTMIN[] = {-3,-3,-3,-3,-3,-3,-3};
 /*! Max joint velocities.*/
-const double QDOTMAX[] = {0.8901, 2.6180, 3.0194, 2.6180, 3.0543, 2.0944, 3.0543};
+const double QDOTMAX[] = {3,3,3,3,3,3,3};
 /*! Initial joint angles.*/
-const double QINIT[] = {5, 6, 7, 8, 3, 4, 5};
+const double QINIT[] = {0,0,0,0,0,0,0};
 /*! Weights for invkin solutions (sum must be 1).*/
 const double WEIGHTS[] = {0,0,1,0,0,0};
 /*! Constant used in Gaussian computation for pseudoinversion.*/
@@ -106,6 +107,7 @@ bool jointConstr(double x,const double xmin,const double xmax,
 	double &currentPole,const bool isJoint,double &rdot, double &Adiag) {
     bool ok = false;
 	if (x > xmax - mrgn) {
+        //cout << "too high" << x << ">" << xmax - mrgn << ", is joint = " << isJoint << endl;
 		if (currentPole == 0) currentPole = min(maxPole,float(maj)/abs(x-xmax));
 		if (isJoint) rdot = currentPole * (-x + xmax - mrgn);
 		else rdot = currentPole * (-x + xmax - mrgn) * DT + x;
@@ -113,6 +115,7 @@ bool jointConstr(double x,const double xmin,const double xmax,
 		else Adiag = cos_sigmoid(x,xmax,mrgn);
 	}
 	else if (x < xmin + mrgn) {
+        //cout << "too low" << x << "<" << xmin + mrgn << ", is joint = " << isJoint << endl;
 		if (currentPole == 0) currentPole = min(maxPole,float(maj)/abs(x-xmin));
 		if (isJoint) rdot = currentPole * (-x + xmin + mrgn);
 		else rdot = currentPole * (-x + xmin + mrgn) * DT + x;
@@ -141,17 +144,31 @@ MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta) {
     double bel;
     MatrixXd XT = X.transpose();
     MatrixXd idMinusQ = ID_MATRIX_NJ - Q;
-    MatrixXd toSVD = XT*A*X + eta*(idMinusQ*idMinusQ.transpose());
+    MatrixXd toSVD = XT*A*X + 5*(idMinusQ.transpose()*idMinusQ);
 
     JacobiSVD<MatrixXd> svd(toSVD, ComputeThinU | ComputeThinV);
     VectorXd sv = svd.singularValues();
+    /*cout << "~~~~~~~~~~~" << endl;
+    cout << "XT*A*X = " << XT*A*X << endl;
+    cout << "eta*... = " << eta*(idMinusQ.transpose()*idMinusQ) << endl;
+    cout << "tosvd = " << toSVD << endl;
+    cout << "X = " << X << endl;
+    cout << "V = " << X << endl;
+    cout << "SV = " << sv << endl;*/
 
-    for (int i = 0; i < NJOINTS; i++) {
-  		bel = exp(-b*sv(i)*sv(i));
-    	sv(i) = sv(i)/(sv(i)*sv(i) + bel*bel); // singular values too big are replaced by small values
+    for (int i = 0; i < sv.size(); i++) {
+        if (abs(sv(i)) > 1e-8) {
+  		    bel = exp(-b*sv(i)*sv(i));
+    	    //sv(i) = sv(i)/(sv(i)*sv(i) + bel*bel); // singular values too big are replaced by small values
+            sv(i) = bel;
+        }
+        else break;
     }
-
-    return svd.matrixV().transpose() * (sv.asDiagonal()) * (svd.matrixU().transpose()) * XT * A * A;
+    //cout << "P:" << sv << endl;
+    //cout << "VTPV" << svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV() << endl;
+    //cout << "XT * A * A" << XT * A * A << endl;
+    return (toSVD + svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV()).completeOrthogonalDecomposition().pseudoInverse() * XT * A * A;
+    //return svd.matrixV().transpose() * (sv.asDiagonal()) * (svd.matrixU()) * XT * A * A;
 }
 
 
@@ -182,20 +199,40 @@ void computeqdot(VectorXd partialqdot,MatrixXd Q1,MatrixXd J,MatrixXd JL,
     xedot2 << ve2,Krot*rho;
     MatrixXd JTimesQ1 = J*Q1;
     MatrixXd pinvAux = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,Q1,ETA);
-    MatrixXd pinvQZero = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,ZERO_MATRIX_NJ,ETA);
+    MatrixXd pinvQZero = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA);
     MatrixXd W2 = JTimesQ1*pinvAux;
+    /*cout << "Q2=" << Q1 << endl;
+    cout << "JTimesQ1=" << JTimesQ1 << endl;
+    cout << "pinvAux=" << pinvAux << endl;
+    cout << "pinvQZero=" << pinvQZero << endl;
+    cout << "W2=" << W2 << endl;*/
     MatrixXd tempProduct1 = Q1*pinvQZero*W2;
     MatrixXd tempProduct2 = J*partialqdot;
     qdot1 = partialqdot + tempProduct1 * (xedot1 - tempProduct2);
     qdot2 = partialqdot + tempProduct1 * (xedot2 - tempProduct2);
+    //cout << "qdot1 = " << qdot1;
+    //cout << "qdot2 = " << qdot2;
 }
 
 
 /*! Function that prints a std::vector of doubles, used for debug.
     \param v A std::vector of doubles.
 */
-void printVectord(vector<double> v) {
+void printVectord(vector<double> v, char * name) {
+    cout << name << ":" << endl;
     for (int i = 0; i < v.size(); i++) {
-        cout << v[i] << "," << endl;
+        cout << v[i] << ",";
     }
+    cout << endl;
+}
+
+/*! Function that prints an array of doubles, used for debug.
+    \param v A std::vector of doubles.
+*/
+void printArrayd(double v[], int size, char name[]) {
+    cout << name << ":" << endl;
+    for (int i = 0; i < size; i++) {
+        cout << v[i] << ",";
+    }
+    cout << endl;
 }

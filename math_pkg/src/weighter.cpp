@@ -123,7 +123,7 @@ int computeWeightedqdot(JointState &finalqdotState) {
 		
 	}
 
-	finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
+	if (num_obtained > 0) finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
 	finalqdotState.header.stamp = ros::Time::now();
 	//printVectord(finalqdot);
 	return num_obtained ;
@@ -146,7 +146,7 @@ int main(int argc,char **argv) {
     clients[1] = n.serviceClient<math_pkg::IK_Jtra>("IK_Jtransp");
     clients[2] = n.serviceClient<math_pkg::IK_JTA>("IK_JAnalytic");
 
-    cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
+    //cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
 	vector<double> tosendFirst(NJOINTS,0);
 	sensor_msgs::JointState toSend; // initialize object to be published
 	toSend.velocity = tosendFirst;
@@ -157,13 +157,8 @@ int main(int argc,char **argv) {
 	int success;
 
     while (ros::ok()) {
-			clock_t begin = clock(); // timing
-
 		success = computeWeightedqdot(toSend);
 		pub.publish(toSend); // publish weighted qdot
-	clock_t end = clock();
-	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	ROS_ERROR("w took sec %f,succ=%d", elapsed_secs,success);
 
     	ros::spinOnce();
     	loopRate.sleep();

@@ -119,11 +119,15 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		readyJ = readyErr = readyVwa = readyqdot = false; // reset availability flags
 
 		// Map the vectors returned by the call into Eigen library objects.
+		/*cout << "J=" << J << endl;cout << "qdot=" << qdot << endl;
+		cout << "rho=" << rho << endl;cout << "eta=" << eta << endl;cout << "nu=" << nu << endl;
+		cout << "v=" << v << endl;cout << "w=" << w << endl;cout << "a=" << a << endl;*/
     	VectorXd partialqdot = Map<VectorXd>(safeSrv.response.qdot.velocity.data(),NJOINTS);
     	MatrixXd Q1 = Map<MatrixXd>(safeSrv.response.Q1.data.data(),NJOINTS,NJOINTS);
 		MatrixXd Q2 = Q1*(ID_MATRIX_NJ - regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA)*J*Q1);
 		Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
 		res.Q2.data = vector<double> (Q2v.data(), Q2v.data() + Q2v.size());
+		//cout << "Q1=" << Q1 << endl;
 
 		JL = J.block<3,NJOINTS>(0,0); // Extract linear part of the Jacobian matrix.
 		if (firstStep) firstStep = false;
@@ -172,7 +176,7 @@ int main(int argc,char **argv) {
 
     JLdot = MatrixXd::Zero(3,NJOINTS);
 
-    cout << "IK WILL NOW PROCEED TO SPIN" << endl;
+    //cout << "IK WILL NOW PROCEED TO SPIN" << endl;
     ros::spin();
     return 0;
 }
