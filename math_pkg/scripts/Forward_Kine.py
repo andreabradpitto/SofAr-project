@@ -20,14 +20,14 @@ pub_jac = rospy.Publisher('jacobian', Float64MultiArray, queue_size=10)
 p = np.pi
 n_joints = 7
 
-# Links length. [cm]
-L0 = 27.035
-L1 = 6.900
-L2 = 36.435
-L3 = 6.900
-L4 = 37.429
-L5 = 1.000
-L6 = 36.830
+# Links length. [m]
+L0 = 0.27035
+L1 = 0.06900
+L2 = 0.36435
+L3 = 0.06900
+L4 = 0.37429
+L5 = 0.01000
+L6 = 0.36830
 
 # DH table of Baxter: alpha(i-1), a(i-1), d(i), theta(i).
 # Last row relates 7-th joint to end-effector.
@@ -154,7 +154,7 @@ def main_callback():
     ################################
 
     # Send R0e_k, R0e_kmin1; x_0e_k, x_0e_kmin1B; v_0e_k, v_0e_kmin1B;
-    Rg_Re_xg_xe_vg_ve = np.array([R0e_k[0][0], R0e_k[0][1], R0e_k[0][2], R0e_k[1][0], R0e_k[1][1], R0e_k[1][2], R0e_k[2][0], R0e_k[2][1], R0e_k[2][2], R0e_kmin1[0][0], R0e_kmin1[0][1], R0e_kmin1[0][2], R0e_kmin1[1][0], R0e_kmin1[1][1], R0e_kmin1[1][2], R0e_kmin1[2][0], R0e_kmin1[2][1], R0e_kmin1[2][2], x_0e_k[0][0], x_0e_k[1][0], x_0e_k[2][0], x_0e_kmin1B[0][0], x_0e_kmin1B[1][0], x_0e_kmin1B[2][0], v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], v_0e_kmin1B[0][0], v_0e_kmin1B[1][0], v_0e_kmin1B[2][0]], dtype=np.float32)
+    Rg_Re_xg_xe_vg_ve = np.array([R0e_k[0][0], R0e_k[0][1], R0e_k[0][2], R0e_k[1][0], R0e_k[1][1], R0e_k[1][2], R0e_k[2][0], R0e_k[2][1], R0e_k[2][2], R0e_kmin1[0][0], R0e_kmin1[0][1], R0e_kmin1[0][2], R0e_kmin1[1][0], R0e_kmin1[1][1], R0e_kmin1[1][2], R0e_kmin1[2][0], R0e_kmin1[2][1], R0e_kmin1[2][2], x_0e_k[0][0], x_0e_k[1][0], x_0e_k[2][0], x_0e_kmin1B[0][0], x_0e_kmin1B[1][0], x_0e_kmin1B[2][0], v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], v_0e_kmin1B[0][0], v_0e_kmin1B[1][0], v_0e_kmin1B[2][0]], dtype=np.float_)
     R_x_v = util.init_float64_multiarray(30, 1)
     R_x_v.data = Rg_Re_xg_xe_vg_ve
     pub_err.publish(R_x_v)
@@ -164,7 +164,7 @@ def main_callback():
     ################################
 
     # send v_0e_k, omega_0e, a_0e
-    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega_0e[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float32)
+    vg_omega_a = np.array([v_0e_k[0][0], v_0e_k[1][0], v_0e_k[2][0], omega_0e[0][0], omega_0e[1][0], omega_0e[2][0], a_0e[0][0], a_0e[1][0], a_0e[2][0]], dtype=np.float_)
     v_w_a = util.init_float64_multiarray(9, 1)
     v_w_a.data = vg_omega_a
     pub_track.publish(v_w_a)
