@@ -101,16 +101,13 @@ bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Respo
 
 	// Obtain the derivative of the task vector and the activation values, stored in 1D vectors.
 	safetyLoop(rdot,Adiag);
-	//cout << "rdot = " << rdot << endl;
-	//cout << "Adiag = " << Adiag << endl;
-	printArrayd(q,7,"q");
-	printArrayd(qdot,7,"qdot");
     MatrixXd A = Adiag.asDiagonal(); // store the diagonal of A into a sparse matrix structure (needed for the following computations)
 
 	// For the safety task, the Jacobian is the identity and Q is the zero matrix.
 	MatrixXd pinvJ = regPinv(ID_MATRIX_NJ,A,ID_MATRIX_NJ,ETA);
-	//cout << "pinvJtask = " << pinvJ << endl;
+	cout << "pinvJtask = " << pinvJ << endl;
 	MatrixXd Q1 = ID_MATRIX_NJ - pinvJ; // Q1 will be needed for the tracking task.
+	cout << "Q1 = " << Q1 << endl;
 	partial_qdot = pinvJ * rdot;
 
 	// Store Q2 into a 1D vector so that it can be sent to the client in a Float64MultiArray object.
@@ -146,7 +143,7 @@ int main(int argc,char **argv) {
     
 	ros::ServiceServer service = n.advertiseService("safety", computePartialqdot); // activate safety service
 
-    cout << "SAFETY WILL NOW PROCEED TO SPIN" << endl;
+    //cout << "SAFETY WILL NOW PROCEED TO SPIN" << endl;
     ros::spin();
     return 0;
 }

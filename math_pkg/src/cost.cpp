@@ -57,9 +57,9 @@ cout << "qdot1=" << qdot1 << endl;
     cout << "Q2" << Q2 << endl;
     cout << "Q2Sharp" << Q2Sharp << endl;
     // Each optimized velocity vector is given by: non-optimized vector + G * z, where z is a NJOINTSx1 vector.
-    qdot1opt1 = qdot1 + temp1*qdot1;
+    qdot1opt1 = qdot1 + Q2*temp1*qdot1;
     qdot1opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot1);
-    qdot2opt1 = qdot2 + temp1*qdot2;
+    qdot2opt1 = qdot2 + Q2*temp1*qdot2;
     qdot2opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot2);
 
     // Fill the response object.

@@ -63,7 +63,7 @@ const double QDOTMAX[] = {3,3,3,3,3,3,3};
 /*! Initial joint angles.*/
 const double QINIT[] = {0,0,0,0,0,0,0};
 /*! Weights for invkin solutions (sum must be 1).*/
-const double WEIGHTS[] = {0,0,1,0,0,0};
+const double WEIGHTS[] = {0.1,0.1,0,0.8,0,0};
 /*! Constant used in Gaussian computation for pseudoinversion.*/
 const double b = -log(0.5)/0.01;
 /*! Identity matrix of size NJOINTS.*/
@@ -151,10 +151,8 @@ MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta) {
     /*cout << "~~~~~~~~~~~" << endl;
     cout << "XT*A*X = " << XT*A*X << endl;
     cout << "eta*... = " << eta*(idMinusQ.transpose()*idMinusQ) << endl;
-    cout << "tosvd = " << toSVD << endl;
-    cout << "X = " << X << endl;
-    cout << "V = " << X << endl;
-    cout << "SV = " << sv << endl;*/
+    cout << "X = " << X << endl;*/
+    cout << "SV = " << sv << endl;
 
     for (int i = 0; i < sv.size(); i++) {
         if (abs(sv(i)) > 1e-8) {
@@ -164,8 +162,10 @@ MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta) {
         }
         else break;
     }
-    //cout << "P:" << sv << endl;
-    //cout << "VTPV" << svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV() << endl;
+    cout << "tosvd = " << toSVD << endl;
+    cout << "P:" << sv << endl;
+    cout << "V = " << svd.matrixV() << endl;
+    cout << "VTPV" << svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV() << endl;
     //cout << "XT * A * A" << XT * A * A << endl;
     return (toSVD + svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV()).completeOrthogonalDecomposition().pseudoInverse() * XT * A * A;
     //return svd.matrixV().transpose() * (sv.asDiagonal()) * (svd.matrixU()) * XT * A * A;
@@ -199,13 +199,15 @@ void computeqdot(VectorXd partialqdot,MatrixXd Q1,MatrixXd J,MatrixXd JL,
     xedot2 << ve2,Krot*rho;
     MatrixXd JTimesQ1 = J*Q1;
     MatrixXd pinvAux = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,Q1,ETA);
+    cout << "pinvAux=" << pinvAux << endl;
     MatrixXd pinvQZero = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA);
     MatrixXd W2 = JTimesQ1*pinvAux;
-    /*cout << "Q2=" << Q1 << endl;
+    /*
+    cout << "Q2=" << Q1 << endl;
     cout << "JTimesQ1=" << JTimesQ1 << endl;
-    cout << "pinvAux=" << pinvAux << endl;
     cout << "pinvQZero=" << pinvQZero << endl;
-    cout << "W2=" << W2 << endl;*/
+    cout << "W2=" << W2 << endl;
+    */
     MatrixXd tempProduct1 = Q1*pinvQZero*W2;
     MatrixXd tempProduct2 = J*partialqdot;
     qdot1 = partialqdot + tempProduct1 * (xedot1 - tempProduct2);
@@ -235,4 +237,14 @@ void printArrayd(double v[], int size, char name[]) {
         cout << v[i] << ",";
     }
     cout << endl;
+}
+
+/*! Function that saturates joint velocities.
+    \param qdots Vector to be saturated
+*/
+void saturate (vector<double> &qdots) {
+    for (short i = 0; i < NJOINTS; i++) {
+        if (qdots[i] > QDOTMAX[i]) qdots[i] = QDOTMAX[i];
+        else if (qdots[i] < QDOTMIN[i]) qdots[i] = QDOTMIN[i];
+    }
 }

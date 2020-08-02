@@ -122,7 +122,7 @@ int computeWeightedqdot(JointState &finalqdotState) {
 			transform(tempqdot.begin(), tempqdot.end(), finalqdot.begin(), finalqdot.begin(), std::plus<double>());
 		
 	}
-
+	saturate(finalqdot);
 	if (num_obtained > 0) finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
 	finalqdotState.header.stamp = ros::Time::now();
 	//printVectord(finalqdot);
@@ -154,10 +154,11 @@ int main(int argc,char **argv) {
 	pub.publish(toSend);
     loopRate.sleep();
 
-	int success;
+	int obt;
 
     while (ros::ok()) {
-		success = computeWeightedqdot(toSend);
+		obt = computeWeightedqdot(toSend);
+		ROS_ERROR("%d obtained", obt);
 		pub.publish(toSend); // publish weighted qdot
 
     	ros::spinOnce();
