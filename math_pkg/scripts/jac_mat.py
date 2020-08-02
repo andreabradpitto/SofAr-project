@@ -30,15 +30,15 @@ def calculations_6(q_smartphone):
     p = np.pi
     n_joints = 6
 
-    # Links length. [mm]
-    L0 = 270.35
-    L1 = 69.00
-    L2 = 364.35
-    L3 = 69.00
+    # Links length. [m]
+    L0 = 270.35/1000
+    L1 = 69.00/1000
+    L2 = 364.35/1000
+    L3 = 69.00/1000
     Lh = math.sqrt(L2** 2 + L3** 2)
-    L4 = 374.29
-    L5 = 10.00
-    L6 = 368.30
+    L4 = 374.29/1000
+    L5 = 10.00/1000
+    L6 = 368.30/1000
 
     # DH table of Baxter: alpha(i-1), a(i-1), d(i), theta(i).
     # Last row relates last joint to end-effector.
