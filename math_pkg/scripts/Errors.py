@@ -131,7 +131,7 @@ def errors(data):
     ######################
 
     # Send rho, eta, ni
-    err = np.array([rho[0], rho[1], rho[2], eta[0], eta[1], eta[2], ni[0], ni[1], ni[2]], dtype=np.float32)
+    err = np.array([rho[0], rho[1], rho[2], eta[0], eta[1], eta[2], ni[0], ni[1], ni[2]], dtype=np.float_)
     errors = util.init_float64_multiarray(6, 1)
     errors.data = err
     pub.publish(errors)
@@ -145,7 +145,7 @@ def listener():
 
     ##############################################################
     # Read from Forward_kine topic following data
-    # R0e_kplus1, R0e_k; v_0e_k, v_0e_kplus1; x_0e_k, x_0e_kplus1
+    # R0e_k, R0e_kmin1; v_0e_k, v_0e_kBmin1; x_0e_k, x_0e_kBmin1
     ##############################################################
 
     # In ROS, nodes are uniquely named. If two nodes with the same
