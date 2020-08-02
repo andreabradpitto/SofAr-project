@@ -12,10 +12,10 @@
 #include <ctime>
 
 /*! Availability flag for Jacobian matrix.*/
-bool readyJ;
+bool readyq;
 
 /*! Current Jacobian matrix.*/
-MatrixXd J;
+VectorXd q;
 
 /*! Client object needed to perform service calls.*/
 ros::ServiceClient client;
@@ -25,16 +25,15 @@ math_pkg::IK ikSrv;
 
 
 
-/*! Callback function for Jacobian matrix.
-    \param msg The received Jacobian matrix.
+/*! Callback function for joint position.
+    \param msg The received joint position vector.
 */
-void costCallbackJ(const std_msgs::Float64MultiArray &msg)
+void costCallbackq(const sensor_msgs::JointState &msg)
 {
-	vector<double> rcvdJ = msg.data;
-	J = Map<MatrixXd>(rcvdJ.data(),NJOINTS,6).transpose();
-    readyJ = true;
+	vector<double> rcvdq = msg.position;
+	q = Map<VectorXd>(rcvdq.data(),NJOINTS);
+	readyq = true;
 }
-
 
 
 /*! Function that computes the optimized velocity vectors.
@@ -44,21 +43,21 @@ void costCallbackJ(const std_msgs::Float64MultiArray &msg)
 	\param Q2 Auxiliary matrix for tracking task.
     \param res Response to client of cost service.
 */
-void computeCostResponse(MatrixXd J,VectorXd qdot1,VectorXd qdot2,MatrixXd Q2,math_pkg::Cost::Response &res) {
+void computeCostResponse(VectorXd q,VectorXd qdot1,VectorXd qdot2,MatrixXd Q2,math_pkg::Cost::Response &res) {
     VectorXd qdot1opt1,qdot1opt2,qdot2opt1,qdot2opt2; // initialization
 
     // Compute matrix G = joint kernel matrix.
-    MatrixXd G = ID_MATRIX_NJ - (regPinv(J,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA)) * J;
-    MatrixXd GTimesGSharp = G*regPinv(G,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA);
     MatrixXd IdMinusQ2 = ID_MATRIX_NJ - Q2;
     MatrixXd toPinv = Q2.transpose() * Q2 + 1 * IdMinusQ2.transpose()*(IdMinusQ2);
     MatrixXd temp1 = -regPinv(toPinv,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA) * Q2.transpose();
 
+    MatrixXd Q2Sharp = regPinv(Q2,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA);
+    VectorXd qdot_fav = -0.1 * (-q);
     // Each optimized velocity vector is given by: non-optimized vector + G * z, where z is a NJOINTSx1 vector.
     qdot1opt1 = qdot1 + temp1*qdot1;
-    qdot1opt2 = qdot1 + GTimesGSharp*(QDOT_FAV - qdot1);
+    qdot1opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot1);
     qdot2opt1 = qdot2 + temp1*qdot2;
-    qdot1opt2 = qdot1 + GTimesGSharp*(QDOT_FAV - qdot2);
+    qdot1opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot2);
 
     // Fill the response object.
     res.qdot1opt1.velocity = vector<double> (qdot1opt1.data(),qdot1opt1.data()+qdot1opt1.size());
@@ -77,13 +76,13 @@ configuration and closeness to a preferred velocity vector.
 */
 bool computeOptqdot(math_pkg::Cost::Request  &req, math_pkg::Cost::Response &res) {
     //clock_t begin = clock();
-    if (!readyJ) { // Jacobian not available
-        readyJ = false; // reset availability flag
+    if (!readyq) { // Jacobian not available
+        readyq = false; // reset availability flag
     	ROS_ERROR("cost service could not run: missing data.");
     	return false;
     }
     if (client.call(ikSrv)) { // if Jacobian is available and the service call succeeded
-        readyJ = false; // reset availability flag
+        readyq = false; // reset availability flag
 
 		// Map the non-optimized vectors and matrix returned by the call into Eigen library objects.
     	VectorXd qdot1 = Map<VectorXd>(ikSrv.response.qdot1.velocity.data(),NJOINTS);
@@ -91,10 +90,10 @@ bool computeOptqdot(math_pkg::Cost::Request  &req, math_pkg::Cost::Response &res
     	MatrixXd Q2 = Map<MatrixXd>(ikSrv.response.Q2.data.data(),NJOINTS,NJOINTS);
 
         // Compute optimized vectors and fill the response object.
-   	 	computeCostResponse(J,qdot1,qdot2,Q2,res);
+   	 	computeCostResponse(q,qdot1,qdot2,Q2,res);
    	}
     else { // if Jacobian is available but the service call did not succeed
-        readyJ = false; // reset availability flag
+        readyq = false; // reset availability flag
     	ROS_ERROR("Call to ik service failed.");
     	return false;
     }
@@ -112,7 +111,7 @@ int main(int argc,char **argv) {
     ros::NodeHandle n; // define node handle
 
     int queSize = 10;
-    ros::Subscriber sub = n.subscribe("jacobian", queSize, costCallbackJ); // subscribe for Jacobian
+    ros::Subscriber sub = n.subscribe("logtopic", queSize, costCallbackq); // subscribe for Jacobian
 
     ros::ServiceServer service = n.advertiseService("cost", computeOptqdot); // activate Cost service
     

@@ -56,13 +56,13 @@ const double QMIN[] = {-5555, 6, 7, 8, 3, 4, 5};
 /*! Max joint angles.*/
 const double QMAX[] = {5000, 6, 7, 8, 3, 4, 5};
 /*! Min joint velocities.*/
-const double QDOTMIN[] = {5, 6, 7, 8, 3, 4, 5};
+const double QDOTMIN[] = {-2.4609, -0.5760, -3.0194, -0.0524, -3.0543, -1.5708, -3.0543};
 /*! Max joint velocities.*/
-const double QDOTMAX[] = {5, 6, 7, 8, 3, 4, 5};
+const double QDOTMAX[] = {0.8901, 2.6180, 3.0194, 2.6180, 3.0543, 2.0944, 3.0543};
 /*! Initial joint angles.*/
 const double QINIT[] = {5, 6, 7, 8, 3, 4, 5};
 /*! Weights for invkin solutions (sum must be 1).*/
-const double WEIGHTS[] = {0.2,0.2,0.2,0.2,0.1,0.1};
+const double WEIGHTS[] = {0,0,1,0,0,0};
 /*! Constant used in Gaussian computation for pseudoinversion.*/
 const double b = -log(0.5)/0.01;
 /*! Identity matrix of size NJOINTS.*/
@@ -113,7 +113,7 @@ bool jointConstr(double x,const double xmin,const double xmax,
 		else Adiag = cos_sigmoid(x,xmax,mrgn);
 	}
 	else if (x < xmin + mrgn) {
-		if (currentPole == 0) currentPole = min(maxPole,float(maj)/abs(x-xmax));
+		if (currentPole == 0) currentPole = min(maxPole,float(maj)/abs(x-xmin));
 		if (isJoint) rdot = currentPole * (-x + xmin + mrgn);
 		else rdot = currentPole * (-x + xmin + mrgn) * DT + x;
 		if (x < xmin) Adiag = 1;
@@ -123,6 +123,7 @@ bool jointConstr(double x,const double xmin,const double xmax,
 		Adiag = 0;
 		rdot = 0;
 		ok = true;
+        currentPole = 0;
 	}
     return ok;
 }
@@ -156,7 +157,7 @@ MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta) {
 
 /*! Function that computes non-optimized qdot with 2 CLIK algorithms.
     \param partialqdot Safety task based qdot vector.
-    \param Q2 Auxiliary matrix for tracking task.
+    \param Q1 Auxiliary matrix for tracking task.
     \param J Jacobian matrix.
     \param JL Linear Jacobian matrix.
     \param JLdot Derivative of linear Jacobian matrix.
@@ -170,7 +171,7 @@ MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta) {
     \param qdot1 Reference to CLIK 1st order solution, to be filled.
     \param qdot2 Reference to CLIK 2nd order solution, to be filled.
 */
-void computeqdot(VectorXd partialqdot,MatrixXd Q2,MatrixXd J,MatrixXd JL,
+void computeqdot(VectorXd partialqdot,MatrixXd Q1,MatrixXd J,MatrixXd JL,
     MatrixXd JLdot,VectorXd qdot,VectorXd eta,VectorXd rho,VectorXd etadot,
     VectorXd v,VectorXd w,VectorXd a,VectorXd &qdot1,VectorXd &qdot2) {
     VectorXd ve1 = v + Kp*eta;
@@ -179,11 +180,11 @@ void computeqdot(VectorXd partialqdot,MatrixXd Q2,MatrixXd J,MatrixXd JL,
     VectorXd xedot2 = VectorXd(6);
     xedot1 << ve1,Krot*rho;
     xedot2 << ve2,Krot*rho;
-    MatrixXd JTimesQ2 = J*Q2;
-    MatrixXd pinvAux = regPinv(JTimesQ2,ID_MATRIX_SPACE_DOFS,Q2,ETA);
-    MatrixXd pinvQZero = regPinv(JTimesQ2,ID_MATRIX_SPACE_DOFS,ZERO_MATRIX_NJ,ETA);
-    MatrixXd W2 = JTimesQ2*pinvAux;
-    MatrixXd tempProduct1 = Q2*pinvQZero*W2;
+    MatrixXd JTimesQ1 = J*Q1;
+    MatrixXd pinvAux = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,Q1,ETA);
+    MatrixXd pinvQZero = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,ZERO_MATRIX_NJ,ETA);
+    MatrixXd W2 = JTimesQ1*pinvAux;
+    MatrixXd tempProduct1 = Q1*pinvQZero*W2;
     MatrixXd tempProduct2 = J*partialqdot;
     qdot1 = partialqdot + tempProduct1 * (xedot1 - tempProduct2);
     qdot2 = partialqdot + tempProduct1 * (xedot2 - tempProduct2);
