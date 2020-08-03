@@ -54,11 +54,13 @@ info = np.array([1, 1, 1, 1, 1, 1, 1])
 # rotation matrix from 0 to inertial frame.
 ini_bax = 0
 ini_dot = 0 # needed to differentiate from initial condition to computed qdots.
+ini_smart = 0
 
 # Sync variables
 key_bax = 0
 key_smart = 0
 key_dot = 0
+key = -1
 
 # Sampling time
 dt = 0.01
@@ -79,9 +81,10 @@ q_dot = np.zeros((7,1))
 
 # Definition of some variables that change over time when a callback is triggered
 R0inert = np.zeros((3,3))
+R0imu_ini = np.zeros((3,3))
+Rimu_inert_k = np.zeros((3,3))
 R0e_kmin1 = np.zeros((3,3))
 R0e_k = np.zeros((3,3))
-Rimu_inert_k = np.zeros((3,3))
 
 omega_imu_inert = np.zeros((3,1))
 a_imu_inert = np.zeros((3,1))
@@ -180,9 +183,9 @@ def baxter_callback(data):
     @param data: coming from baxter node which provides a JointState message.
     """
 
-    start = time.time()
+    #start = time.time()
 
-    global ini_bax, q, R0e_kmin1, R0inert, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
+    global ini_bax, q, R0e_kmin1, R0imu_ini, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
     
     ####################################################
     # Read from publisher of v-rep the q configuration.
@@ -216,8 +219,9 @@ def baxter_callback(data):
             R0e_kmin1[i][k] = T0e_kmin1[i][k]
 
     if ini_bax == 0:
-        R0inert = R0e_kmin1 # Constant in time.
+        #R0inert = R0e_kmin1 # Constant in time.
         #print(R0e_kmin1)
+        R0imu_ini = R0e_kmin1 # equal at starting configuration
         x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
         ini_bax = ini_bax + 1
     
@@ -235,7 +239,7 @@ def baxter_callback(data):
 
             main_callback()
 
-    end = time.time()
+    #end = time.time()
     #print("Bax Frequency: " + str(1/(end-start)))
 
 def dot_callback(data):
@@ -261,7 +265,8 @@ def dot_callback(data):
     if (key_bax >= 1 and key_dot >= 1):
         x_dot = np.dot(Jkmin1, q_dot)
         for i in range(3):
-            v_0e_kmin1B[i][0] = x_dot[i][0]    
+            v_0e_kmin1B[i][0] = x_dot[i][0]
+            
         if(key_smart >= 1):
             key_bax = 0
             key_dot = 0
@@ -277,9 +282,9 @@ def smart_callback(data):
     @param data: coming from smartphone which provides a Imu() message.
     """
 
-    start = time.time()
+    #start = time.time()
 
-    global omega_imu_inert, a_imu_inertial, Rimu_inert_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
+    global ini_smart, omega_imu_inert, a_imu_inert, R0inert, Rimu_inert_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
     #####################################################################################
     # Read from topic, get Rimu,inertial; angular velocity and linear acceleration
     # of imu with respect to inertial frame, all expressed in imu frame at time kplus1.
@@ -295,6 +300,9 @@ def smart_callback(data):
     
     Rimu_inert_k = eulerAnglesToRotationMatrix(angles)
     #print(Rimu_inert_k)
+    if ini_smart == 0:
+        R0inert = np.dot(R0imu_ini, Rimu_inert_k)
+        ini_smart = ini_smart + 1
 
     Rinert_imu_k = np.transpose(Rimu_inert_k)
     
@@ -314,10 +322,10 @@ def smart_callback(data):
     # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
     # i can compute R0e_k
     R0e_k = np.dot(R0inert, Rinert_imu_k)
+
     # Since inertial is not moving, the angular velocity and linear acceleration are the same
     # if calculated w.r.t. 0, however i need to project them in zero.
     omega_0e = np.dot(R0e_k, omega_imu_inert)
-
     a_0e = np.dot(R0e_k, a_imu_inert)
 
     ##############
@@ -342,8 +350,43 @@ def smart_callback(data):
     x_0e_kmin1 = x_0e_k
     v_0e_kmin1 = v_0e_k
 
-    end = time.time()
-   # print("Smart Frequency: " + str(1/(end-start)))
+   #end = time.time()
+   #print("Smart Frequency: " + str(1/(end-start)))
+    
+##def simulate_callback(data):
+##    """!
+##    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.
+##    If data = 1, then the algorithm moves on. If data = 2, then the algorithm must pause.
+##    @param data: coming from coppelia_sim.
+##    """
+##
+##    global ini_bax, ini_dot, ini_smart, q, q_dot, v_0e_kmin1, key_bax, key_smart, key_dot, key
+##
+##    key = Data.data
+##
+##    if key == 0:
+##        # reset of the initial conditions.
+##    
+##        # Need this variable to store initial rotation matrix, because it's equal to
+##        # rotation matrix from 0 to inertial frame.
+##        ini_bax = 0
+##        ini_dot = 0 # needed to differentiate from initial condition to computed qdots.
+##        ini_smart = 0
+##
+##        # Sync variables
+##        key_bax = 0
+##        key_smart = 0
+##        key_dot = 0
+##
+##        # Initial velocity of end effector w.r.t. zero
+##        v_0e_kmin1 = np.zeros((3,1)) # starting velocity
+##
+##        # Define the q's and q dots
+##        q = np.zeros(7)
+##        q_dot = np.zeros((7,1))
+##
+##        baxter_callback(0) # to set the initial conditions.
+##        dot_callback(0) # to set the initial conditions.
 
         
 def subs():
@@ -355,10 +398,11 @@ def subs():
     # run simultaneously.
     rospy.init_node('subs', anonymous=True)
 
-    # Receive data from smartphone and baxter.
+    # Receive data from smartphone, baxter, weighter and coppelia.
     rospy.Subscriber("smartphone", Imu, smart_callback)
     rospy.Subscriber("logtopic", JointState, baxter_callback)
     rospy.Subscriber("cmdtopic", JointState, dot_callback)
+    #rospy.Subscriber("handleSimulation", int, simulate_callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()  
