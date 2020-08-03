@@ -81,7 +81,7 @@ def errors(data):
     vector positions and velocities.
     """
 
-    start = time.time()  
+    #start = time.time()  
     Data = data.data
     global Rg, Re, xg, xe, vg, ve
 
@@ -132,11 +132,11 @@ def errors(data):
 
     # Send rho, eta, ni
     err = np.array([rho[0], rho[1], rho[2], eta[0], eta[1], eta[2], ni[0], ni[1], ni[2]], dtype=np.float_)
-    errors = util.init_float64_multiarray(6, 1)
+    errors = util.init_float64_multiarray(9, 1)
     errors.data = err
     pub.publish(errors)
 
-    end = time.time()
+    #end = time.time()
     #print("Error frequency: " + str(1/(end-start)))
     #print("Errors published")
 
