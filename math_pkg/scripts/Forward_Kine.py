@@ -37,7 +37,7 @@ DH = np.array([[0, 0, L0, 0],
                [-p/2, L3, 0, 0],
                [p/2, 0, L4, 0],
                [-p/2, L5, 0, 0],
-               [p/2, 0, 0, -p/2],
+               [p/2, 0, 0, 0],
                [0, 0, L6, 0]])
   
 
@@ -60,7 +60,7 @@ ini_smart = 0
 key_bax = 0
 key_smart = 0
 key_dot = 0
-key = -1
+#key = 1
 
 # Sampling time
 dt = 0.01
@@ -81,7 +81,10 @@ q_dot = np.zeros((7,1))
 
 # Definition of some variables that change over time when a callback is triggered
 R0inert = np.zeros((3,3))
-R0imu_ini = np.zeros((3,3))
+R0e_ini = np.zeros((3,3))
+Reimu_ini = np.array([[-1, 0, 0],
+                      [0, -1, 0],
+                      [0, 0, 1]])
 Rimu_inert_k = np.zeros((3,3))
 R0e_kmin1 = np.zeros((3,3))
 R0e_k = np.zeros((3,3))
@@ -185,7 +188,7 @@ def baxter_callback(data):
 
     #start = time.time()
 
-    global ini_bax, q, R0e_kmin1, R0imu_ini, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
+    global ini_bax, q, R0e_kmin1, R0e_ini, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
     
     ####################################################
     # Read from publisher of v-rep the q configuration.
@@ -207,6 +210,7 @@ def baxter_callback(data):
 
     # Transformation matrix from 0 to end effector at time k
     T0e_kmin1 = T_abs_kmin1[7]
+    print(T0e_kmin1)
 
     # end effector position of baxter at time k
     for i in range(3):
@@ -221,7 +225,7 @@ def baxter_callback(data):
     if ini_bax == 0:
         #R0inert = R0e_kmin1 # Constant in time.
         #print(R0e_kmin1)
-        R0imu_ini = R0e_kmin1 # equal at starting configuration
+        R0e_ini = R0e_kmin1 # equal at starting configuration
         x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
         ini_bax = ini_bax + 1
     
@@ -301,7 +305,8 @@ def smart_callback(data):
     Rimu_inert_k = eulerAnglesToRotationMatrix(angles)
     #print(Rimu_inert_k)
     if ini_smart == 0:
-        R0inert = np.dot(R0imu_ini, Rimu_inert_k)
+        R0inert = np.dot(np.dot(R0e_ini, Reimu_ini), Rimu_inert_k)
+        print(np.dot(R0e_ini, Reimu_ini))
         ini_smart = ini_smart + 1
 
     Rinert_imu_k = np.transpose(Rimu_inert_k)
