@@ -2,7 +2,6 @@
 
 import rospy
 import numpy as np
-import math
 import tf
 import utilities as util
 from sensor_msgs.msg import JointState, Imu
@@ -40,7 +39,6 @@ DH = np.array([[0, 0, L0, 0],
                [p/2, 0, 0, 0],
                [0, 0, L6, 0]])
   
-
 # Trasformation matrices given DH table. T0,1 T1,2 ... T7,e
 T_dh = t.DH_to_T(DH)
 
@@ -94,49 +92,6 @@ a_imu_inert = np.zeros((3,1))
 
 omega_0e = np.zeros((3,1))
 a_0e = np.zeros((3,1))
-
-def anglesCompensate(angles):
-    """!
-    Function used to filter unwanted minimal incoming data fluctuations,
-    due to noise as well as human operator shake
-    @param orientation with respect to X, Y, Z axes
-    @returns returns a filtered version (if necessary) of the input angles
-    """
-    dx = 0.0174  # min angle perceived [rad], about 1 [deg]
-    # reduce sensibility of sensor: minimum precision is dx
-    compensatedAngles = [0, 0, 0]
-
-    for i in range(0, 3):  # i = 0, 1, 2
-        if abs(angles[i] / dx) >= 1:
-            compensatedAngles[i] = angles[i]
-
-    return compensatedAngles
-
-def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
-    """!
-    Function that transforms euler angle coordinates into the rotation matrix
-    @param angles euler angles, i.e. orientation with respect to X, Y, Z axes
-    @returns rotation matrix
-    """
-
-    R_x = np.array([[1,         0,                  0],
-                    [0,         math.cos(angles[0]),   math.sin(angles[0])],
-                    [0,         -math.sin(angles[0]),  math.cos(angles[0])]
-                    ])
-
-    R_y = np.array([[math.cos(angles[1]),    0,      -math.sin(angles[1])],
-                    [0,                      1,      0],
-                    [math.sin(angles[1]),    0,      math.cos(angles[1])]
-                    ])
-
-    R_z = np.array([[math.cos(angles[2]),      math.sin(angles[2]),     0],
-                    [-math.sin(angles[2]),     math.cos(angles[2]),     0],
-                    [0,                        0,                       1]
-                    ])
-
-    R = np.dot(R_x, np.dot(R_y, R_z))
-
-    return R
 
 def main_callback():
     """!
@@ -210,7 +165,8 @@ def baxter_callback(data):
 
     # Transformation matrix from 0 to end effector at time k
     T0e_kmin1 = T_abs_kmin1[7]
-    print(T0e_kmin1)
+##    print("T0e, ini: ")
+##    print(T0e_kmin1)
 
     # end effector position of baxter at time k
     for i in range(3):
@@ -300,13 +256,15 @@ def smart_callback(data):
     # transform quaternion to euler angles
     tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
 
-    angles = anglesCompensate(tempAngles)
+    angles = util.anglesCompensate(tempAngles)
     
-    Rimu_inert_k = eulerAnglesToRotationMatrix(angles)
-    #print(Rimu_inert_k)
+    Rimu_inert_k = util.eulerAnglesToRotationMatrix(angles)
+##    print("Rimu_inert: ")
+##    print(Rimu_inert_k)
     if ini_smart == 0:
-        R0inert = np.dot(np.dot(R0e_ini, Reimu_ini), Rimu_inert_k)
-        print(np.dot(R0e_ini, Reimu_ini))
+        R0inert = np.dot(np.dot(R0e_ini, Reimu_ini), Rimu_inert_k) # constant in the overall simulation.
+##        print("R0,imu, ini: ")
+##        print(np.dot(R0e_ini, Reimu_ini))
         ini_smart = ini_smart + 1
 
     Rinert_imu_k = np.transpose(Rimu_inert_k)
@@ -315,18 +273,22 @@ def smart_callback(data):
     omega_imu_inert[0][0] = data.angular_velocity.x
     omega_imu_inert[1][0] = data.angular_velocity.y
     omega_imu_inert[2][0] = data.angular_velocity.z
-    #print(omega_imu_inert)
+##    print("Omega_imu_inert: ")
+##    print(omega_imu_inert)
     
     # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
     a_imu_inert[0][0] = data.linear_acceleration.x
     a_imu_inert[1][0] = data.linear_acceleration.y
     a_imu_inert[2][0] = data.linear_acceleration.z
-    #print(a_imu_inert)
+##    print("a_imu_inert: ")
+##    print(a_imu_inert)
 
     # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
     # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
     # i can compute R0e_k
     R0e_k = np.dot(R0inert, Rinert_imu_k)
+##    print("R0e_k: ")
+##    print(R0e_k)
 
     # Since inertial is not moving, the angular velocity and linear acceleration are the same
     # if calculated w.r.t. 0, however i need to project them in zero.
@@ -339,9 +301,13 @@ def smart_callback(data):
 
     # Target velocity.
     v_0e_k = v_0e_kmin1 + a_0e*dt
+##    print("v_0e_k: ")
+##    print(v_0e_k)
 
     # Target position.
     x_0e_k = x_0e_kmin1 + v_0e_kmin1*dt + 0.5*a_0e*dt*dt
+##    print("x_0e_k: ")
+##    print(x_0e_k)
 
     key_smart = key_smart + 1
     if (key_bax >= 1 and key_dot >= 1 and key_smart >= 1):
