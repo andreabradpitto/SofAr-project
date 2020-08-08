@@ -68,13 +68,13 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 	double rdot_i,Adiag_i;
 	for(short i = 0; i<NJOINTS; i++) { // for all joints
 		// Compute and store the i-th element of rdot and of the diagonal of A, based on the angle constraint task.
-	    angleOk = jointConstr(q[i],QMIN[i],QMAX[i],JOINTS_MARGIN,JOINTS_MAXPOLE,JOINTS_MAJ,currentAnglePole[i],true,rdot_i,Adiag_i);
+	    angleOk = jointConstr(q[i],QMIN[i],QMAX[i],JOINTS_MARGIN,CORRPOLE,currentAnglePole[i],true,rdot_i,Adiag_i);
 
 		// If joint i has a safe rotation angle, check for the safety of its velocity. Otherwise, the angle correction task will automatically bring the joint velocity to 0.
 		if (angleOk) {
 
 			// Compute and store the i-th element of rdot and of the diagonal of A, based on the velocity constraint task.
-			jointConstr(qdot[i],-QDOTMAX[i],QDOTMAX[i],VEL_MARGIN,VEL_MAXPOLE,VEL_MAJ,currentVelPole[i],false,rdot_i,Adiag_i);
+			jointConstr(qdot[i],-QDOTMAX[i],QDOTMAX[i],VEL_MARGIN,CORRPOLE,currentVelPole[i],false,rdot_i,Adiag_i);
 		}
 		// Update i-th element of the output vectors.
 	    rdot(i) = rdot_i;
