@@ -14,6 +14,9 @@
 
 #include <ctime>
 
+/*! Weights for invkin solutions (sum must be 1).*/
+double WEIGHTS[] = {0,0,1,0,0,0};
+
 /*! Client objects needed for service calls.*/
 ros::ServiceClient clients[NUM_IK_SERVICES];
 
@@ -123,7 +126,8 @@ int computeWeightedqdot(JointState &finalqdotState) {
 		
 	}
 	saturate(finalqdot);
-	if (num_obtained > 0) finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
+	//if (num_obtained > 0)
+		finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
 	finalqdotState.header.stamp = ros::Time::now();
 	//printVectord(finalqdot);
 	return num_obtained ;
@@ -134,6 +138,15 @@ int computeWeightedqdot(JointState &finalqdotState) {
 /*! Main function of the node.
 */  
 int main(int argc,char **argv) {
+
+    cout << "Insert the ik weights separated by space, in the order Jtra -> JTA -> CLIK1 opt 1 -> CLIK1 opt 2 -> CLIK2 opt 1 -> CLIK2 opt 2. " << endl;
+	cout << "If you want to go with the default, just type a character or something." << endl;
+    cin >> WEIGHTS[0] >> WEIGHTS[1] >> WEIGHTS[2] >> WEIGHTS[3] >> WEIGHTS[4] >> WEIGHTS[5];
+    cout << "Your weights are: ";
+	for (int i = 0; i < NUM_IK_SOLUTIONS; i++) {
+		cout << WEIGHTS[i] << " ";
+	}
+
     ros::init(argc, argv, "weighter"); // initialize node
     ros::NodeHandle n; // define node handle
 
