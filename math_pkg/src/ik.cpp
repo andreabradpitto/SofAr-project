@@ -1,6 +1,7 @@
 /*! \file */
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include "math_pkg/IK.h"
 #include "math_pkg/Safety.h"
@@ -48,13 +49,25 @@ ros::ServiceClient client;
 /*! Safety server object.*/
 math_pkg::Safety safeSrv;
 
+const double thr_still = 1e-5;
 
+
+ofstream eta1file("eta1.txt");
+ofstream eta2file("eta2.txt");
+ofstream eta3file("eta3.txt");
+ofstream rho1file("rho1.txt");
+ofstream rho2file("rho2.txt");
+ofstream rho3file("rho3.txt");
+ofstream bugfile("bug.txt");
+ofstream nonopt("nonopt.txt");
+ofstream Q2file("Q2.txt");
 
 /*! Callback function for Jacobian matrix.
     \param msg The received Jacobian matrix.
 */
 void ikCallbackJ(const std_msgs::Float64MultiArray &msg)
 {
+
 	vector<double> rcvdJ = msg.data;
 	J = Map<MatrixXd>(rcvdJ.data(),NJOINTS,6).transpose();
 	readyJ = true;
@@ -71,6 +84,14 @@ void ikCallbackErr(const std_msgs::Float64MultiArray &msg)
 	rho = Map<VectorXd>(rcvdErr.data(),3);
 	eta = Map<VectorXd>(rcvdErr.data()+3,3);
 	nu = Map<VectorXd>(rcvdErr.data()+6,3);
+	if (abs(eta(0)) < thr_still && abs(eta(1)) < thr_still && abs(eta(2)) < thr_still &&
+		abs(rho(0)) < thr_still && abs(rho(1)) < thr_still && abs(rho(2)) < thr_still) {
+			eta(0) = eta(1) = eta(2) = rho(0) = rho(1) = rho(2) = nu(0) = nu(1) = nu(2) = 0;
+			bugfile << "ALL ERROR SET TO ZERO" << endl;
+			stay_still = true;
+	}
+	else stay_still = false;
+
 	readyErr = true;
 }
 
@@ -118,6 +139,8 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
     if (client.call(safeSrv)) { // if all subscription data is available and service call succeeded
 		readyJ = readyErr = readyVwa = readyqdot = false; // reset availability flags
 
+		eta1file << eta(0) << endl;eta2file << eta(1) << endl;eta3file << eta(2) << endl;
+		rho1file << rho(0) << endl;rho2file << rho(1) << endl;rho3file << rho(2) << endl;
 		// Map the vectors returned by the call into Eigen library objects.
 		/*cout << "J=" << J << endl;cout << "qdot=" << qdot << endl;
 		cout << "rho=" << rho << endl;cout << "eta=" << eta << endl;cout << "nu=" << nu << endl;
@@ -125,6 +148,7 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
     	VectorXd partialqdot = Map<VectorXd>(safeSrv.response.qdot.velocity.data(),NJOINTS);
     	MatrixXd Q1 = Map<MatrixXd>(safeSrv.response.Q1.data.data(),NJOINTS,NJOINTS);
 		MatrixXd Q2 = Q1*(ID_MATRIX_NJ - regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA)*J*Q1);
+		Q2file << Q2 << endl << endl;
 		Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
 		res.Q2.data = vector<double> (Q2v.data(), Q2v.data() + Q2v.size());
 		//cout << "Q1=" << Q1 << endl;
@@ -138,7 +162,7 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		VectorXd qdot2; // will contain qdot computed according to closed loop IK second order.
 		computeqdot(partialqdot,Q1,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2);
 		JLold = JL; // update JLold
-
+		nonopt << qdot1 << endl << endl;
 		// Fill response objects.
 		res.qdot1.velocity = vector<double> (qdot1.data(), qdot1.data() + qdot1.size());
 		res.qdot2.velocity = vector<double> (qdot2.data(), qdot2.data() + qdot2.size());
@@ -178,5 +202,8 @@ int main(int argc,char **argv) {
 
     //cout << "IK WILL NOW PROCEED TO SPIN" << endl;
     ros::spin();
+	//eta1file.close();
+  	//eta2file.close();
+  	//eta3file.close();
     return 0;
 }

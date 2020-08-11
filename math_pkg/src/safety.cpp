@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <thread>
+#include <fstream>
 #include "math_pkg/Safety.h"
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
@@ -25,6 +26,27 @@ double currentVelPole[NJOINTS];
 double q[NJOINTS];
 /*! Array of joint velocity values..*/
 double qdot[NJOINTS];
+
+ofstream q1file("q1.txt");
+ofstream q2file("q2.txt");
+ofstream q3file("q3.txt");
+ofstream q4file("q4.txt");
+ofstream q5file("q5.txt");
+ofstream q6file("q6.txt");
+ofstream q7file("q7.txt");
+ofstream qd1file("qdot1.txt");
+ofstream qd2file("qdot2.txt");
+ofstream qd3file("qdot3.txt");
+ofstream qd4file("qdot4.txt");
+ofstream qd5file("qdot5.txt");
+ofstream qd6file("qdot6.txt");
+ofstream qd7file("qdot7.txt");
+ofstream partialqdotfile("partial.txt");
+ofstream rdot1file("rdot1.txt");
+ofstream A1file("A1.txt");
+ofstream PinvJsafetyfile("PinvJsafety.txt");
+ofstream rdotfile("Q1.txt");
+ofstream Q1file("Q1M.txt");
 
 /*void safetyCallback(const JointStateConstPtr& msgq,
 const JointStateConstPtr& msgqdot) {
@@ -80,6 +102,7 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 	    rdot(i) = rdot_i;
 	    Adiag(i) = Adiag_i;
 	}
+	rdot1file << rdot << endl << endl;
 }
 
 
@@ -96,6 +119,12 @@ bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Respo
 		return false;
 	}
 
+	q1file << q[0] << endl;q2file << q[1] << endl;q3file << q[2] << endl;q4file << q[3] << endl;
+	q5file << q[4] << endl;q6file << q[5] << endl;q7file << q[6] << endl;
+	qd1file << qdot[0] << endl;qd2file << qdot[1] << endl;qd3file << qdot[2] << endl;
+	qd4file << qdot[3] << endl;qd5file << qdot[4] << endl;qd6file << qdot[5] << endl;
+	qd7file << qdot[6] << endl;
+
 	readyq = readyqdot = false; // reset availability flag
 	VectorXd partial_qdot(NJOINTS),rdot(NJOINTS),Adiag(NJOINTS);
 
@@ -105,10 +134,14 @@ bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Respo
 
 	// For the safety task, the Jacobian is the identity and Q is the zero matrix.
 	MatrixXd pinvJ = regPinv(ID_MATRIX_NJ,A,ID_MATRIX_NJ,ETA);
-	cout << "pinvJtask = " << pinvJ << endl;
+	PinvJsafetyfile << pinvJ << endl << endl;
 	MatrixXd Q1 = ID_MATRIX_NJ - pinvJ; // Q1 will be needed for the tracking task.
-	cout << "Q1 = " << Q1 << endl;
-	partial_qdot = pinvJ * rdot;
+	Q1file << Q1 << endl << endl;
+	rdotfile << rdot << endl << endl;
+	partial_qdot = pinvJ * pinvJ * rdot;
+
+	partialqdotfile << partial_qdot << endl << endl;
+	A1file << A << endl << endl;
 
 	// Store Q2 into a 1D vector so that it can be sent to the client in a Float64MultiArray object.
 	Map<MatrixXd> Q1v (Q1.data(), NJOINTS*NJOINTS,1);

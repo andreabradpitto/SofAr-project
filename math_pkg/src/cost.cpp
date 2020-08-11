@@ -24,6 +24,7 @@ ros::ServiceClient client;
 math_pkg::IK ikSrv;
 
 
+ofstream verifycost11("verifycost11.txt");
 
 /*! Callback function for joint position.
     \param msg The received joint position vector.
@@ -45,22 +46,23 @@ void costCallbackq(const sensor_msgs::JointState &msg)
 */
 void computeCostResponse(VectorXd q,VectorXd qdot1,VectorXd qdot2,MatrixXd Q2,math_pkg::Cost::Response &res) {
     VectorXd qdot1opt1,qdot1opt2,qdot2opt1,qdot2opt2; // initialization
-cout << "qdot1=" << qdot1 << endl;
+    //cout << "qdot1=" << qdot1 << endl;
     // Compute matrix G = joint kernel matrix.
     MatrixXd IdMinusQ2 = ID_MATRIX_NJ - Q2;
-    MatrixXd toPinv = Q2.transpose() * Q2 + 1 * IdMinusQ2.transpose()*(IdMinusQ2);
+    MatrixXd toPinv = Q2.transpose() * Q2 + 10 * IdMinusQ2.transpose()*(IdMinusQ2);
     MatrixXd temp1 = -regPinv(toPinv,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA) * Q2.transpose();
 
     MatrixXd Q2Sharp = regPinv(Q2,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA);
     VectorXd qdot_fav = 0.1 * q;
-    cout << "q=" << q << endl;
+    /*cout << "q=" << q << endl;
     cout << "Q2" << Q2 << endl;
-    cout << "Q2Sharp" << Q2Sharp << endl;
+    cout << "Q2Sharp" << Q2Sharp << endl;*/
     // Each optimized velocity vector is given by: non-optimized vector + G * z, where z is a NJOINTSx1 vector.
-    qdot1opt1 = qdot1 + Q2*temp1*qdot1;
-    qdot1opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot1);
-    qdot2opt1 = qdot2 + Q2*temp1*qdot2;
-    qdot2opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot2);
+    qdot1opt1 = qdot1 + 0*Q2*temp1*qdot1;
+    qdot1opt2 = qdot1 + 0*Q2*Q2Sharp*(qdot_fav - qdot1);
+    qdot2opt1 = qdot2 + 0*Q2*temp1*qdot2;
+    qdot2opt2 = qdot1 + 0*Q2*Q2Sharp*(qdot_fav - qdot2);
+    verifycost11 << Q2*temp1*qdot1 << endl << endl;
 
     // Fill the response object.
     res.qdot1opt1.velocity = vector<double> (qdot1opt1.data(),qdot1opt1.data()+qdot1opt1.size());

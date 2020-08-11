@@ -1,6 +1,7 @@
 /*! \file */
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include "math_pkg/Cost.h"
 #include "math_pkg/IK.h"
@@ -10,6 +11,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
+#include "std_msgs/Int8.h"
 #include "utilities.h"
 
 #include <ctime>
@@ -28,6 +30,23 @@ math_pkg::IK_Jtra traSrv;
 
 /* Transpose server object.*/
 math_pkg::IK_JTA TASrv;
+
+bool reset = false;
+bool mustPause = false;
+
+ofstream sentqdot("sentqdot.txt");
+ofstream satqdot("satqdt.txt");
+
+
+/*! Callback function for Jacobian matrix.
+    \param msg The received Jacobian matrix.
+*/
+void handleCallback(const std_msgs::Int8 &msg)
+{
+	if (msg.data == 0) reset = true;
+	//else
+		//if (msg.data ==2) mustPause = true;
+}
 
 
 /*! Function that calls all the invkin modules and retrieves the computed joint velocities.
@@ -48,12 +67,12 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
    		}
    		#pragma omp section
 		{
-			obtained[0] = clients[1].call(traSrv);
+			obtained[0] = false;//clients[1].call(traSrv);
 		}
 
    		#pragma omp section
 		{ 
-			obtained[1] = clients[2].call(TASrv);
+			obtained[1] = false;//clients[2].call(TASrv);
 		}
 	}
    	if (costObtained) { // store solutions obtained from Cost and update num_obtained
@@ -63,18 +82,18 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
 		qdots[5] = costSrv.response.qdot2opt2.velocity;
 		num_obtained = num_obtained + 4;
 	}
-	else
-		ROS_ERROR("Call to Cost service failed.");
+	else;
+		//ROS_ERROR("Call to Cost service failed.");
 	if (obtained[0]) {
 		qdots[0] = traSrv.response.q_dot.velocity;
 		num_obtained++;
 	}
-	else ROS_ERROR("Call to Jtra service failed.");
+	else;// ROS_ERROR("Call to Jtra service failed.");
 	if (obtained[1]) {
 		qdots[1] = TASrv.response.q_dot.velocity;
 		num_obtained++;
 	}
-	else ROS_ERROR("Call to J6dofs service failed.");
+	else;// ROS_ERROR("Call to J6dofs service failed.");
 
 	for (int i = 2; i < NUM_IK_SOLUTIONS; i++) {
 		obtained[i] = costObtained;
@@ -126,10 +145,18 @@ int computeWeightedqdot(JointState &finalqdotState) {
 		
 	}
 	saturate(finalqdot);
-	//if (num_obtained > 0)
+	if (num_obtained > 0) {
+		if (stay_still) {
+			for (int j = 0; j < NJOINTS; j++) {
+				if (abs(finalqdot[j]) < 1e-3) finalqdot[j] = 0;
+			}
+			satqdot << ros::Time::now() << endl;
+		}
 		finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
+	}
 	finalqdotState.header.stamp = ros::Time::now();
 	//printVectord(finalqdot);
+	if (isnan(finalqdot[0])) num_obtained = -1;
 	return num_obtained ;
 }
 
@@ -139,18 +166,21 @@ int computeWeightedqdot(JointState &finalqdotState) {
 */  
 int main(int argc,char **argv) {
 
-    cout << "Insert the ik weights separated by space, in the order Jtra -> JTA -> CLIK1 opt 1 -> CLIK1 opt 2 -> CLIK2 opt 1 -> CLIK2 opt 2. " << endl;
+   /* cout << "Insert the ik weights separated by space, in the order Jtra -> JTA -> CLIK1 opt 1 -> CLIK1 opt 2 -> CLIK2 opt 1 -> CLIK2 opt 2. " << endl;
 	cout << "If you want to go with the default, just type a character or something." << endl;
     cin >> WEIGHTS[0] >> WEIGHTS[1] >> WEIGHTS[2] >> WEIGHTS[3] >> WEIGHTS[4] >> WEIGHTS[5];
     cout << "Your weights are: ";
 	for (int i = 0; i < NUM_IK_SOLUTIONS; i++) {
 		cout << WEIGHTS[i] << " ";
-	}
+	}*/
 
     ros::init(argc, argv, "weighter"); // initialize node
     ros::NodeHandle n; // define node handle
 
     int queSize = 10;
+
+    ros::Subscriber sub1 = n.subscribe("handleSimulation", queSize, handleCallback); // subscribe to Jacobian
+
     ros::Publisher pub = n.advertise<sensor_msgs::JointState>("cmdtopic", queSize); // activate qdot publisher
     ros::Rate loopRate(1/DT); // define publishing rate
 
@@ -159,24 +189,38 @@ int main(int argc,char **argv) {
     clients[1] = n.serviceClient<math_pkg::IK_Jtra>("IK_Jtransp");
     clients[2] = n.serviceClient<math_pkg::IK_JTA>("IK_JAnalytic");
 
-    //cout << "WEIGHTER WILL NOW PROCEED TO WEIGH" << endl;
-	vector<double> tosendFirst(NJOINTS,0);
-	sensor_msgs::JointState toSend; // initialize object to be published
-	toSend.velocity = tosendFirst;
-	toSend.header.stamp = ros::Time::now();
-	pub.publish(toSend);
-    loopRate.sleep();
-
-	int obt;
-
-    while (ros::ok()) {
-		obt = computeWeightedqdot(toSend);
-		ROS_ERROR("%d obtained", obt);
-		pub.publish(toSend); // publish weighted qdot
-
-    	ros::spinOnce();
+	while (ros::ok()) {
+		vector<double> tosendFirst(NJOINTS,0);
+		sensor_msgs::JointState toSend; // initialize object to be published
+		toSend.velocity = tosendFirst;
+		toSend.header.stamp = ros::Time::now();
+		pub.publish(toSend);
     	loopRate.sleep();
-    }
+
+		int obt;
+
+    	while (ros::ok()) {
+			if (reset) {
+				reset = false; stay_still = false;
+				break;
+			}
+			obt = computeWeightedqdot(toSend);
+			for (int i = 0; i < NJOINTS; i++) {
+				sentqdot << toSend.velocity[i] << ",";
+			}
+
+			//sentqdot << endl;
+
+			if (obt == -1) break;
+			ROS_ERROR("%d obtained", obt);
+			pub.publish(toSend); // publish weighted qdot
+		
+    		ros::spinOnce();
+    		loopRate.sleep();
+			if (mustPause) break;
+    	}
+		if (obt == -1 || mustPause) break;
+	}
 
     return 0;
 }
