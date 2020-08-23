@@ -1,3 +1,0 @@
-1. Test con JTA, Jtra -> stabilirne l'usabilita' facendo test (almeno 3 tipi: riferimento costante uguale alla posa di partenza, riferimento costante generico, riferimento mobile).
-2. Assegnare pesi in base alla prestazione (da considerare: qualita' del transitorio, resistenza all'avvicinarsi ai joint limits, ecc).
-3. Dividere il restante peso equalmente fra gli algoritmi CLIK.
