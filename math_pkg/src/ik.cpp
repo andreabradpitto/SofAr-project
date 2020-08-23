@@ -9,9 +9,16 @@
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
 #include "utilities.h"
-
 #include <ctime>
 
+/*! Linear positional gain for tracking in CLIK1.*/
+#define Kpp 10
+/*! Linear positional gain for tracking in CLIK2.*/
+#define Kp 100
+/*! Linear velocity gain for tracking.*/
+#define Kv 20
+/*! Rotational gain for tracking.*/
+#define Krot 10
 /*! First step flag.*/
 bool firstStep = true;
 /*! Availability flag for Jacobian matrix.*/
@@ -48,19 +55,26 @@ VectorXd qdot;
 ros::ServiceClient client;
 /*! Safety server object.*/
 math_pkg::Safety safeSrv;
-
-const double thr_still = 1e-5;
-
-
+/*! Threshold under which error is considered zero.*/
+const double thr_still = 1e-3;
+/*! Log file used in debug.*/
 ofstream eta1file("eta1.txt");
+/*! Log file used in debug.*/
 ofstream eta2file("eta2.txt");
+/*! Log file used in debug.*/
 ofstream eta3file("eta3.txt");
+/*! Log file used in debug.*/
 ofstream rho1file("rho1.txt");
+/*! Log file used in debug.*/
 ofstream rho2file("rho2.txt");
+/*! Log file used in debug.*/
 ofstream rho3file("rho3.txt");
-ofstream bugfile("bug.txt");
-ofstream nonopt("nonopt.txt");
-ofstream Q2file("Q2.txt");
+/*! Log file used in debug.*/
+ofstream ikFailFile("ikFail.txt");
+/*! Counter of IK service failures, used in debug.*/
+int ikFail = 0;
+
+
 
 /*! Callback function for Jacobian matrix.
     \param msg The received Jacobian matrix.
@@ -87,7 +101,7 @@ void ikCallbackErr(const std_msgs::Float64MultiArray &msg)
 	if (abs(eta(0)) < thr_still && abs(eta(1)) < thr_still && abs(eta(2)) < thr_still &&
 		abs(rho(0)) < thr_still && abs(rho(1)) < thr_still && abs(rho(2)) < thr_still) {
 			eta(0) = eta(1) = eta(2) = rho(0) = rho(1) = rho(2) = nu(0) = nu(1) = nu(2) = 0;
-			bugfile << "ALL ERROR SET TO ZERO" << endl;
+			//bugfile << "ALL ERROR SET TO ZERO" << endl;
 			stay_still = true;
 	}
 	else stay_still = false;
@@ -123,6 +137,57 @@ void ikCallbackqdot(const sensor_msgs::JointState &msg)
 
 
 
+/*! Function that computes non-optimized qdot with 2 CLIK algorithms.
+    \param partialqdot Safety task based qdot vector.
+    \param Q1 Auxiliary matrix for tracking task.
+    \param J Jacobian matrix.
+    \param JL Linear Jacobian matrix.
+    \param JLdot Derivative of linear Jacobian matrix.
+    \param qdot Previous qdot vector.
+    \param eta Linear error vector.
+    \param rho Rotational error vector.
+    \param etadot Linear velocity error vector.
+    \param v Target velocity vector.
+    \param w Target angular velocity vector.
+    \param a Target acceleration vector.
+    \param qdot1 Reference to CLIK 1st order solution, to be filled.
+    \param qdot2 Reference to CLIK 2nd order solution, to be filled.
+    \param prec1 Tracking precision for sol. 1.
+    \param prec2 Tracking precision for sol. 2.
+*/
+void computeqdot(VectorXd partialqdot,MatrixXd Q1,MatrixXd J,MatrixXd JL,
+    MatrixXd JLdot,VectorXd qdot,VectorXd eta,VectorXd rho,VectorXd etadot,
+    VectorXd v,VectorXd w,VectorXd a,VectorXd &qdot1,VectorXd &qdot2, double &prec1, double &prec2) {
+    VectorXd ve1 = v + Kpp*eta; // ee lin velocity for CLIK1
+    VectorXd ve2 = DT*(a - JLdot*qdot + Kv*etadot + Kp*eta) + JL*qdot; // ee lin velocity for CLIK2
+    VectorXd xedot1 = VectorXd(6);
+    VectorXd xedot2 = VectorXd(6);
+    xedot1 << ve1,w+Krot*rho; // ee velocity for CLIK1
+    xedot2 << ve2,w+Krot*rho; // ee velocity for CLIK2
+	double cond;
+	/* qdots are computed according to the paper "A Novel Practical Technique to Integrate Inequality Control
+	 * Objectives and Task Transitions in Priority Based Control" by Casalino & Simetti, pp. 16-17, sec. 3.4. */
+    MatrixXd JTimesQ1 = J*Q1;
+    MatrixXd pinvAux = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,Q1,ETA,cond);
+    MatrixXd pinvQZero = regPinv(JTimesQ1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA,cond);
+    MatrixXd W2 = JTimesQ1*pinvAux;
+    /*
+    cout << "Q2=" << Q1 << endl;
+    cout << "JTimesQ1=" << JTimesQ1 << endl;
+    cout << "pinvQZero=" << pinvQZero << endl;
+    cout << "W2=" << W2 << endl;
+    */
+    MatrixXd tempProduct1 = Q1*pinvQZero*W2;
+    MatrixXd tempProduct2 = J*partialqdot;
+    qdot1 = partialqdot + tempProduct1 * (xedot1 - tempProduct2);
+    qdot2 = partialqdot + tempProduct1 * (xedot2 - tempProduct2);
+
+	prec1 = (J*qdot1 - xedot1).norm(); // indicator of tracking precision for sol. 1
+	prec2 = (J*qdot2 - xedot2).norm(); // indicator of tracking precision for sol. 2
+	//clog << "J*QDOT1 - xedot1" << endl << J*qdot1 - xedot1 << endl << endl;
+}
+
+
 /*! Service function for the Safety service, which computes the partial joint velocities based on the safety task.
     \param req Empty.
 	\param res Non-optimized joint velocities.
@@ -130,28 +195,33 @@ void ikCallbackqdot(const sensor_msgs::JointState &msg)
 */
 bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
     //clock_t begin = clock(); // timing
-	if (!(readyJ && readyErr && readyVwa && readyqdot)) { // at least one subscribtion data is missing
-		readyJ = readyErr = readyVwa = readyqdot = false; // reset availability flags
-    	ROS_ERROR("ik service could not run: missing data.");
-    	return false;
-	}
-
     if (client.call(safeSrv)) { // if all subscription data is available and service call succeeded
+		if (!(readyJ && readyErr && readyVwa && readyqdot)) { // at least one subscribtion data is missing
+			readyJ = readyErr = readyVwa = readyqdot = false; // reset availability flags
+    		ROS_ERROR("ik service could not run: missing data.");
+        	ikFailFile << ++ikFail << endl << endl; // for debug
+    		return false;
+		}
 		readyJ = readyErr = readyVwa = readyqdot = false; // reset availability flags
-
+		double cond;
+		
+		// Print errors to files.
 		eta1file << eta(0) << endl;eta2file << eta(1) << endl;eta3file << eta(2) << endl;
 		rho1file << rho(0) << endl;rho2file << rho(1) << endl;rho3file << rho(2) << endl;
+
 		// Map the vectors returned by the call into Eigen library objects.
-		/*cout << "J=" << J << endl;cout << "qdot=" << qdot << endl;
-		cout << "rho=" << rho << endl;cout << "eta=" << eta << endl;cout << "nu=" << nu << endl;
-		cout << "v=" << v << endl;cout << "w=" << w << endl;cout << "a=" << a << endl;*/
     	VectorXd partialqdot = Map<VectorXd>(safeSrv.response.qdot.velocity.data(),NJOINTS);
     	MatrixXd Q1 = Map<MatrixXd>(safeSrv.response.Q1.data.data(),NJOINTS,NJOINTS);
-		MatrixXd Q2 = Q1*(ID_MATRIX_NJ - regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA)*J*Q1);
-		Q2file << Q2 << endl << endl;
+
+		// Compute Q2 matrix and store it in std::vector
+		MatrixXd Q2 = Q1*(ID_MATRIX_NJ - regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA,cond)*J*Q1);
 		Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
 		res.Q2.data = vector<double> (Q2v.data(), Q2v.data() + Q2v.size());
-		//cout << "Q1=" << Q1 << endl;
+		//clog << "Q1:" << endl << Q1 << endl << endl;
+		//clog << "J:" << endl << J << endl << endl;
+		//clog << "J*Q1:" << endl << J*Q1 << endl << endl;
+		//clog << "rp:" << endl << regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA) << endl << endl;
+		//clog << "Q2:" << endl << Q2 << endl << endl;
 
 		JL = J.block<3,NJOINTS>(0,0); // Extract linear part of the Jacobian matrix.
 		if (firstStep) firstStep = false;
@@ -160,9 +230,11 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		// Compute the non-optimized joint velocities.
 		VectorXd qdot1; // will contain qdot computed according to closed loop IK first order.
 		VectorXd qdot2; // will contain qdot computed according to closed loop IK second order.
-		computeqdot(partialqdot,Q1,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2);
+		computeqdot(partialqdot,Q1,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2,res.trackingPrecision1.data,res.trackingPrecision2.data);
 		JLold = JL; // update JLold
-		nonopt << qdot1 << endl << endl;
+		
+		//clog << "QDOT1:" << endl << qdot1 << endl << endl;
+		
 		// Fill response objects.
 		res.qdot1.velocity = vector<double> (qdot1.data(), qdot1.data() + qdot1.size());
 		res.qdot2.velocity = vector<double> (qdot2.data(), qdot2.data() + qdot2.size());
@@ -200,10 +272,6 @@ int main(int argc,char **argv) {
 
     JLdot = MatrixXd::Zero(3,NJOINTS);
 
-    //cout << "IK WILL NOW PROCEED TO SPIN" << endl;
-    ros::spin();
-	//eta1file.close();
-  	//eta2file.close();
-  	//eta3file.close();
+    ros::spin(); // keep the node alive
     return 0;
 }

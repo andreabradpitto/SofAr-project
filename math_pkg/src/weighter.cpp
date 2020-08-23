@@ -17,7 +17,7 @@
 #include <ctime>
 
 /*! Weights for invkin solutions (sum must be 1).*/
-double WEIGHTS[] = {0,0,1,0,0,0};
+double WEIGHTS[] = {0,0,0,1,0,0};
 
 /*! Client objects needed for service calls.*/
 ros::ServiceClient clients[NUM_IK_SERVICES];
@@ -33,9 +33,12 @@ math_pkg::IK_JTA TASrv;
 
 bool reset = false;
 bool mustPause = false;
+bool moveOn = true;
+int bestIdx = 2;
 
-ofstream sentqdot("sentqdot.txt");
-ofstream satqdot("satqdt.txt");
+int reqs = 0;
+int satisf = 0;
+ofstream wstats("wstats.txt");
 
 
 /*! Callback function for Jacobian matrix.
@@ -44,8 +47,10 @@ ofstream satqdot("satqdt.txt");
 void handleCallback(const std_msgs::Int8 &msg)
 {
 	if (msg.data == 0) reset = true;
-	//else
-		//if (msg.data ==2) mustPause = true;
+	else if (msg.data ==1) {
+			ROS_ERROR("received 1");
+	 		moveOn = true;
+		}
 }
 
 
@@ -54,27 +59,28 @@ void handleCallback(const std_msgs::Int8 &msg)
 	\param obtained Vector that at position i contains a boolean that is true if i-th solution was retrieved, false otherwise.
 	\return number of retrieved velocities vectors.
 */
-int getAllqdots(vector<double> qdots[], bool obtained[]) {
+int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
 	bool costObtained; // will be true if call to Cost service will succeed.
 
 	int num_obtained = 0; // initialization
+	costSrv.request.seq.data = seq;
 	// Each service call is performed in parallel.
 	#pragma omp sections
-	{
-   		#pragma omp section
-   		{
-			costObtained = clients[0].call(costSrv); // call service Cost
-   		}
-   		#pragma omp section
 		{
-			obtained[0] = false;//clients[1].call(traSrv);
-		}
+   			#pragma omp section
+   			{
+				costObtained = clients[0].call(costSrv); // call service Cost
+   			}
+   			#pragma omp section
+			{
+				obtained[0] = false;//clients[1].call(traSrv);
+			}
 
-   		#pragma omp section
-		{ 
-			obtained[1] = false;//clients[2].call(TASrv);
+   			#pragma omp section
+			{ 
+				obtained[1] = false;//clients[2].call(TASrv);
+			}
 		}
-	}
    	if (costObtained) { // store solutions obtained from Cost and update num_obtained
 		qdots[2] = costSrv.response.qdot1opt1.velocity;
 		qdots[3] = costSrv.response.qdot1opt2.velocity;
@@ -108,55 +114,47 @@ int getAllqdots(vector<double> qdots[], bool obtained[]) {
     \return JointState object to be published, containing the weighted joint velocities vector.
 */
 int computeWeightedqdot(JointState &finalqdotState) {
-	vector<double> finalqdot(NJOINTS,0); // initialize content of object to be published
+	if (reqs > 0) reqs++;
+ 	vector<double> finalqdot(NJOINTS,0); // initialize content of object to be published
 	vector<double> qdots[NUM_IK_SOLUTIONS]; // will contain all qdots computed by the invkin services
 	bool obt[NUM_IK_SOLUTIONS]; // i-th element is true if i-th solution was obtained, false otherwise
-	int num_obtained = getAllqdots(qdots,obt); // get all computed qdots
-	
-	vector<double> tempqdot(NJOINTS,0); // store here temporary qdot vectors
-	double weight; // will contain vector weight at each iteration
-	double residual = 0;
-	bool badMissedAndCostOk = false;
-	int firstReceivedIdx = -1;
-	for (short i = 0; i < NUM_IK_SOLUTIONS; i++) { // for all solutions
-		weight = WEIGHTS[i];
-		if (obt[i]) { // if it was obtained
-			if (firstReceivedIdx == -1) firstReceivedIdx = i; // store first obtained solution
-			if (!badMissedAndCostOk && i>1 && residual>0) badMissedAndCostOk = true; // if at least one bad one was missed but not the COST ones
-			if (badMissedAndCostOk) weight = weight + residual / 4; // distribute the lost weight over the COST solutions
-			
-			// Store the i-th vel vector times weight into tempqdot. I.e., tempqdot = weight * qdots[i].
-			transform(qdots[i].begin(), qdots[i].end(), tempqdot.begin(), [&weight](double& c){return c*weight;});
+	double cost[NUM_IK_SOLUTIONS];
+	int num_obtained = getAllqdots(qdots,cost,obt); // get all computed qdots
 
-			// Add up finalqdot and the weighted i-th vector (in tempqdot) and store the result in finalqdot. I.e., finalqdot = tempqdot + finalqdot.
-			transform(tempqdot.begin(), tempqdot.end(), finalqdot.begin(), finalqdot.begin(), std::plus<double>());
+	double bestCost = 0;
+	bool started = false;
+
+	// Select best qdot.
+	if (!stay_still) {
+		for (int i = 0; i < NUM_IK_SOLUTIONS; i++) {
+			if (obt[i] && (!started || cost[bestIdx] > cost[i])) {
+				started = true;
+				bestIdx = i;
+			}
 		}
-		else residual = residual + weight;
 	}
 
-	// If some solution was obtained, some weights were lost AND the COST solutions were not obtained.
-	if (firstReceivedIdx >= 0 && residual > 0 && !badMissedAndCostOk) {
-			// Store the firstReceivedIdx-th vel vector times residual into tempqdot. I.e., tempqdot = residual * qdots[firstReceivedIdx].
-			transform(qdots[firstReceivedIdx].begin(), qdots[firstReceivedIdx].end(), tempqdot.begin(), [&residual](double& c){return c*residual;});
-
-			/* Add up finalqdot and the firstReceivedIdx-th vector weighted by residual and store the result in finalqdot.
-			   I.e., finalqdot = tempqdot + finalqdot. */
-			transform(tempqdot.begin(), tempqdot.end(), finalqdot.begin(), finalqdot.begin(), std::plus<double>());
-		
+	if (num_obtained > 0) {
+		finalqdot = qdots[bestIdx]; // best qdot assigned
 	}
+	
 	saturate(finalqdot);
 	if (num_obtained > 0) {
+		if (reqs==0) reqs++;
+		satisf++;
 		if (stay_still) {
 			for (int j = 0; j < NJOINTS; j++) {
 				if (abs(finalqdot[j]) < 1e-3) finalqdot[j] = 0;
 			}
-			satqdot << ros::Time::now() << endl;
 		}
 		finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
 	}
-	finalqdotState.header.stamp = ros::Time::now();
+	seq = seq + 1;
+	vector<double> eff(1,seq);
+	finalqdotState.effort = eff;
 	//printVectord(finalqdot);
 	if (isnan(finalqdot[0])) num_obtained = -1;
+	wstats << "seq = " << seq << ", receiv = " << reqs << ", satisf = " << satisf << endl << endl;
 	return num_obtained ;
 }
 
@@ -166,13 +164,6 @@ int computeWeightedqdot(JointState &finalqdotState) {
 */  
 int main(int argc,char **argv) {
 
-   /* cout << "Insert the ik weights separated by space, in the order Jtra -> JTA -> CLIK1 opt 1 -> CLIK1 opt 2 -> CLIK2 opt 1 -> CLIK2 opt 2. " << endl;
-	cout << "If you want to go with the default, just type a character or something." << endl;
-    cin >> WEIGHTS[0] >> WEIGHTS[1] >> WEIGHTS[2] >> WEIGHTS[3] >> WEIGHTS[4] >> WEIGHTS[5];
-    cout << "Your weights are: ";
-	for (int i = 0; i < NUM_IK_SOLUTIONS; i++) {
-		cout << WEIGHTS[i] << " ";
-	}*/
 
     ros::init(argc, argv, "weighter"); // initialize node
     ros::NodeHandle n; // define node handle
@@ -182,44 +173,48 @@ int main(int argc,char **argv) {
     ros::Subscriber sub1 = n.subscribe("handleSimulation", queSize, handleCallback); // subscribe to Jacobian
 
     ros::Publisher pub = n.advertise<sensor_msgs::JointState>("cmdtopic", queSize); // activate qdot publisher
-    ros::Rate loopRate(1/DT); // define publishing rate
+    ros::Rate loopRate(100); // define publishing rate
 
 	// This node acts as a client for three services.
     clients[0] = n.serviceClient<math_pkg::Cost>("cost");
     clients[1] = n.serviceClient<math_pkg::IK_Jtra>("IK_Jtransp");
     clients[2] = n.serviceClient<math_pkg::IK_JTA>("IK_JAnalytic");
 
+	/*while (ros::ok()) {
+			if (moveOn) break;
+			ROS_ERROR(moveOn);
+	}*/
 	while (ros::ok()) {
 		vector<double> tosendFirst(NJOINTS,0);
+		vector<double> firstEffort(1,0);
 		sensor_msgs::JointState toSend; // initialize object to be published
 		toSend.velocity = tosendFirst;
 		toSend.header.stamp = ros::Time::now();
-		pub.publish(toSend);
-    	loopRate.sleep();
+		toSend.effort = firstEffort;
 
 		int obt;
 
     	while (ros::ok()) {
-			if (reset) {
-				reset = false; stay_still = false;
-				break;
+			if (moveOn) {
+				if (reset) {
+					reset = false; stay_still = false;
+					break;
+				}
+				obt = computeWeightedqdot(toSend);
+				/*for (int i = 0; i < NJOINTS; i++) {
+					sentqdot << toSend.velocity[i] << ",";
+				}*/
+				if (obt == -1) break;
+				//ROS_ERROR("%d obtained", obt);
+				pub.publish(toSend); // publish weighted qdot
+				/*weightertime << ros::Time::now()<<endl<<endl;*/
 			}
-			obt = computeWeightedqdot(toSend);
-			for (int i = 0; i < NJOINTS; i++) {
-				sentqdot << toSend.velocity[i] << ",";
-			}
-
-			//sentqdot << endl;
-
-			if (obt == -1) break;
-			ROS_ERROR("%d obtained", obt);
-			pub.publish(toSend); // publish weighted qdot
-		
     		ros::spinOnce();
     		loopRate.sleep();
-			if (mustPause) break;
+				//ROS_ERROR("EXIT");
+			//if (mustPause) break;
     	}
-		if (obt == -1 || mustPause) break;
+		//if (obt == -1 || mustPause) break;
 	}
 
     return 0;
