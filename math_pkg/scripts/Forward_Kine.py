@@ -151,7 +151,7 @@ def baxter_callback(data):
         ####################################################
         if ini_bax != 0:
             # configuration at time kmin1
-            q = np.array(data.position)
+            q = np.array(data.velocity)
             
         # relative T's with the configuration passed.
         T_rel_kmin1 = t.transformations(T_dh, q, info)
