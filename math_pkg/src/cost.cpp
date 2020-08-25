@@ -67,7 +67,7 @@ void computeCostResponse(double trackingPrecision1, double trackingPrecision2, V
     MatrixXd Q2Sharp = regPinv(Q2+0.00001*ID_MATRIX_NJ,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA,cond2);
     VectorXd qdot_fav = 0.1 * q;
     qdot1opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot1); // optimize solution 1
-    qdot2opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot2); // optimize solution 2
+    qdot2opt2 = qdot2 + Q2*Q2Sharp*(qdot_fav - qdot2); // optimize solution 2
 
     // Fill the response object.
     res.qdot1opt1.velocity = vector<double> (qdot1opt1.data(),qdot1opt1.data()+qdot1opt1.size());
