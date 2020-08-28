@@ -70,11 +70,21 @@ def averageQuaternions(Q):
     # return the real part of the largest eigenvector (has only real part)
     return np.real(eigenVectors[:,0])
 
-def Q_matrix(X1, X2, X3):
 
+def Q_matrix(X1, X2, X3):
+    """!
+    Computes the quaternions of the input orientation matrices.
+    @param X1, X2, X3: orientation matrices estimates of the orientation of
+    e.e. w.r.t. imu.
+    @return Q: matrix of the quaternions.
+    """
+
+    # need this two vectors to obtain an homogeneous matrix with the given orientation.
     t = np.zeros((3,1))
     s = np.array([[0, 0, 0, 1]])
 
+    # computing the homogeneous matrices because quaternion_from_matrix takes in input
+    # a 4x4 homogeneous matrix.
     X1 = np.concatenate((X1, t), axis = 1)
     X1 = np.concatenate((X1, s), axis = 0)
     X2 = np.concatenate((X2, t), axis = 1)
@@ -82,6 +92,7 @@ def Q_matrix(X1, X2, X3):
     X3 = np.concatenate((X3, t), axis = 1)
     X3 = np.concatenate((X3, s), axis = 0)
 
+    # computing the quaternions and rearrenging them in [w,x,y,z] format.
     q1 = tf.transformations.quaternion_from_matrix(X1)
     q1 = np.array([q1[3], q1[0], q1[1], q1[2]])
     q2 = tf.transformations.quaternion_from_matrix(X2)
@@ -95,7 +106,6 @@ def Q_matrix(X1, X2, X3):
     return Q
     
     
-
 def get_orientation_eeimu_0global():
     """!
     Algorithm presented in:
@@ -137,17 +147,22 @@ def get_orientation_eeimu_0global():
       Ym = tf.transformations.quaternion_matrix((avgq[1], avgq[2], avgq[3], avgq[0]))
       Ym = Ym[:3, :3]
 
+    # Re,imu
     X = Xm.transpose()
+    # R0,g
     Y = Ym
 
     calib_ok = 1
 
+    # manipulate the 2 orientation matrices to send them via a publisher.
     X_Y = util.init_float64_multiarray(9*2, 1)
     X = X.reshape(9,1)
     Y = Y.reshape(9,1)
     x_y = np.concatenate((X,Y), axis=0)
     X_Y.data = x_y
+
     pub_rot_matrices.publish(X_Y)
+    
     
 def imu_ee_calibration(data):
     """!
@@ -159,49 +174,35 @@ def imu_ee_calibration(data):
     global start, Rigs, config, prev_orient, prev_acc
 
     if calib_ok == 0:
-
-      if config == 3:
-        get_orientation_eeimu_0global()
-
-      # get orientation
-      orientation = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
-      
-      # get acceleration
-      acc = [data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z]
-      
-      if start == 0:
-
-        if (np.linalg.norm(acc-prev_acc) < 0.01):
-          # transform quaternion to euler angles
-          tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
-
-          angles = util.anglesCompensate(tempAngles)
-            
-          Rimu_global = util.eulerAnglesToRotationMatrix(angles)
-
-          Rigs.append(Rimu_global)
-
-          prev_orient = orientation
-          prev_acc = acc
-
-          config = config + 1
-
-      elif:
-        # transform quaternion to euler angles
-        tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
-
-        angles = util.anglesCompensate(tempAngles)
-          
-        Rimu_global = util.eulerAnglesToRotationMatrix(angles)
-
-        Rigs.append(Rimu_global)
-
-        prev_orient = orientation
-        prev_acc = acc
-
-        config = config + 1
         
-        start = 0
+        if config == 3:
+            get_orientation_eeimu_0global()
+        else:
+            # get orientation
+            orient = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
+            # get acceleration
+            acc = [data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z]
+
+            if start == 0:
+                if (np.linalg.norm(acc-prev_acc) < 0.01):
+                    Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
+                    Rimu_global = Ttemp[:3, :3]
+                    Rigs.append(Rimu_global)
+
+                    prev_orient = orientation
+                    prev_acc = acc
+
+                    config = config + 1
+            else:
+                Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
+                Rimu_global = Ttemp[:3, :3]
+                Rigs.append(Rimu_global)
+
+                prev_orient = orientation
+                prev_acc = acc
+
+                config = config + 1
+                start = 0
 
 
 def calibrate():
