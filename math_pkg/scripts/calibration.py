@@ -6,10 +6,11 @@ import tf
 import utilities as util
 from sensor_msgs.msg import Imu
 from std_msgs.msg import Float64MultiArray
-from scipy.spatial.transform import Rotation as R
 
 # GLOBAL VARIABLES
 
+pub_rot_matrices = rospy.Publisher('rot_matrices', Float64MultiArray, queue_size=10)
+                                   
 # Since the calibration involves an human arm and not a robot manipulator,
 # this orientations have been computed offline on Baxter arm model.
 
@@ -67,7 +68,33 @@ def averageQuaternions(Q):
     eigenVectors = eigenVectors[:,eigenValues.argsort()[::-1]]
 
     # return the real part of the largest eigenvector (has only real part)
-    return numpy.real(eigenVectors[:,0].A1)
+    return np.real(eigenVectors[:,0])
+
+def Q_matrix(X1, X2, X3):
+
+    t = np.zeros((3,1))
+    s = np.array([[0, 0, 0, 1]])
+
+    X1 = np.concatenate((X1, t), axis = 1)
+    X1 = np.concatenate((X1, s), axis = 0)
+    X2 = np.concatenate((X2, t), axis = 1)
+    X2 = np.concatenate((X2, s), axis = 0)
+    X3 = np.concatenate((X3, t), axis = 1)
+    X3 = np.concatenate((X3, s), axis = 0)
+
+    q1 = tf.transformations.quaternion_from_matrix(X1)
+    q1 = np.array([q1[3], q1[0], q1[1], q1[2]])
+    q2 = tf.transformations.quaternion_from_matrix(X2)
+    q2 = np.array([q2[3], q2[0], q2[1], q2[2]])
+    q3 = tf.transformations.quaternion_from_matrix(X3)
+    q3 = np.array([q3[3], q3[0], q3[1], q3[2]])
+      
+    Q = np.array([[q1],
+                  [q2],
+                  [q3]])
+    return Q
+    
+    
 
 def get_orientation_eeimu_0global():
     """!
@@ -88,26 +115,40 @@ def get_orientation_eeimu_0global():
 
     for i in range(steps):
 
-      X1 = np.dot(np.dot(Rigs(0), np.transpose(Ym)), R0e)
-      X2 = np.dot(np.dot(Rigs(1), np.transpose(Ym)), R0e1)
-      X3 = np.dot(np.dot(Rigs(2), np.transpose(Ym)), R0e2)
+      X1 = np.dot(np.dot(Rigs[0], np.transpose(Ym)), R0e)
+      X2 = np.dot(np.dot(Rigs[1], np.transpose(Ym)), R0e1)
+      X3 = np.dot(np.dot(Rigs[2], np.transpose(Ym)), R0e2)
 
-      r1 = R.from_matrix(X1)
-      r2 = R.from_matrix(X2)
-      r3 = R.from_matrix(X3)
-
-      q1 = r1.as_quat()
-      q2 = r2.as_quat()
-      q3 = r3.as_quat()
-
-      Q = np.array([q1],
-                   [q2],
-                   [q3]])
+      Q = Q_matrix(X1, X2, X3)
       
       avgq = averageQuaternions(Q)
 
-      Xm = 
+      Xm = tf.transformations.quaternion_matrix((avgq[1], avgq[2], avgq[3], avgq[0]))
+      Xm = Xm[:3, :3]
 
+      Y1 = np.dot(np.dot(R0e, Xm.transpose()), Rigs[0])
+      Y2 = np.dot(np.dot(R0e1, Xm.transpose()), Rigs[1])
+      Y3 = np.dot(np.dot(R0e2, Xm.transpose()), Rigs[2])
+
+      Q = Q_matrix(Y1, Y2, Y3)
+      
+      avgq = averageQuaternions(Q)
+
+      Ym = tf.transformations.quaternion_matrix((avgq[1], avgq[2], avgq[3], avgq[0]))
+      Ym = Ym[:3, :3]
+
+    X = Xm.transpose()
+    Y = Ym
+
+    calib_ok = 1
+
+    X_Y = util.init_float64_multiarray(9*2, 1)
+    X = X.reshape(9,1)
+    Y = Y.reshape(9,1)
+    x_y = np.concatenate((X,Y), axis=0)
+    X_Y.data = x_y
+    pub_rot_matrices.publish(X_Y)
+    
 def imu_ee_calibration(data):
     """!
     Computes the orientation between the e.e. and the imu using
