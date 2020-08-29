@@ -39,8 +39,8 @@ calib_ok = 0
 config = 0
 
 # understand if the configuration has changed.
-prev_orient = np.zeros(4)
-prev_acc = np.zeros(4)
+prev_R = np.zeros((3,3))
+prev_angvel = np.zeros(3)
 
 # determines the starting phase.
 start = 1
@@ -70,35 +70,39 @@ def averageQuaternions(Q):
     # return the real part of the largest eigenvector (has only real part)
     return np.real(eigenVectors[:,0])
 
-
-def Q_matrix(X1, X2, X3):
+def get_quaternion(X):
     """!
-    Computes the quaternions of the input orientation matrices.
-    @param X1, X2, X3: orientation matrices estimates of the orientation of
-    e.e. w.r.t. imu.
-    @return Q: matrix of the quaternions.
+    Computes the quaternion of the input rotation matrix.
+    @param X: orientation matrix input.
+    @return q: quaternion representation of X.
     """
-
+    
     # need this two vectors to obtain an homogeneous matrix with the given orientation.
     t = np.zeros((3,1))
     s = np.array([[0, 0, 0, 1]])
 
     # computing the homogeneous matrices because quaternion_from_matrix takes in input
     # a 4x4 homogeneous matrix.
-    X1 = np.concatenate((X1, t), axis = 1)
-    X1 = np.concatenate((X1, s), axis = 0)
-    X2 = np.concatenate((X2, t), axis = 1)
-    X2 = np.concatenate((X2, s), axis = 0)
-    X3 = np.concatenate((X3, t), axis = 1)
-    X3 = np.concatenate((X3, s), axis = 0)
+    X = np.concatenate((X, t), axis = 1)
+    X = np.concatenate((X, s), axis = 0)
 
     # computing the quaternions and rearrenging them in [w,x,y,z] format.
-    q1 = tf.transformations.quaternion_from_matrix(X1)
-    q1 = np.array([q1[3], q1[0], q1[1], q1[2]])
-    q2 = tf.transformations.quaternion_from_matrix(X2)
-    q2 = np.array([q2[3], q2[0], q2[1], q2[2]])
-    q3 = tf.transformations.quaternion_from_matrix(X3)
-    q3 = np.array([q3[3], q3[0], q3[1], q3[2]])
+    q = tf.transformations.quaternion_from_matrix(X)
+    q = np.array([q[3], q[0], q[1], q[2]])
+
+    return q
+
+def Q_matrix(X1, X2, X3):
+    """!
+    Computes the quaternions of the input orientation matrices.
+    @param X1, X2, X3: orientation matrices estimates.
+    @return Q: matrix of the quaternions.
+    """
+
+    # get quaternion in format [w,x,y,z].
+    q1 = get_quaternion(X1)
+    q2 = get_quaternion(X2)
+    q3 = get_quaternion(X3)
       
     Q = np.array([[q1],
                   [q2],
@@ -171,7 +175,7 @@ def imu_ee_calibration(data):
     @param data: inertial data coming from smartphone. The focus is on the
     orientation info given by a quaternion.
     """
-    global start, Rigs, config, prev_orient, prev_acc
+    global start, Rigs, config, prev_R, prev_angvel
 
     if calib_ok == 0:
         
@@ -181,25 +185,28 @@ def imu_ee_calibration(data):
             # get orientation
             orient = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
             # get acceleration
-            acc = [data.linear_acceleration.x, data.linear_acceleration.y, data.linear_acceleration.z]
+            angvel = [data.angular.x, data.angular_velocity.y, data.angular_velocity.z]
+
+            Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
+            Rimu_global = Ttemp[:3, :3]
+
+            A1 = np.dot(prev_R, Rimu_global.transpose())
+            q = get_quaternion(A1)
+            angle = q[0]*180/(np.pi)
 
             if start == 0:
-                if (np.linalg.norm(acc-prev_acc) < 0.01):
-                    Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
-                    Rimu_global = Ttemp[:3, :3]
+                if ((np.linalg.norm(angvel-prev_angvel) < 0.01) and (abs(angle-90) < 0.01)):
                     Rigs.append(Rimu_global)
 
-                    prev_orient = orientation
-                    prev_acc = acc
+                    prev_R = Rimu_global
+                    prev_angvel = angvel
 
                     config = config + 1
             else:
-                Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
-                Rimu_global = Ttemp[:3, :3]
                 Rigs.append(Rimu_global)
-
-                prev_orient = orientation
-                prev_acc = acc
+                
+                prev_R = Rimu_global
+                prev_angvel = angvel
 
                 config = config + 1
                 start = 0
