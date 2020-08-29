@@ -240,7 +240,7 @@ def calibrate():
     rospy.init_node('calibrate', anonymous=True)
 
     rospy.subscriber("smartphone", Imu, imu_ee_calibration)
-    rospy.Subscriber("handleSimulation", Int8, simulate_callback)
+    rospy.subscriber("handleSimulation", Int8, simulate_callback)
 
     rospy.spin()
 
