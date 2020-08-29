@@ -60,6 +60,9 @@ key_smart = 0
 key_dot = 0
 key = -1 # used to handle the simulation.
 
+# calibration variable. if = 1 -> the calibration is finished.
+calib_ok = 0
+
 # Sampling time
 dt = 0.01
 
@@ -78,18 +81,25 @@ q = np.zeros(7)
 q_dot = np.zeros((7,1))
 
 # Definition of some variables that change over time when a callback is triggered
-R0inert = np.zeros((3,3))
-R0e_ini = np.zeros((3,3))
-Reimu_ini = np.array([[-1, 0, 0],
-                      [0, -1, 0],
-                      [0, 0, 1]])
-Rimu_inert_k = np.zeros((3,3))
+
+# Orientation matrix from 0 to global.
+R0global = np.zeros((3,3))
+
+# Orientation matrix from e.e. to imu.
+Re_imu = np.zeros((3,3))
+
+# Orientation matrix from imu to global frame at time k.
+Rimu_global_k = np.zeros((3,3))
+
+# Orientation matrices from 0 to e.e. at time k-1 and k.
 R0e_kmin1 = np.zeros((3,3))
 R0e_k = np.zeros((3,3))
 
-omega_imu_inert = np.zeros((3,1))
-a_imu_inert = np.zeros((3,1))
+# Angular velocity and linear acceleration of imu w.r.t. global frame.
+omega_imu_global = np.zeros((3,1))
+a_imu_global = np.zeros((3,1))
 
+# Angular velocity and linear acceleration of e.e. w.r.t. 0 frame.
 omega_0e = np.zeros((3,1))
 a_0e = np.zeros((3,1))
 
@@ -141,7 +151,7 @@ def baxter_callback(data):
     @param data: coming from baxter node which provides a JointState message.
     """
 
-    global ini_bax, q, R0e_kmin1, R0e_ini, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
+    global ini_bax, q, R0e_kmin1, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
 
     if (key == 1 or ini_bax == 0):
         #start = time.time()
@@ -180,10 +190,6 @@ def baxter_callback(data):
                 R0e_kmin1[i][k] = T0e_kmin1[i][k]
 
         if ini_bax == 0:
-            #print("Init bax")
-            #R0inert = R0e_kmin1 # Constant in time.
-            #print(R0e_kmin1)
-            R0e_ini = R0e_kmin1 # equal at starting configuration
             x_0e_kmin1 = x_0e_kmin1B # Initially they are equal
             ini_bax = ini_bax + 1
         
@@ -248,60 +254,56 @@ def smart_callback(data):
     @param data: coming from smartphone which provides a Imu() message.
     """
 
-    if key == 1:
+    if key == 1 and calib_ok == 1:
         #print("Starting")
         #start = time.time()
 
-        global ini_smart, omega_imu_inert, a_imu_inert, R0inert, Rimu_inert_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
+        global ini_smart, omega_imu_global, a_imu_global, Rimu_global_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
         #####################################################################################
         # Read from topic, get Rimu,inertial; angular velocity and linear acceleration
         # of imu with respect to inertial frame, all expressed in imu frame at time kplus1.
         #####################################################################################
 
         # Get orientation
-        orientation = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
+        orien = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
         
         # transform quaternion to euler angles
-        tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
-
-        angles = util.anglesCompensate(tempAngles)
+        Ttemp = tf.transformations.quaternion_matrix((orien[0], orien[1], orien[2], orien[3]))
+        Rimu_global_k = Ttemp[:3, :3]
         
-        Rimu_inert_k = util.eulerAnglesToRotationMatrix(angles)
     ##    print("Rimu_inert: ")
     ##    print(Rimu_inert_k)
         if ini_smart == 0:
-            R0inert = np.dot(np.dot(R0e_ini, Reimu_ini), Rimu_inert_k) # constant in the overall simulation.
-    ##        print("R0,imu, ini: ")
-    ##        print(np.dot(R0e_ini, Reimu_ini))
             ini_smart = ini_smart + 1
 
-        Rinert_imu_k = np.transpose(Rimu_inert_k)
+        Rglobal_imu_k = np.transpose(Rimu_global_k)
         
         # angular velocity of imu (end effector) w.r.t. inertial frame projected on imu frame
-        omega_imu_inert[0][0] = data.angular_velocity.x
-        omega_imu_inert[1][0] = data.angular_velocity.y
-        omega_imu_inert[2][0] = data.angular_velocity.z
+        omega_imu_global[0][0] = data.angular_velocity.x
+        omega_imu_global[1][0] = data.angular_velocity.y
+        omega_imu_global[2][0] = data.angular_velocity.z
     ##    print("Omega_imu_inert: ")
     ##    print(omega_imu_inert)
         
         # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
-        a_imu_inert[0][0] = data.linear_acceleration.x
-        a_imu_inert[1][0] = data.linear_acceleration.y
-        a_imu_inert[2][0] = data.linear_acceleration.z
+        a_imu_global[0][0] = data.linear_acceleration.x
+        a_imu_global[1][0] = data.linear_acceleration.y
+        a_imu_global[2][0] = data.linear_acceleration.z
     ##    print("a_imu_inert: ")
     ##    print(a_imu_inert)
 
         # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
         # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
         # i can compute R0e_k
-        R0e_k = np.dot(R0inert, Rinert_imu_k)
+        R0imu_k = np.dot(R0global, Rglobal_imu_k)
+        R0e_k = np.dot(R0imu_k, Re_imu.transpose())
     ##    print("R0e_k: ")
     ##    print(R0e_k)
 
         # Since inertial is not moving, the angular velocity and linear acceleration are the same
         # if calculated w.r.t. 0, however i need to project them in zero.
-        omega_0e = np.dot(R0e_k, omega_imu_inert)
-        a_0e = np.dot(R0e_k, a_imu_inert)
+        omega_0e = np.dot(R0imu_k, omega_imu_global)
+        a_0e = np.dot(R0imu_k, a_imu_global)
 
         ##############
         # Integration
@@ -332,6 +334,21 @@ def smart_callback(data):
 
        #end = time.time()
        #print("Smart Frequency: " + str(1/(end-start)))
+        
+
+def calib_callback(data):
+    """!
+    Receives the orientation matrices from the calibration node.
+    @param data: vector containing 2 matrices, R0global and Reimu
+    """
+
+    global calib_ok, R0global, Re_imu
+
+    Re_imu = (data.data[:9]).reshape(3,3)
+    R0global = (data.data[9:18]).reshape(3,3)
+
+    calib_ok = 1
+
     
 def simulate_callback(data):
     """!
@@ -384,6 +401,7 @@ def subs():
     rospy.Subscriber("logtopic", JointState, baxter_callback)
     rospy.Subscriber("cmdtopic", JointState, dot_callback)
     rospy.Subscriber("handleSimulation", Int8, simulate_callback)
+    rospy.Subscriber("rot_matrices", Float64MultiArray, calib_callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()  
