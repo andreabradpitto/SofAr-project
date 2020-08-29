@@ -5,7 +5,7 @@ import numpy as np
 import tf
 import utilities as util
 from sensor_msgs.msg import Imu
-from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64MultiArray, Int8
 
 # GLOBAL VARIABLES
 
@@ -44,6 +44,9 @@ prev_angvel = np.zeros(3)
 
 # determines the starting phase.
 start = 1
+
+# for initial condition.
+ini = 1
 
 # Q is a Nx4 numpy matrix and contains the quaternions to average in the rows.
 # The quaternions are arranged as (w,x,y,z), with w being the scalar
@@ -121,6 +124,8 @@ def get_orientation_eeimu_0global():
     Sends them through a publisher.
     """
 
+    global calib_ok
+    
     # initial guess
     Ym = np.identity(3);
 
@@ -175,42 +180,55 @@ def imu_ee_calibration(data):
     @param data: inertial data coming from smartphone. The focus is on the
     orientation info given by a quaternion.
     """
-    global start, Rigs, config, prev_R, prev_angvel
+    global Rigs, config, prev_R, prev_angvel
 
-    if calib_ok == 0:
+    if start == 1:
         
-        if config == 3:
-            get_orientation_eeimu_0global()
-        else:
-            # get orientation
-            orient = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
-            # get acceleration
-            angvel = [data.angular.x, data.angular_velocity.y, data.angular_velocity.z]
+        if calib_ok == 0:
+            
+            if config == 3:
+                get_orientation_eeimu_0global()
+            else:
+                # get orientation
+                orient = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
+                # get acceleration
+                angvel = [data.angular.x, data.angular_velocity.y, data.angular_velocity.z]
 
-            Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
-            Rimu_global = Ttemp[:3, :3]
+                Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
+                Rimu_global = Ttemp[:3, :3]
 
-            A1 = np.dot(prev_R, Rimu_global.transpose())
-            q = get_quaternion(A1)
-            angle = q[0]*180/(np.pi)
+                A1 = np.dot(prev_R, Rimu_global.transpose())
+                q = get_quaternion(A1)
+                angle = q[0]*180/(np.pi)
 
-            if start == 0:
-                if ((np.linalg.norm(angvel-prev_angvel) < 0.01) and (abs(angle-90) < 0.01)):
+                if ini == 0:
+                    if ((np.linalg.norm(angvel-prev_angvel) < 0.01) and (abs(angle-90) < 0.01)):
+                        Rigs.append(Rimu_global)
+
+                        prev_R = Rimu_global
+                        prev_angvel = angvel
+
+                        config = config + 1
+                else:
                     Rigs.append(Rimu_global)
-
+                    
                     prev_R = Rimu_global
                     prev_angvel = angvel
 
                     config = config + 1
-            else:
-                Rigs.append(Rimu_global)
-                
-                prev_R = Rimu_global
-                prev_angvel = angvel
+                    ini = 0
 
-                config = config + 1
-                start = 0
 
+def simulate_callback(data):
+    """!
+    Waits for the start from handle simulation topic.
+    @param data: integer used to understand which part of the simulation is on.
+    """
+
+    global start
+
+    if data.data == 3:
+        start = 1
 
 def calibrate():
 
@@ -222,6 +240,7 @@ def calibrate():
     rospy.init_node('calibrate', anonymous=True)
 
     rospy.subscriber("smartphone", Imu, imu_ee_calibration)
+    rospy.Subscriber("handleSimulation", Int8, simulate_callback)
 
     rospy.spin()
 
