@@ -64,10 +64,12 @@ void computeCostResponse(double trackingPrecision1, double trackingPrecision2, V
     qdot2opt1 = qdot2 + Q2*temp1*qdot2; // optimize solution 2
 
     // Optimization n. 2: stay close to favourite pose (initial pose)
-    MatrixXd Q2Sharp = regPinv(Q2+0.00001*ID_MATRIX_NJ,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA,cond2);
-    VectorXd qdot_fav = 0.1 * q;
-    qdot1opt2 = qdot1 + Q2*Q2Sharp*(qdot_fav - qdot1); // optimize solution 1
-    qdot2opt2 = qdot2 + Q2*Q2Sharp*(qdot_fav - qdot2); // optimize solution 2
+    MatrixXd Q2Sharp = regPinv(Q2,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA,cond2);
+    VectorXd qdot_fav = 0.001 * q;
+    int multFact = 0;
+    if (cond2 < 1000) multFact = 1;
+    qdot1opt2 = qdot1 + multFact*Q2*Q2Sharp*(qdot_fav - qdot1); // optimize solution 1
+    qdot2opt2 = qdot2 + multFact*Q2*Q2Sharp*(qdot_fav - qdot2); // optimize solution 2
 
     // Fill the response object.
     res.qdot1opt1.velocity = vector<double> (qdot1opt1.data(),qdot1opt1.data()+qdot1opt1.size());
@@ -78,13 +80,11 @@ void computeCostResponse(double trackingPrecision1, double trackingPrecision2, V
     // Sort of normalization
     trackingPrecision1 = trackingPrecision1/0.1;
     trackingPrecision2 = trackingPrecision2/0.1;
-    cond1 = cond1/1e5;
-    cond2 = cond2/1e5;
 
-    res.indicator11.data = trackingPrecision1 + cond1;
-    res.indicator12.data = trackingPrecision1 + cond2;
-    res.indicator21.data = trackingPrecision2 + cond1;
-    res.indicator22.data = trackingPrecision2 + cond2;
+    res.indicator11.data = trackingPrecision1;
+    res.indicator12.data = trackingPrecision1 + 0.2;
+    res.indicator21.data = trackingPrecision2;
+    res.indicator22.data = trackingPrecision2 + 0.2;
 }
 
 
