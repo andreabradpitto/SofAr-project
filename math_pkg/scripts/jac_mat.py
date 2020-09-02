@@ -2,6 +2,7 @@
 # Software License Agreement (BSD License)
 #
 
+from numpy import diag, exp, matmul, zeros
 import rospy
 import numpy as np
 import math
@@ -24,15 +25,54 @@ readyErr = False
 readyJ = False
 readyVel = False
 
-# Calculations to compute 6 dof Jacobian
 
+# Creates bell shaped function to regularize singular values
+def bell(s):
+
+    # b is the solution of 0.5 = exp(-b*0.1**2) such that the gaussian
+    # evaluates 0.5 when s in equal to 0.1
+
+    b = -np.log(0.5)/0.01
+    p = np.exp(-b*s*s)
+
+    return p
+
+# Computes the regularized pseudo inverse of J
+
+
+def regularized_pseudoinverse(J):
+
+    rows = len(J)
+    cols = len(J[0])
+
+    # compute svd
+    U, s, Vt = np.linalg.svd(J)
+
+    # Matrix of regularized singular values
+    Sx = np.zeros((cols, rows))
+
+    for i in range(cols):
+        for j in range(rows):
+            if i == j:
+                # New singular values to avoid singularities
+                Sx[i][j] = s[i]/(s[i]**2 + bell(s[i])**2)
+
+    Ut = U.transpose()
+    V = Vt.transpose()
+
+    Jx = V.dot(Sx.dot(Ut))
+
+    return Jx
+
+
+# Computes the 6 dof Jacobian
 
 def calculations_6(q_coppelia):
 
     p = np.pi
     n_joints = 6
 
-    # Links length. [m]
+    # Links lengths [m]
     L0 = 270.35/1000
     L1 = 69.00/1000
     L2 = 364.35/1000
@@ -74,10 +114,10 @@ def calculations_6(q_coppelia):
     np.set_printoptions(suppress=True)
 
     k = geom_v[0]  # axis of rotation of the revolute joins projected on zero
-    r = geom_v[1]  # distances end_effector, joints projected on zero.
+    r = geom_v[1]  # distances end_effector-joints projected on zero.
 
     Js = j.jacob(k, r, n_joints, info)
-    # print(Js)
+
     return Js
 
 
@@ -86,7 +126,7 @@ def jacobian_callback(data):
 
     global J_6, readyJ
 
-    # to correct with velocity
+    ## to correct with position!! ##
     q_coppelia = np.array(data.velocity)
 
     # It assumes one joint to be fixed (3rd in this case), in order to pass from 7 to 6
@@ -117,7 +157,7 @@ def error_callback(message):
     readyErr = True
 
 
-# Callback Function for the linear and angular velocity
+# Callback Function for the linear and angular velocities of the ee
 
 def vel_callback(message):
 
@@ -150,12 +190,17 @@ def handle_IK_JAnalytic(req):
         q_dot = JointState()
 
         # Gain for the Control Law
-        K = 0.1
+        K = 0.5
+
+        # Inverse of the 6dof jacobian
+        # np.linalg.pinv(J_6) # scipy.linalg.pinv(J_6)
+        J_inv = regularized_pseudoinverse(J_6)
 
         # q_dot definition, taking into account the error on the position
-        q_dot_6 = np.linalg.pinv(J_6).dot(vel+K*error)
+        q_dot_6 = J_inv.dot(vel+K*error)
 
         # Since the third Joint is blocked, its velocity must be set to 0
+        # np.array([0, 0, 0, 0, 0, 0, 0]).transpose()
         q_dot.velocity = np.insert(q_dot_6, 2, 0)
 
         return IK_JTAResponse(q_dot)
@@ -171,7 +216,7 @@ def jac_mat():
     # Subscribe for error positions
     rospy.Subscriber("errors", Float64MultiArray, error_callback)
 
-    # Subscribe for error positions
+    # Subscribe for ee velocity
     rospy.Subscriber("tracking", Float64MultiArray, vel_callback)
 
     # Subscribe for joint positions
