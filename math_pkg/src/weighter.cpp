@@ -86,6 +86,10 @@ int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
 		qdots[3] = costSrv.response.qdot1opt2.velocity;
 		qdots[4] = costSrv.response.qdot2opt1.velocity;
 		qdots[5] = costSrv.response.qdot2opt2.velocity;
+		cost[2] = costSrv.response.indicator11.data;
+		cost[3] = costSrv.response.indicator12.data;
+		cost[4] = costSrv.response.indicator21.data;
+		cost[5] = costSrv.response.indicator22.data;
 		num_obtained = num_obtained + 4;
 	}
 	else;
@@ -133,9 +137,9 @@ int computeWeightedqdot(JointState &finalqdotState) {
 			}
 		}
 	}
-
 	if (num_obtained > 0) {
 		finalqdot = qdots[bestIdx]; // best qdot assigned
+		clog << "best idx = " << bestIdx << endl;
 	}
 	
 	saturate(finalqdot);
@@ -144,7 +148,7 @@ int computeWeightedqdot(JointState &finalqdotState) {
 		satisf++;
 		if (stay_still) {
 			for (int j = 0; j < NJOINTS; j++) {
-				if (abs(finalqdot[j]) < 1e-3) finalqdot[j] = 0;
+				//if (abs(finalqdot[j]) < 1e-9) finalqdot[j] = 0;
 			}
 		}
 		finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
@@ -173,7 +177,7 @@ int main(int argc,char **argv) {
     ros::Subscriber sub1 = n.subscribe("handleSimulation", queSize, handleCallback); // subscribe to Jacobian
 
     ros::Publisher pub = n.advertise<sensor_msgs::JointState>("cmdtopic", queSize); // activate qdot publisher
-    ros::Rate loopRate(100); // define publishing rate
+    ros::Rate loopRate(20); // define publishing rate
 
 	// This node acts as a client for three services.
     clients[0] = n.serviceClient<math_pkg::Cost>("cost");
@@ -205,7 +209,7 @@ int main(int argc,char **argv) {
 					sentqdot << toSend.velocity[i] << ",";
 				}*/
 				if (obt == -1) break;
-				//ROS_ERROR("%d obtained", obt);
+				if (obt == 0) ROS_ERROR("%d obtained", obt);
 				pub.publish(toSend); // publish weighted qdot
 				/*weightertime << ros::Time::now()<<endl<<endl;*/
 			}

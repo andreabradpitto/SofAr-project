@@ -32,7 +32,7 @@ using namespace sensor_msgs;
 /*! Spatial dofs of the robot.*/
 #define SPACE_DOFS 6
 /*! Min joint angles.*/
-const double QMIN[] = {-1.6817,-2.1268,-3.0343,-0.0300,-3.0396,-1.5508,-3.0396};
+const double QMIN[] = {-1.6817,-2.1268,-3.0343,-0.3,-3.0396,-1.5508,-3.0396};
 /*! Max joint angles.*/
 const double QMAX[] = {1.6817,1.0272,3.0343,2.5829,3.0378,2.0744,3.0378};
 /*! Min joint velocities.*/
@@ -44,7 +44,7 @@ const double QDOTMAX[] = {1,1,1,1,1,1,1};
 /*! Initial joint angles.*/
 const double QINIT[] = {0,0,0,0,0,0,0};
 /*! Constant used in Gaussian computation for pseudoinversion.*/
-const double b = -log(0.5)/0.000001;
+const double b = -log(0.5)/0.0000001;
 /*! Identity matrix of size NJOINTS.*/
 const MatrixXd ID_MATRIX_NJ = MatrixXd::Identity(NJOINTS,NJOINTS);
 /*! Identity matrix of size 6.*/
@@ -109,9 +109,10 @@ MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta,double &cond) {
     MatrixXd toSVD = XT*A*X + eta*(idMinusQ.transpose()*idMinusQ);
 
     JacobiSVD<MatrixXd> svd(toSVD, ComputeThinU | ComputeThinV);
-	//clog << "To SVD:" << endl << toSVD << endl << endl;
-	//clog << "SV:" << endl << svd.singularValues() << endl << endl;
-	//clog << "V:" << endl << svd.matrixV() << endl << endl;
+    /*clog << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+	clog << "To SVD:" << endl << toSVD << endl << endl;
+	clog << "SV:" << endl << svd.singularValues() << endl << endl;
+	clog << "V:" << endl << svd.matrixV() << endl << endl;*/
     VectorXd sv = svd.singularValues();
     int svsz = sv.size();
 

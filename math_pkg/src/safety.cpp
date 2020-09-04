@@ -25,11 +25,11 @@ double qdot[NJOINTS];
 /*! Abs value of the position correction pole for safety task.*/
 #define CORRPOLE_POS 70
 /*! Abs value of the velocity correction pole for safety task.*/
-#define CORRPOLE_VEL 2
+#define CORRPOLE_VEL 8
 /*! Soft margin of joint angles.*/
 #define JOINTS_MARGIN 0.1
 /*! Soft margin of joint  velocities.*/
-#define VEL_MARGIN 0.1
+#define VEL_MARGIN 0.01
 /*! At each step, the sequence number of the received q message, for synchronization.*/
 int seqtry;
 /* At each step, the sequence number of the received qdot message, for synchronization.*/
@@ -38,6 +38,8 @@ int seqqdot;
 ofstream safeFailFile("safeFail.txt");
 /* Counter for the Safety service failures, used in debug.*/
 int safeFail = 0;
+
+ofstream safetyqfile("safetyq.txt");
 
 
 /*! Callback function for joint angles.
@@ -176,6 +178,8 @@ bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Respo
 	MatrixXd Q1 = ID_MATRIX_NJ - pinvJ; // Q1 will be needed for the tracking task.
 	partial_qdot = pinvJ * pinvJ * rdot;
 	
+	safetyqfile << partial_qdot << endl << endl;
+
 	// Store Q2 into a 1D vector so that it can be sent to the client in a Float64MultiArray object.
 	Map<MatrixXd> Q1v (Q1.data(), NJOINTS*NJOINTS,1);
 
