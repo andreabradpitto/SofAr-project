@@ -16,13 +16,22 @@ qold = np.zeros((7,1))
 eff = 0
 key = 0
 DT = 0.01
+qmin = [-1.6817,-2.1268,-3.0343,-0.3,-3.0396,-1.5508,-3.0396]
+qmax = [1.6817,1.0272,3.0343,2.5829,3.0378,2.0744,3.0378]
+
+
+def sat(x,xmin,xmax):
+    if x > xmax: return xmax
+    if x < xmin: return xmin
+    return x
+
 
 def qdot_callback (qdot_data):
     """!
     Receives qdot vector and sents q vector obtained by integration.
     @params qdot_data: qdot message received from weighter.
     """
-    global q,qdot,eff,key,pub,qdotprev,qdotprevprev,qold,qdotpnone,qdotppnone
+    global q,qdot,eff,key,pub,qdotprev,qdotprevprev,qold,qdotpnone,qdotppnone,qmin,qmax
     qdot = np.array([qdot_data.velocity]).transpose() # store received vector in global variable
     eff = qdot_data.effort[0] # store new seq number
     tosend = JointState() # joint state object to be sent
@@ -37,6 +46,9 @@ def qdot_callback (qdot_data):
     else: # can use rectangular integration
         q = q + DT * qdot
         qdotpnone = False
+
+    for i in range(7):
+        q[i] = sat(q[i],qmin[i],qmax[i])
 
     # Update past values
     qdotprev = qdot
