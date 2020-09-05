@@ -1,5 +1,5 @@
 /*! \file */
-
+#include <boost/math/special_functions/ulp.hpp>
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -16,8 +16,7 @@
 
 #include <ctime>
 
-/*! Weights for invkin solutions (sum must be 1).*/
-double WEIGHTS[] = {0,0,0,1,0,0};
+#define SAFETY_THR 0.03
 
 /*! Client objects needed for service calls.*/
 ros::ServiceClient clients[NUM_IK_SERVICES];
@@ -59,7 +58,8 @@ void handleCallback(const std_msgs::Int8 &msg)
 	\param obtained Vector that at position i contains a boolean that is true if i-th solution was retrieved, false otherwise.
 	\return number of retrieved velocities vectors.
 */
-int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
+int getAllqdots(vector<double> qdots[], double cost[], bool obtained[], double &safetyIndexMin, 
+	double &safetyIndexMax, MatrixXd &J, VectorXd &vel_analytic) {
 	bool costObtained; // will be true if call to Cost service will succeed.
 
 	int num_obtained = 0; // initialization
@@ -73,12 +73,12 @@ int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
    			}
    			#pragma omp section
 			{
-				obtained[0] = false;//clients[1].call(traSrv);
+				obtained[0] = clients[1].call(traSrv);
 			}
 
    			#pragma omp section
 			{ 
-				obtained[1] = false;//clients[2].call(TASrv);
+				obtained[1] = clients[2].call(TASrv);
 			}
 		}
    	if (costObtained) { // store solutions obtained from Cost and update num_obtained
@@ -90,6 +90,9 @@ int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
 		cost[3] = costSrv.response.indicator12.data;
 		cost[4] = costSrv.response.indicator21.data;
 		cost[5] = costSrv.response.indicator22.data;
+		safetyIndexMin = costSrv.response.safetyIndexMin.data;
+		safetyIndexMax = costSrv.response.safetyIndexMax.data;
+    	J = Map<MatrixXd>(costSrv.response.J.data.data(),6,NJOINTS);
 		num_obtained = num_obtained + 4;
 	}
 	else;
@@ -101,6 +104,8 @@ int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
 	else;// ROS_ERROR("Call to Jtra service failed.");
 	if (obtained[1]) {
 		qdots[1] = TASrv.response.q_dot.velocity;
+		bool banana = TASrv.response.banana.data;
+		vel_analytic = Map<VectorXd>(TASrv.response.vel.data.data(),6);
 		num_obtained++;
 	}
 	else;// ROS_ERROR("Call to J6dofs service failed.");
@@ -123,17 +128,40 @@ int computeWeightedqdot(JointState &finalqdotState) {
 	vector<double> qdots[NUM_IK_SOLUTIONS]; // will contain all qdots computed by the invkin services
 	bool obt[NUM_IK_SOLUTIONS]; // i-th element is true if i-th solution was obtained, false otherwise
 	double cost[NUM_IK_SOLUTIONS];
-	int num_obtained = getAllqdots(qdots,cost,obt); // get all computed qdots
+	double safetyIndexMin,safetyIndexMax;
+	MatrixXd J;VectorXd vel_analytic;
+	int num_obtained = getAllqdots(qdots,cost,obt,safetyIndexMin,safetyIndexMax,J,vel_analytic); // get all computed qdots
 
 	double bestCost = 0;
 	bool started = false;
 
+	if (safetyIndexMin > SAFETY_THR || safetyIndexMax > SAFETY_THR) {
+		cost[0] = cost[1] = false;
+		num_obtained = num_obtained - 2;
+	}
+
+	if (!obt[2]) {
+		J = MatrixXd::Zero(6,NJOINTS);
+	}
+
+	if (obt[1]) {
+    	VectorXd qdot_analytic = Map<VectorXd>(qdots[1].data(),NJOINTS);
+		//clog << "J = " << J << endl << endl;
+		//clog << "qdot_analytic = " << qdot_analytic << endl << endl;
+		//clog << "vel_analytic = " << vel_analytic << endl << endl;
+		cost[1] = (J*qdot_analytic - vel_analytic).norm();
+	}
 	// Select best qdot.
-	if (!stay_still) {
-		for (int i = 0; i < NUM_IK_SOLUTIONS; i++) {
-			if (obt[i] && (!started || cost[bestIdx] > cost[i])) {
-				started = true;
-				bestIdx = i;
+	if (!obt[1] && !obt[2]) {
+		bestIdx = 0;
+	}
+	else {
+		if (!stay_still) {
+			for (int i = 1; i < NUM_IK_SOLUTIONS; i++) {
+				if (obt[i] && (!started || cost[bestIdx] > cost[i])) {
+					started = true;
+					bestIdx = i;
+				}
 			}
 		}
 	}
@@ -141,7 +169,7 @@ int computeWeightedqdot(JointState &finalqdotState) {
 		finalqdot = qdots[bestIdx]; // best qdot assigned
 		clog << "best idx = " << bestIdx << endl;
 	}
-	
+
 	saturate(finalqdot);
 	if (num_obtained > 0) {
 		if (reqs==0) reqs++;

@@ -10,6 +10,7 @@
 #include "Eigen/Dense"
 #include "Eigen/SVD"
 #include "math_pkg/Cost.h"
+#include <boost/math/special_functions/ulp.hpp>
 //#include "Eigen/QR"
 
 using namespace Eigen;
@@ -44,7 +45,7 @@ const double QDOTMAX[] = {1,1,1,1,1,1,1};
 /*! Initial joint angles.*/
 const double QINIT[] = {0,0,0,0,0,0,0};
 /*! Constant used in Gaussian computation for pseudoinversion.*/
-const double b = -log(0.5)/0.0000001;
+const double b = -log(0.5)/0.00000001;
 /*! Identity matrix of size NJOINTS.*/
 const MatrixXd ID_MATRIX_NJ = MatrixXd::Identity(NJOINTS,NJOINTS);
 /*! Identity matrix of size 6.*/
@@ -68,8 +69,9 @@ MATLAB's pinv's source code.
 MatrixXd mypinv(MatrixXd A) {
     JacobiSVD<MatrixXd> svd(A, ComputeThinU | ComputeThinV);
 	VectorXd s2 = svd.singularValues();
-	double tol = 1e-15; // threshold for singular values
-	int cnt = 0;
+	double tol = max(A.cols(),A.rows()) * boost::math::ulp(s2.lpNorm<Infinity>()); // threshold for singular values
+	clog << "TOL=             " << tol << endl;
+    int cnt = 0;
 	int s2sz = s2.size();
 	for (int i = 0;	i < s2sz; i++) {
 		if (s2(i) > tol) cnt++;

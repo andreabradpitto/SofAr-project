@@ -62,6 +62,11 @@ void computeCostResponse(MatrixXd J, VectorXd ve1, VectorXd ve2, VectorXd q,Vect
     MatrixXd IdMinusQ2 = ID_MATRIX_NJ - Q2;
     MatrixXd toPinv = Q2.transpose() * Q2 + 0.1 * IdMinusQ2.transpose()*(IdMinusQ2);
     MatrixXd temp1 = -regPinv(toPinv,ID_MATRIX_NJ,ID_MATRIX_NJ,ETA,cond1) * Q2.transpose();
+    VectorXd qminxd(7);
+    VectorXd qmaxxd(7);
+    qminxd << -1.6817,-2.1268,-3.0343,-0.3,-3.0396,-1.5508,-3.039;
+    qmaxxd << 1.6817,1.0272,3.0343,2.5829,3.0378,2.0744,3.0378;
+
     qdot1opt1 = qdot1 + Q2*temp1*qdot1; // optimize solution 1
     qdot2opt1 = qdot2 + Q2*temp1*qdot2; // optimize solution 2
 
@@ -85,6 +90,8 @@ void computeCostResponse(MatrixXd J, VectorXd ve1, VectorXd ve2, VectorXd q,Vect
     res.indicator12.data = (J*qdot1opt2 - ve1).norm();
     res.indicator21.data = (J*qdot2opt2 - ve2).norm();
     res.indicator22.data = (J*qdot2opt2 - ve2).norm();
+    res.safetyIndexMin.data = (qminxd - q).norm();
+    res.safetyIndexMax.data = (qmaxxd - q).norm();
 }
 
 
@@ -116,6 +123,7 @@ bool computeOptqdot(math_pkg::Cost::Request &req, math_pkg::Cost::Response &res)
 
         // Compute optimized vectors and fill the response object.
    	 	computeCostResponse(J,ve1,ve2,q,qdot1,qdot2,Q2,res);
+        res.J = ikSrv.response.J;
    	}
     else { // if Jacobian is available but the service call did not succeed
         readyq = false; // reset availability flag
