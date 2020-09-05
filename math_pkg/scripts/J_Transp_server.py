@@ -3,10 +3,10 @@
 import rospy
 import numpy as np
 
-# Obtained by building the file IK_JTA.srv
-from math_pkg.srv import IK_JTA
-from math_pkg.srv import IK_JTARequest
-from math_pkg.srv import IK_JTAResponse
+# Obtained by building the file IK_Jtra.srv
+from math_pkg.srv import IK_Jtra
+from math_pkg.srv import IK_JtraRequest
+from math_pkg.srv import IK_JtraResponse
 
 # Necessary to use Numpy Arrays 
 from rospy.numpy_msg import numpy_msg
@@ -19,6 +19,17 @@ from sensor_msgs.msg import JointState
 # Flags to define Availability of the data required by the Service
 readyErr = False
 readyJ = False
+
+# Weights for the J transpose:
+wp = [50, 50, 50, 1, 1, 1]#[5000, 5000, 5000, 2, 2, 2]#[50, 50, 50, 1, 1, 1] #[100, 100, 100, 2, 2, 2]
+wd = [50,50,50,0.5,0.5,0.5] #[0, 0, 0, 0, 0, 0]#[50,50,50,0.5,0.5,0.5]
+
+# Path to write the log file
+import os
+script_dir = os.path.dirname(__file__)  # absolute directory the script is in
+rel_path = "./Output/Output.txt"
+abs_file_path = os.path.join(script_dir, rel_path)
+LOG_FLAG = 0
 
 def init_float64_multiarray(rows,columns):
     """!
@@ -36,7 +47,7 @@ def init_float64_multiarray(rows,columns):
     a.layout.dim[1].size = columns
     return a
 
-def j_transp(err, J, delta_t):
+def j_transp(err, err_dot, J, Wp, Wd, delta_t):
     """! 
     Function that performs Inverse kinematics using the Jacobian Transpose
     approach.
@@ -45,19 +56,49 @@ def j_transp(err, J, delta_t):
     @param delta_t: sampling time.
     @return: a Float64MultiArray containing the Joint Velocities.
     """
+    # Norm of the position error
+    err_norm = np.linalg.norm(err)
+
+    # Norm of the linear part of the position error
+    err_norm_lin = np.linalg.norm(err[:3])
+
+    # Norm of the rotational part of the position error
+    err_norm_rot = np.linalg.norm(err[3:])
+
+    # Norm of the derivative of the position error
+    err_dot_norm = np.linalg.norm(err_dot)
+
+    # Norm of the linear part of the derivative of the position error
+    err_dot_lin = np.linalg.norm(err_dot[:3])
+   
+    # Norm of the rotational part of the derivative of the position error
+    err_dot_rot = np.linalg.norm(err_dot[3:])
 
     # q_dot initialization
     q_dot = JointState()
 
-    # Alpha (Regulation Factor) computation
-    numerator = J.dot(J.T.dot(err))
-    alpha = (err.T).dot(numerator)/(numerator.T.dot(numerator))
-    
-    # Delta Joint positions using: alpha*J_transpose*error_transpose (Paper Formula)
-    dq = alpha*(J.T.dot(err))
+    # Working Case
+    if ((err_norm>0.0001) or (err_dot_norm>0.001)):
+
+        # Weights as diagonal Matrices:
+        Kp = np.diag([err_norm_lin*10, err_norm_lin*10, err_norm_lin*10, err_norm_rot, err_norm_rot, err_norm_rot]) #200 and 50 before
+        #Kp = np.diag(Wp)
         
-    # Joint velocities, being dq = q_dot*delta_t
-    q_dot.velocity = dq/delta_t
+        Kd = np.diag([err_dot_lin*0, err_dot_lin*0, err_dot_lin*0, 5*err_dot_rot, 5*err_dot_rot, 5*err_dot_rot])
+        #Kd = np.diag(Wd)
+
+        # Delta Joint positions using: K*J_transpose*error_transpose (Paper Formula)
+        dq = J.T.dot(Kp.dot(err)+Kd.dot(err_dot))
+        
+        # Joint velocities, being dq = q_dot*delta_t
+        #q_dot.velocity = dq/delta_t
+	q_dot.velocity = np.zeros((max(J.shape))).T
+        
+    # Position Reached
+    else:
+
+        # Stop the Joint: zero velocities
+        q_dot.velocity = np.zeros((max(J.shape))).T
 
     return q_dot
     
@@ -66,7 +107,7 @@ def j_transp(err, J, delta_t):
 def handle_IK_Jtransp(req):
 
     # Declaration to work with global variables
-    global readyErr, readyJ
+    global readyErr, readyJ, wp, wd
 
     print"Server J Transpose accepted request\n"
 
@@ -76,8 +117,17 @@ def handle_IK_Jtransp(req):
         return 
     else:
         readyErr = readyJ = False
-        return IK_JTAResponse(j_transp(error, J, 0.01))        
-    #return IK_JTAResponse(j_transp(error, J, 0.01))
+	if (LOG_FLAG):
+            now = rospy.get_rostime()
+            timestamp =  now.secs + float(now.nsecs)/1000000000
+            with open(abs_file_path, 'a') as f:
+                f.write(str(timestamp))
+                f.write("\t")
+                f.write(str(j_transp(error[:6], error[6:], J, wp, wd, 0.01).velocity.T))
+                f.write("\n\n")
+
+        return IK_JtraResponse(j_transp(error[:6], error[6:], J, wp, wd, 0.01))        
+    #return IK_JtraResponse(j_transp(error, J, 0.01))
 
 # Callback Function for the error on the position (error on Xee)
 def error_callback(message):
@@ -85,11 +135,14 @@ def error_callback(message):
     # Declaration to work with global variables
     global error,readyErr
 
+    # Re-arranging the error vector in the needed form:
     err_orient = np.array([message.data[:3]]).T
     err_pos = np.array([message.data[3:6]]).T
-    error = np.concatenate((err_pos,err_orient), axis=0)
+    err_vel_lin = np.array([message.data[6:9]]).T
+    err_vel_rot = np.array([[0,0,0]]).T
+    error = np.concatenate((err_pos, err_orient, err_vel_lin, err_vel_rot), axis=0)
     #error = np.array([message.data[:6]]).T
-    #rospy.loginfo("Received Position Error:\n%s\n", str(error))
+    rospy.loginfo("Received Position Error:\n%s\n", str(error))
     #print(readyErr)
     
     # Set the Error as available
@@ -121,8 +174,9 @@ def JT_server():
     rospy.Subscriber("errors", Float64MultiArray, error_callback)
     rospy.Subscriber("jacobian", Float64MultiArray, jacobian_callback)
 
-    s = rospy.Service('IK_Jtransp', IK_JTA, handle_IK_Jtransp)
+    s = rospy.Service('IK_Jtransp', IK_Jtra, handle_IK_Jtransp)
     rospy.spin()
     
 if __name__ == "__main__":
     JT_server()
+

@@ -3,6 +3,7 @@
 #
 
 from numpy import diag, exp, matmul, zeros
+from utilities import init_float64_multiarray
 import rospy
 import numpy as np
 import math
@@ -12,7 +13,7 @@ import J_computations as j
 from rospy_tutorials.msg import Floats
 from rospy.numpy_msg import numpy_msg
 
-from std_msgs.msg import Float64MultiArray, MultiArrayDimension
+from std_msgs.msg import Float64MultiArray, MultiArrayDimension, Bool
 from sensor_msgs.msg import JointState
 
 # Obtained by building the file IK_JTA.srv
@@ -26,7 +27,18 @@ readyJ = False
 readyVel = False
 
 
+# Saturates values of q_dot
+
+def sat(x, xmin, xmax):
+    if x > xmax:
+        return xmax
+    if x < xmin:
+        return xmin
+    return x
+
+
 # Creates bell shaped function to regularize singular values
+
 def bell(s):
 
     # b is the solution of 0.5 = exp(-b*0.1**2) such that the gaussian
@@ -37,8 +49,8 @@ def bell(s):
 
     return p
 
-# Computes the regularized pseudo inverse of J
 
+# Computes the regularized pseudo inverse of J
 
 def regularized_pseudoinverse(J):
 
@@ -79,7 +91,7 @@ def calculations_6(q_coppelia):
     L3 = 69.00/1000
     Lh = math.sqrt(L2 ** 2 + L3 ** 2)
     L4 = 374.29/1000
-    L5 = 10.00/1000
+    L5 = 0  # 10.00/1000
     L6 = 368.30/1000
 
     # DH table of Baxter: alpha(i-1), a(i-1), d(i), theta(i).
@@ -190,20 +202,28 @@ def handle_IK_JAnalytic(req):
         q_dot = JointState()
 
         # Gain for the Control Law
-        K = 0.5
+        K = 10
 
         # Inverse of the 6dof jacobian
         # np.linalg.pinv(J_6) # scipy.linalg.pinv(J_6)
         J_inv = regularized_pseudoinverse(J_6)
 
-        # q_dot definition, taking into account the error on the position
-        q_dot_6 = J_inv.dot(vel+K*error)
+        vee = vel+K*error
+        q_dot_6 = J_inv.dot(vee)
+
+        for i in range(6):
+            q_dot_6[i] = sat(q_dot_6[i], -1, 1)
 
         # Since the third Joint is blocked, its velocity must be set to 0
-        # np.array([0, 0, 0, 0, 0, 0, 0]).transpose()
         q_dot.velocity = np.insert(q_dot_6, 2, 0)
 
-        return IK_JTAResponse(q_dot)
+        veeMultiArray = init_float64_multiarray(6,1)
+        veeMultiArray.data = vee
+
+        banana = Bool()
+        banana.data = True
+
+        return IK_JTAResponse(q_dot,veeMultiArray,banana)
 
 
 def jac_mat():
