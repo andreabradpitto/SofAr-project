@@ -205,7 +205,7 @@ int main(int argc,char **argv) {
     ros::Subscriber sub1 = n.subscribe("handleSimulation", queSize, handleCallback); // subscribe to Jacobian
 
     ros::Publisher pub = n.advertise<sensor_msgs::JointState>("cmdtopic", queSize); // activate qdot publisher
-    ros::Rate loopRate(20); // define publishing rate
+    ros::Rate loopRate(100); // define publishing rate
 
 	// This node acts as a client for three services.
     clients[0] = n.serviceClient<math_pkg::Cost>("cost");
