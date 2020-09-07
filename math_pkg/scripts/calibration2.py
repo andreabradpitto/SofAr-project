@@ -46,7 +46,7 @@ def imu_ee_calibration(data):
         
         start == 0
         
-        rospy.loginfo("Setup done!")
+        rospy.logerr("Setup done!")
 
         pub_rot_matrices.publish(R)
 
