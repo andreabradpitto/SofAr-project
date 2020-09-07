@@ -43,10 +43,12 @@ def imu_ee_calibration(data):
         R = util.init_float64_multiarray(9, 1)
         R0_global = R0_global.reshape(9, 1)
         R.data = R0_global
+        
+        start == 0
+        
+        rospy.loginfo("Setup done!")
 
         pub_rot_matrices.publish(R)
-
-        start == 0
 
 
 def simulate_callback(data):
