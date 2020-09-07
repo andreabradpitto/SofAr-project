@@ -367,7 +367,7 @@ def simulate_callback(data):
     key = data.data
 
     if key == 0:
-        print("Resetting")
+        rospy.logerr("Resetting")
         # reset of the initial conditions.
     
         # Need this variable to store initial rotation matrix, because it's equal to
