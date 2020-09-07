@@ -166,8 +166,8 @@ int computeWeightedqdot(JointState &finalqdotState) {
 		}
 	}
 	if (num_obtained > 0) {
-		finalqdot = qdots[bestIdx]; // best qdot assigned
-		clog << "best idx = " << bestIdx << endl;
+		finalqdot = qdots[2]; // best qdot assigned
+		//clog << "best idx = " << bestIdx << endl;
 	}
 
 	saturate(finalqdot);
