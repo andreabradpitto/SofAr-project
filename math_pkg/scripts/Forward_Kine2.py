@@ -63,6 +63,13 @@ key = -1 # used to handle the simulation.
 # calibration variable. if = 1 -> the calibration is finished.
 calib_ok = 0
 
+
+# Implementation of the heuristic
+sequence = 0 # counts how many clipped accelerations smartphone sents in a row.
+steps = 10 # for the moment. If sequence > steps, then make the velocity approach zero.
+index = 1 # needed to make the velocity approach zero.
+
+
 # Sampling time
 dt = 0.01
 
@@ -263,7 +270,7 @@ def smart_callback(data):
         #print("Starting")
         #start = time.time()
 
-        global ini_smart, omega_imu_global, a_imu_global, Re_imu, Rimu_global_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
+        global index, sequence, ini_smart, omega_imu_global, a_imu_global, Re_imu, Rimu_global_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
         #####################################################################################
         # Read from topic, get Rimu,inertial; angular velocity and linear acceleration
         # of imu with respect to inertial frame, all expressed in imu frame at time kplus1.
@@ -282,6 +289,7 @@ def smart_callback(data):
     ##    print(Rimu_inert_k)
         if ini_smart == 0:
             Re_imu = np.dot(np.dot(R0e_ini.transpose(), R0global), Rglobal_imu_k)
+            rospy.logerr("You can start moving")
             ini_smart = ini_smart + 1
         
         # angular velocity of imu (end effector) w.r.t. inertial frame projected on imu frame
@@ -311,14 +319,33 @@ def smart_callback(data):
         omega_0e = np.dot(R0imu_k, omega_imu_global)
         a_0e = np.dot(R0imu_k, a_imu_global)
 
-        ##############
-        # Integration
-        ##############
+        ##############################################################
+        # Integration + handling the velocity in the clipping region.
+        ##############################################################
+        
+        # clipped accelerations should satisfy this condition.
+        if (np.linalg.norm(a_0e) < 0.01):
 
-        # Target velocity.
-        v_0e_k = v_0e_kmin1 + a_0e*dt
-    ##    print("v_0e_k: ")
-    ##    print(v_0e_k)
+            # counts how many clipped acc. are received in a row.
+            sequence = sequence + 1
+
+            if (sequence >= steps):
+                # let the velocity approach zero.
+                v_0e_k = v_0e_kmin1*np.exp(-index)
+
+                index = index + 1
+
+            else:
+                # let the velocity be constant.
+                v_0e_k = v_0e_kmin1
+        else:
+            # reset the variables that handle the velocity inside the clipping region.
+            sequence = 0
+            index = 1
+
+            # Target velocity.
+            v_0e_k = v_0e_kmin1 + a_0e*dt
+            
 
         # Target position.
         x_0e_k = x_0e_kmin1 + v_0e_kmin1*dt + 0.5*a_0e*dt*dt
