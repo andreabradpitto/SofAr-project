@@ -376,8 +376,10 @@ def calib_callback(data):
     """
 
     global calib_ok, R0global
+    
+    R = np.array(data.data)
 
-    R0global = (data.data).reshape(3,3)
+    R0global = R.reshape(3,3)
 
     calib_ok = 1
 
