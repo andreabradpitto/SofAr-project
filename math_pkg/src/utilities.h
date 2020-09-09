@@ -10,7 +10,7 @@
 #include "Eigen/Dense"
 #include "Eigen/SVD"
 #include "math_pkg/Cost.h"
-#include <boost/math/special_functions/ulp.hpp>
+//#include <boost/math/special_functions/ulp.hpp>
 //#include "Eigen/QR"
 
 using namespace Eigen;
@@ -69,8 +69,8 @@ MATLAB's pinv's source code.
 MatrixXd mypinv(MatrixXd A) {
     JacobiSVD<MatrixXd> svd(A, ComputeThinU | ComputeThinV);
 	VectorXd s2 = svd.singularValues();
-	double tol = max(A.cols(),A.rows()) * boost::math::ulp(s2.lpNorm<Infinity>()); // threshold for singular values
-	clog << "TOL=             " << tol << endl;
+	double tol = 1e-16; //max(A.cols(),A.rows()) * boost::math::ulp(s2.lpNorm<Infinity>()); // threshold for singular values
+	//clog << "TOL=             " << tol << endl;
     int cnt = 0;
 	int s2sz = s2.size();
 	for (int i = 0;	i < s2sz; i++) {
