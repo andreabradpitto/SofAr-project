@@ -30,6 +30,8 @@ def imu_ee_calibration(data):
     @param data: inertial data coming from smartphone. The focus is on the
     orientation info given by a quaternion.
     """
+    
+    global start
 
     if start == 1:
         
@@ -44,7 +46,7 @@ def imu_ee_calibration(data):
         R0_global = R0_global.reshape(9, 1)
         R.data = R0_global
         
-        start == 0
+        start = 0
         
         rospy.logerr("Setup done!")
 
