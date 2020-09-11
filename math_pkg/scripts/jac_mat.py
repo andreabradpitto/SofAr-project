@@ -27,7 +27,7 @@ readyJ = False
 readyVel = False
 
 
-# Saturates values of q_dot
+# Saturates the input value in the given interval
 
 def sat(x, xmin, xmax):
     if x > xmax:
@@ -57,7 +57,7 @@ def regularized_pseudoinverse(J):
     rows = len(J)
     cols = len(J[0])
 
-    # compute svd
+    # svd decomposition
     U, s, Vt = np.linalg.svd(J)
 
     # Matrix of regularized singular values
@@ -72,6 +72,7 @@ def regularized_pseudoinverse(J):
     Ut = U.transpose()
     V = Vt.transpose()
 
+    # Reconstruct the matrix
     Jx = V.dot(Sx.dot(Ut))
 
     return Jx
@@ -91,11 +92,11 @@ def calculations_6(q_coppelia):
     L3 = 69.00/1000
     Lh = math.sqrt(L2 ** 2 + L3 ** 2)
     L4 = 374.29/1000
-    L5 = 0  # 10.00/1000
+    L5 = 0
     L6 = 368.30/1000
 
-    # DH table of Baxter: alpha(i-1), a(i-1), d(i), theta(i).
-    # Last row relates last joint to end-effector.
+    # DH table of Baxter: alpha(i-1), a(i-1), d(i), theta(i)
+    # Last row relates last joint to end-effector
     DH = np.array([[0, 0, L0, 0],
                    [-p/2, L1, 0, 0],
                    [0, Lh, 0, p/2],
@@ -107,26 +108,26 @@ def calculations_6(q_coppelia):
     # Trasformation matrices given DH table. T0,1 T1,2 ... T7,e
     T_rel_ini = t.DH_to_T(DH)
 
-    # type of joints, 1 = revolute, 0 = prismatic.
+    # type of joints, 1 = revolute, 0 = prismatic
     info = np.array([1, 1, 1, 1, 1, 1])
 
-    # initial q
+    # Initial q
     q = np.array([0, 0, 0, 0, 0, 0])
 
-    # transformations matrices given the configuration.
+    # Transformation matrices given the configuration
     T_trans = t.transformations(T_rel_ini, q_coppelia, info)
 
     # T0,1 T0,2 T0,3...T0,e
     T_abs = t.abs_trans(T_trans)
 
-    # extract geometric vectors needed for computations.
+    # Extract geometric vectors needed for computations
     geom_v = j.geometric_vectors(T_abs)
 
     np.set_printoptions(precision=4)
     np.set_printoptions(suppress=True)
 
     k = geom_v[0]  # axis of rotation of the revolute joins projected on zero
-    r = geom_v[1]  # distances end_effector-joints projected on zero.
+    r = geom_v[1]  # distances end_effector-joints projected on zero
 
     Js = j.jacob(k, r, n_joints, info)
 
@@ -134,11 +135,11 @@ def calculations_6(q_coppelia):
 
 
 # Callback Function for the Joints Positions
+
 def jacobian_callback(data):
 
     global J_6, readyJ
 
-    ## to correct with position!! ##
     q_coppelia = np.array(data.velocity)
 
     # It assumes one joint to be fixed (3rd in this case), in order to pass from 7 to 6
@@ -156,6 +157,7 @@ def jacobian_callback(data):
 
 
 # Callback Function for the error on the position (error on Xee)
+
 def error_callback(message):
 
     global error, readyErr
@@ -183,6 +185,7 @@ def vel_callback(message):
 
 
 # Handler for the Server
+
 def handle_IK_JAnalytic(req):
 
     # Declaration to work with global variables
@@ -205,25 +208,26 @@ def handle_IK_JAnalytic(req):
         K = 10
 
         # Inverse of the 6dof jacobian
-        # np.linalg.pinv(J_6) # scipy.linalg.pinv(J_6)
         J_inv = regularized_pseudoinverse(J_6)
 
+        # Ee velocity
         vee = vel+K*error
+
+        # q_dot computation
         q_dot_6 = J_inv.dot(vee)
 
+        # q_dot saturation
         for i in range(6):
             q_dot_6[i] = sat(q_dot_6[i], -1, 1)
 
         # Since the third Joint is blocked, its velocity must be set to 0
         q_dot.velocity = np.insert(q_dot_6, 2, 0)
 
-        veeMultiArray = init_float64_multiarray(6,1)
+        # Set vee to multiarray
+        veeMultiArray = init_float64_multiarray(6, 1)
         veeMultiArray.data = vee
 
-        banana = Bool()
-        banana.data = True
-
-        return IK_JTAResponse(q_dot,veeMultiArray,banana)
+        return IK_JTAResponse(q_dot, veeMultiArray)
 
 
 def jac_mat():
