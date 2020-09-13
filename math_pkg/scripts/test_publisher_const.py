@@ -30,8 +30,6 @@ def talker():
     #pub.publish(imu)
 
     while not rospy.is_shutdown():
-        #imu.linear_acceleration.x = 0.1*0.1*np.sin(0.1*k)
-        #imu.linear_acceleration.y = 0.1*0.1*np.cos(0.1*k)
         pub.publish(imu)
         k = k + 1
         rate.sleep()

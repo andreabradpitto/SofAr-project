@@ -9,20 +9,21 @@ from std_msgs.msg import Float64MultiArray, Int8
 
 # GLOBAL VARIABLES
 
-pub_rot_matrices = rospy.Publisher('rot_matrices', Float64MultiArray, queue_size=10)
-                                   
+pub_rot_matrices = rospy.Publisher(
+    'rot_matrices', Float64MultiArray, queue_size=10)
+
 # Since the calibration involves an human arm and not a robot manipulator,
 # this orientation has been computed offline on Baxter arm model.
 
 # q = [0, 0, .., 0]
-R0e =  np.array([[ 0,  0,  1],
-                 [ 0,  1,  0],
-                 [-1,  0,  0]])
+R0e = np.array([[0,  0,  1],
+                [0,  1,  0],
+                [-1,  0,  0]])
 
 # determines the starting phase.
 start = 0
-    
-    
+
+
 def imu_ee_calibration(data):
     """!
     Computes the orientation between 0 and global frame using an
@@ -30,14 +31,16 @@ def imu_ee_calibration(data):
     @param data: inertial data coming from smartphone. The focus is on the
     orientation info given by a quaternion.
     """
-    
+
     global start
 
     if start == 1:
-        
-        orient = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
 
-        Ttemp = tf.transformations.quaternion_matrix((orient[0], orient[1], orient[2], orient[3]))
+        orient = [data.orientation.x, data.orientation.y,
+                  data.orientation.z, data.orientation.w]
+
+        Ttemp = tf.transformations.quaternion_matrix(
+            (orient[0], orient[1], orient[2], orient[3]))
         Rimu_global = Ttemp[:3, :3]
 
         R0_global = np.dot(R0e, Rimu_global)
@@ -45,9 +48,9 @@ def imu_ee_calibration(data):
         R = util.init_float64_multiarray(9, 1)
         R0_global = R0_global.reshape(9, 1)
         R.data = R0_global
-        
+
         start = 0
-        
+
         rospy.logerr("Setup done!")
 
         pub_rot_matrices.publish(R)

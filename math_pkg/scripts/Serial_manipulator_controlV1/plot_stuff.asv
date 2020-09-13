@@ -1,0 +1,51 @@
+
+n = NJOINTS;qmin = QMIN; qmax = QMAX; qdotmax = QDOTMAX; B = QMARGIN;
+ETA = 5;
+SAT = evalin('base','sat','0');
+
+%if (rotrefw), smartplot(3,3,[0 3 6 9],t,{xg,ag,wg},{'xg','ag','wg'}); end
+smartplot(3,3,[0 3 6],t,{eta(:,:),rho(:,:),etadot(:,:)},{['ETA = ',num2str(ETA),',SAT=',num2str(sat),',eta'],...
+    ['ETA = ',num2str(ETA),',SAT=',num2str(sat),',rho'],['ETA = ',num2str(ETA),',SAT=',num2str(sat),',etadot']});
+if evalin('base','plotq')
+    figure,set(gcf,'Units','Normalized','OuterPosition',[0 0 1 1]);
+    for ii = 1 : n
+        subplot(3,3,ii);plot(t,q(ii,1:length(t)));title(['ETA = ',num2str(ETA),....
+            ',SAT=',num2str(sat),',q' num2str(ii)]); grid on;
+        hold on;
+        plot(t,ones(1,tn)*qmin(ii),'color','red');
+        plot(t,ones(1,tn)*qmax(ii),'color','red');
+        plot(t,ones(1,tn)*qmin(ii)+B,'color',[ 0.9100 0.4100 0.1700]);
+        plot(t,ones(1,tn)*qmax(ii)-B,'color',[ 0.9100 0.4100 0.1700]);
+        drawnow;
+    end
+end
+
+if evalin('base','plotqdot',false)
+    figure,set(gcf,'Units','Normalized','OuterPosition',[0 0 1 1]);
+    for ii = 1 : n
+        subplot(3,3,ii);plot(t,qdot(ii,1:length(t)));grid on;hold on;
+        plot(t,-ones(1,tn)*qdotmax(ii),'color','red');
+        plot(t,ones(1,tn)*qdotmax(ii),'color','red');
+        title(['ETA = ' num2str(ETA),',SAT=',num2str(sat),',qdot' num2str(ii)]);
+        set(gcf,'Units','Normalized','OuterPosition',[0 0 1 1]);
+        drawnow;
+    end
+end
+
+if evalin('base','plotcurves',false)
+    figure,set(gcf,'Units','Normalized','OuterPosition',[0 0 1 1]);
+    subplot(1,2,1);
+    xe = TOe(1,4,:);
+    ye = TOe(2,4,:);
+    ze = TOe(3,4,:);
+    plot_both_curves(xg(1,:),xg(2,:),xe,ye);
+    subplot(1,2,2);
+    plot_both_curves(xg(1,:),xg(3,:),xe,);
+end
+
+function plot_both_curves(xorg,yorg,x,y)
+    grid on;
+    plot(xorg,yorg,'Color','red');hold on;
+    plot(x,y,'Color','blue');
+    legend('target','ee');
+end

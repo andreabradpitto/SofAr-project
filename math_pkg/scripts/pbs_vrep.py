@@ -14,7 +14,7 @@ def vrep_simulate():
     rate = rospy.Rate(100) # 100hz
 
     while not rospy.is_shutdown():
-        q = JointState();q.position = [0,-0.5411,0,0.7505,0,1.2566,0];pub.publish(q);rate.sleep()
+        q = JointState();q.position = [0,0,0,0,0,0,0];q.effort=[0];pub.publish(q);rate.sleep()
 
 if __name__ == '__main__':
     try:

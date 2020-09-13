@@ -11,35 +11,34 @@ def talker():
 
     pub = rospy.Publisher('smartphone', Imu, queue_size=10)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(100)  # 10 Hz for testing
-
+    rate = rospy.Rate(50) # 10 Hz for testing
+	
     # Load reference signals from MATLAB files
-    agmat = scipy.io.loadmat("data/ag1.mat")
-    wgmat = scipy.io.loadmat("data/wg1.mat")
-    quamat = scipy.io.loadmat("data/quatg1.mat")
+    agmat = scipy.io.loadmat("ag1.mat")
+    wgmat = scipy.io.loadmat("wg1.mat")
+    quamat = scipy.io.loadmat("quatg1.mat")
     ag = agmat["ag1"]
     wg = wgmat["wg1"]
     qua = quamat["quatg1"]
 
     K = 0
     imu = Imu()
-    time.sleep(1)  # wait for subs...
+    time.sleep(1) # wait for subs...
     while True:
-        imu.orientation.w = qua[0, K]
-        imu.orientation.x = qua[1, K]
-        imu.orientation.y = qua[2, K]
-        imu.orientation.z = qua[3, K]
-        imu.linear_acceleration.x = ag[0, K]
-        imu.linear_acceleration.y = ag[1, K]
-        imu.linear_acceleration.z = ag[2, K]
-        imu.angular_velocity.x = wg[0, K]
-        imu.angular_velocity.y = wg[1, K]
-        imu.angular_velocity.z = wg[2, K]
-        if K < 1990:
+        imu.orientation.w = qua[0,K]
+        imu.orientation.x = qua[1,K]
+        imu.orientation.y = qua[2,K]
+        imu.orientation.z = qua[3,K]
+        imu.linear_acceleration.x = ag[0,K]
+        imu.linear_acceleration.y = ag[1,K]
+        imu.linear_acceleration.z = ag[2,K]
+        imu.angular_velocity.x = wg[0,K]
+        imu.angular_velocity.y = wg[1,K]
+        imu.angular_velocity.z = wg[2,K]
+        if K < 1980:
             K = K + 1
         pub.publish(imu)
         rate.sleep()
-
 
 if __name__ == '__main__':
     try:

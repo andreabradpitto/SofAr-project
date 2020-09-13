@@ -194,7 +194,7 @@ def baxter_callback(data):
                 #R0inert = R0e_kmin1 # Constant in time.
                 #print(R0e_kmin1)
                 R0e_ini = R0e_kmin1 # equal at starting configuration
-                x_0e_kmin1 = np.array([[0.5466357597071189, -0.027931706617746237, -0.6658349250739538,]]).transpose() # Initially they are equal
+                x_0e_kmin1 = np.array([[0.5466357597071189, -0.027931706617746237, -0.6658349250739538]]).transpose() # Initially they are equal
                 ini_bax = ini_bax + 1
             
             key_bax = key_bax + 1

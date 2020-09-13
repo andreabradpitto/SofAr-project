@@ -69,7 +69,7 @@ MATLAB's pinv's source code.
 MatrixXd mypinv(MatrixXd A) {
     JacobiSVD<MatrixXd> svd(A, ComputeThinU | ComputeThinV);
 	VectorXd s2 = svd.singularValues();
-	double tol = 1e-16; //max(A.cols(),A.rows()) * boost::math::ulp(s2.lpNorm<Infinity>()); // threshold for singular values
+	double tol = 1e-16;// max(A.cols(),A.rows()) * boost::math::ulp(s2.lpNorm<Infinity>()); // threshold for singular values
 	//clog << "TOL=             " << tol << endl;
     int cnt = 0;
 	int s2sz = s2.size();
