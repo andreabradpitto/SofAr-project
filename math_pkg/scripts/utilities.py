@@ -37,7 +37,7 @@ def anglesCompensate(angles):
 def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
     """!
     Function that transforms euler angle coordinates into the rotation matrix
-    @param angles euler angles, i.e. orientation with respect to X, Y, Z axes
+    @param angles: euler angles, i.e. orientation with respect to X, Y, Z axes
     @returns R: rotation matrix
     """
 
