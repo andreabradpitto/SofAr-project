@@ -14,6 +14,7 @@ def talker():
     rate = rospy.Rate(100) # 10 Hz for testing
 	
     # Load reference signals from MATLAB files
+    # Must be run in same folder as such files
     agmat = scipy.io.loadmat("ag1halfcircle.mat")
     wgmat = scipy.io.loadmat("wg1halfcircle.mat")
     quamat = scipy.io.loadmat("quatg1halfcircle.mat")
