@@ -53,7 +53,7 @@ void handleCallback(const std_msgs::Int8 &msg)
 	\param obtained Vector that at position i contains a boolean that is true if i-th solution was retrieved, false otherwise.
 	\return number of retrieved velocities vectors.
 */
-int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
+int getAllqdots(vector<double> qdots[], bool obtained[]) {
 
 	bool costObtained; // will be true if call to Cost service will succeed.
 	int num_obtained = 0; // initialization
@@ -111,8 +111,7 @@ int computeWeightedqdot(JointState &finalqdotState) {
  	vector<double> finalqdot(NJOINTS,0); // initialize content of object to be published
 	vector<double> qdots[NUM_IK_SOLUTIONS]; // will contain all qdots computed by the invkin services
 	bool obt[NUM_IK_SOLUTIONS]; // i-th element is true if i-th solution was obtained, false otherwise
-	double cost[NUM_IK_SOLUTIONS];
-	int num_obtained = getAllqdots(qdots,cost,obt); // get all computed qdots
+	int num_obtained = getAllqdots(qdots,obt); // get all computed qdots
 
 	// Select best qdot.
 	if (obt[0] && !obt[1] && !obt[2]) {
