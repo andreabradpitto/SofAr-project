@@ -96,8 +96,9 @@ int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
 
 
 
-/*! Service function for the Safety service, which computes the partial joint velocities based on the safety task.
-    \return JointState object to be published, containing the weighted joint velocities vector.
+/*! Function that computes the final joint velocities.
+	\param finalqdotState Joint state object to be filled in.
+	\return number of retrieved velocities vectors.
 */
 int computeWeightedqdot(JointState &finalqdotState) {
  	vector<double> finalqdot(NJOINTS,0); // initialize content of object to be published
@@ -162,7 +163,7 @@ int main(int argc,char **argv) {
 
 		int obt;
 
-    	while (ros::ok()) {
+    		while (ros::ok()) {
 			if (moveOn) {
 				if (reset) {
 					reset = false; stay_still = false;
@@ -172,9 +173,9 @@ int main(int argc,char **argv) {
 				if (obt == -1) break;
 				pub.publish(toSend); // publish weighted qdot
 			}
-    		ros::spinOnce();
-    		loopRate.sleep();
-    	}
+    			ros::spinOnce();
+    			loopRate.sleep();
+    		}
 	}
 
     return 0;
