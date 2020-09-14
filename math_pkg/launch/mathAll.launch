@@ -8,7 +8,7 @@
     <node pkg="math_pkg" name="jac_mat" type="jac_mat.py"/>
 	<node pkg="math_pkg" name="IK_Jtransp_server" type="J_Transp_server.py"/>
     <node pkg="math_pkg" name="FK" type="Forward_Kine2.py"/>
-	<node pkg="math_pkg" name="calibrate" type="calibration2.py"/>
+	<node pkg="math_pkg" name="calibrate_orientation" type="calibration2.py"/>
 	<!--node pkg="math_pkg" name="talker" type="test_publisher_const.py"/-->
 	<node pkg="math_pkg" name="integrator_node" type="integrator.py"/>
 
