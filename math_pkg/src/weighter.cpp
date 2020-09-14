@@ -1,7 +1,5 @@
 /*! \file */
-//#include <boost/math/special_functions/ulp.hpp>
 #include <algorithm>
-#include <fstream>
 #include <iostream>
 #include "math_pkg/Cost.h"
 #include "math_pkg/IK.h"
@@ -13,10 +11,6 @@
 #include "std_msgs/Float64MultiArray.h"
 #include "std_msgs/Int8.h"
 #include "utilities.h"
-
-#include <ctime>
-
-#define SAFETY_THR 0.03
 
 /*! Client objects needed for service calls.*/
 ros::ServiceClient clients[NUM_IK_SERVICES];
@@ -32,24 +26,18 @@ math_pkg::IK_JTA TASrv;
 
 bool reset = false;
 bool mustPause = false;
-bool moveOn = true;
+bool moveOn = false;
 int bestIdx = 2;
-
-int reqs = 0;
-int satisf = 0;
-ofstream wstats("wstats.txt");
 
 
 /*! Callback function for Jacobian matrix.
-    \param msg The received Jacobian matrix.
+    \param msg The received Jacobian matrix.avevo commentat
 */
 void handleCallback(const std_msgs::Int8 &msg)
 {
 	if (msg.data == 0) reset = true;
-	else if (msg.data ==1) {
-			ROS_ERROR("received 1");
-	 		moveOn = true;
-		}
+	else if (msg.data == 1) moveOn = true;
+	else if (msg.data == 2) moveOn = false;
 }
 
 
@@ -58,10 +46,9 @@ void handleCallback(const std_msgs::Int8 &msg)
 	\param obtained Vector that at position i contains a boolean that is true if i-th solution was retrieved, false otherwise.
 	\return number of retrieved velocities vectors.
 */
-int getAllqdots(vector<double> qdots[], double cost[], bool obtained[], double &safetyIndexMin, 
-	double &safetyIndexMax, MatrixXd &J, VectorXd &vel_analytic) {
-	bool costObtained; // will be true if call to Cost service will succeed.
+int getAllqdots(vector<double> qdots[], double cost[], bool obtained[]) {
 
+	bool costObtained; // will be true if call to Cost service will succeed.
 	int num_obtained = 0; // initialization
 	costSrv.request.seq.data = seq;
 	// Each service call is performed in parallel.
@@ -81,34 +68,24 @@ int getAllqdots(vector<double> qdots[], double cost[], bool obtained[], double &
 				obtained[1] = clients[2].call(TASrv);
 			}
 		}
+
    	if (costObtained) { // store solutions obtained from Cost and update num_obtained
 		qdots[2] = costSrv.response.qdot1opt1.velocity;
 		qdots[3] = costSrv.response.qdot1opt2.velocity;
 		qdots[4] = costSrv.response.qdot2opt1.velocity;
 		qdots[5] = costSrv.response.qdot2opt2.velocity;
-		cost[2] = costSrv.response.indicator11.data;
-		cost[3] = costSrv.response.indicator12.data;
-		cost[4] = costSrv.response.indicator21.data;
-		cost[5] = costSrv.response.indicator22.data;
-		safetyIndexMin = costSrv.response.safetyIndexMin.data;
-		safetyIndexMax = costSrv.response.safetyIndexMax.data;
-    	J = Map<MatrixXd>(costSrv.response.J.data.data(),6,NJOINTS);
 		num_obtained = num_obtained + 4;
 	}
-	else;
-		//ROS_ERROR("Call to Cost service failed.");
+
 	if (obtained[0]) {
 		qdots[0] = traSrv.response.q_dot.velocity;
 		num_obtained++;
 	}
-	else;// ROS_ERROR("Call to Jtra service failed.");
+
 	if (obtained[1]) {
 		qdots[1] = TASrv.response.q_dot.velocity;
-		bool banana = TASrv.response.banana.data;
-		vel_analytic = Map<VectorXd>(TASrv.response.vel.data.data(),6);
 		num_obtained++;
 	}
-	else;// ROS_ERROR("Call to J6dofs service failed.");
 
 	for (int i = 2; i < NUM_IK_SOLUTIONS; i++) {
 		obtained[i] = costObtained;
@@ -123,71 +100,34 @@ int getAllqdots(vector<double> qdots[], double cost[], bool obtained[], double &
     \return JointState object to be published, containing the weighted joint velocities vector.
 */
 int computeWeightedqdot(JointState &finalqdotState) {
-	if (reqs > 0) reqs++;
  	vector<double> finalqdot(NJOINTS,0); // initialize content of object to be published
 	vector<double> qdots[NUM_IK_SOLUTIONS]; // will contain all qdots computed by the invkin services
 	bool obt[NUM_IK_SOLUTIONS]; // i-th element is true if i-th solution was obtained, false otherwise
 	double cost[NUM_IK_SOLUTIONS];
-	double safetyIndexMin,safetyIndexMax;
-	MatrixXd J;VectorXd vel_analytic;
-	int num_obtained = getAllqdots(qdots,cost,obt,safetyIndexMin,safetyIndexMax,J,vel_analytic); // get all computed qdots
+	int num_obtained = getAllqdots(qdots,cost,obt); // get all computed qdots
 
-	double bestCost = 0;
-	bool started = false;
-
-	if (safetyIndexMin > SAFETY_THR || safetyIndexMax > SAFETY_THR) {
-		cost[0] = cost[1] = false;
-		num_obtained = num_obtained - 2;
-	}
-
-	if (!obt[2]) {
-		J = MatrixXd::Zero(6,NJOINTS);
-	}
-
-	if (obt[1]) {
-    	VectorXd qdot_analytic = Map<VectorXd>(qdots[1].data(),NJOINTS);
-		//clog << "J = " << J << endl << endl;
-		//clog << "qdot_analytic = " << qdot_analytic << endl << endl;
-		//clog << "vel_analytic = " << vel_analytic << endl << endl;
-		cost[1] = (J*qdot_analytic - vel_analytic).norm();
-	}
 	// Select best qdot.
-	if (!obt[1] && !obt[2]) {
+	if (obt[0] && !obt[1] && !obt[2]) {
 		bestIdx = 0;
 	}
-	else {
-		if (!stay_still) {
-			for (int i = 1; i < NUM_IK_SOLUTIONS; i++) {
-				if (obt[i] && (!started || cost[bestIdx] > cost[i])) {
-					started = true;
-					bestIdx = i;
-				}
-			}
-		}
+	else if (obt[1] && !obt[2]) {
+		bestIdx = 1;
 	}
-	if (num_obtained > 0) {
-		if (obt[2]) { bestIdx = 2; }
-		finalqdot = qdots[bestIdx]; // best qdot assigned
-		//clog << "best idx = " << bestIdx << endl;
+	else if (obt[2]) {
+		bestIdx =2;
 	}
 
+	if (num_obtained > 0) {
+		finalqdot = qdots[bestIdx]; // best qdot assigned
+	}
 	saturate(finalqdot);
 	if (num_obtained > 0) {
-		if (reqs==0) reqs++;
-		satisf++;
-		if (stay_still) {
-			for (int j = 0; j < NJOINTS; j++) {
-				//if (abs(finalqdot[j]) < 1e-9) finalqdot[j] = 0;
-			}
-		}
 		finalqdotState.velocity = finalqdot; // store final velocity vector into the velocity field of the object to be published.
 	}
 	seq = seq + 1;
 	vector<double> eff(1,seq);
 	finalqdotState.effort = eff;
-	//printVectord(finalqdot);
 	if (isnan(finalqdot[0])) num_obtained = -1;
-	wstats << "seq = " << seq << ", receiv = " << reqs << ", satisf = " << satisf << endl << endl;
 	return num_obtained ;
 }
 
@@ -213,16 +153,11 @@ int main(int argc,char **argv) {
     clients[1] = n.serviceClient<math_pkg::IK_Jtra>("IK_Jtransp");
     clients[2] = n.serviceClient<math_pkg::IK_JTA>("IK_JAnalytic");
 
-	/*while (ros::ok()) {
-			if (moveOn) break;
-			ROS_ERROR(moveOn);
-	}*/
 	while (ros::ok()) {
 		vector<double> tosendFirst(NJOINTS,0);
 		vector<double> firstEffort(1,0);
 		sensor_msgs::JointState toSend; // initialize object to be published
 		toSend.velocity = tosendFirst;
-		toSend.header.stamp = ros::Time::now();
 		toSend.effort = firstEffort;
 
 		int obt;
@@ -234,20 +169,12 @@ int main(int argc,char **argv) {
 					break;
 				}
 				obt = computeWeightedqdot(toSend);
-				/*for (int i = 0; i < NJOINTS; i++) {
-					sentqdot << toSend.velocity[i] << ",";
-				}*/
 				if (obt == -1) break;
-				if (obt == 0) ROS_ERROR("%d obtained", obt);
 				pub.publish(toSend); // publish weighted qdot
-				/*weightertime << ros::Time::now()<<endl<<endl;*/
 			}
     		ros::spinOnce();
     		loopRate.sleep();
-				//ROS_ERROR("EXIT");
-			//if (mustPause) break;
     	}
-		//if (obt == -1 || mustPause) break;
 	}
 
     return 0;

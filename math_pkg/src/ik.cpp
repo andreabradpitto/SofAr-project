@@ -9,7 +9,6 @@
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
 #include "utilities.h"
-#include <ctime>
 
 /*! Linear positional gain for tracking in CLIK1.*/
 #define Kpp 10
@@ -57,41 +56,6 @@ ros::ServiceClient client;
 math_pkg::Safety safeSrv;
 /*! Threshold under which error is considered zero.*/
 const double thr_still = 1e-4;
-/*! Log file used in debug.*/
-ofstream eta1file("eta1.txt");
-/*! Log file used in debug.*/
-ofstream eta2file("eta2.txt");
-/*! Log file used in debug.*/
-ofstream eta3file("eta3.txt");
-/*! Log file used in debug.*/
-ofstream rho1file("rho1.txt");
-/*! Log file used in debug.*/
-ofstream rho2file("rho2.txt");
-/*! Log file used in debug.*/
-ofstream rho3file("rho3.txt");
-/*! Log file used in debug.*/
-ofstream ve1file("ve1.txt");
-/*! Log file used in debug.*/
-ofstream qdot1file("qdot1.txt");
-/*! Log file used in debug.*/
-ofstream qdot2file("qdot2.txt");
-/*! Log file used in debug.*/
-ofstream Q1file("Q1.txt");
-/*! Log file used in debug.*/
-ofstream Q2file("Q2.txt");
-/*! Log file used in debug.*/
-ofstream Jfile("J.txt");
-/*! Log file used in debug.*/
-ofstream pinvJQ1file("pinvJQ1.txt");
-/*! Log file used in debug.*/
-ofstream W2file("W2.txt");
-ofstream Q1pinvW2file("Q1pinvW2file");
-ofstream vgfile("vg");
-ofstream wgfile("wg");
-ofstream checkIK1("checkIK1");
-/*! Counter of IK service failures, used in debug.*/
-int ikFail = 0;
-
 
 
 /*! Callback function for Jacobian matrix.
@@ -120,7 +84,6 @@ void ikCallbackErr(const std_msgs::Float64MultiArray &msg)
 		abs(rho(0)) < thr_still && abs(rho(1)) < thr_still && abs(rho(2)) < thr_still) {
 			eta(0) = eta(1) = eta(2) = rho(0) = rho(1) = rho(2) = nu(0) = nu(1) = nu(2) = 0;
 			stay_still = true;
-			ROS_ERROR("error clipped to 0");
 	}
 	else stay_still = false;
 
@@ -170,20 +133,16 @@ void ikCallbackqdot(const sensor_msgs::JointState &msg)
     \param a Target acceleration vector.
     \param qdot1 Reference to CLIK 1st order solution, to be filled.
     \param qdot2 Reference to CLIK 2nd order solution, to be filled.
-    \param prec1 Tracking precision for sol. 1.
-    \param prec2 Tracking precision for sol. 2.
 */
 void computeqdot(VectorXd partialqdot,MatrixXd Q1,MatrixXd J,MatrixXd JL,
     MatrixXd JLdot,VectorXd qdot,VectorXd eta,VectorXd rho,VectorXd etadot,
-    VectorXd v,VectorXd w,VectorXd a,VectorXd &qdot1,VectorXd &qdot2, vector<double> &xedot1data, vector<double> &xedot2data) {
+    VectorXd v,VectorXd w,VectorXd a,VectorXd &qdot1,VectorXd &qdot2) {
     VectorXd ve1 = v + Kpp*eta; // ee lin velocity for CLIK1
     VectorXd ve2 = DT*(a - JLdot*qdot + Kv*etadot + Kp*eta) + JL*qdot; // ee lin velocity for CLIK2
     VectorXd xedot1 = VectorXd(6);
     VectorXd xedot2 = VectorXd(6);
     xedot1 << ve1,w+Krot*rho; // ee velocity for CLIK1
     xedot2 << ve2,w+Krot*rho; // ee velocity for CLIK2
-    wgfile << w << endl << endl;
-    vgfile << v << endl << endl;
 	double cond;
 	/* qdots are computed according to the paper "A Novel Practical Technique to Integrate Inequality Control
 	 * Objectives and Task Transitions in Priority Based Control" by Casalino & Simetti, pp. 16-17, sec. 3.4. */
@@ -194,20 +153,8 @@ void computeqdot(VectorXd partialqdot,MatrixXd Q1,MatrixXd J,MatrixXd JL,
     MatrixXd tempProduct1 = Q1*pinvQZero*W2;
     MatrixXd tempProduct2 = J*partialqdot;
 
-	W2file << W2 << endl << endl;
-	Q1pinvW2file << tempProduct1 << endl<<endl;
-	Jfile << J << endl << endl;
-	pinvJQ1file << pinvQZero << endl << endl;
-	ve1file << xedot1 - tempProduct2 << endl << endl;
-
     qdot1 = partialqdot + tempProduct1 * (xedot1 - tempProduct2);
     qdot2 = partialqdot + tempProduct1 * (xedot2 - tempProduct2);
-	
-	checkIK1 << J*qdot1 - xedot1 << endl<<endl;
-	//clog << "J*QDOT1 - xedot1" << endl << J*qdot1 - xedot1 << endl << endl;
-
-	xedot1data = vector<double> (xedot1.data(), xedot1.data() + xedot1.size());
-	xedot2data = vector<double> (xedot2.data(), xedot2.data() + xedot2.size());
 }
 
 
@@ -226,10 +173,6 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		}
 		readyJ = readyErr = readyVwa = readyqdot = false; // reset availability flags
 		double cond;
-		
-		// Print errors to files.
-		eta1file << eta(0) << endl;eta2file << eta(1) << endl;eta3file << eta(2) << endl;
-		rho1file << rho(0) << endl;rho2file << rho(1) << endl;rho3file << rho(2) << endl;
 
 		// Map the vectors returned by the call into Eigen library objects.
     	VectorXd partialqdot = Map<VectorXd>(safeSrv.response.qdot.velocity.data(),NJOINTS);
@@ -239,12 +182,6 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		MatrixXd Q2 = Q1*(ID_MATRIX_NJ - regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA,cond)*J*Q1);
 		Map<MatrixXd> Q2v (Q2.data(), NJOINTS*NJOINTS,1);
 		res.Q2.data = vector<double> (Q2v.data(), Q2v.data() + Q2v.size());
-		res.J.data = vector<double> (J.data(), J.data() + J.size());
-		//clog << "Q1:" << endl << Q1 << endl << endl;
-		//clog << "J:" << endl << J << endl << endl;
-		//clog << "J*Q1:" << endl << J*Q1 << endl << endl;
-		//clog << "rp:" << endl << regPinv(J*Q1,ID_MATRIX_SPACE_DOFS,ID_MATRIX_NJ,ETA) << endl << endl;
-		//clog << "Q2:" << endl << Q2 << endl << endl;
 
 		JL = J.block<3,NJOINTS>(0,0); // Extract linear part of the Jacobian matrix.
 		if (firstStep) firstStep = false;
@@ -253,14 +190,8 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
 		// Compute the non-optimized joint velocities.
 		VectorXd qdot1; // will contain qdot computed according to closed loop IK first order.
 		VectorXd qdot2; // will contain qdot computed according to closed loop IK second order.
-		computeqdot(partialqdot,Q1,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2,res.ve1.data,res.ve2.data);
+		computeqdot(partialqdot,Q1,J,JL,JLdot,qdot,eta,rho,nu,v,w,a,qdot1,qdot2);
 		JLold = JL; // update JLold
-		
-		qdot1file << qdot1 << endl<<endl;
-		qdot2file << qdot2 << endl<<endl;
-		Q1file << Q1 << endl << endl;
-		Q2file << Q2 << endl << endl;
-		//clog << "QDOT1:" << endl << qdot1 << endl << endl;
 		
 		// Fill response objects.
 		res.qdot1.velocity = vector<double> (qdot1.data(), qdot1.data() + qdot1.size());

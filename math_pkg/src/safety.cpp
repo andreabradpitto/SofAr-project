@@ -1,14 +1,11 @@
 /*! \file */
 
 #include <algorithm>
-#include <iostream>
-#include <fstream>
 #include "math_pkg/Safety.h"
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
 #include "utilities.h"
-#include <ctime>
 
 /*! Availability flag for joint angles vector: true iff a valid q vector is available.*/
 bool readyq;
@@ -34,13 +31,6 @@ double qdot[NJOINTS];
 int seqtry;
 /* At each step, the sequence number of the received qdot message, for synchronization.*/
 int seqqdot;
-/* Log file used in debug. A sequential number is printed in it every time a Safety call fails.*/
-ofstream safeFailFile("safeFail.txt");
-/* Counter for the Safety service failures, used in debug.*/
-int safeFail = 0;
-
-ofstream safetyqfile("safetyq.txt");
-
 
 /*! Callback function for joint angles.
     \param msg The received joint angles vector.
@@ -147,7 +137,6 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 	    rdot(i) = rdot_i;
 	    Adiag(i) = Adiag_i;
 	}
-	//rdot1file << rdot << endl << endl;
 }
 
 
@@ -160,8 +149,7 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Response &res) {
 	if (!(readyq && readyqdot)||(seqtry != seqqdot)) { // at least one subscribtion data is missing
 		readyq = readyqdot = false; // reset availability flag
-    	//ROS_ERROR("safety service could not run: missing data.");
-		safeFailFile << ++safeFail << endl << endl;
+    	ROS_ERROR("safety service could not run: missing data.");
 		return false;
 	}
 
@@ -177,8 +165,6 @@ bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Respo
 	MatrixXd pinvJ = regPinv(ID_MATRIX_NJ,A,ID_MATRIX_NJ,ETA,cond);
 	MatrixXd Q1 = ID_MATRIX_NJ - pinvJ; // Q1 will be needed for the tracking task.
 	partial_qdot = pinvJ * pinvJ * rdot;
-	
-	safetyqfile << partial_qdot << endl << endl;
 
 	// Store Q2 into a 1D vector so that it can be sent to the client in a Float64MultiArray object.
 	Map<MatrixXd> Q1v (Q1.data(), NJOINTS*NJOINTS,1);

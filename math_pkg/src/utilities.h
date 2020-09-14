@@ -10,8 +10,6 @@
 #include "Eigen/Dense"
 #include "Eigen/SVD"
 #include "math_pkg/Cost.h"
-//#include <boost/math/special_functions/ulp.hpp>
-//#include "Eigen/QR"
 
 using namespace Eigen;
 using namespace std;
@@ -37,15 +35,13 @@ const double QMIN[] = {-1.6817,-2.1268,-3.0343,-0.3,-3.0396,-1.5508,-3.0396};
 /*! Max joint angles.*/
 const double QMAX[] = {1.6817,1.0272,3.0343,2.5829,3.0378,2.0744,3.0378};
 /*! Min joint velocities.*/
-//const double QDOTMIN[] = {-3,-3,-3,-3,-3,-3,-3};
 const double QDOTMIN[] = {-1,-1,-1,-1,-1,-1,-1};
 /*! Max joint velocities.*/
-//const double QDOTMAX[] = {3,3,3,3,3,3,3};
 const double QDOTMAX[] = {1,1,1,1,1,1,1};
 /*! Initial joint angles.*/
 const double QINIT[] = {0,0,0,0,0,0,0};
 /*! Constant used in Gaussian computation for pseudoinversion.*/
-const double b = -log(0.5)/0.00000001;
+const double b = -log(0.5)/0.000001;
 /*! Identity matrix of size NJOINTS.*/
 const MatrixXd ID_MATRIX_NJ = MatrixXd::Identity(NJOINTS,NJOINTS);
 /*! Identity matrix of size 6.*/
@@ -69,15 +65,13 @@ MATLAB's pinv's source code.
 MatrixXd mypinv(MatrixXd A) {
     JacobiSVD<MatrixXd> svd(A, ComputeThinU | ComputeThinV);
 	VectorXd s2 = svd.singularValues();
-	double tol = 1e-16;// max(A.cols(),A.rows()) * boost::math::ulp(s2.lpNorm<Infinity>()); // threshold for singular values
-	//clog << "TOL=             " << tol << endl;
+	double tol = 1e-16; // threshold for singular values
     int cnt = 0;
 	int s2sz = s2.size();
 	for (int i = 0;	i < s2sz; i++) {
 		if (s2(i) > tol) cnt++;
 		else break;
 	}
-
 
     // Throw away portions of U, V related to null singular values of A.
 	VectorXd s2rev = s2.head(cnt);
@@ -139,22 +133,22 @@ MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta,double &cond) {
     \param v A std::vector of doubles.
 */
 void printVectord(vector<double> v, char * name) {
-    cout << name << ":" << endl;
+    clog << name << ":" << endl;
     for (int i = 0; i < v.size(); i++) {
-        cout << v[i] << ",";
+        clog << v[i] << ",";
     }
-    cout << endl;
+    clog << endl;
 }
 
 /*! Function that prints an array of doubles, used for debug.
     \param v A std::vector of doubles.
 */
 void printArrayd(double v[], int size, char name[]) {
-    cout << name << ":" << endl;
+    clog << name << ":" << endl;
     for (int i = 0; i < size; i++) {
-        cout << v[i] << ",";
+        clog << v[i] << ",";
     }
-    cout << endl;
+    clog << endl;
 }
 
 /*! Function that saturates joint velocities.
