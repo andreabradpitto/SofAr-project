@@ -1,7 +1,0 @@
-<launch>
-
-    <node pkg="math_pkg" name="fake_qdot_node" type="pbs_qdot_fake.py"/>
-    <node pkg="math_pkg" name="fake_q_node" type="sub_q_fake.py"/>>
-
-
-</launch>
