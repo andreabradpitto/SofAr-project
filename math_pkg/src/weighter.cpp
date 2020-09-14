@@ -24,14 +24,21 @@ math_pkg::IK_Jtra traSrv;
 /* Transpose server object.*/
 math_pkg::IK_JTA TASrv;
 
+/* Boolean, true if the simulation must be reset.*/
 bool reset = false;
+
+/* Boolean, true if the simulation must be paused.*/
 bool mustPause = false;
+
+/* Boolean, true if the simulation must move on.*/
 bool moveOn = false;
-int bestIdx = 2;
+
+/* Integer variable that will contain the index of the chosen inverse kinematics solution.*/
+int bestIdx = 0;
 
 
-/*! Callback function for Jacobian matrix.
-    \param msg The received Jacobian matrix.avevo commentat
+/*! Callback function for simulation signals.
+    \param msg The received data.
 */
 void handleCallback(const std_msgs::Int8 &msg)
 {
