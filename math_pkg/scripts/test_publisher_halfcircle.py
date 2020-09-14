@@ -11,7 +11,7 @@ def talker():
 
     pub = rospy.Publisher('smartphone', Imu, queue_size=10)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(20) # 10 Hz for testing
+    rate = rospy.Rate(100) # 10 Hz for testing
 	
     # Load reference signals from MATLAB files
     agmat = scipy.io.loadmat("ag1halfcircle.mat")
