@@ -75,7 +75,7 @@ def calibrate():
     # anonymous=True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
-    rospy.init_node('calibrate', anonymous=True)
+    rospy.init_node('calibrate_orientation', anonymous=True)
 
     rospy.Subscriber("smartphone", Imu, imu_ee_calibration)
     rospy.Subscriber("handleSimulation", Int8, simulate_callback)
