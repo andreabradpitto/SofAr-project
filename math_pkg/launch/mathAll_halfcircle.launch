@@ -4,10 +4,10 @@
     <node pkg="math_pkg" name="cost_server" type="cost"/>
     <node pkg="math_pkg" name="weighter" type="weighter"/>
     <node pkg="math_pkg" name="ik_server" type="ik"/>
-    <node pkg="math_pkg" name="listener" type="Errors.py"/>
+    <node pkg="math_pkg" name="errors_node" type="Errors.py"/>
     <node pkg="math_pkg" name="jac_mat" type="jac_mat.py"/>
 	<node pkg="math_pkg" name="IK_Jtransp_server" type="J_Transp_server.py"/>
-    <node pkg="math_pkg" name="subs" type="Forward_Kine_halfcircle.py"/>
+    <node pkg="math_pkg" name="FK" type="Forward_Kine_halfcircle.py"/>
 	<node pkg="math_pkg" name="integrator_node" type="integrator.py"/>
 
 
