@@ -56,8 +56,6 @@ def transformations(T_rel_ini, q, info):
 ##                      [0, 0, 0, 1]])
 
     Tmp = np.dot(T_rel_ini[i], Tel)
-    #print("++++Tmp")
-    #print(Tmp)
     T.append(Tmp)
 
   # Last matrix is constant in time. T_7,e.e
