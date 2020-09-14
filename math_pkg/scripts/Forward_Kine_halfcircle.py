@@ -8,7 +8,6 @@ from sensor_msgs.msg import JointState, Imu
 from std_msgs.msg import Float64MultiArray, Int8
 import T_computations as t
 import J_computations as j
-import time
 
 # GLOBAL VARIABLES
 
@@ -42,8 +41,6 @@ DH = np.array([[0, 0, L0, 0],
   
 # Trasformation matrices given DH table. T0,1 T1,2 ... T7,e
 T_dh = t.DH_to_T(DH)
-#print("++++Tdh")
-#print(T_dh)
 
 # Jacobian at time k minus 1
 Jkmin1 = np.zeros((6,7))
@@ -87,9 +84,6 @@ q_dot = np.zeros((7,1))
 # Definition of some variables that change over time when a callback is triggered
 R0inert = np.zeros((3,3))
 R0e_ini = np.zeros((3,3))
-Reimu_ini = np.array([[-1, 0, 0],
-                      [0, -1, 0],
-                      [0, 0, 1]])
 Rimu_inert_k = np.zeros((3,3))
 R0e_kmin1 = np.zeros((3,3))
 R0e_k = np.zeros((3,3))
@@ -155,7 +149,6 @@ def baxter_callback(data):
     global ini_bax, q, R0e_kmin1, R0e_ini, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart, flag_bax, flag_dot
 
     if (key == 1 or ini_bax == 0):
-        #start = time.time()
         
         ####################################################
         # Read from publisher of v-rep the q configuration.
@@ -164,18 +157,13 @@ def baxter_callback(data):
             flag_bax = data.effort[0]
             # configuration at time kmin1
             q = np.array(data.velocity)
-            #print("~~~~~")
-            #print(int(flag_bax))
-            #print(int(flag_dot))
-            #print(int(flag_bax) == int(flag_dot))
-            #print("~~~~~")
         
         if int(flag_bax) == int(flag_dot): 
             
 
             # relative T's with the configuration passed.
             T_rel_kmin1 = t.transformations(T_dh, q, info)
-            #print(T_rel_kmin1)
+
             # absolute T's
             T_abs_kmin1 = t.abs_trans(T_rel_kmin1)
 
@@ -187,8 +175,6 @@ def baxter_callback(data):
 
             # Transformation matrix from 0 to end effector at time k
             T0e_kmin1 = T_abs_kmin1[7]
-        ##    print("T0e, ini: ")
-        ##    print(T0e_kmin1)
 
             # end effector position of baxter at time k
             for i in range(3):
@@ -200,13 +186,8 @@ def baxter_callback(data):
                 for k in range(3):
                     R0e_kmin1[i][k] = T0e_kmin1[i][k]
 
-            #print("----")
-            #print("first  TOe:")
-            #print(T0e_kmin1)
             if ini_bax == 0:
-                #print("Init bax")
                 #R0inert = R0e_kmin1 # Constant in time.
-                #print(R0e_kmin1)
                 R0e_ini = R0e_kmin1 # equal at starting configuration
                 #x_0e_kmin1 =  x_0e_kmin1B # Initially they are equal
                 x_0e_kmin1 = np.array([[ 1.1759, -4.3562e-06, 0.1913]]).transpose() # Initially they are equa
@@ -226,8 +207,6 @@ def baxter_callback(data):
 
                     main_callback()
 
-        #end = time.time()
-        #print("Bax Frequency: " + str(1/(end-start)))
 
 def dot_callback(data):
     """!
@@ -251,7 +230,6 @@ def dot_callback(data):
         key_dot = key_dot + 1
 
         if ini_dot == 0:
-            #print("Init dot")
             ini_dot = ini_dot + 1
         
         if (key_bax >= 1 and key_dot >= 1):
@@ -275,8 +253,6 @@ def smart_callback(data):
     """
 
     if key == 1:
-        #print("Starting")
-        #start = time.time()
 
         global ini_smart, omega_imu_inert, a_imu_inert, R0inert, Rimu_inert_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart, xeflag
         #####################################################################################
@@ -288,57 +264,41 @@ def smart_callback(data):
         #global bigFilex,bigFiley
         # Get orientation
         orientation = [ data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
-        #print("orient")
-        #print(orientation)
-        #print("----")
         
         # transform quaternion to euler angles
         tempAngles = tf.transformations.euler_from_quaternion(orientation, "sxyz")
 
         angles = util.anglesCompensate(tempAngles)
         
-        Rimu_inert_k = util.eulerAnglesToRotationMatrix(angles) #### FOR TESTING it is ROg
-        #print("ROg")
-        #print(Rimu_inert_k)
-        #print("~~~")
-    ##    print("Rimu_inert: ")
-    ##    print(Rimu_inert_k)
+        # Goal orientation matrix
+        Rimu_inert_k = util.eulerAnglesToRotationMatrix(angles)
+
         if ini_smart == 0:
-            R0inert = np.dot(np.dot(R0e_ini, Reimu_ini), Rimu_inert_k) # constant in the overall simulation.
-            R0inert = np.identity(3) #### FOR TESTING
-    ##        print("R0,imu, ini: ")
-    ##        print(np.dot(R0e_ini, Reimu_ini))
+            R0inert = np.identity(3)
             ini_smart = ini_smart + 1
 
         Rinert_imu_k = np.transpose(Rimu_inert_k)
-        #Rinert_imu_k = Rimu_inert_k    #### FOR TESTING
         
         # angular velocity of imu (end effector) w.r.t. inertial frame projected on imu frame
         omega_imu_inert[0][0] = data.angular_velocity.x
         omega_imu_inert[1][0] = data.angular_velocity.y
         omega_imu_inert[2][0] = data.angular_velocity.z
-    ##    print("Omega_imu_inert: ")
-    ##    print(omega_imu_inert)
         
         # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
         a_imu_inert[0][0] = data.linear_acceleration.x
         a_imu_inert[1][0] = data.linear_acceleration.y
         a_imu_inert[2][0] = data.linear_acceleration.z
-    ##    print("a_imu_inert: ")
-    ##    print(a_imu_inert)
 
         # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
         # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
         # i can compute R0e_k
-        R0e_k = np.dot(R0inert, Rinert_imu_k) #### FOR TESTING. R0e_k it is equal to Rinert_imu_k, since R0inert = id
-    ##    print("R0e_k: ")
-    ##    print(R0e_k)
+        R0e_k = np.dot(R0inert, Rinert_imu_k) # R0e_k it is equal to Rinert_imu_k, since R0inert = id
 
         # Since inertial is not moving, the angular velocity and linear acceleration are the same
         # if calculated w.r.t. 0, however i need to project them in zero.
-        omega_0e = omega_imu_inert #### FOR TESTING no projection
-        #print(omega_0e)
-        a_0e = a_imu_inert #### FOR TESTING no projection
+        omega_0e = omega_imu_inert 
+
+        a_0e = a_imu_inert 
 
         ##############
         # Integration
@@ -349,8 +309,6 @@ def smart_callback(data):
             v_0e_k = v_0e_kmin1
         else:
             v_0e_k = v_0e_kmin1 + a_0e*dt
-        #print("v_0e_k: ")
-        #print(v_0e_k)
 
         # Target position.
         if (xeflag == 0):
@@ -372,8 +330,6 @@ def smart_callback(data):
         x_0e_kmin1 = x_0e_k
         v_0e_kmin1 = v_0e_k
 
-       #end = time.time()
-       #print("Smart Frequency: " + str(1/(end-start)))
     
 def simulate_callback(data):
     """!
@@ -416,7 +372,7 @@ def simulate_callback(data):
         dot_callback(0) # to set the initial conditions.
 
         
-def subs():
+def FK():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
     # name are launched, the previous one is kicked off. The
@@ -425,7 +381,7 @@ def subs():
     # run simultaneously.
 
         
-    rospy.init_node('subs', anonymous=True)
+    rospy.init_node('FK', anonymous=True)
 
     # Receive data from smartphone, baxter, weighter and coppelia.
     rospy.Subscriber("smartphone", Imu, smart_callback)
@@ -441,4 +397,4 @@ def subs():
 if __name__ == '__main__':
     baxter_callback(0) # to set the initial conditions.
     dot_callback(0) # to set the initial conditions.
-    subs()
+    FK()
