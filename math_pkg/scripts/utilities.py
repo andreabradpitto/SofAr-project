@@ -6,7 +6,7 @@ def init_float64_multiarray(rows,columns):
     Function that initializes a Float64MultiArray of size rows x columns.
     @param rows: Number of rows of the returned multiarray.
     @param columns: Number of columns of the returned multiarray.
-    @return empty Float64MultiArray instance.
+    @return a: empty Float64MultiArray instance.
     """
     a = Float64MultiArray()
     a.layout.dim.append(MultiArrayDimension())
@@ -21,8 +21,8 @@ def anglesCompensate(angles):
     """!
     Function used to filter unwanted minimal incoming data fluctuations,
     due to noise as well as human operator shake
-    @param orientation with respect to X, Y, Z axes
-    @returns returns a filtered version (if necessary) of the input angles
+    @param angles: orientation with respect to X, Y, Z axes
+    @returns compensatedAngles: returns a filtered version (if necessary) of the input angles
     """
     dx = 0.0174  # min angle perceived [rad], about 1 [deg]
     # reduce sensibility of sensor: minimum precision is dx
@@ -38,7 +38,7 @@ def eulerAnglesToRotationMatrix(angles):  # angles [roll, pitch, yaw]
     """!
     Function that transforms euler angle coordinates into the rotation matrix
     @param angles euler angles, i.e. orientation with respect to X, Y, Z axes
-    @returns rotation matrix
+    @returns R: rotation matrix
     """
 
     R_x = np.array([[1,         0,                  0],
