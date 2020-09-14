@@ -27,16 +27,14 @@ readyJ = False
 readyVel = False
 
 
-"""!
-@brief: Saturates the input value in the given interval
-@param x: value to saturate
-@param xmin: minimum value of the interval
-@param xmax: maximum value of the interval
-@return: saturated value
-"""
-
-
 def sat(x, xmin, xmax):
+    """!
+    Saturates the input value in the given interval
+    @param x: value to saturate
+    @param xmin: minimum value of the interval
+    @param xmax: maximum value of the interval
+    @return: saturated value
+    """
     if x > xmax:
         return xmax
     if x < xmin:
@@ -44,14 +42,12 @@ def sat(x, xmin, xmax):
     return x
 
 
-"""!
-@brief: Creates a bell shaped function to regularize singular values
-@param s: singular value
-@return p: regularized singular value
-"""
-
-
 def bell(s):
+    """!
+    Creates a bell shaped function to regularize singular values
+    @param s: singular value
+    @return p: regularized singular value
+    """
 
     b = -np.log(0.5)/0.01
     p = np.exp(-b*s*s)
@@ -59,15 +55,13 @@ def bell(s):
     return p
 
 
-"""!
-@brief: Computes the regularized pseudo inverse of mxn matrix J 
-by applying svd decomposition and multiplication for bell shaped function
-@param J: nxn matrix
-@return Jx: regularized pseudo inverse of the matrix
-"""
-
-
 def regularized_pseudoinverse(J):
+    """!
+    Computes the regularized pseudo inverse of mxn matrix J 
+    by applying svd decomposition and multiplication for bell shaped function
+    @param J: nxn matrix
+    @return Jx: regularized pseudo inverse of the matrix
+    """
 
     rows = len(J)
     cols = len(J[0])
@@ -90,15 +84,13 @@ def regularized_pseudoinverse(J):
     return Jx
 
 
-"""!
-@brief: Computes the 6 dof Jacobian by first computing the transformation matrices,
-extracting the geometric vectors from the results adn finally building the matrix.
-@param q_coppelia: vector of the joint positions
-@return Js: Jacobian matrix
-"""
-
-
 def calculations_6(q_coppelia):
+    """!
+    Builds the 6 dof Jacobian by computing the transformation matrices,
+    extracting the geometric vectors from the results and finally building the matrix.
+    @param q_coppelia: vector of the joint positions
+    @return Js: Jacobian matrix
+    """
 
     p = np.pi
     n_joints = 6
@@ -153,12 +145,10 @@ def calculations_6(q_coppelia):
     return Js
 
 
-"""!
-@brief: Callback Function for the Joints Positions, calls the function to comput the Jacobian
-"""
-
-
 def jacobian_callback(data):
+    """!
+    Callback Function for the Joints Positions
+    """
 
     global J_6, readyJ
 
@@ -178,12 +168,10 @@ def jacobian_callback(data):
     readyJ = True
 
 
-"""!
-@brief: Callback Function for the error on the position (error on Xee)
-"""
-
-
 def error_callback(message):
+    """!
+   Callback Function for the error on the position of the ee
+    """
 
     global error, readyErr
     err_orient = np.array([message.data[:3]]).T
@@ -196,12 +184,10 @@ def error_callback(message):
     readyErr = True
 
 
-"""!
-@brief: Callback Function for the linear and angular velocities of the ee
-"""
-
-
 def vel_callback(message):
+    """!
+    Callback Function for the linear and angular velocities of the ee
+    """
 
     global vel, readyVel
     vel = np.array([message.data[:6]]).T
@@ -212,17 +198,15 @@ def vel_callback(message):
     readyVel = True
 
 
-"""!
-@brief: Handler for the Server: computes the ee velocity Vee and the joint velocities vector q_dot of every joint. 
-    Vee is computed as: Vee = vel + K*error
-    q_dot is computed as: q_dot = J# * Vee
-then each value of q_dot is saturated in a pre-determined interval.
-@param: request for service
-@return: Jacobian and ee velocity are sent as service
-"""
-
-
 def handle_IK_JAnalytic(req):
+    """!
+    Handler for the Server: computes the ee velocity Vee and the joint velocities vector q_dot 
+        Vee is computed as: Vee = vel + K*error
+        q_dot is computed as: q_dot = J# * Vee
+    then each value of q_dot is saturated in a pre-determined interval.
+    @param: request for service
+    @return: Jacobian and ee velocity are sent as service
+    """
 
     # Declaration to work with global variables
     global readyErr, readyJ, readyVel
@@ -266,14 +250,13 @@ def handle_IK_JAnalytic(req):
         return IK_JTAResponse(q_dot, veeMultiArray)
 
 
-"""
-    @brief: The jac_mat node computes the 6dof analytic jacobian. 
-    It subscribes to the following topics: errors, tracking, logtopic. 
-    It also works as a client for the JTA service, on which it sends the q_dot and the end effector velocity computed by the algorithm.
-"""
-
-
 def jac_mat():
+    """
+    This ROS node computes the 6dof analytic jacobian. 
+    It subscribes to the following topics: errors, tracking, logtopic. 
+    It also works as a server for the IK_JTA service, on which it sends 
+    the q_dot and the end effector velocity computed by the algorithm.
+    """
 
     # Init node
     rospy.init_node('jac_mat', anonymous=True)
