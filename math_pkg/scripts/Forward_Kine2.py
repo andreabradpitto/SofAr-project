@@ -8,7 +8,6 @@ from sensor_msgs.msg import JointState, Imu
 from std_msgs.msg import Float64MultiArray, Int8
 import T_computations as t
 import J_computations as j
-import time
 
 # GLOBAL VARIABLES
 
@@ -48,8 +47,7 @@ Jkmin1 = np.zeros((6, 7))
 # type of joints, 1 = revolute, 0 = prismatic.
 info = np.array([1, 1, 1, 1, 1, 1, 1])
 
-# Need this variable to store initial rotation matrix, because it's equal to
-# rotation matrix from 0 to inertial frame.
+# Need this variable to store initial rotation matrix and position of e.e. w.r.t. 0.
 ini_bax = 0
 # needed to differentiate from initial condition to computed qdots.
 ini_dot = 0
@@ -64,14 +62,12 @@ key = -1  # used to handle the simulation.
 # calibration variable. if = 1 -> the calibration is finished.
 calib_ok = 0
 
-
 # Implementation of the heuristic
 # counts how many clipped accelerations smartphone sents in a row.
 sequence = 0
 # for the moment. If sequence > steps, then make the velocity approach zero.
 steps = 10
 index = 1  # needed to make the velocity approach zero.
-
 
 # Sampling time
 dt = 0.01
@@ -156,7 +152,6 @@ def main_callback():
     v_w_a.data = vg_omega_a
     pub_track.publish(v_w_a)
 
-    # print("Published")
 
 
 def baxter_callback(data):
@@ -171,7 +166,6 @@ def baxter_callback(data):
     global ini_bax, q, R0e_ini, R0e_kmin1, Jkmin1, x_0e_kmin1B, x_0e_kmin1, v_0e_kmin1B, key_bax, key_dot, key_smart
 
     if (key == 1 or ini_bax == 0):
-        #start = time.time()
 
         ####################################################
         # Read from publisher of v-rep the q configuration.
@@ -193,8 +187,6 @@ def baxter_callback(data):
 
         # Transformation matrix from 0 to end effector at time k
         T0e_kmin1 = T_abs_kmin1[7]
-    ##    print("T0e, ini: ")
-    # print(T0e_kmin1)
 
         # end effector position of baxter at time k
         for i in range(3):
@@ -226,8 +218,6 @@ def baxter_callback(data):
 
                 main_callback()
 
-        #end = time.time()
-        #print("Bax Frequency: " + str(1/(end-start)))
 
 
 def dot_callback(data):
@@ -251,7 +241,6 @@ def dot_callback(data):
         key_dot = key_dot + 1
 
         if ini_dot == 0:
-            #print("Init dot")
             ini_dot = ini_dot + 1
 
         if (key_bax >= 1 and key_dot >= 1):
@@ -275,8 +264,6 @@ def smart_callback(data):
     """
 
     if (key == 1 and calib_ok == 1):
-        # print("Starting")
-        #start = time.time()
 
         global index, sequence, ini_smart, omega_imu_global, a_imu_global, Re_imu, Rimu_global_k, R0e_k, x_0e_kmin1, x_0e_k, v_0e_kmin1, v_0e_k, a_0e, omega_0e, key_bax, key_dot, key_smart
         #####################################################################################
@@ -295,8 +282,6 @@ def smart_callback(data):
 
         Rglobal_imu_k = np.transpose(Rimu_global_k)
 
-    ##    print("Rimu_inert: ")
-    # print(Rimu_inert_k)
         if ini_smart == 0:
             Re_imu = np.dot(
                 np.dot(R0e_ini.transpose(), R0global), Rglobal_imu_k)
@@ -307,23 +292,17 @@ def smart_callback(data):
         omega_imu_global[0][0] = data.angular_velocity.x
         omega_imu_global[1][0] = data.angular_velocity.y
         omega_imu_global[2][0] = data.angular_velocity.z
-    ##    print("Omega_imu_inert: ")
-    # print(omega_imu_inert)
 
         # linear acceleration of imu (end effector) w.r.t. inertial frame projected on imu frame
         a_imu_global[0][0] = data.linear_acceleration.x
         a_imu_global[1][0] = data.linear_acceleration.y
         a_imu_global[2][0] = data.linear_acceleration.z
-    ##    print("a_imu_inert: ")
-    # print(a_imu_inert)
 
         # imu frame at time k is superimposed to e.e. frame at time k. Innertial and zero
         # are not moving and since the inertial is placed where the e.e. was at its initial conditions,
         # i can compute R0e_k
         R0imu_k = np.dot(R0global, Rglobal_imu_k)
         R0e_k = np.dot(R0imu_k, Re_imu.transpose())
-    ##    print("R0e_k: ")
-    # print(R0e_k)
 
         # Since inertial is not moving, the angular velocity and linear acceleration are the same
         # if calculated w.r.t. 0, however i need to project them in zero.
@@ -359,8 +338,6 @@ def smart_callback(data):
 
         # Target position.
         x_0e_k = x_0e_kmin1 + v_0e_kmin1*dt + 0.5*a_0e*dt*dt
-    ##    print("x_0e_k: ")
-    # print(x_0e_k)
 
         key_smart = key_smart + 1
 
@@ -375,8 +352,6 @@ def smart_callback(data):
         x_0e_kmin1 = x_0e_k
         v_0e_kmin1 = v_0e_k
 
-       #end = time.time()
-       #print("Smart Frequency: " + str(1/(end-start)))
 
 
 def calib_callback(data):
@@ -439,7 +414,7 @@ def subs():
     # anonymous=True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
-    rospy.init_node('subs', anonymous=True)
+    rospy.init_node('FK', anonymous=True)
 
     # Receive data from smartphone, baxter, weighter and coppelia.
     rospy.Subscriber("smartphone", Imu, smart_callback)
