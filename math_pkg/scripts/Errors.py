@@ -135,7 +135,7 @@ def errors(data):
     pub.publish(errors)
 
     
-def listener():
+def errors_node():
 
     ##############################################################
     # Read from Forward_kine topic following data
@@ -158,4 +158,4 @@ def listener():
 
 if __name__ == '__main__':
     
-    listener()
+    errors_node()
