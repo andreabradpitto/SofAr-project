@@ -407,7 +407,7 @@ def simulate_callback(data):
         dot_callback(0)  # to set the initial conditions.
 
 
-def subs():
+def FK():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
     # name are launched, the previous one is kicked off. The
@@ -430,4 +430,4 @@ def subs():
 if __name__ == '__main__':
     baxter_callback(0)  # to set the initial conditions.
     dot_callback(0)  # to set the initial conditions.
-    subs()
+    FK()
