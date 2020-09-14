@@ -4,7 +4,6 @@ import numpy as np
 import rospy
 import utilities as util
 from std_msgs.msg import Float64MultiArray
-import time
 
 # Initialization of publisher
 pub = rospy.Publisher('errors', Float64MultiArray, queue_size=10)
@@ -81,7 +80,6 @@ def errors(data):
     vector positions and velocities.
     """
 
-    #start = time.time()  
     Data = data.data
     global Rg, Re, xg, xe, vg, ve
 
@@ -136,11 +134,7 @@ def errors(data):
     errors.data = err
     pub.publish(errors)
 
-    #end = time.time()
-    #print("Error frequency: " + str(1/(end-start)))
-    #print("Errors published")
-
-
+    
 def listener():
 
     ##############################################################
@@ -153,7 +147,7 @@ def listener():
     # anonymous=True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
-    rospy.init_node('listener', anonymous=True)
+    rospy.init_node('errors_node', anonymous=True)
 
     # errors is the callback functions
     rospy.Subscriber("Data_for_errors", Float64MultiArray, errors)
