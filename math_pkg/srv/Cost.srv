@@ -4,11 +4,3 @@ sensor_msgs/JointState qdot1opt1
 sensor_msgs/JointState qdot1opt2
 sensor_msgs/JointState qdot2opt1
 sensor_msgs/JointState qdot2opt2
-
-std_msgs/Float64 indicator11
-std_msgs/Float64 indicator12
-std_msgs/Float64 indicator21
-std_msgs/Float64 indicator22
-std_msgs/Float64 safetyIndexMin
-std_msgs/Float64 safetyIndexMax
-std_msgs/Float64MultiArray J

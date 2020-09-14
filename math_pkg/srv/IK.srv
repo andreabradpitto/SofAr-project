@@ -2,6 +2,3 @@
 sensor_msgs/JointState qdot1
 sensor_msgs/JointState qdot2
 std_msgs/Float64MultiArray Q2
-std_msgs/Float64MultiArray J
-std_msgs/Float64MultiArray ve1
-std_msgs/Float64MultiArray ve2
