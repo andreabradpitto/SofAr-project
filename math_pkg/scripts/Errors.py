@@ -24,7 +24,7 @@ def ang_mis(Rg, Re):
     Computes the angular misalignment between goal frame and e.e. frame.
     @param Rg: goal orientation matrix.
     @param Re: end effector orientation matrix.
-    @return misalignment vector.
+    @return rho: misalignment vector.
     """
 
     i = np.transpose(np.array([[1, 0, 0]]))
