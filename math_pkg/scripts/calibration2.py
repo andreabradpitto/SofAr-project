@@ -68,7 +68,7 @@ def simulate_callback(data):
         start = 1
 
 
-def calibrate():
+def calibrate_orientation():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
     # name are launched, the previous one is kicked off. The
@@ -85,4 +85,4 @@ def calibrate():
 
 if __name__ == '__main__':
 
-    calibrate()
+    calibrate_orientation()
