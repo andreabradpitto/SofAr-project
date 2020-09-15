@@ -56,7 +56,7 @@ def qdot_callback (qdot_data):
     qold = qtmp
 
     # Fill in and send object tosend
-    tosend.velocity = q
+    tosend.position = q
     tosend.effort = [eff]
     pub.publish(tosend)
 
