@@ -38,6 +38,8 @@ int bestIdx = 0;
 
 
 /*! Callback function for simulation signals.
+    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.
+    If data = 1, then the algorithm moves on. If data = 2, then the algorithm pauses.
     \param msg The received data.
 */
 void handleCallback(const std_msgs::Int8 &msg)
