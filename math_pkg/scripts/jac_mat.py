@@ -152,7 +152,7 @@ def jacobian_callback(data):
 
     global J_6, readyJ
 
-    q_coppelia = np.array(data.velocity)
+    q_coppelia = np.array(data.position)
 
     # It assumes one joint to be fixed (3rd in this case), in order to pass from 7 to 6
     q_coppelia = np.delete(q_coppelia, 2, 0)
