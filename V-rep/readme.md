@@ -65,7 +65,7 @@ gedit publisher_ROS_VREP
 At line 41 the rate can be changed.
 
 ```cpp
-ros::Rate loop_rate(50);
+ros::Rate loop_rate(110);
 ```
 
 Then, after saving the file, back again in the shell:
