@@ -9,7 +9,7 @@
 
 /*! Availability flag for joint angles vector: true iff a valid q vector is available.*/
 bool readyq;
-/*! Availability flag for joint velocities vector: true iff a valid q vector is available.*/
+/*! Availability flag for joint velocities vector: true iff a valid qdot vector is available.*/
 bool readyqdot;
 /*! Array whose i-th element keeps the current position correction pole for joint i if joint i is being brought back from being close to a joint limit, 0 otherwise.*/
 double currentAnglePole[NJOINTS];
@@ -40,7 +40,7 @@ void safetyCallbackq(const sensor_msgs::JointState &msg) {
 	if (seqtry < seqqdot) return; // the received q is old, nothing to do with it
 
 	// At this point, the received q is up to date: store it in global variable q.
-	vector<double> rcvd_q = msg.velocity; // should look at the position field, but Coppelia has a problem with it...
+	vector<double> rcvd_q = msg.position; // should look at the position field, but Coppelia has a problem with it...
 	std::copy(rcvd_q.begin(), rcvd_q.end(), q);
 	readyq = true; // q available, thus set flag to true
 }
@@ -80,7 +80,7 @@ inline double cos_sigmoid(double x,double y,double mrgn) {
     \param cPole Absolute value of correction pole.
     \param currentPole Current correction pole for x, if any, 0 otherwise.
     \param isJoint True if x is a joint angle, false otherwise.
-    \param rdot Reference to task element derivative for quantity x.
+    \param rdot Reference to task reference derivative for quantity x.
     \param Adiag Reference to activation value for quantity x.
     \return true if no correction needed to behaviour of x, false otherwise.
 */
@@ -142,8 +142,8 @@ void safetyLoop(VectorXd& rdot, VectorXd& Adiag) {
 
 
 /*! Service function for the Safety service, which computes the partial joint velocities based on the safety task.
-    \param req Empty.
-	\param res Safety-constrained joint velocities.
+    \param req Server request object.
+	\param res Server response object.
     \return true if client-service call succeeded, false otherwise.
 */
 bool computePartialqdot(math_pkg::Safety::Request  &req, math_pkg::Safety::Response &res) {
