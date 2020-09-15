@@ -2,9 +2,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <message_filters/subscriber.h>
-#include <message_filters/time_synchronizer.h>
-#include <mutex>
 #include <vector>
 #include "cmath"
 #include "Eigen/Dense"
@@ -13,7 +10,6 @@
 
 using namespace Eigen;
 using namespace std;
-using namespace message_filters;
 using namespace sensor_msgs;
 
 /*! Simulation timestep.*/
@@ -41,7 +37,7 @@ const double QDOTMAX[] = {1,1,1,1,1,1,1};
 /*! Initial joint angles.*/
 const double QINIT[] = {0,0,0,0,0,0,0};
 /*! Constant used in Gaussian computation for pseudoinversion.*/
-const double b = -log(0.5)/0.000001;
+const double bellConstantGX = -log(0.5)/0.000001;
 /*! Identity matrix of size NJOINTS.*/
 const MatrixXd ID_MATRIX_NJ = MatrixXd::Identity(NJOINTS,NJOINTS);
 /*! Identity matrix of size 6.*/
@@ -99,31 +95,19 @@ MatrixXd mypinv(MatrixXd A) {
 */
 MatrixXd regPinv(MatrixXd X,MatrixXd A,MatrixXd Q,double eta,double &cond) {
 	// Adiag has size NJOINTS
-    double bel;
     MatrixXd XT = X.transpose();
     MatrixXd idMinusQ = ID_MATRIX_NJ - Q;
     MatrixXd toSVD = XT*A*X + eta*(idMinusQ.transpose()*idMinusQ);
 
-    JacobiSVD<MatrixXd> svd(toSVD, ComputeThinU | ComputeThinV);
-    /*clog << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-	clog << "To SVD:" << endl << toSVD << endl << endl;
-	clog << "SV:" << endl << svd.singularValues() << endl << endl;
-	clog << "V:" << endl << svd.matrixV() << endl << endl;*/
+    JacobiSVD<MatrixXd> svd(toSVD, ComputeThinU | ComputeThinV); // compute SVD
     VectorXd sv = svd.singularValues();
-    int svsz = sv.size();
+    int svsz = sv.size(); // number of singular values
 
     for (int i = 0; i < svsz; i++) {
-        if (abs(sv(i)) > 1e-8) {
-
-            /* bel computed according to "A new bell-shaped regularization function", in "Gerald X. personal notes", pp.898-899. */
-  		    bel = exp(-b*sv(i)*sv(i)); // bell-shaped regularization function
-            sv(i) = bel;
-        }
+        if (abs(sv(i)) > 1e-8) sv(i) = exp(-bellConstantGX*sv(i)*sv(i)); // bell-shaped regularization function
         else break;
     }
     cond = sv(0) / sv(svsz-1); // condition number
-	//clog << "SV after:" << endl << sv << endl << endl;
-	//clog << "VTPV:" << endl << svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV() << endl << endl;
     return mypinv(toSVD + svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV()) * XT * A * A;
 }
 
