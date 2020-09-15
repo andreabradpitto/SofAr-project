@@ -30,15 +30,14 @@ int costFail = 0;
 void costCallbackq(const sensor_msgs::JointState &msg)
 {
 	seqtry = (int)msg.effort[0]; // store seq number of received q
-	vector<double> rcvdq = msg.velocity;
+	vector<double> rcvdq = msg.position;
 	q = Map<VectorXd>(rcvdq.data(),NJOINTS); // store q in global variable
 	readyq = true;
 }
 
 
 /*! Function that computes the optimized velocity vectors.
-    \param trackingPrecision Tracking precision of the solution obtained by IK
-    \param J Current Jacobian matrix.
+	\param q Most recent arm configuration.
 	\param qdot1 Joint velocity vector computed with closed loop IK of order 1.
 	\param qdot2 Joint velocity vector computed with closed loop IK of order 2.
 	\param Q2 Auxiliary matrix for tracking task.
@@ -116,7 +115,7 @@ int main(int argc,char **argv) {
     ros::NodeHandle n; // define node handle
 
     int queSize = 10;
-    ros::Subscriber sub = n.subscribe("logtopic", queSize, costCallbackq); // subscribe for Jacobian
+    ros::Subscriber sub = n.subscribe("logtopic", queSize, costCallbackq); // subscribe to integrator
 
     ros::ServiceServer service = n.advertiseService("cost", computeOptqdot); // activate Cost service
     
