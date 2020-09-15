@@ -14,7 +14,7 @@
 #define Kpp 10
 /*! Linear positional gain for tracking in CLIK2.*/
 #define Kp 100
-/*! Linear velocity gain for tracking.*/
+/*! Linear velocity gain for tracking in CLIK2.*/
 #define Kv 20
 /*! Rotational gain for tracking.*/
 #define Krot 10
@@ -159,8 +159,8 @@ void computeqdot(VectorXd partialqdot,MatrixXd Q1,MatrixXd J,MatrixXd JL,
 
 
 /*! Service function for the Safety service, which computes the partial joint velocities based on the safety task.
-    \param req Empty.
-	\param res Non-optimized joint velocities.
+    \param req Server request.
+	\param res Server response.
     \return true if client-service call succeeded, false otherwise.
 */
 bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
@@ -202,11 +202,6 @@ bool computeIKqdot(math_pkg::IK::Request  &req, math_pkg::IK::Response &res) {
     	ROS_ERROR("Call to safety service failed.");
     	return false;
     }
-
-	// Timing
-	/*clock_t end = clock();
-	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	cout << "IK TOOK " << elapsed_secs << " SECS" << endl;*/
 
 	return true; // call succeeded
 }
