@@ -1,11 +1,11 @@
 # Simulation node
 
-With this node we are able to receive some data encoding the joint velocities to be applied to the 7 Baxter arm joints, to simulate the motion of this robot arm due to such inputs and to write inside a log file the resulting joint configuration for each one of them. In the software complete version these information are also sent back to one of Mathematic nodes to provide the robot current geometry. 
+This node is able to receive some data encoding the joint positions we desire to be achieved by the 7 Baxter arm joints, to simulate the motion of this robot arm due to such inputs and to write inside a document, a txt file, the requested joint configuration at each time instant together with a timestamp. In this way it is possible to have a history of the component itself, since we know when each requested configuration has been sent to the simulator during the whole testing period. 
 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -46,17 +46,16 @@ roslaunch V-rep baxter_test.launch
 ```
 
 By doing this the CoppeliaSim environment will be opened on the correct scene.
-
-- Use the user interface to handle the simulation.
-At this point on the shell a message occurs inviting the user to write a command on it. If you digit ‘help’ a list of all the possible commands is shown. In particular you can: 
-	- start the simulation (‘start’); 
-	- put it in pause in order to restart from the last configuration you reached (‘pause’); 
-	- stop the simulation (‘stop’) leading the robot arm to the default configuration; 
-	- set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint is set to 0 and only values belonging to the interval [-1,1] are allowed.
-	- close the user interface, all the running topics and the simulator environment ('exit')
-
+Use the user interface to handle the simulation. At this point on the shell a message occurs inviting the user to write a command on it. If you digit ‘help’ a list of all the possible commands is shown. In particular you can:
+	-start the simulation (‘start’);
+	-set the IMU reference system such that it coincides with the human end effector one (‘calibration’);
+	-put the simulation in pause in order to restart from the last configuration you reached (‘pause’);
+	-stop the simulation (‘stop’) leading the robot arm to the default configuration;
+	-set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint 		 is set to 0.
+	-close the user interface, all the running topics and the simulator environment ('exit')
 
 To change the input rate, the shell commands from inside the “V-rep” folder are:
+
 
 ```sh
 cd src

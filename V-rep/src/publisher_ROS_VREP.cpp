@@ -26,7 +26,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h" //type of msgs to be included
 
-//! The main function initiates the ROS node that publishes some DUMMY input data (7 joint velocities) on cmdtopic topic. These values can be constant or randomly generated depending on the commented portion of the code. 
+//! The main function initiates the ROS node that publishes some DUMMY input data (7 joint positions) on logtopic topic. These values can be constant or randomly generated depending on the commented portion of the code. 
 
 
 int main(int argc, char **argv) 
@@ -36,9 +36,9 @@ int main(int argc, char **argv)
 
   ros::NodeHandle n; //obj of NodeHandle class
 
-  ros::Publisher chatter_pub = n.advertise<sensor_msgs::JointState>("cmdtopic", 1000); //publisher advertisement 
+  ros::Publisher chatter_pub = n.advertise<sensor_msgs::JointState>("logtopic", 1000); //publisher advertisement 
 
-  ros::Rate loop_rate(110);//loop rate set at 50 Hz
+  ros::Rate loop_rate(110);//loop rate set at 110 Hz
 
   //while loop -> we want to continue to publish messages, as long the node is alive
 
@@ -46,27 +46,27 @@ int main(int argc, char **argv)
   {
     	sensor_msgs::JointState msg; //declare our message variable
 
-    	msg.velocity.resize(7); //set to 7 the array size
+    	msg.position.resize(7); //set to 7 the array size
 
 	//constant command message (values between -1 and 1)
-
-    msg.velocity[0] = -0.2;
-	msg.velocity[1] = 0.9;
-	msg.velocity[2] = 0.8;
-	msg.velocity[3] = -0.58;
-	msg.velocity[4] = 1;
-	msg.velocity[5] = -0.3;
-	msg.velocity[6] = 0.04;
-
+/*
+    msg.position[0] = -0.2;
+	msg.position[1] = 0.9;
+	msg.position[2] = 0.8;
+	msg.position[3] = -0.58;
+	msg.position[4] = 1;
+	msg.position[5] = -0.3;
+	msg.position[6] = 0.04;
+*/
 	//random command message (values between -1 and 1)
 
-	/*msg.velocity[0] =((rand()%101)/(float)100 - 0.5)*2;
-	msg.velocity[1] =((rand()%101)/(float)100 - 0.5)*2;
-	msg.velocity[2] =((rand()%101)/(float)100 - 0.5)*2;
-	msg.velocity[3] =((rand()%101)/(float)100 - 0.5)*2;
-	msg.velocity[4] =((rand()%101)/(float)100 - 0.5)*2;
-	msg.velocity[5] =((rand()%101)/(float)100 - 0.5)*2;
-	msg.velocity[6] =((rand()%101)/(float)100 - 0.5)*2;*/
+	msg.position[0] =((rand()%101)/(float)100 - 0.5)*2;
+	msg.position[1] =((rand()%101)/(float)100 - 0.5)*2;
+	msg.position[2] =((rand()%101)/(float)100 - 0.5)*2;
+	msg.position[3] =((rand()%101)/(float)100 - 0.5)*2;
+	msg.position[4] =((rand()%101)/(float)100 - 0.5)*2;
+	msg.position[5] =((rand()%101)/(float)100 - 0.5)*2;
+	msg.position[6] =((rand()%101)/(float)100 - 0.5)*2;
 
 	
 	//command message publishing

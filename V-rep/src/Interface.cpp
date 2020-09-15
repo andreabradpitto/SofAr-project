@@ -58,12 +58,19 @@ int main(int argc, char **argv)
 
 		//! The command 'help' is for knowing all the possible interface functions
   		if(strcmp(string,"help")==0){
-  			printf("- start\n- pause\n- stop\n- set_default\n- exit\n");
+  			printf("- start\n- calibration\n- pause\n- stop\n- set_default\n- exit\n");
 
 		//! The command 'start' is for starting the simulation
   		}else if(strcmp(string,"start")==0){
 	  		std_msgs::Int8 msg;
 	 		msg.data=1;
+	  		//command message publishing
+			SimPub.publish(msg);
+
+		//! The command 'calibration' is for making the IMU reference system coincide with the human end effector reference system
+  		}else if(strcmp(string,"calibration")==0){
+	  		std_msgs::Int8 msg;
+	 		msg.data=3;
 	  		//command message publishing
 			SimPub.publish(msg);
 
@@ -81,7 +88,7 @@ int main(int argc, char **argv)
 	  		//command message publishing
 			SimPub.publish(msg);
 
-		//! The command 'set_default' is for setting a desired default configuration for each one of the 7 joints. In the original default configuration each joint is set to 0 and only values belonging to the interval [-1,1] are allowed
+		//! The command 'set_default' is for setting a desired default configuration for each one of the 7 joints. In the original default configuration each joint is set to 0 
   		}else if(strcmp(string,"set_default")==0){
   			sensor_msgs::JointState msg;
   			double array[7];
@@ -105,12 +112,9 @@ int main(int argc, char **argv)
 			system("rosnode kill -a");
 			kill(parent,SIGKILL);
   			break;
-
   		}else{
   			printf("Error: mistake in command definition, digit 'help' for a command list\n");
   		}
-  		
-  		
 
     	ros::spinOnce();
 
