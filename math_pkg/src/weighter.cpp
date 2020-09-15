@@ -42,7 +42,10 @@ int bestIdx = 0;
 */
 void handleCallback(const std_msgs::Int8 &msg)
 {
-	if (msg.data == 0) reset = true;
+	if (msg.data == 0) {
+		reset = true;
+		moveOn = false;
+	}
 	else if (msg.data == 1) moveOn = true;
 	else if (msg.data == 2) moveOn = false;
 }
@@ -171,13 +174,13 @@ int main(int argc,char **argv) {
 
     		while (ros::ok()) {
 			if (moveOn) {
-				if (reset) {
-					reset = false; stay_still = false;
-					break;
-				}
 				obt = computeWeightedqdot(toSend);
 				if (obt == -1) break;
 				pub.publish(toSend); // publish weighted qdot
+			}
+			else if (reset) {
+				reset = false; stay_still = false;
+				break;
 			}
     			ros::spinOnce();
     			loopRate.sleep();
