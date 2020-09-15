@@ -1,12 +1,13 @@
 #!/usr/bin/env python
-import numpy as np
+
 """
-This carries out the gravity removal
+This piece of code carries out the gravity removal
 @param lin_acc linear acceleration data incoming from the accelerometer
 @param Rot_m rotation matrix computed with eulerAnglesToRotationMatrix()
 @param g gravity vector
-@returns the output is the same linear acceleration vector provided, but without the influence of the gravity
+@returns the output is the same linear acceleration vector provided, but without gravity influence
 """
+import numpy as np
 
 def removeGravity(lin_acc, Rot_m, g):
 

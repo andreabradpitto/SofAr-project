@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['datafileinitializer_2',['dataFileInitializer',['../namespaceremove__gravity.html#a304df591bc9dd5072788d88770bbbb1f',1,'remove_gravity']]]
+  ['euleranglestorotationmatrix_4',['eulerAnglesToRotationMatrix',['../namespacerotationMatrix.html#a7f8d3827495420668caab145a56230a0',1,'rotationMatrix']]]
 ];

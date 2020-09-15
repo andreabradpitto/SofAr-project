@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Smartphone Imu Data: Main Page</title>
+<title>Smartphone Imu Data: Smartphone subproject readme</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,11 +63,49 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Smartphone Imu Data Documentation</div>  </div>
+<div class="title">Smartphone subproject readme </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md_readme"></a> </p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Authors</h1>
+<p><a href="https://github.com/mattedicenzi">Matteo Dicenzi</a>, <a href="https://github.com/marcodemutti">Marco Demutti</a>, <a href="https://github.com/andreabradpitto">Andrea Pitto</a>, <a href="https://github.com/Cavalletta98">Simone Voto</a></p>
+<p>The <em>compensation</em> package work was entirely made by <a href="https://github.com/dpkoch">Daniel Koch</a>; the original version can be found <a href="https://github.com/dpkoch/imu_calib">here</a></p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Summary</h1>
+<p>This project handles incoming IMU sensor data from an Android smartphone and performs data clipping and gravity influence removal. It then publishes on the <em>smartphone</em> topic the filtered result.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+How to install the package</h1>
+<ol type="1">
+<li>Unzip <em>org.ros.android.android_tutorial_camera_imu_1.0.apk</em> in order to install the <em>CameraImu</em> app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes</li>
+<li>Install the following libraries: <em>numpy</em>, <em>matplotlib</em>, <em>pandas</em> (you can use <b>pip list</b> in terminal, beforehand, to check if these are already installed):<ol type="a">
+<li>Type <b>python -m pip install numpy</b> in terminal to install numpy. Check <a href="https://scipy.org/install.html">SciPy.org</a> for more information.</li>
+<li>Type <b>python -m pip install -U matplotlib</b> in terminal to install matplotlib. Head over to <a href="https://matplotlib.org/3.3.0/users/installing.html">matplotlib.org</a> for further information.</li>
+<li>Type <b>sudo apt-get install python-pandas</b>. In case of errors, you can take a look <a href="https://pandas.pydata.org/pandas-docs/version/0.13.1/install.html">here</a> for more information.</li>
+</ol>
+</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md4"></a>
+How to run the package</h1>
+<ol type="1">
+<li>Launch ROS by typing <b>roscore</b> in a terminal.</li>
+<li>Start the <em>CameraImu</em> app in your smartphone. Then you have to type the IP address of your computer into the app's <em>Master URI</em> textbox (i.e. <a href="http://YOUR_IP_ADDRESS:11311">http://YOUR_IP_ADDRESS:11311</a>, as the default port is <em>11311</em>). In order to find your IP address, type <b>hostname -I</b> in terminal if you are using a Unix system, or type <b>ipconfig</b> in command prompt if using Windows.<ul>
+<li>It is possible to open another terminal and subscribe to the <em>android/imu</em> topic, by typing <b>rostopic echo /android/imu</b>, in order to check the incoming data.</li>
+</ul>
+</li>
+<li>In a second terminal, type <b>rosrun imu_calib do_calib</b> and start calibrating the smartphone IMU, following on-screen instructions. Then, apply the performed calibration by using <b>rosrun imu_calib apply_calib</b>. The calibration parameters are stored in <em>imu_calib.yaml</em>, available in the current user's home folder.<ul>
+<li>Again, it is possible to open another terminal and type <b>rostopic echo /android/imu_corrected</b>, in order to view the incoming calibrated data.</li>
+</ul>
+</li>
+<li>In a third terminal, type <b>rosrun smartphone <a class="el" href="computeGravity_8py_source.html">computeGravity.py</a></b> to start collecting IMU data and removing the gravity influence from incoming linear acceleration samples. Notice that this step is needed only if executing the whole <em>SofAr-project</em>. Otherwise, gravity gets already neglected in the next step.</li>
+<li>In a fourth terminal, launch <b>rosrun smartphone <a class="el" href="clipping_8py_source.html">clipping.py</a></b> to start clipping IMU data, when needed, and removing the gravity influence from incoming linear acceleration samples.<ul>
+<li>Remember to set <em>flagWriteData = 1</em> in the python file if you want to analyze incoming data through plots. Otherwise set <em>flagWriteData = 0</em> to skip the offline analysis. If <em>flagWriteData</em> is set to 1, then also run <b>rosrun smartphone <a class="el" href="offlineAnalysis_8py_source.html">offlineAnalysis.py</a></b> in yet another terminal, in order to plot the data obtained by running <em><a class="el" href="clipping_8py_source.html">clipping.py</a></em> </li>
+</ul>
+</li>
+</ol>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

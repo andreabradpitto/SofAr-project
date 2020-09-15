@@ -2,8 +2,7 @@
 
 """
 Documentation for the compute gravity tool.
-This code analyzes the first 'maxIteration' samples and computes an approximation
-of the gravity vector.
+This code analyzes the first 'maxIteration' samples and computes an estimate of the gravity vector.
 """
 
 import rospy
@@ -52,7 +51,7 @@ def callback(data):
     has the duty of calling all the previously mentioned functions as well as eulerAnglesToRotationMatrix().
     After these calls, it finally invokes the talker(). In order to achieve all of this,
     it translates incoming quaternions into euler angles beforehand
-    @param data incoming from the imu sensor
+    @param data data incoming from the imu sensor
     """
     global counter, sum_x, sum_y, sum_z, delta, lin_acc_no_g, orientation, max_lin_acc, g
 

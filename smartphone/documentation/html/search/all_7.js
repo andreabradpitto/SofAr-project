@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['remove_5fgravity_7',['remove_gravity',['../namespaceremove__gravity.html',1,'']]],
-  ['removegravity_8',['removeGravity',['../namespaceremove__gravity.html#a05965d61d9df53ae0afdcaee9516ed2d',1,'remove_gravity']]],
-  ['rotationmatrix_9',['rotationMatrix',['../namespacerotationMatrix.html',1,'']]]
+  ['smartphone_20subproject_20readme_11',['Smartphone subproject readme',['../index.html',1,'']]],
+  ['storedatainfiles_12',['storeDataInFiles',['../namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108',1,'clipping']]]
 ];

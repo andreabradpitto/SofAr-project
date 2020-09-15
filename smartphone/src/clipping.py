@@ -2,8 +2,8 @@
 
 """
 Documentation for the clipping tool.
-This code receives data from imu sensor and remove noise from
-the incoming linear acceleration through a clipping method.
+This piece of code receives data from the imu sensor and removes noise from
+the incoming linear acceleration through a clipping algorithm.
 """
 
 import rospy
@@ -37,7 +37,7 @@ flagWriteData = 1
 index = 1  # used to store data for offline analysis
 
 # initializations
-delta = 0.05  # error on the sensor, learned by experience
+delta = 0.05  # clipping threshold - value achieved empirically
 lin_acc_no_g = [0, 0, 0]
 angular_velocity = [0, 0, 0]
 orientation = [0, 0, 0, 0]
@@ -100,7 +100,7 @@ def callback(data):
     has the duty of calling all the previously mentioned functions as well as eulerAnglesToRotationMatrix().
     After these calls, it finally invokes the talker(). In order to achieve all of this,
     it translates incoming quaternions into euler angles beforehand
-    @param data incoming from the imu sensor
+    @param data data incoming from the imu sensor
     """
     global index, lin_acc_no_g, angular_velocity, orientation, counter, max_lin_acc, delta
 

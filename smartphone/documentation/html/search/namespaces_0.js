@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['offlineanalysis_12',['offlineAnalysis',['../namespaceofflineAnalysis.html',1,'']]]
+  ['clipping_14',['clipping',['../namespaceclipping.html',1,'']]],
+  ['computegravity_15',['computeGravity',['../namespacecomputeGravity.html',1,'']]]
 ];
