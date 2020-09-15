@@ -156,7 +156,7 @@ def baxter_callback(data):
         if ini_bax != 0:
             flag_bax = data.effort[0]
             # configuration at time kmin1
-            q = np.array(data.velocity)
+            q = np.array(data.position)
         
         if int(flag_bax) == int(flag_dot): 
             
