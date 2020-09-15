@@ -4,14 +4,16 @@ import rospy
 import numpy as np
 import scipy.io
 from sensor_msgs.msg import Imu
+from std_msgs.msg import Int8
 import time
 
 
 def talker():
 
     pub = rospy.Publisher('smartphone', Imu, queue_size=10)
+    pubSim = rospy.Publisher('handleSimulation', Int8, queue_size=0)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(100) # 10 Hz for testing
+    rate = rospy.Rate(100)
 	
     # Load reference signals from MATLAB files
     # Must be run in same folder as such files
@@ -24,7 +26,10 @@ def talker():
 
     K = 0
     imu = Imu()
-    time.sleep(5) # wait for subs...
+    time.sleep(3) # wait for subs...
+    startSignal = Int8(); startSignal.data = 1
+    pubSim.publish(startSignal) # in case simulator is not running
+    time.sleep(1)
     while True:
         imu.orientation.w = qua[0,K]
         imu.orientation.x = qua[1,K]
@@ -36,8 +41,9 @@ def talker():
         imu.angular_velocity.x = wg[0,K]
         imu.angular_velocity.y = wg[1,K]
         imu.angular_velocity.z = wg[2,K]
-        if K < 300:
+        if K < 300: # 300 is the number of samples of the trajectory
             K = K + 1
+        else: break
         pub.publish(imu)
         rate.sleep()
 
