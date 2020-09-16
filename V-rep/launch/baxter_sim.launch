@@ -1,0 +1,8 @@
+<launch>
+<node name="logger_launcher" pkg="V-rep" type="logger_launcher.sh" />
+<node name="coppelialauncher" pkg="V-rep" type="coppelialauncher.sh" />
+<!-- output="screen" enables terminal output -->
+<node name="Interface" pkg="V-rep" type="Interface" output="screen"/>
+</launch>
+
+

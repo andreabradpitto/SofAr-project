@@ -1,0 +1,9 @@
+<launch>
+<node name="publisher_ROS_VREP" pkg="V-rep" type="publisher_ROS_VREP"/>
+<node name="logger_launcher" pkg="V-rep" type="logger_launcher.sh" />
+<node name="coppelialauncher" pkg="V-rep" type="coppelialauncher.sh" />
+<!-- output="screen" enables terminal output -->
+<node name="Interface" pkg="V-rep" type="Interface" output="screen"/>
+</launch>
+
+
