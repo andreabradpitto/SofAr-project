@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['linearaccessbit_5515',['LinearAccessBit',['../group__flags.html#ga4b983a15d57cd55806df618ac544d09e',1,'Eigen']]],
-  ['lvaluebit_5516',['LvalueBit',['../group__flags.html#gae2c323957f20dfdc6cb8f44428eaec1a',1,'Eigen']]]
+  ['nu_201',['nu',['../ik_8cpp.html#ac33b218b57ffc035f4308de318222cf5',1,'ik.cpp']]],
+  ['num_5fmeasurements_5f_202',['num_measurements_',['../classimu__calib_1_1AccelCalib.html#ab58cc678d5404288a342b0bde889c632',1,'imu_calib::AccelCalib']]]
 ];

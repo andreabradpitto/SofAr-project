@@ -17,7 +17,7 @@ pkg_check_modules(YAML yaml-cpp)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES accel_calib
-  CATKIN_DEPENDS cmake_modules roscpp sensor_msgs
+  CATKIN_DEPENDS roscpp sensor_msgs cmake_modules 
   DEPENDS Eigen yaml-cpp
 )
 

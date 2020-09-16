@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kernel_5216',['kernel',['../classEigen_1_1FullPivLU.html#a70f52eeb2cd07dfbf790fce106fb4015',1,'Eigen::FullPivLU']]]
+  ['regpinv_172',['regPinv',['../utilities_8h.html#a66dede39bc52472042a84f87099ec816',1,'utilities.h']]]
 ];

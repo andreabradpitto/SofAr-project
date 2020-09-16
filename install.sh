@@ -27,7 +27,7 @@ then
 fi 
 
 #installation
-path2=$(find . -name teleop -print 2>/dev/null | grep 'src/teleop')
+path2=$(find . -name SofAr-project -print 2>/dev/null | grep 'src/SofAr-project')
 cd $path2
 #activation of all sh scripts
 

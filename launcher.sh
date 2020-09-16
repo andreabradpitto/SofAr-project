@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+gnome-terminal -x sh -c "roscore; bash"
 #launch smartphone calibration
 echo "Place the phone on an even horizontal surface"
 echo "Press enter to proceed"

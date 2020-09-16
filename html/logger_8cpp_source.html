@@ -87,7 +87,6 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;FILE *myfile;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span> logtopicCallback(<span class="keyword">const</span> sensor_msgs::JointState::ConstPtr &amp;msg)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    fprintf(myfile, <span class="stringliteral">&quot;%lf %lf %lf %lf %lf %lf %lf \n&quot;</span>, msg-&gt;position[0], msg-&gt;position[1], msg-&gt;position[2], msg-&gt;position[3], msg-&gt;position[4], msg-&gt;position[5], msg-&gt;position[6]);</div>

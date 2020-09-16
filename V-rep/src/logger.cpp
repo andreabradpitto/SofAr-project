@@ -33,17 +33,17 @@
 #include "std_msgs/Float64.h"		//type of msgs to be included
 #include "sensor_msgs/JointState.h" //type of msgs to be included
 
-//! The log file identifier is here declared
+/*! The log file identifier is here declared */
 FILE *myfile;
 
-//! The Callback function allows to write the joint configuration values in the log file
+/*! The Callback function allows to write the joint configuration values in the log file */
 
 void logtopicCallback(const sensor_msgs::JointState::ConstPtr &msg)
 {
 	fprintf(myfile, "%lf %lf %lf %lf %lf %lf %lf \n", msg->position[0], msg->position[1], msg->position[2], msg->position[3], msg->position[4], msg->position[5], msg->position[6]);
 }
 
-//! The main function opens the log file, initiates the ROS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble.
+/*! The main function opens the log file, initiates the ROS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble.*/
 int main(int argc, char **argv)
 {
 

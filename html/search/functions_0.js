@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_5fset_5004',['_set',['../classEigen_1_1PlainObjectBase.html#aa77dab5e9e6ba9e39740e17cfae78a33',1,'Eigen::PlainObjectBase']]],
-  ['_5ftransformvector_5005',['_transformVector',['../classEigen_1_1QuaternionBase.html#a03896e1e743aae2c18a0146086cef983',1,'Eigen::QuaternionBase']]]
+  ['anglescompensate_145',['anglesCompensate',['../namespacerotation__matrix__server.html#a2f936f96eeb146c595089ad895e8fd18',1,'rotation_matrix_server']]]
 ];
