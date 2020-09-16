@@ -190,7 +190,7 @@ def listener():
     # anonymous = True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
-    rospy.init_node('listener', anonymous=True)
+    rospy.init_node('clipping', anonymous=True)
 
     # This declares that your node subscribes to the android/imu topic,
     # which is of type sensor_msgs.msg.Imu. When new data is received,
