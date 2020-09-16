@@ -1,2 +1,1 @@
-# SofAr-project
-Robot arm teleoperation using inertial sensory data
+Access the *smartphone* folder in order to find an exhaustive readme.
