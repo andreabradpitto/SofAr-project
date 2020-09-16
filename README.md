@@ -94,7 +94,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-*Elena Merlo* & *Matteo Palmas* - *Initial work* - 
+Marco Demutti, Matteo Dicenzi, Vincenzo Di Pentima, Elena Merlo, Matteo Palmas, Andrea Pitto, Emanuele Rosi, Chiara Saporetti, Giulia Scorza Azzara', Luca Tarasi, Simone Voto, Gerald Xhaferaj 
 
 
 ## License
