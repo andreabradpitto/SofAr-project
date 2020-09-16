@@ -1,3 +1,4 @@
+# IMPORTANT sudo apt-get install ros-kinetic-cmake-modules
 # SofAr-project
 Robot arm teleoperation using inertial sensory data
 
