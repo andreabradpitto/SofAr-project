@@ -1,0 +1,4 @@
+---
+sensor_msgs/JointState qdot1
+sensor_msgs/JointState qdot2
+std_msgs/Float64MultiArray Q2
