@@ -78,12 +78,12 @@ cd "Your catkin workspace"/src/SofAr-project
 - Find the terminal in which you started the software and follow the instructions written on it always checking the app is working properly (you can look at the terminal printing the linear acceleration, orientation and angular velocity)
 - Once all the instructions are completed and the Coppelia environment opened, with the smartphone hand still type "calibration" and press enter  
 - When you are done you can type "start" and procede with the movement
-
+After the command "calibration", you can apply every other string presented in the section "Running test".  
+When you type start, be sure you are more or less in the same configuration as baxter.
 
 ### Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
 
 ### Authors
 
