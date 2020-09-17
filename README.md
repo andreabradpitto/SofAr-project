@@ -20,7 +20,7 @@ Characteristics:
 ### Installing
 
 In order to have a working version of this package running on your computer, you need to:  
-- Place the package in the src folder of your src foulder of the catkin workspace
+- Place the package in the src folder of your src foulder of the catkin workspace, and having it named "SofAr-project"
 - Have the Coppelia environment foulder in any place under the HOME directory (it is advised to put it on the Desktop or directly in HOME)
 - If you don't have the following libraries installed on your system procede with this code
 ```sh
@@ -41,46 +41,11 @@ chmod +x install.sh
 ```
 ### Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
 
-- Digit "roslaunch V-rep baxter_test.launch" and press enter.
-In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_test.launch by digiting on the shell the command line
-
+In order to see a test of the working system (without the application sending signals), procedes with the following commands
 ```sh
-roslaunch V-rep baxter_test.launch
+cd "Your catkin workspace"/src/SofAr-project
+./launcher_test.sh
 ```
-
-By doing this the CoppeliaSim environment will be opened on the correct scene.
-Use the user interface to handle the simulation. At this point on the shell a message occurs inviting the user to write a command on it. If you digit ‘help’ a list of all the possible commands is shown. In particular you can:
-	-start the simulation (‘start’);
-	-set the IMU reference system such that it coincides with the human end effector one (‘calibration’);
-	-put the simulation in pause in order to restart from the last configuration you reached (‘pause’);
-	-stop the simulation (‘stop’) leading the robot arm to the default configuration;
-	-set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint 		 is set to 0.
-	-close the user interface, all the running topics and the simulator environment ('exit')
-
-To change the input rate, the shell commands from inside the “V-rep” folder are:
-
-
-```sh
-cd src
-gedit publisher_ROS_VREP
-```
-
-At line 41 the rate can be changed.
-
-```cpp
-ros::Rate loop_rate(110);
-```
-
-Then, after saving the file, back again in the shell:
-
-```sh
-cd ..
-cd ..
-cd ..
-catkin_make
-```
-
-In order to apply the changes.
 
 
 ### Deployment
@@ -88,7 +53,8 @@ In order to apply the changes.
 To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is baxter_sim.launch and the fact that the system needs to publish to the simulation component.
 
 ```sh
-roslaunch V-rep baxter_sim.launch
+cd "Your catkin workspace"/src/SofAr-project
+./launcher.sh
 ```
 
 
