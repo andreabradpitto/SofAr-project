@@ -59,11 +59,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  Cost.srv
   Safety.srv
   IK.srv
   IK_JTA.srv
   IK_Jtra.srv
+  Cost.srv
 )
 
 ## Generate actions in the 'action' folder
