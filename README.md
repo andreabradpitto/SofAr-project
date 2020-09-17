@@ -22,7 +22,7 @@ Characteristics:
 - i5 processors, 3.1GHz, 2 cores
 - 8GB DDR4 SDRAM
 - 256 GB SSD memory
-- GB dedicated to Ubuntu ( in testing 39% memory was in use)
+- 103.5GB dedicated to Ubuntu ( in testing 39.2GB of memory were used)
 
 ### Installing
 
