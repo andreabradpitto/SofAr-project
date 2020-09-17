@@ -1,4 +1,4 @@
-# Smartphone subproject readme
+# Smartphone node
 
 ## Authors
 
