@@ -1,3 +1,0 @@
-[submodule "imu_calib"]
-	path = imu_calib
-	url = https://github.com/dpkoch/imu_calib
