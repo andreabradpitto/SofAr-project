@@ -95,7 +95,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-Marco Demutti, Matteo Dicenzi, Vincenzo Di Pentima, Elena Merlo, Matteo Palmas, Andrea Pitto, Emanuele Rosi, Chiara Saporetti, Giulia Scorza Azzara', Luca Tarasi, Simone Voto, Gerald Xhaferaj 
+[Marco Demutti](https://github.com/marcodemutti), [Matteo Dicenzi](https://github.com/mattedicenzi), [Vincenzo Di Pentima](https://github.com/VinDp), [Elena Merlo](https://github.com/RobElena), [Matteo Palmas](https://github.com/Matt98x), [Andrea Pitto](https://github.com/andreabradpitto), [Emanuele Rosi](https://github.com/emanuelericcardo), [Chiara Saporetti](https://github.com/ChiaraSapo), [Giulia Scorza Azzarà](https://github.com/Giulia24091997), [Luca Tarasi](https://github.com/LucaTars), [Simone Voto](https://github.com/Cavalletta98), [Gerald Xhaferaj](https://github.com/Geraldone)
 
 
 ## License
