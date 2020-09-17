@@ -12,8 +12,15 @@ sudo apt-get install ros-kinetic-cmake-modules
 ```
 
 Furthermore, in order to run this software, the following prerequisites are needed:
-[ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu), [CoppeliaSim Edu V4](https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm), Ubuntu 16.04.
+[ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu), [CoppeliaSim Edu V4](https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm) (which has to be linked to ROS), [Ubuntu 16.04](https://releases.ubuntu.com/16.04/).
 Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.
+For the smarthpone part, the following lines must be executed
+
+```sh
+python -m pip install numpy
+python -m pip install -U matplotlib
+sudo apt-get install python-pandas
+```
 
 ### Installing
 
