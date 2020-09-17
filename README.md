@@ -1,13 +1,15 @@
 # IMPORTANT sudo apt-get install ros-kinetic-cmake-modules
 # SofAr-project
-Robot arm teleoperation using inertial sensory data
+The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand.
+The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab.
+Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation.
 
-## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
+In order to run this software, the following prerequisites are needed
 All the produced code was made on Ubuntu 16.04, with the CoppeliaSim Edu V4 and ROS kinematic, which is the advised configuration.
 
 ### Installing
