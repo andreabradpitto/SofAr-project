@@ -54,8 +54,8 @@ cd "Your catkin workspace"/src/SofAr-project
 ./launcher_test.sh
 ```
 When all components are open, find the user interface (the terminal where you have launched the system and the only one asking for the user input).  
-There you can type "help" and enter to obtain the command list, or you can type "start" and enter to start the anymation.  
-At any moment you can type "pause" or "stop" to interrupt the simulation and respectively stay in the position or return to the starting one.  
+There you can type "help" and enter to obtain the command list, or you can type "start" and enter to start the animation.  
+At any moment, you can type "pause" or "stop" to interrupt the simulation and respectively stay in the position or return to the starting one.  
 When stopped (not paused) you can type "set_default" to set the starting configuration.  
 Once you are done, you can type "exit" and press enter to close all this project components.  
 The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation.  
