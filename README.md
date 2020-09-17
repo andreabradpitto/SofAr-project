@@ -47,20 +47,27 @@ chmod +x install.sh
 ```sh
 ./install.sh
 ```
-### Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
+### Running the tests: running the simulation without the smartphone to inspect that the simulation is working
 
-In order to see a test of the working system (without the application sending signals), procedes with the following commands
+In order to see a test of the working system (without the smartohone application sending signals), proceed with the following commands
 ```sh
 cd "Your catkin workspace"/src/SofAr-project
 ./launcher_test.sh
 ```
+When all components are open, find the user interface (the terminal where you have launched the system and the only one asking for the user input).
+There you can type "help" and enter to obtain the command list, or you can type "start" and enter to start the anymation.  
+At any moment you can type "pause" or "stop" to interrupt the simulation and respectively stay in the position or return to the starting one.  
+When stopped (not paused) you can type "set_default" to set the starting configuration.  
+Once you are done, you can type "exit" and press enter to class all this project components.  
+The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation.  
 <div align="center">
   <img height="500" width="500" src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif">
 </div>
  
 ### Deployment
 
-To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is baxter_sim.launch and the fact that the system needs to publish to the simulation component.
+To use the whole system at once, the following action have to take place:
+- Start the smartphone application
 
 ```sh
 cd "Your catkin workspace"/src/SofAr-project
