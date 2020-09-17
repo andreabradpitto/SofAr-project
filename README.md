@@ -1,8 +1,5 @@
 # SofAr-project
 
-<p align="center">
-  <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title"">
-</p>
 
 ![Alt text](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title")
 
@@ -53,7 +50,7 @@ In order to see a test of the working system (without the application sending si
 cd "Your catkin workspace"/src/SofAr-project
 ./launcher_test.sh
 ```
-![Alt text](https://github.com/andreabradpitto/SofAr-project/blob/master/Math/math_pkg/scripts/halfcircle_files/half_circle_J6.mp4?raw=true "Title") 
+![Demo](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-source.gif?raw=true "Title") 
 
 ### Deployment
 
