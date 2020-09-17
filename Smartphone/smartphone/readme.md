@@ -4,7 +4,7 @@
 
 [Matteo Dicenzi](https://github.com/mattedicenzi), [Marco Demutti](https://github.com/marcodemutti), [Andrea Pitto](https://github.com/andreabradpitto), [Simone Voto](https://github.com/Cavalletta98)
 
-The *compensation* package work was entirely made by [Daniel Koch](https://github.com/dpkoch); the original version can be found [here](https://github.com/dpkoch/imu_calib)
+The *imu_calib* package work was entirely made by [Daniel Koch](https://github.com/dpkoch); the original version can be found [here](https://github.com/dpkoch/imu_calib)
 
 ## Summary
 
