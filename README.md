@@ -49,7 +49,7 @@ chmod +x install.sh
 ```
 ### Running the tests: running the simulation without the smartphone to inspect that the simulation is working
 
-In order to see a test of the working system (without the smartohone application sending signals), proceed with the following commands
+In order to see a test of the working system (without the smartphone application sending signals), proceed with the following commands
 ```sh
 cd "Your catkin workspace"/src/SofAr-project
 ./launcher_test.sh
