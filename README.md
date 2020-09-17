@@ -12,8 +12,8 @@ For the smarthpone part, the following lines must be executed
 Then, it is required to install the app on an Android mobile phone. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes  
 Moreover, launching the software on a virtual machine cause great instability, so, it is strongly adviced against.  
 In the testing phase, the following hardware characteristic were found to work discretely, which is why they are going to be taken as advised configuration.  
-Characteristics:
-	- i5 processo, 2 cores
+Characteristics:  
+	- i5 processors, 2 cores
 
 ### Installing
 
