@@ -76,8 +76,8 @@ cd "Your catkin workspace"/src/SofAr-project
 ./launcher.sh
 ```
 - Find the terminal in which you started the software and follow the instructions written on it always checking the app is working properly (you can look at the terminal printing the linear acceleration, orientation and angular velocity)
-- Once all the instructions are completed and the Coppelia environment opened, with the smartphone hand still type "calibration" and press enter
--When you are done you can type "start" and procede with the movement
+- Once all the instructions are completed and the Coppelia environment opened, with the smartphone hand still type "calibration" and press enter  
+- When you are done you can type "start" and procede with the movement
 
 
 ### Versioning
