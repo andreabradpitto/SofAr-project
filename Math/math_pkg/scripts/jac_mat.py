@@ -49,7 +49,7 @@ def bell(s):
     @return p: regularized singular value
     """
 
-    b = -np.log(0.5)/0.01
+    b = -np.log(0.5)/0.00001
     p = np.exp(-b*s*s)
 
     return p

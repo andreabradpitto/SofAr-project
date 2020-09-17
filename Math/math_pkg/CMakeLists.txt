@@ -242,17 +242,13 @@ catkin_package(
   DEPENDS
     OpenMP
 )
-
-
 # exemplary executable weighter using OpenMP
 add_executable(weighter
   src/weighter.cpp
 )
 target_compile_options(weighter PRIVATE ${OpenMP_FLAGS})
+add_dependencies(weighter ${catkin_EXPORTED_TARGETS})
 target_link_libraries(weighter
   ${catkin_LIBRARIES}
   ${OpenMP_LIBS}
 )
-add_dependencies(weighter math_pkg_gencpp)
-add_dependencies(weighter ${catkin_EXPORTED_TARGETS})
-

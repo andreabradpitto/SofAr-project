@@ -153,7 +153,6 @@ def main_callback():
     pub_track.publish(v_w_a)
 
 
-
 def baxter_callback(data):
     """!
     Computes the configuration of baxter's arm whenever the data are available, then extracts the rotation
@@ -217,7 +216,6 @@ def baxter_callback(data):
                 key_smart = 0
 
                 main_callback()
-
 
 
 def dot_callback(data):
@@ -353,7 +351,6 @@ def smart_callback(data):
         v_0e_kmin1 = v_0e_k
 
 
-
 def calib_callback(data):
     """!
     Receives the orientation matrices from the calibration node.
@@ -379,7 +376,8 @@ def simulate_callback(data):
     global ini_bax, ini_dot, ini_smart, q, q_dot, v_0e_kmin1, key_bax, key_smart, key_dot, key
 
     key = data.data
-
+    rospy.logerr("------------------------------------------k: ")
+    rospy.logerr(key)
     if key == 0:
         rospy.logerr("Resetting")
         # reset of the initial conditions.
