@@ -61,7 +61,7 @@ sudo apt-get install ros-kinetic-cmake-modules
 ```
 
 
-### Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
+### Running the tests: running the simulation with a "dummy" publisher in order to check whether it is working or not
 
 - Digit "roslaunch V-rep baxter_test.launch" and press enter.
 In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_test.launch by digiting on the shell the command line
