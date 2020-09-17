@@ -15,7 +15,7 @@ Then, it is required to install the app on an Android mobile phone. Unzip *org.r
 Moreover, launching the software on a virtual machine cause great instability, so, it is strongly adviced against.  
 In the testing phase, the following hardware characteristic were found to work discretely, which is why they are going to be taken as advised configuration.  
 Characteristics:  
-	- i5 processors, 2 cores
+- i5 processors, 2 cores
 
 ### Installing
 
