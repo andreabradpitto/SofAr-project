@@ -16,6 +16,8 @@ python -m pip install -U matplotlib
 sudo apt-get install python-pandas
 ```
 
+Then, it is required to install the app on an Android mobile phone. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes
+
 ### Installing
 
 Obtain a copy of this component 
