@@ -1,3 +1,5 @@
+## Math node
+
 To use this package:
 1) Download the math_pkg folder.
 2) Put it in ```catkin_ws/src```, where ```catkin_ws``` is the absolute path to your catkin workspace.
