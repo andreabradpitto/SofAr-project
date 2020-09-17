@@ -19,51 +19,26 @@ Characteristics:
 
 ### Installing
 
+In order to have a working version of this package running on your computer, you need to:  
+- Place the package in the src folder of your src foulder of the catkin workspace
+- Have the Coppelia environment foulder in any place under the HOME directory (it is advised to put it on the Desktop or directly in HOME)
+- If you don't have the following libraries installed on your system procede with this code
 ```sh
 python -m pip install numpy
 python -m pip install -U matplotlib
 sudo apt-get install python-pandas
 sudo apt-get install python-scipy
-```
-
-
-copy the repository in catkin workspace src  
-check coppelia folder is under HOME  
-install pandas  
-install numpy  
-install app  
-cd to SofAr-project  
-chmod +x install.sh  
-./install.sh  
-
-Obtain a copy of this component 
-- If the copy is not inside the ROS workspace source folder, copy the component folder "baxter" from its current position to it, using the graphic interface or the shell command
-
-```sh
-mv V-rep /absolute/path/of/catkin/workspace/src/V-rep
-```
-- Activate the bash scripts
-
-```sh
-cd /absolute/path/of/catkin/workspace/src/V-rep
-cd src
-chmod +x logger_launcher.sh
-chmod +x coppelialaucher.sh
-```
-
-- Do a catkin make inside the catkin workspace main folder
-
-```sh
-cd /absolute/path/of/catkin/workspace/
-catkin_make
-```
-- Finally, run
-
-```sh
 sudo apt-get install ros-kinetic-cmake-modules
 ```
-
-
+- Change the current directory to "SofAr-project" and activate the install.sh script
+```sh
+cd "Your catkin workspace"/src/SofAr-project
+chmod +x install.sh
+```
+- Install the package via dedicated script
+```sh
+./install.sh
+```
 ### Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
 
 - Digit "roslaunch V-rep baxter_test.launch" and press enter.
