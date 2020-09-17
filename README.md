@@ -1,5 +1,5 @@
 # SofAr-project
-The goal of the project was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand.  
+The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand.  
 The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab.  
 Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation.  
 
@@ -8,11 +8,12 @@ Unfortunately, the elimination of the position measurement with the motion captu
 Furthermore, in order to run this software, the following prerequisites are needed:
 [ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu), [CoppeliaSim Edu V4](https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm) (which has to be linked with ROS), [Ubuntu 16.04](https://releases.ubuntu.com/16.04/).
 Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.
-For the smarthpone part, the following lines must be executed
-
-
-
-Then, it is required to install the app on an Android mobile phone. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes
+For the smarthpone part, the following lines must be executed  
+Then, it is required to install the app on an Android mobile phone. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes  
+Moreover, launching the software on a virtual machine cause great instability, so, it is strongly adviced against.  
+In the testing phase, the following hardware characteristic were found to work discretely, which is why they are going to be taken as advised configuration.  
+Characteristics:
+	- i5 processo, 2 cores
 
 ### Installing
 
@@ -61,7 +62,7 @@ sudo apt-get install ros-kinetic-cmake-modules
 ```
 
 
-### Running the tests: running the simulation with a "dummy" publisher in order to check whether it is working or not
+### Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
 
 - Digit "roslaunch V-rep baxter_test.launch" and press enter.
 In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_test.launch by digiting on the shell the command line
