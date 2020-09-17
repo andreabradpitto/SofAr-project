@@ -1,19 +1,9 @@
 # SofAr-project
 
-<div id="container">
-    <img />
-    ![Alt text](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title")
-</div>
+<p align="center">
+  <img width="460" height="300" src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title"">
+</p>
 
-#container {
-    height:100px;
-    line-height:100px;
-}
-
-#container img {
-    vertical-align:middle;
-    max-height:100%;
-}
 ![Alt text](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title")
 
 The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand.  
