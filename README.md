@@ -23,7 +23,7 @@ Characteristics:
 - i5 processors, 3.1GHz, 2 cores
 - 8GB DDR4 SDRAM
 - 256 GB SSD memory
-- GB dedicated to Ubunty ( in testing 39% memory was in use)
+- GB dedicated to Ubuntu ( in testing 39% memory was in use)
 
 ### Installing
 
@@ -54,9 +54,9 @@ In order to see a test of the working system (without the application sending si
 cd "Your catkin workspace"/src/SofAr-project
 ./launcher_test.sh
 ```
-
+<div align="center">
   ![Demo](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif)
-
+</div>
 
 ### Deployment
 
