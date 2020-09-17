@@ -13,8 +13,7 @@ Unfortunately, the elimination of the position measurement with the motion captu
 In order to run this software, the following prerequisites are needed:  
 - [ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu),  
 - [CoppeliaSim Edu V4](https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm) (which has to be linked with ROS),  
-- [Ubuntu 16.04](https://releases.ubuntu.com/16.04/).  
-(Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.)  
+- [Ubuntu 16.04](https://releases.ubuntu.com/16.04/)(Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.)  
 Then, it is required to install the app on an Android mobile phone. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes  
 Moreover, launching the software on a virtual machine cause great instability, so, it is strongly adviced against.  
 In the testing phase, the following hardware characteristic were found to work discretely, which is why they are going to be taken as advised configuration.  
