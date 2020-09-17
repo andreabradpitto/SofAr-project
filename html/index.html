@@ -68,71 +68,67 @@ $(function() {
 <div class="title">SofAr-project </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a>The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand. <br  />
+<div class="textblock"><p><a class="anchor" id="md_README"></a></p>
+<p>The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand. <br  />
  The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab. <br  />
  Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation. <br  />
 </p>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Prerequisites</h2>
-<p>It is of paramount importance to run</p>
-<div class="fragment"><div class="line">sudo apt-get install ros-kinetic-cmake-modules</div>
-</div><!-- fragment --><p>Furthermore, in order to run this software, the following prerequisites are needed: <a href="http://wiki.ros.org/kinetic/Installation/Ubuntu">ROS kinetic</a>, <a href="https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm">CoppeliaSim Edu V4</a>, Ubuntu 16.04. Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.</p>
+<p>In order to run this software, the following prerequisites are needed: <br  />
+ <a href="http://wiki.ros.org/kinetic/Installation/Ubuntu">ROS kinetic</a>, <br  />
+ <a href="https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm">CoppeliaSim Edu V4</a> (which has to be linked with ROS), <br  />
+ <a href="https://releases.ubuntu.com/16.04/">Ubuntu 16.04</a>. <br  />
+ Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced. For the smarthpone part, the following lines must be executed <br  />
+ Then, it is required to install the app on an Android mobile phone. Unzip <em>org.ros.android.android_tutorial_camera_imu_1.0.apk</em> in order to install the <em>CameraImu</em> app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes <br  />
+ Moreover, launching the software on a virtual machine cause great instability, so, it is strongly adviced against. <br  />
+ In the testing phase, the following hardware characteristic were found to work discretely, which is why they are going to be taken as advised configuration. <br  />
+ Characteristics: <br  />
+</p><ul>
+<li>i5 processors, 2 cores</li>
+</ul>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Installing</h2>
-<p>Obtain a copy of this component</p><ul>
-<li>If the copy is not inside the ROS workspace source folder, copy the component folder "baxter" from its current position to it, using the graphic interface or the shell command</li>
+<p>In order to have a working version of this package running on your computer, you need to: <br  />
+</p><ul>
+<li>Place the package in the src folder of your src foulder of the catkin workspace, and having it named "SofAr-project"</li>
+<li>Have the Coppelia environment foulder in any place under the HOME directory (it is advised to put it on the Desktop or directly in HOME)</li>
+<li>If you don't have the following libraries installed on your system procede with this code <div class="fragment"><div class="line">python -m pip install numpy</div>
+<div class="line">python -m pip install -U matplotlib</div>
+<div class="line">sudo apt-get install python-pandas</div>
+<div class="line">sudo apt-get install python-scipy</div>
+<div class="line">sudo apt-get install ros-kinetic-cmake-modules</div>
+</div><!-- fragment --></li>
+<li>Change the current directory to "SofAr-project" and activate the install.sh script <div class="fragment"><div class="line">cd &quot;Your catkin workspace&quot;/src/SofAr-project</div>
+<div class="line">chmod +x install.sh</div>
+</div><!-- fragment --></li>
+<li>Install the package via dedicated script <div class="fragment"><div class="line">./install.sh</div>
+</div><!-- fragment --></li>
 </ul>
-<div class="fragment"><div class="line">mv V-rep /absolute/path/of/catkin/workspace/src/V-rep</div>
-</div><!-- fragment --><ul>
-<li>Activate the bash scripts</li>
-</ul>
-<div class="fragment"><div class="line">cd /absolute/path/of/catkin/workspace/src/V-rep</div>
-<div class="line">cd src</div>
-<div class="line">chmod +x logger_launcher.sh</div>
-<div class="line">chmod +x coppelialaucher.sh</div>
-</div><!-- fragment --><ul>
-<li>Do a catkin make inside the catkin workspace main folder</li>
-</ul>
-<div class="fragment"><div class="line">cd /absolute/path/of/catkin/workspace/</div>
-<div class="line">catkin_make</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
-Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.</h1>
-<ul>
-<li>Digit "roslaunch V-rep baxter_test.launch" and press enter. In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_test.launch by digiting on the shell the command line</li>
-</ul>
-<div class="fragment"><div class="line">roslaunch V-rep baxter_test.launch</div>
-</div><!-- fragment --><p>By doing this the CoppeliaSim environment will be opened on the correct scene. Use the user interface to handle the simulation. At this point on the shell a message occurs inviting the user to write a command on it. If you digit ‘help’ a list of all the possible commands is shown. In particular you can: -start the simulation (‘start’); -set the IMU reference system such that it coincides with the human end effector one (‘calibration’); -put the simulation in pause in order to restart from the last configuration you reached (‘pause’); -stop the simulation (‘stop’) leading the robot arm to the default configuration; -set a default configuration you like for each one of the 7 joints (‘set_default’). In the original default configuration each joint is set to 0. -close the user interface, all the running topics and the simulator environment ('exit')</p>
-<p>To change the input rate, the shell commands from inside the “V-rep” folder are:</p>
-<div class="fragment"><div class="line">cd src</div>
-<div class="line">gedit publisher_ROS_VREP</div>
-</div><!-- fragment --><p>At line 41 the rate can be changed.</p>
-<div class="fragment"><div class="line">ros::Rate loop_rate(110);</div>
-</div><!-- fragment --><p>Then, after saving the file, back again in the shell:</p>
-<div class="fragment"><div class="line">cd ..</div>
-<div class="line">cd ..</div>
-<div class="line">cd ..</div>
-<div class="line">catkin_make</div>
-</div><!-- fragment --><p>In order to apply the changes.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Deployment</h1>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.</h2>
+<p>In order to see a test of the working system (without the application sending signals), procedes with the following commands </p><div class="fragment"><div class="line">cd &quot;Your catkin workspace&quot;/src/SofAr-project</div>
+<div class="line">./launcher_test.sh</div>
+</div><!-- fragment --><p><img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-source.gif" alt="Demo" class="inline"/></p>
+<h2><a class="anchor" id="autotoc_md5"></a>
+Deployment</h2>
 <p>To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is baxter_sim.launch and the fact that the system needs to publish to the simulation component.</p>
-<div class="fragment"><div class="line">roslaunch V-rep baxter_sim.launch</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md6"></a>
-Versioning</h1>
+<div class="fragment"><div class="line">cd &quot;Your catkin workspace&quot;/src/SofAr-project</div>
+<div class="line">./launcher.sh</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+Versioning</h2>
 <p>We use <a href="http://semver.org/">SemVer</a> for versioning. For the versions available, see the <a href="https://github.com/your/project/tags">tags on this repository</a>.</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
-Authors</h1>
+<h2><a class="anchor" id="autotoc_md7"></a>
+Authors</h2>
 <p><a href="https://github.com/marcodemutti">Marco Demutti</a>, <a href="https://github.com/mattedicenzi">Matteo Dicenzi</a>, <a href="https://github.com/VinDp">Vincenzo Di Pentima</a>, <a href="https://github.com/RobElena">Elena Merlo</a>, <a href="https://github.com/Matt98x">Matteo Palmas</a>, <a href="https://github.com/andreabradpitto">Andrea Pitto</a>, <a href="https://github.com/emanuelericcardo">Emanuele Rosi</a>, <a href="https://github.com/ChiaraSapo">Chiara Saporetti</a>, <a href="https://github.com/Giulia24091997">Giulia Scorza Azzarà</a>, <a href="https://github.com/LucaTars">Luca Tarasi</a>, <a href="https://github.com/Cavalletta98">Simone Voto</a>, <a href="https://github.com/Geraldone">Gerald Xhaferaj</a></p>
-<h1><a class="anchor" id="autotoc_md8"></a>
-License</h1>
+<h2><a class="anchor" id="autotoc_md8"></a>
+License</h2>
 <p>This project is licensed under the MIT License - see the LICENSE.md file for details. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.19
+Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19
 </small></address>
 </body>
 </html>
