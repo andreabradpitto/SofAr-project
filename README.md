@@ -65,8 +65,8 @@ The movement that should be obtained in this test is the increment of the first 
  
 ### Deployment
 
-To use the whole system at once, the following action have to take place:
-Note: when you are asked to take the phone in your hand during the procedures, you are to take it in your right hand, with the screen vertical, facing you, and the camera in the direction of the thumb then, after the command "calibration" you can take it as you are most comfortable.  
+To use the whole system at once, the following action have to take place:  
+[Note: when you are asked to take the phone in your hand during the procedures, you are to take it in your right hand, with the screen vertical, facing you, and the camera in the direction of the thumb then, after the command "calibration" you can take it as you are most comfortable.]  
 - Start the smartphone application
 - Verify the IP address to be inserted in the app
 ```sh
