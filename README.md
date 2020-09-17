@@ -52,7 +52,7 @@ cd "Your catkin workspace"/src/SofAr-project
 ./launcher_test.sh
 ```
 <p align="center">
-  <![Demo](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif)
+  ![Demo](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif)
 </p>
 
 ### Deployment
