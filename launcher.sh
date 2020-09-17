@@ -25,5 +25,6 @@ roslaunch V-rep baxter_sim.launch
 
 kill $(ps aux | grep "sh -c rosrun" | tr -s ' '| cut -d ' ' -f 2)
 kill $(ps aux | grep "sh -c roslaunch" | tr -s ' '| cut -d ' ' -f 2)
-killall -9 roscore
+kill $(ps aux | grep "sh -c rostopic" | tr -s ' '| cut -d ' ' -f 2)
+kill $(ps aux | grep "sh -c roscore" | tr -s ' '| cut -d ' ' -f 2)
 
