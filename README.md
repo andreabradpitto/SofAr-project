@@ -5,12 +5,6 @@ Unfortunately, the elimination of the position measurement with the motion captu
 
 ### Prerequisites
 
-It is of paramount importance to run
-
-```sh
-sudo apt-get install ros-kinetic-cmake-modules
-```
-
 Furthermore, in order to run this software, the following prerequisites are needed:
 [ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu), [CoppeliaSim Edu V4](https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm) (which has to be linked to ROS), [Ubuntu 16.04](https://releases.ubuntu.com/16.04/).
 Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.
@@ -45,9 +39,14 @@ chmod +x coppelialaucher.sh
 cd /absolute/path/of/catkin/workspace/
 catkin_make
 ```
+- Finally, run
+
+```sh
+sudo apt-get install ros-kinetic-cmake-modules
+```
 
 
-## Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
+### Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.
 
 - Digit "roslaunch V-rep baxter_test.launch" and press enter.
 In order to start up a master and all this component involved nodes is simply needed to call the launch file baxter_test.launch by digiting on the shell the command line
@@ -91,7 +90,7 @@ catkin_make
 In order to apply the changes.
 
 
-## Deployment
+### Deployment
 
 To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is baxter_sim.launch and the fact that the system needs to publish to the simulation component.
 
@@ -100,16 +99,16 @@ roslaunch V-rep baxter_sim.launch
 ```
 
 
-## Versioning
+### Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 
-## Authors
+### Authors
 
 [Marco Demutti](https://github.com/marcodemutti), [Matteo Dicenzi](https://github.com/mattedicenzi), [Vincenzo Di Pentima](https://github.com/VinDp), [Elena Merlo](https://github.com/RobElena), [Matteo Palmas](https://github.com/Matt98x), [Andrea Pitto](https://github.com/andreabradpitto), [Emanuele Rosi](https://github.com/emanuelericcardo), [Chiara Saporetti](https://github.com/ChiaraSapo), [Giulia Scorza Azzarà](https://github.com/Giulia24091997), [Luca Tarasi](https://github.com/LucaTars), [Simone Voto](https://github.com/Cavalletta98), [Gerald Xhaferaj](https://github.com/Geraldone)
 
 
-## License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
