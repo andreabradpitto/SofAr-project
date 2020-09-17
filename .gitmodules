@@ -1,0 +1,3 @@
+[submodule "Smartphone/imu_calib"]
+	path = Smartphone/imu_calib
+	url = https://github.com/dpkoch/imu_calib
