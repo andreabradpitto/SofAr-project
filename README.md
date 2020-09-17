@@ -20,6 +20,15 @@ Then, it is required to install the app on an Android mobile phone. Unzip *org.r
 
 ### Installing
 
+copy the repository in catkin workspace src  
+check coppelia folder is under HOME  
+install pandas  
+install numpy  
+install app  
+cd to SofAr-project  
+chmod +x install.sh  
+./install.sh  
+
 Obtain a copy of this component 
 - If the copy is not inside the ROS workspace source folder, copy the component folder "baxter" from its current position to it, using the graphic interface or the shell command
 
