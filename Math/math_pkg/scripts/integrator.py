@@ -58,6 +58,7 @@ def qdot_callback (qdot_data):
     # Fill in and send object tosend
     tosend.position = q
     tosend.effort = [eff]
+    tosend.header.stamp = rospy.Time.now()
     pub.publish(tosend)
 
 
