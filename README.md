@@ -4,12 +4,9 @@ The project's goal was to design and implement a software component for the tele
 The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab.  
 Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation.  
 
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 ### Prerequisites
 
-In order to run this software, the following prerequisites are needed
+In order to run this software, the following prerequisites are needed:
 All the produced code was made on Ubuntu 16.04, with the CoppeliaSim Edu V4 and ROS kinematic, which is the advised configuration.
 
 ### Installing
