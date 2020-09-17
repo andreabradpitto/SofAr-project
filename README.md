@@ -1,7 +1,10 @@
 # SofAr-project
 
+<p align="center">
+  <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title"">
+</p>
 
-![Alt text](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title")
+[//]: ![Alt text](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title")
 
 The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand.  
 The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab.  
@@ -50,7 +53,7 @@ In order to see a test of the working system (without the application sending si
 cd "Your catkin workspace"/src/SofAr-project
 ./launcher_test.sh
 ```
-![Demo](https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-source.gif?raw=true "Title") 
+![Alt text](https://github.com/andreabradpitto/SofAr-project/blob/master/Math/math_pkg/scripts/halfcircle_files/half_circle_J6.mp4?raw=true "Title") 
 
 ### Deployment
 
