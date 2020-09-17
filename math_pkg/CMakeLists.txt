@@ -59,11 +59,11 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  Cost.srv
   Safety.srv
   IK.srv
   IK_JTA.srv
   IK_Jtra.srv
+  Cost.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -211,10 +211,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
- #   find_package(Boost 1.58 REQUIRED COMPONENTS math)
- #   include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(safety src/safety.cpp)
 target_link_libraries(safety ${catkin_LIBRARIES})
