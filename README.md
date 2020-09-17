@@ -68,7 +68,7 @@ To use the whole system at once, the following action have to take place:
 - Start the smartphone application
 - Verify the IP address to be inserted in the app
 ```sh
-ifconfig
+ifconfig wlan0 | grep "inet " | awk -F'[: ]+' '{ print $4 }'
 ```
 - Start the software on the computer with the following commands
 ```sh
