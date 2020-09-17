@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Baxter teleoperation project: Smartphone/compensation/src/apply_calib.cpp Source File</title>
+<title>Baxter teleoperation project: Smartphone/imu_calib/src/apply_calib.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_630446ee09d98ff9e577023408dadd82.html">Smartphone</a></li><li class="navelem"><a class="el" href="dir_b728d0df8789aeb3540150249d2efa6d.html">compensation</a></li><li class="navelem"><a class="el" href="dir_01c7fab6bccee1b1f69e5ac8cac9f151.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_630446ee09d98ff9e577023408dadd82.html">Smartphone</a></li><li class="navelem"><a class="el" href="dir_d4809fd537c93dac464028d211ec980a.html">imu_calib</a></li><li class="navelem"><a class="el" href="dir_c5c92c426e740d8d8b2032c2b6de6e33.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -135,8 +135,8 @@ $(function() {
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordtype">int</span> queue_size;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  nh_private.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;queue_size&quot;</span>, queue_size, 5);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  raw_sub_ = nh.subscribe(<span class="stringliteral">&quot;android/imu&quot;</span>, queue_size, &amp;ApplyCalib::rawImuCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  corrected_pub_ = nh.advertise&lt;sensor_msgs::Imu&gt;(<span class="stringliteral">&quot;/android/imu_corrected&quot;</span>, queue_size);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  raw_sub_ = nh.subscribe(<span class="stringliteral">&quot;raw&quot;</span>, queue_size, &amp;ApplyCalib::rawImuCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  corrected_pub_ = nh.advertise&lt;sensor_msgs::Imu&gt;(<span class="stringliteral">&quot;corrected&quot;</span>, queue_size);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">void</span> ApplyCalib::rawImuCallback(sensor_msgs::Imu::ConstPtr raw)</div>
