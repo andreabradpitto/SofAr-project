@@ -5,9 +5,15 @@ Unfortunately, the elimination of the position measurement with the motion captu
 
 ### Prerequisites
 
-# IMPORTANT sudo apt-get install ros-kinetic-cmake-modules
-In order to run this software, the following prerequisites are needed:
-All the produced code was made on Ubuntu 16.04, with the CoppeliaSim Edu V4 and ROS kinematic, which is the advised configuration.
+It is of paramount importance to run
+
+```sh
+sudo apt-get install ros-kinetic-cmake-modules
+```
+
+Furthermore, in order to run this software, the following prerequisites are needed:
+[ROS kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu), [CoppeliaSim Edu V4](https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm), Ubuntu 16.04.
+Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.
 
 ### Installing
 
