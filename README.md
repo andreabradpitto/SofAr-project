@@ -10,15 +10,19 @@ Furthermore, in order to run this software, the following prerequisites are need
 Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.
 For the smarthpone part, the following lines must be executed
 
-```sh
-python -m pip install numpy
-python -m pip install -U matplotlib
-sudo apt-get install python-pandas
-```
+
 
 Then, it is required to install the app on an Android mobile phone. Unzip *org.ros.android.android_tutorial_camera_imu_1.0.apk* in order to install the *CameraImu* app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes
 
 ### Installing
+
+```sh
+python -m pip install numpy
+python -m pip install -U matplotlib
+sudo apt-get install python-pandas
+sudo apt-get install python-scipy
+```
+
 
 copy the repository in catkin workspace src  
 check coppelia folder is under HOME  
