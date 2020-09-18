@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     	msg.position.resize(7); //set to 7 the array size
 
 	//constant command message (values between -1 and 1)
-/*
+
     msg.position[0] = -0.2;
 	msg.position[1] = 0.9;
 	msg.position[2] = 0.8;
@@ -57,18 +57,19 @@ int main(int argc, char **argv)
 	msg.position[4] = 1;
 	msg.position[5] = -0.3;
 	msg.position[6] = 0.04;
-*/
+
 	//random command message (values between -1 and 1)
 
-	msg.position[0] =((rand()%101)/(float)100 - 0.5)*2;
+	/*msg.position[0] =((rand()%101)/(float)100 - 0.5)*2;
 	msg.position[1] =((rand()%101)/(float)100 - 0.5)*2;
 	msg.position[2] =((rand()%101)/(float)100 - 0.5)*2;
 	msg.position[3] =((rand()%101)/(float)100 - 0.5)*2;
 	msg.position[4] =((rand()%101)/(float)100 - 0.5)*2;
 	msg.position[5] =((rand()%101)/(float)100 - 0.5)*2;
-	msg.position[6] =((rand()%101)/(float)100 - 0.5)*2;
+	msg.position[6] =((rand()%101)/(float)100 - 0.5)*2;*/
 
-	
+	msg.header.stamp = ros::Time::now();	
+
 	//command message publishing
     	chatter_pub.publish(msg);
 

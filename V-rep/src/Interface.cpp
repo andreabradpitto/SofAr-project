@@ -1,4 +1,4 @@
-/*! 
+/**
  * @file Interface
  * @author  Elena Merlo - Matteo Palmas
  * @version 1.0
@@ -29,7 +29,7 @@
 #include "sys/types.h"
 #include "signal.h"
 
-/*! The main function acts as a user interface for simulation handling thanks to ROS publishers. */
+//! The main function acts as a user interface for simulation handling thanks to ROS publishers. 
 
 int main(int argc, char **argv) 
   {
@@ -56,39 +56,39 @@ int main(int argc, char **argv)
   		printf("Digit your command and press enter: ");
   		scanf("%s",string);
 
-		/*! The command 'help' is for knowing all the possible interface functions */
+		//! The command 'help' is for knowing all the possible interface functions
   		if(strcmp(string,"help")==0){
   			printf("- start\n- calibration\n- pause\n- stop\n- set_default\n- exit\n");
 
-		/*! The command 'start' is for starting the simulation */
+		//! The command 'start' is for starting the simulation
   		}else if(strcmp(string,"start")==0){
 	  		std_msgs::Int8 msg;
 	 		msg.data=1;
 	  		//command message publishing
 			SimPub.publish(msg);
 
-		/*! The command 'calibration' is for making the IMU reference system coincide with the human end effector reference system */
+		//! The command 'calibration' is for making the IMU reference system coincide with the human end effector reference system
   		}else if(strcmp(string,"calibration")==0){
 	  		std_msgs::Int8 msg;
 	 		msg.data=3;
 	  		//command message publishing
 			SimPub.publish(msg);
 
-		/*! The command 'pause' is for pausing the simulation in order to restart from the last reached configuration */
+		//! The command 'pause' is for pausing the simulation in order to restart from the last reached configuration
   		}else if(strcmp(string,"pause")==0){
   			std_msgs::Int8 msg;
 	 		msg.data=2;
 	  		//command message publishing
 			SimPub.publish(msg);
 
-		/*! The command 'stop' is for stopping the simulation leading the robot arm to the default configuration */
+		//! The command 'stop' is for stopping the simulation leading the robot arm to the default configuration
   		}else if(strcmp(string,"stop")==0){
   			std_msgs::Int8 msg;
 	 		msg.data=0;
 	  		//command message publishing
 			SimPub.publish(msg);
 
-		/*! The command 'set_default' is for setting a desired default configuration for each one of the 7 joints. In the original default configuration each joint is set to 0 */
+		//! The command 'set_default' is for setting a desired default configuration for each one of the 7 joints. In the original default configuration each joint is set to 0 
   		}else if(strcmp(string,"set_default")==0){
   			sensor_msgs::JointState msg;
   			double array[7];
@@ -101,7 +101,7 @@ int main(int argc, char **argv)
 	  		//command message publishing
 			SimStatePub.publish(msg);
 
-		/*! The command 'exit' is for closing the user interface, all the running topics and the simulator environment */
+		//! The command 'exit' is for closing the user interface, all the running topics and the simulator environment
   		}else if(strcmp(string,"exit")==0){
 			std_msgs::Int8 msg;
 	 		msg.data=1;
