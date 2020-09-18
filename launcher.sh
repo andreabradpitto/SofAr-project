@@ -9,6 +9,7 @@ gnome-terminal -x sh -c "rostopic echo smartphone; bash"
 echo "If you want to launch the sensor calibration process type 'yes' and press enter"
 read b 
 if [[ $b == "yes" ]] ; then 
+	gnome-terminal -x sh -c "rostopic echo /android/imu; bash"
 	rosrun imu_calib do_calib
 fi
 gnome-terminal -x sh -c "rosrun imu_calib apply_calib; bash"
