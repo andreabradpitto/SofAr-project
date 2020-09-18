@@ -18,13 +18,13 @@
  *
  * @section DESCRIPTION
  *
- * This is the subscriber node that writes on alog file the message received on logtopic topic by the integrator node.
+ * This is the subscriber node that writes on alog file the message received on logtopic topic by the simulator.
  */
 
 #include "stdlib.h"
 #include "unistd.h"
 #include "stdio.h"
-#include "string.h"
+#include <string>
 #include <fstream>
 #include <iostream>
 #include "fcntl.h"
@@ -33,6 +33,7 @@
 #include "std_msgs/Float64.h"		//type of msgs to be included
 #include "sensor_msgs/JointState.h" //type of msgs to be included
 
+using namespace std;
 //! The log file identifier is here declared
 FILE *myfile;
 
@@ -40,7 +41,13 @@ FILE *myfile;
 
 void logtopicCallback(const sensor_msgs::JointState::ConstPtr &msg)
 {
-	fprintf(myfile, "%lf %lf %lf %lf %lf %lf %lf \n", msg->position[0], msg->position[1], msg->position[2], msg->position[3], msg->position[4], msg->position[5], msg->position[6]);
+	char st[50];
+	memset(st,0,sizeof(st));
+	double stamp = msg->header.stamp.toSec();
+	sprintf(st,"%f",stamp);
+
+	fprintf(myfile, "%s %lf %lf %lf %lf %lf %lf %lf \n", st, msg->position[0], msg->position[1], msg->position[2], msg->position[3], msg->position[4], msg->position[5], msg->position[6]);
+
 }
 
 //! The main function opens the log file, initiates the ROS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble.
