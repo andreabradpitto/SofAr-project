@@ -72,11 +72,11 @@ $(function() {
 <div class="title">logger.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<a href="logger_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;stdlib.h&quot;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;unistd.h&quot;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;stdio.h&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;string.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;fcntl.h&quot;</span></div>
@@ -85,32 +85,42 @@ $(function() {
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;std_msgs/Float64.h&quot;</span>       <span class="comment">//type of msgs to be included</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;sensor_msgs/JointState.h&quot;</span> <span class="comment">//type of msgs to be included</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;FILE *myfile;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span> logtopicCallback(<span class="keyword">const</span> sensor_msgs::JointState::ConstPtr &amp;msg)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    fprintf(myfile, <span class="stringliteral">&quot;%lf %lf %lf %lf %lf %lf %lf \n&quot;</span>, msg-&gt;position[0], msg-&gt;position[1], msg-&gt;position[2], msg-&gt;position[3], msg-&gt;position[4], msg-&gt;position[5], msg-&gt;position[6]);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">int</span> <a class="code" href="cost_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    myfile = fopen(<span class="stringliteral">&quot;logger.txt&quot;</span>, <span class="stringliteral">&quot;w&quot;</span>);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;logger&quot;</span>); <span class="comment">//initialize the ros sys, giving it a name</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    ros::NodeHandle n; <span class="comment">//obj of NodeHandle class</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ros::Subscriber sub = n.subscribe(<span class="stringliteral">&quot;logtopic&quot;</span>, 1000, logtopicCallback); <span class="comment">//subscriber declaration</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    ros::spin();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    fclose(myfile);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">   38</a></span>&#160;FILE *<a class="code" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">   42</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">logtopicCallback</a>(<span class="keyword">const</span> sensor_msgs::JointState::ConstPtr &amp;msg)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">char</span> st[50];</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    memset(st,0,<span class="keyword">sizeof</span>(st));</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">double</span> stamp = msg-&gt;header.stamp.toSec();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    sprintf(st,<span class="stringliteral">&quot;%f&quot;</span>,stamp);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    fprintf(<a class="code" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a>, <span class="stringliteral">&quot;%s %lf %lf %lf %lf %lf %lf %lf \n&quot;</span>, st, msg-&gt;position[0], msg-&gt;position[1], msg-&gt;position[2], msg-&gt;position[3], msg-&gt;position[4], msg-&gt;position[5], msg-&gt;position[6]);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="logger_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">   54</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="logger_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a> = fopen(<span class="stringliteral">&quot;logger.txt&quot;</span>, <span class="stringliteral">&quot;w&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;logger&quot;</span>); <span class="comment">//initialize the ros sys, giving it a name</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ros::NodeHandle n; <span class="comment">//obj of NodeHandle class</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ros::Subscriber sub = n.subscribe(<span class="stringliteral">&quot;logtopic&quot;</span>, 1000, <a class="code" href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">logtopicCallback</a>); <span class="comment">//subscriber declaration</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ros::spin();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    fclose(<a class="code" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="acost_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="cost_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdef"><b>Definition:</b> <a href="cost_8cpp_source.html#l00113">cost.cpp:113</a></div></div>
+<div class="ttc" id="alogger_8cpp_html_afe24649b312db36184c63f1fe04b37b8"><div class="ttname"><a href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">logtopicCallback</a></div><div class="ttdeci">void logtopicCallback(const sensor_msgs::JointState::ConstPtr &amp;msg)</div><div class="ttdoc">The Callback function allows to write both a timestamp and the joint configuration values in the log ...</div><div class="ttdef"><b>Definition:</b> <a href="logger_8cpp_source.html#l00042">logger.cpp:42</a></div></div>
+<div class="ttc" id="alogger_8cpp_html_a3a6bd5f7cd72e0a16f4a2054b9a2e64e"><div class="ttname"><a href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a></div><div class="ttdeci">FILE * myfile</div><div class="ttdoc">The log file identifier is here declared.</div><div class="ttdef"><b>Definition:</b> <a href="logger_8cpp_source.html#l00038">logger.cpp:38</a></div></div>
+<div class="ttc" id="alogger_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="logger_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdoc">The main function opens the log file, initiates the ROS subscriber to logtopic topic and calls the Ca...</div><div class="ttdef"><b>Definition:</b> <a href="logger_8cpp_source.html#l00054">logger.cpp:54</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

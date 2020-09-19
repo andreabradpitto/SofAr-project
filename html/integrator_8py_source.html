@@ -132,37 +132,38 @@ $(function() {
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment"># Fill in and send object tosend</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    tosend.position = q</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    tosend.effort = [eff]</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    pub.publish(tosend)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    tosend.header.stamp = rospy.Time.now()</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    pub.publish(tosend)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">def </span>simulate_callback(data):</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="stringliteral">    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="stringliteral">    @param data: coming from coppelia_sim.</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">global</span> q,key</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> data.data == 0:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        q = np.zeros((7,1));key = 0</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">def </span>simulate_callback(data):</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="stringliteral">    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="stringliteral">    @param data: coming from coppelia_sim.</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">global</span> q,key</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span> data.data == 0:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        q = np.zeros((7,1));key = 0</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">def </span>integr():</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="stringliteral">    Integrator function</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">global</span> q,qdot,key</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;cmdtopic&quot;</span>, JointState, qdot_callback) <span class="comment"># subscribe to weighter</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;handleSimulation&quot;</span>, Int8, simulate_callback) <span class="comment"># subscribe to simulation messages</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment"># spin() simply keeps python from exiting until this node is stopped</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    rospy.spin()  </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        rospy.init_node(<span class="stringliteral">&#39;integrator_node&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        pub = rospy.Publisher(<span class="stringliteral">&#39;logtopic&#39;</span>, JointState, queue_size=10)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        integr()</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">except</span> rospy.ROSInterruptException:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">def </span>integr():</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">    Integrator function</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">global</span> q,qdot,key</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;cmdtopic&quot;</span>, JointState, qdot_callback) <span class="comment"># subscribe to weighter</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;handleSimulation&quot;</span>, Int8, simulate_callback) <span class="comment"># subscribe to simulation messages</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment"># spin() simply keeps python from exiting until this node is stopped</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    rospy.spin()  </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        rospy.init_node(<span class="stringliteral">&#39;integrator_node&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        pub = rospy.Publisher(<span class="stringliteral">&#39;logtopic&#39;</span>, JointState, queue_size=10)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        integr()</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">except</span> rospy.ROSInterruptException:</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">pass</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -20,7 +20,7 @@
  *
  * This is the subscriber node that writes on alog file the message received on logtopic topic by the simulator.
  */
-
+/*! \file */
 #include "stdlib.h"
 #include "unistd.h"
 #include "stdio.h"
@@ -37,7 +37,7 @@ using namespace std;
 //! The log file identifier is here declared
 FILE *myfile;
 
-//! The Callback function allows to write the joint configuration values in the log file
+//! The Callback function allows to write both a timestamp and the joint configuration values in the log file
 
 void logtopicCallback(const sensor_msgs::JointState::ConstPtr &msg)
 {

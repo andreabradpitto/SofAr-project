@@ -68,25 +68,30 @@ $(function() {
 <div class="title">SofAr-project </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p align="center"><a class="anchor" id="md_README"></a> </p>
-<p>&lt;img height="500" width="500" src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title""&gt; </p>
-<p>The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand. <br  />
+<div class="textblock"><p><a class="anchor" id="md_README"></a> The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand. <br  />
  The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab. <br  />
  Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation. <br  />
 </p>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Prerequisites</h2>
 <p>In order to run this software, the following prerequisites are needed: <br  />
- <a href="http://wiki.ros.org/kinetic/Installation/Ubuntu">ROS kinetic</a>, <br  />
- <a href="https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm">CoppeliaSim Edu V4</a> (which has to be linked with ROS), <br  />
- <a href="https://releases.ubuntu.com/16.04/">Ubuntu 16.04</a>. <br  />
- Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced. For the smarthpone part, the following lines must be executed <br  />
- Then, it is required to install the app on an Android mobile phone. Unzip <em>org.ros.android.android_tutorial_camera_imu_1.0.apk</em> in order to install the <em>CameraImu</em> app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes <br  />
+</p><ul>
+<li><a href="http://wiki.ros.org/kinetic/Installation/Ubuntu">ROS kinetic</a>, <br  />
+</li>
+<li><a href="https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm">CoppeliaSim Edu V4</a> (which has to be linked with ROS), <br  />
+</li>
+<li><a href="https://releases.ubuntu.com/16.04/">Ubuntu 16.04</a>(Other Ubuntu versions may work, but this is the offcialy supported one by ROS kinetic, as well as the one on which all this code was produced.) <br  />
+</li>
+</ul>
+<p>Then, it is required to install the app on an Android mobile phone. Unzip <em>org.ros.android.android_tutorial_camera_imu_1.0.apk</em> in order to install the <em>CameraImu</em> app in your smartphone. Warning: the app works best with Android 8.1 or older; earlier OS versions may cause frequent freezes/crashes <br  />
  Moreover, launching the software on a virtual machine cause great instability, so, it is strongly adviced against. <br  />
  In the testing phase, the following hardware characteristic were found to work discretely, which is why they are going to be taken as advised configuration. <br  />
  Characteristics: <br  />
 </p><ul>
-<li>i5 processors, 2 cores</li>
+<li>i5 processors, 3.1GHz, 2 cores</li>
+<li>8GB DDR4 SDRAM</li>
+<li>256 GB SSD memory</li>
+<li>103.5GB dedicated to Ubuntu ( in testing 39.2GB of memory were used)</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Installing</h2>
@@ -100,23 +105,43 @@ Installing</h2>
 <div class="line">sudo apt-get install python-scipy</div>
 <div class="line">sudo apt-get install ros-kinetic-cmake-modules</div>
 </div><!-- fragment --></li>
-<li>Change the current directory to "SofAr-project" and activate the install.sh script <div class="fragment"><div class="line">cd &quot;Your catkin workspace&quot;/src/SofAr-project</div>
+<li>Change the current directory to "SofAr-project" and activate the <a class="el" href="install_8sh_source.html">install.sh</a> script <div class="fragment"><div class="line">cd <span class="stringliteral">&quot;Your catkin workspace&quot;</span>/src/SofAr-project</div>
 <div class="line">chmod +x install.sh</div>
 </div><!-- fragment --></li>
 <li>Install the package via dedicated script <div class="fragment"><div class="line">./install.sh</div>
 </div><!-- fragment --></li>
 </ul>
 <h2><a class="anchor" id="autotoc_md4"></a>
-Running the tests: running the simulation with a DUMMY publisher in order to check whether it’s working.</h2>
-<p>In order to see a test of the working system (without the application sending signals), procedes with the following commands </p><div class="fragment"><div class="line">cd &quot;Your catkin workspace&quot;/src/SofAr-project</div>
+Running the tests: running the simulation without the smartphone to inspect that the simulation is working</h2>
+<p>In order to see a test of the working system (without the smartphone application sending signals), proceed with the following commands </p><div class="fragment"><div class="line">cd <span class="stringliteral">&quot;Your catkin workspace&quot;</span>/src/SofAr-project</div>
 <div class="line">./launcher_test.sh</div>
-</div><!-- fragment --><p><img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif" alt="Demo" class="inline"/></p>
+</div><!-- fragment --><p>When all components are open, find the user interface (the terminal where you have launched the system and the only one asking for the user input). <br  />
+ There you can type "help" and enter to obtain the command list, or you can type "start" and enter to start the animation. <br  />
+ At any moment, you can type "pause" or "stop" to interrupt the simulation and respectively stay in the position or return to the starting one. <br  />
+ When stopped (not paused) you can type "set_default" to set the starting configuration. <br  />
+ Once you are done, you can type "exit" and press enter to close all this project components. <br  />
+ The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation. <br  />
+</p>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Deployment</h2>
-<p>To deploy to a live system the procedures are identical to the one observed in the test, with the only exception of the roslaunch to activate which is baxter_sim.launch and the fact that the system needs to publish to the simulation component.</p>
-<div class="fragment"><div class="line">cd &quot;Your catkin workspace&quot;/src/SofAr-project</div>
+<p>Here we are going to present how to use the software to attempt a tracking of the user arm using the data from the smartphone sensor. <br  />
+ Note: when you are asked to take the phone in your hand during the procedures, you are to take it in your right hand, arm stretched, horizontal and at more or less 45 degrees with respect to the plane of the chest, with the smartphone screen vertical, facing you, and the camera in the direction of the thumb. When you give the command "calibration", you can take it as you are most comfortable. <br  />
+ To use the whole system at once, the following action have to take place: <br  />
+</p><ul>
+<li>Start the smartphone application</li>
+<li>Verify the IP address to be inserted in the app <div class="fragment"><div class="line">ifconfig wlan0 | grep <span class="stringliteral">&quot;inet &quot;</span> | awk -F<span class="stringliteral">&#39;[: ]+&#39;</span> <span class="stringliteral">&#39;{ print $4 }&#39;</span></div>
+</div><!-- fragment --></li>
+<li>Start the software on the computer with the following commands <div class="fragment"><div class="line">cd <span class="stringliteral">&quot;Your catkin workspace&quot;</span>/src/SofAr-project</div>
 <div class="line">./launcher.sh</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --></li>
+<li>Find the terminal in which you started the software and follow the instructions written on it always checking the app is working properly (you can look at the terminal printing the linear acceleration, orientation and angular velocity)</li>
+<li>Once all the instructions are completed and the Coppelia environment opened, with the smartphone hand still type "calibration" and press enter <br  />
+</li>
+<li>When you are done you can type "start" and procede with the movement</li>
+</ul>
+<p>After the command "calibration", you can apply every other string presented in the section "Running test". <br  />
+ When you type start, be sure you are more or less in the same configuration as baxter.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Versioning</h2>
 <p>We use <a href="http://semver.org/">SemVer</a> for versioning. For the versions available, see the <a href="https://github.com/your/project/tags">tags on this repository</a>.</p>
 <h2><a class="anchor" id="autotoc_md7"></a>

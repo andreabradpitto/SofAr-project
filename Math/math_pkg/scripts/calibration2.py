@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+''' \file pyexample
+'''
 import rospy
 import numpy as np
 import tf

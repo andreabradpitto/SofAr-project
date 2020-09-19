@@ -1,9 +1,9 @@
 /**
- * @file Interface
- * @author  Elena Merlo - Matteo Palmas
- * @version 1.0
+ * \file Interface
+ * \author  Elena Merlo - Matteo Palmas
+ * \version 1.0
  *
- * @section LICENSE
+ * \section LICENSE
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -16,10 +16,11 @@
  * General Public License for more details at
  * https://www.gnu.org/copyleft/gpl.html
  *
- * @section DESCRIPTION
+ * \section DESCRIPTION
  *
  * This is the script encoding the user interface to make easier the simulation handling.
  */
+ /*! \file */
 
 #include "stdlib.h"
 #include "ros/ros.h"

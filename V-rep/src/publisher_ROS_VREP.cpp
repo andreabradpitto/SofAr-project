@@ -21,7 +21,7 @@
  * This is the dummy publisher for simulation testing.
  */
 
-
+/*! \file */
 #include "stdlib.h"
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h" //type of msgs to be included
