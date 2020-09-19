@@ -24,10 +24,16 @@ Characteristics:
 - 256 GB SSD memory
 - 103.5GB dedicated to Ubuntu ( in testing 39.2GB of memory were used)
 
+
 ### Installing
 
 In order to have a working version of this package running on your computer, you need to:  
 - Place the package in the src folder of your src foulder of the catkin workspace, and having it named "SofAr-project"
+- In case the folder "SofAr-project/imu_calib" is empty, you can solve it with the same code
+```sh
+cd SofAr-project/imu_calib
+git clone --bare https://github.com/dpkoch/imu_calib/tree/59f5d1720514d40703b92c0b242c40750fbe94c6
+```
 - Have the Coppelia environment foulder in any place under the HOME directory (it is advised to put it on the Desktop or directly in HOME)
 - If you don't have the following libraries installed on your system procede with this code
 ```sh
