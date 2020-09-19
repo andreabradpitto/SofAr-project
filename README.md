@@ -31,7 +31,7 @@ In order to have a working version of this package running on your computer, you
 - Place the package in the src folder of your src foulder of the catkin workspace, and having it named "SofAr-project"
 - In case the folder "SofAr-project/Math/imu_calib" is empty, you can solve it with the same code
 ```sh
-cd SofAr-project/Math
+cd SofAr-project/Smartphone
 rm imu_calib
 git clone https://github.com/dpkoch/imu_calib
 ```
