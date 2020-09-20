@@ -317,7 +317,7 @@ OPTIMIZE_OUTPUT_SLICE  = NO
 # Note that for custom extensions you also need to set FILE_PATTERNS otherwise
 # the files are not read by doxygen.
 
-EXTENSION_MAPPING      = sh=C
+EXTENSION_MAPPING      = 
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -912,12 +912,16 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
+<<<<<<< Updated upstream
 EXCLUDE                = ./Smartphone/smartphone/readme.md,
 						 ./Smartphone/smartphone/scripts/readme.md,
 						 ./V-rep/readme.md,
 						 ./Smartphone/README.md,
 						 ./Smartphone/imu_calib/README.md,
 						 ./Math/README.md
+=======
+EXCLUDE =
+>>>>>>> Stashed changes
 
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
