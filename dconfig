@@ -912,11 +912,11 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = ./Smartphone/smartphone/readme.md\
-						 ./Smartphone/smartphone/scripts/readme.md\
-						 ./V-rep/readme.md\
-						 ./Smartphone/README.md\
-						 ./Smartphone/imu_calib/README.md\
+EXCLUDE                = ./Smartphone/smartphone/readme.md \
+						 ./Smartphone/smartphone/scripts/readme.md \
+						 ./V-rep/readme.md \
+						 ./Smartphone/README.md \
+						 ./Smartphone/imu_calib/README.md \
 						 ./Math/README.md
 
 						 

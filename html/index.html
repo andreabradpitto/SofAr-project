@@ -74,7 +74,7 @@ $(function() {
  The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab. <br  />
  Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation. <br  />
 </p>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md1"></a>
 Prerequisites</h2>
 <p>In order to run this software, the following prerequisites are needed: <br  />
 </p><ul>
@@ -95,7 +95,7 @@ Prerequisites</h2>
 <li>256 GB SSD memory</li>
 <li>103.5GB dedicated to Ubuntu ( in testing 39.2GB of memory were used)</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md3"></a>
+<h2><a class="anchor" id="autotoc_md2"></a>
 Installing</h2>
 <p>In order to have a working version of this package running on your computer, you need to: <br  />
 </p><ul>
@@ -117,7 +117,7 @@ Installing</h2>
 <li>Install the package via dedicated script <div class="fragment"><div class="line">./install.sh</div>
 </div><!-- fragment --></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md3"></a>
 Running the tests: running the simulation without the smartphone to inspect that the simulation is working</h2>
 <p>In order to see a test of the working system (without the smartphone application sending signals), proceed with the following commands </p><div class="fragment"><div class="line">cd <span class="stringliteral">&quot;Your catkin workspace&quot;</span>/src/SofAr-project</div>
 <div class="line">./launcher_test.sh</div>
@@ -127,7 +127,7 @@ Running the tests: running the simulation without the smartphone to inspect that
  When stopped (not paused) you can type "set_default" to set the starting configuration. <br  />
  Once you are done, you can type "exit" and press enter to close all this project components. <br  />
  The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation. <br  />
- </p><div align="center"> <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif" alt="" height="500" width="500" class="inline"/> </div><h2><a class="anchor" id="autotoc_md5"></a>
+ </p><div align="center"> <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif" alt="" height="500" width="500" class="inline"/> </div><h2><a class="anchor" id="autotoc_md4"></a>
 Deployment</h2>
 <p>Here we are going to present how to use the software to attempt a tracking of the user arm using the data from the smartphone sensor. <br  />
  Note: when you are asked to take the phone in your hand during the procedures, you are to take it in your right hand, arm stretched, horizontal and at more or less 45 degrees with respect to the plane of the chest, with the smartphone screen vertical, facing you, and the camera in the direction of the thumb. When you give the command "calibration", you can take it as you are most comfortable. <br  />
@@ -146,13 +146,13 @@ Deployment</h2>
 </ul>
 <p>After the command "calibration", you can apply every other string presented in the section "Running test". <br  />
  When you type start, be sure you are more or less in the same configuration as baxter.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Versioning</h2>
 <p>We use <a href="http://semver.org/">SemVer</a> for versioning. For the versions available, see the <a href="https://github.com/your/project/tags">tags on this repository</a>.</p>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Authors</h2>
 <p><a href="https://github.com/marcodemutti">Marco Demutti</a>, <a href="https://github.com/mattedicenzi">Matteo Dicenzi</a>, <a href="https://github.com/VinDp">Vincenzo Di Pentima</a>, <a href="https://github.com/RobElena">Elena Merlo</a>, <a href="https://github.com/Matt98x">Matteo Palmas</a>, <a href="https://github.com/andreabradpitto">Andrea Pitto</a>, <a href="https://github.com/emanuelericcardo">Emanuele Rosi</a>, <a href="https://github.com/ChiaraSapo">Chiara Saporetti</a>, <a href="https://github.com/Giulia24091997">Giulia Scorza Azzarà</a>, <a href="https://github.com/LucaTars">Luca Tarasi</a>, <a href="https://github.com/Cavalletta98">Simone Voto</a>, <a href="https://github.com/Geraldone">Gerald Xhaferaj</a></p>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 License</h2>
 <p>This project is licensed under the MIT License - see the LICENSE.md file for details. </p>
 </div></div><!-- PageDoc -->

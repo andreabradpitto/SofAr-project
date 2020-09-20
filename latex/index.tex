@@ -7,7 +7,7 @@ $<$img height=\char`\"{}500\char`\"{} width=\char`\"{}500\char`\"{} src=\char`\"
 The project\textquotesingle{}s goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows\+: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone\textquotesingle{}s I\+MU is sent to the software and used to allow Baxter\textquotesingle{}s end-\/effector to follow the trajectory and orientation of the human hand. ~\newline
  The project\textquotesingle{}s original goal was actually to not only track the end-\/effector\textquotesingle{}s configuration, but also to replicate the motion of the human arm into Baxter\textquotesingle{}s, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the E\+M\+A\+RO Lab. ~\newline
  Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation. ~\newline
-\hypertarget{index_autotoc_md2}{}\doxysubsection{Prerequisites}\label{index_autotoc_md2}
+\hypertarget{index_autotoc_md1}{}\doxysubsection{Prerequisites}\label{index_autotoc_md1}
 In order to run this software, the following prerequisites are needed\+: ~\newline
 
 \begin{DoxyItemize}
@@ -29,7 +29,7 @@ Then, it is required to install the app on an Android mobile phone. Unzip {\itsh
 \item 8GB D\+D\+R4 S\+D\+R\+AM
 \item 256 GB S\+SD memory
 \item 103.\+5\+GB dedicated to Ubuntu ( in testing 39.\+2\+GB of memory were used)
-\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysubsection{Installing}\label{index_autotoc_md3}
+\end{DoxyItemize}\hypertarget{index_autotoc_md2}{}\doxysubsection{Installing}\label{index_autotoc_md2}
 In order to have a working version of this package running on your computer, you need to\+: ~\newline
 
 \begin{DoxyItemize}
@@ -62,7 +62,7 @@ In order to have a working version of this package running on your computer, you
 \DoxyCodeLine{./install.sh}
 \end{DoxyCode}
 
-\end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysubsection{Running the tests\+: running the simulation without the smartphone to inspect that the simulation is working}\label{index_autotoc_md4}
+\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysubsection{Running the tests\+: running the simulation without the smartphone to inspect that the simulation is working}\label{index_autotoc_md3}
 In order to see a test of the working system (without the smartphone application sending signals), proceed with the following commands 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{cd \textcolor{stringliteral}{"{}Your catkin workspace"{}}/src/SofAr-\/project}
@@ -76,7 +76,7 @@ When all components are open, find the user interface (the terminal where you ha
  When stopped (not paused) you can type \char`\"{}set\+\_\+default\char`\"{} to set the starting configuration. ~\newline
  Once you are done, you can type \char`\"{}exit\char`\"{} and press enter to close all this project components. ~\newline
  The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation. ~\newline
-   \hypertarget{index_autotoc_md5}{}\doxysubsection{Deployment}\label{index_autotoc_md5}
+   \hypertarget{index_autotoc_md4}{}\doxysubsection{Deployment}\label{index_autotoc_md4}
 Here we are going to present how to use the software to attempt a tracking of the user arm using the data from the smartphone sensor. ~\newline
  Note\+: when you are asked to take the phone in your hand during the procedures, you are to take it in your right hand, arm stretched, horizontal and at more or less 45 degrees with respect to the plane of the chest, with the smartphone screen vertical, facing you, and the camera in the direction of the thumb. When you give the command \char`\"{}calibration\char`\"{}, you can take it as you are most comfortable. ~\newline
  To use the whole system at once, the following action have to take place\+: ~\newline
@@ -101,7 +101,7 @@ Here we are going to present how to use the software to attempt a tracking of th
 \end{DoxyItemize}
 
 After the command \char`\"{}calibration\char`\"{}, you can apply every other string presented in the section \char`\"{}\+Running test\char`\"{}. ~\newline
- When you type start, be sure you are more or less in the same configuration as baxter.\hypertarget{index_autotoc_md6}{}\doxysubsection{Versioning}\label{index_autotoc_md6}
-We use \href{http://semver.org/}{\texttt{ Sem\+Ver}} for versioning. For the versions available, see the \href{https://github.com/your/project/tags}{\texttt{ tags on this repository}}.\hypertarget{index_autotoc_md7}{}\doxysubsection{Authors}\label{index_autotoc_md7}
-\href{https://github.com/marcodemutti}{\texttt{ Marco Demutti}}, \href{https://github.com/mattedicenzi}{\texttt{ Matteo Dicenzi}}, \href{https://github.com/VinDp}{\texttt{ Vincenzo Di Pentima}}, \href{https://github.com/RobElena}{\texttt{ Elena Merlo}}, \href{https://github.com/Matt98x}{\texttt{ Matteo Palmas}}, \href{https://github.com/andreabradpitto}{\texttt{ Andrea Pitto}}, \href{https://github.com/emanuelericcardo}{\texttt{ Emanuele Rosi}}, \href{https://github.com/ChiaraSapo}{\texttt{ Chiara Saporetti}}, \href{https://github.com/Giulia24091997}{\texttt{ Giulia Scorza Azzarà}}, \href{https://github.com/LucaTars}{\texttt{ Luca Tarasi}}, \href{https://github.com/Cavalletta98}{\texttt{ Simone Voto}}, \href{https://github.com/Geraldone}{\texttt{ Gerald Xhaferaj}}\hypertarget{index_autotoc_md8}{}\doxysubsection{License}\label{index_autotoc_md8}
+ When you type start, be sure you are more or less in the same configuration as baxter.\hypertarget{index_autotoc_md5}{}\doxysubsection{Versioning}\label{index_autotoc_md5}
+We use \href{http://semver.org/}{\texttt{ Sem\+Ver}} for versioning. For the versions available, see the \href{https://github.com/your/project/tags}{\texttt{ tags on this repository}}.\hypertarget{index_autotoc_md6}{}\doxysubsection{Authors}\label{index_autotoc_md6}
+\href{https://github.com/marcodemutti}{\texttt{ Marco Demutti}}, \href{https://github.com/mattedicenzi}{\texttt{ Matteo Dicenzi}}, \href{https://github.com/VinDp}{\texttt{ Vincenzo Di Pentima}}, \href{https://github.com/RobElena}{\texttt{ Elena Merlo}}, \href{https://github.com/Matt98x}{\texttt{ Matteo Palmas}}, \href{https://github.com/andreabradpitto}{\texttt{ Andrea Pitto}}, \href{https://github.com/emanuelericcardo}{\texttt{ Emanuele Rosi}}, \href{https://github.com/ChiaraSapo}{\texttt{ Chiara Saporetti}}, \href{https://github.com/Giulia24091997}{\texttt{ Giulia Scorza Azzarà}}, \href{https://github.com/LucaTars}{\texttt{ Luca Tarasi}}, \href{https://github.com/Cavalletta98}{\texttt{ Simone Voto}}, \href{https://github.com/Geraldone}{\texttt{ Gerald Xhaferaj}}\hypertarget{index_autotoc_md7}{}\doxysubsection{License}\label{index_autotoc_md7}
 This project is licensed under the M\+IT License -\/ see the L\+I\+C\+E\+N\+SE.md file for details. 

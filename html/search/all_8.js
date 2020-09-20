@@ -23,6 +23,5 @@ var searchData=
   ['integr_133',['integr',['../namespaceintegrator.html#af09c68e82d7f88b49d316975c60ab01a',1,'integrator']]],
   ['integrator_134',['integrator',['../namespaceintegrator.html',1,'']]],
   ['integrator_2epy_135',['integrator.py',['../integrator_8py.html',1,'']]],
-  ['interface_2ecpp_136',['Interface.cpp',['../Interface_8cpp.html',1,'']]],
-  ['imu_5fcalib_137',['imu_calib',['../md_Smartphone_imu_calib_README.html',1,'']]]
+  ['interface_2ecpp_136',['Interface.cpp',['../Interface_8cpp.html',1,'']]]
 ];
