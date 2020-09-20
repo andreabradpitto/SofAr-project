@@ -1,3 +1,2 @@
 ---
 sensor_msgs/JointState q_dot
-std_msgs/Float64MultiArray vel
