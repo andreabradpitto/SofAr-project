@@ -292,7 +292,7 @@ Definition at line 38 of file safety.\+cpp.
 \begin{DoxyCode}{0}
 \DoxyCodeLine{38                                                        \{}
 \DoxyCodeLine{39     \mbox{\hyperlink{safety_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}{seqtry}} = (int)msg.effort[0]; \textcolor{comment}{// q sequence number}}
-\DoxyCodeLine{40     if (\mbox{\hyperlink{safety_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}{seqtry}} < \mbox{\hyperlink{safety_8cpp_a4ceb5170a23ad09b5f7571491ccf9da6}{seqqdot}}) \textcolor{keywordflow}{return}; \textcolor{comment}{// the received q is old, nothing to do with it}}
+\DoxyCodeLine{40     \mbox{\hyperlink{launcher_8sh_aecf1c3c6d4c86f147f4617c1f42525f0}{if}} (\mbox{\hyperlink{safety_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}{seqtry}} < \mbox{\hyperlink{safety_8cpp_a4ceb5170a23ad09b5f7571491ccf9da6}{seqqdot}}) \textcolor{keywordflow}{return}; \textcolor{comment}{// the received q is old, nothing to do with it}}
 \DoxyCodeLine{41 }
 \DoxyCodeLine{42     \textcolor{comment}{// At this point, the received q is up to date: store it in global variable q.}}
 \DoxyCodeLine{43     vector<double> rcvd\_q = msg.position; \textcolor{comment}{// should look at the position field, but Coppelia has a problem with it...}}

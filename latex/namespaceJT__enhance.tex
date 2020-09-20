@@ -1,0 +1,123 @@
+\hypertarget{namespaceJT__enhance}{}\doxysection{J\+T\+\_\+enhance Namespace Reference}
+\label{namespaceJT__enhance}\index{JT\_enhance@{JT\_enhance}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceJT__enhance_ac352f9548d298957820285fe07030c8d}{J\+T\+\_\+enhance}} (Jp, Ji, err\+\_\+tran, alpha, beta, q\+\_\+dot\+\_\+pref)
+\begin{DoxyCompactList}\small\item\em Function that computes a Correction Term to be added to the Jacobian Transpose\textquotesingle{}s formula, in order to escape from singularity (from \char`\"{}\+Advances in Robot Kinematics\+: 
+\+Analysis and Control\char`\"{}, J.\+Lenarcic and M. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@author: dipen\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceJT__enhance_ac352f9548d298957820285fe07030c8d}\label{namespaceJT__enhance_ac352f9548d298957820285fe07030c8d}} 
+\index{JT\_enhance@{JT\_enhance}!JT\_enhance@{JT\_enhance}}
+\index{JT\_enhance@{JT\_enhance}!JT\_enhance@{JT\_enhance}}
+\doxysubsubsection{\texorpdfstring{JT\_enhance()}{JT\_enhance()}}
+{\footnotesize\ttfamily def J\+T\+\_\+enhance.\+J\+T\+\_\+enhance (\begin{DoxyParamCaption}\item[{}]{Jp,  }\item[{}]{Ji,  }\item[{}]{err\+\_\+tran,  }\item[{}]{alpha,  }\item[{}]{beta,  }\item[{}]{q\+\_\+dot\+\_\+pref }\end{DoxyParamCaption})}
+
+
+
+Function that computes a Correction Term to be added to the Jacobian Transpose\textquotesingle{}s formula, in order to escape from singularity (from \char`\"{}\+Advances in Robot Kinematics\+: 
+\+Analysis and Control\char`\"{}, J.\+Lenarcic and M. 
+
+L. Husty). 
+\begin{DoxyParams}{Parameters}
+{\em Jp} & matrix with inter-\/joints axes (by rows) used to detect singularity. \\
+\hline
+{\em Ji} & matrix with rotation axes (by rows) used to detect singularity. \\
+\hline
+{\em err\+\_\+tran} & position error vector. \\
+\hline
+{\em alpha} & tuning parameter (scalar). \\
+\hline
+{\em beta} & tuning parameter (scalar). \\
+\hline
+{\em q\+\_\+dot\+\_\+pref} & joint velocities to escape from singularity (elbow configuration), expected \mbox{[}7x1\mbox{]}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\+: a numpy array containing the Joint Velocities for the correction term \mbox{[}7x1\mbox{]}. 
+\end{DoxyReturn}
+
+
+Definition at line 8 of file J\+T\+\_\+enhance.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{8 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceJT__enhance_ac352f9548d298957820285fe07030c8d}{JT\_enhance}}(Jp, Ji, err\_tran, alpha, beta, q\_dot\_pref):}
+\DoxyCodeLine{9     \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{10 \textcolor{stringliteral}{    Function that computes a Correction Term to be added to the Jacobian Transpose's}}
+\DoxyCodeLine{11 \textcolor{stringliteral}{    formula, in order to escape from singularity (from "{}Advances in Robot Kinematics: }}
+\DoxyCodeLine{12 \textcolor{stringliteral}{    Analysis and Control"{}, J.Lenarcic and M. L. Husty).}}
+\DoxyCodeLine{13 \textcolor{stringliteral}{    @param Jp: matrix with inter-\/joints axes (by rows) used to detect singularity.}}
+\DoxyCodeLine{14 \textcolor{stringliteral}{    @param Ji: matrix with rotation axes (by rows) used to detect singularity.}}
+\DoxyCodeLine{15 \textcolor{stringliteral}{    @param err\_tran: position error vector.}}
+\DoxyCodeLine{16 \textcolor{stringliteral}{    @param alpha: tuning parameter (scalar).}}
+\DoxyCodeLine{17 \textcolor{stringliteral}{    @param beta: tuning parameter (scalar).}}
+\DoxyCodeLine{18 \textcolor{stringliteral}{    @param q\_dot\_pref: joint velocities to escape from singularity (elbow configuration), expected [7x1].}}
+\DoxyCodeLine{19 \textcolor{stringliteral}{    @return: a numpy array containing the Joint Velocities for the correction term [7x1].}}
+\DoxyCodeLine{20 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{21     }
+\DoxyCodeLine{22     \textcolor{comment}{\# Checking on dimensions of Jp and Ji}}
+\DoxyCodeLine{23     \textcolor{keywordflow}{if} (len(Jp)/2!=len(Ji)):}
+\DoxyCodeLine{24         print(\textcolor{stringliteral}{"{}Wrong Dimensions for Jp and Ji: it must be Jp\_rows = 2*Ji\_rows\(\backslash\)n"{}})}
+\DoxyCodeLine{25         \textcolor{keywordflow}{return}}
+\DoxyCodeLine{26     }
+\DoxyCodeLine{27     \textcolor{comment}{\# Initialization of the Normalized Vectors Matrix (Jp)}}
+\DoxyCodeLine{28     Jp\_norm = np.zeros(Jp.shape)}
+\DoxyCodeLine{29     }
+\DoxyCodeLine{30     \textcolor{comment}{\# Initialization of the Normalized Vectors Matrix (Ji)}}
+\DoxyCodeLine{31     Ji\_norm = np.zeros(Ji.shape)}
+\DoxyCodeLine{32     }
+\DoxyCodeLine{33     \textcolor{comment}{\# Initialization of the Mu Vector (one elementfor each pair)}}
+\DoxyCodeLine{34     Mu = np.zeros((int(len(Jp)/2),1))}
+\DoxyCodeLine{35     }
+\DoxyCodeLine{36     \textcolor{comment}{\# Initialization of the Gamma Vector}}
+\DoxyCodeLine{37     Gamma = np.zeros((len(Ji),1))}
+\DoxyCodeLine{38     }
+\DoxyCodeLine{39     \textcolor{comment}{\# Initialization of f Vector}}
+\DoxyCodeLine{40     f = np.zeros((int(len(Jp)/2),1))}
+\DoxyCodeLine{41     }
+\DoxyCodeLine{42     \textcolor{comment}{\# Initialization of the g Vector}}
+\DoxyCodeLine{43     g = np.zeros(q\_dot\_pref.shape)}
+\DoxyCodeLine{44     }
+\DoxyCodeLine{45     \textcolor{comment}{\# Indices Initialization}}
+\DoxyCodeLine{46     k = 0}
+\DoxyCodeLine{47     j = 0}
+\DoxyCodeLine{48     }
+\DoxyCodeLine{49     \textcolor{comment}{\# Normalization of the Jp Vectors}}
+\DoxyCodeLine{50     \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(len(Jp)):}
+\DoxyCodeLine{51         Jp\_norm[i,:] = Jp[i,:]/np.linalg.norm(Jp[i,:])}
+\DoxyCodeLine{52         }
+\DoxyCodeLine{53     \textcolor{comment}{\# Normalization of the Ji Vectors}}
+\DoxyCodeLine{54     \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(len(Ji)):}
+\DoxyCodeLine{55         Ji\_norm[i,:] = Ji[i,:]/np.linalg.norm(Ji[i,:])}
+\DoxyCodeLine{56         }
+\DoxyCodeLine{57     \textcolor{comment}{\# Mu Computation}}
+\DoxyCodeLine{58     \textcolor{keywordflow}{while} (k<len(Jp)):}
+\DoxyCodeLine{59         Mu[j,:] = -\/np.dot(Jp\_norm[k,:],Jp\_norm[k+1,:])*np.dot(Jp\_norm[k,:],err\_tran)}
+\DoxyCodeLine{60         k = k+2}
+\DoxyCodeLine{61         j= j+1}
+\DoxyCodeLine{62         }
+\DoxyCodeLine{63     \textcolor{comment}{\# f computation (to consider only worse singularity situations)}}
+\DoxyCodeLine{64     f = alpha*np.power(Mu,4)}
+\DoxyCodeLine{65     }
+\DoxyCodeLine{66     \textcolor{comment}{\# Gamma Computation}}
+\DoxyCodeLine{67     \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(len(Ji\_norm)):}
+\DoxyCodeLine{68         Gamma[i,:] = np.linalg.norm(np.cross(Ji\_norm[i,:],err\_tran.T))}
+\DoxyCodeLine{69         }
+\DoxyCodeLine{70     \textcolor{comment}{\# Temporary Vector to be element-\/wise with the other terms: only 3 joints }}
+\DoxyCodeLine{71     \textcolor{comment}{\# are considered, since only responsible ones for escaping the singularity}}
+\DoxyCodeLine{72     temp = np.array([[1, Gamma[0]*f[0], 1, Gamma[1]*f[1], 1, Gamma[2]*f[2], 1]],dtype = float).T}
+\DoxyCodeLine{73     }
+\DoxyCodeLine{74     \textcolor{comment}{\# g Enhancing Term Computation (element-\/wise product)}}
+\DoxyCodeLine{75     g = np.multiply(temp, q\_dot\_pref*beta*np.linalg.norm(err\_tran))}
+\DoxyCodeLine{76         }
+\DoxyCodeLine{77     \textcolor{keywordflow}{return} g}
+\DoxyCodeLine{78 }
+
+\end{DoxyCode}

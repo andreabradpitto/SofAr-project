@@ -1,0 +1,152 @@
+\hypertarget{namespaceutilities}{}\doxysection{utilities Namespace Reference}
+\label{namespaceutilities}\index{utilities@{utilities}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceutilities_a4d7d9250bceb72af0c0fd04fcba4d65c}{init\+\_\+float64\+\_\+multiarray}} (rows, columns)
+\begin{DoxyCompactList}\small\item\em Function that initializes a Float64\+Multi\+Array of size rows x columns. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceutilities_a5b3c2758714a834945ec4a1e415eb41b}{angles\+Compensate}} (angles)
+\begin{DoxyCompactList}\small\item\em Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human operator shake. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceutilities_ad0d6881ae2e8a12deb7d14105f17e4fb}{euler\+Angles\+To\+Rotation\+Matrix}} (angles)
+\begin{DoxyCompactList}\small\item\em Function that transforms euler angle coordinates into the rotation matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceutilities_a5b3c2758714a834945ec4a1e415eb41b}\label{namespaceutilities_a5b3c2758714a834945ec4a1e415eb41b}} 
+\index{utilities@{utilities}!anglesCompensate@{anglesCompensate}}
+\index{anglesCompensate@{anglesCompensate}!utilities@{utilities}}
+\doxysubsubsection{\texorpdfstring{anglesCompensate()}{anglesCompensate()}}
+{\footnotesize\ttfamily def utilities.\+angles\+Compensate (\begin{DoxyParamCaption}\item[{}]{angles }\end{DoxyParamCaption})}
+
+
+
+Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human operator shake. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angles} & orientation with respect to X, Y, Z axes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+compensated\+Angles\+: returns a filtered version (if necessary) of the input angles 
+\end{DoxyReturn}
+
+
+Definition at line 20 of file utilities.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{20 \textcolor{keyword}{def }\mbox{\hyperlink{namespacerotation__matrix__server_a2f936f96eeb146c595089ad895e8fd18}{anglesCompensate}}(angles):}
+\DoxyCodeLine{21     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{22 \textcolor{stringliteral}{    Function used to filter unwanted minimal incoming data fluctuations,}}
+\DoxyCodeLine{23 \textcolor{stringliteral}{    due to noise as well as human operator shake}}
+\DoxyCodeLine{24 \textcolor{stringliteral}{    @param angles: orientation with respect to X, Y, Z axes}}
+\DoxyCodeLine{25 \textcolor{stringliteral}{    @returns compensatedAngles: returns a filtered version (if necessary) of the input angles}}
+\DoxyCodeLine{26 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{27     dx = 0.0174  \textcolor{comment}{\# min angle perceived [rad], about 1 [deg]}}
+\DoxyCodeLine{28     \textcolor{comment}{\# reduce sensibility of sensor: minimum precision is dx}}
+\DoxyCodeLine{29     compensatedAngles = [0, 0, 0]}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31     \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, 3):  \textcolor{comment}{\# i = 0, 1, 2}}
+\DoxyCodeLine{32         \textcolor{keywordflow}{if} abs(angles[i] / dx) >= 1:}
+\DoxyCodeLine{33             compensatedAngles[i] = angles[i]}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35     \textcolor{keywordflow}{return} compensatedAngles}
+\DoxyCodeLine{36 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutilities_ad0d6881ae2e8a12deb7d14105f17e4fb}\label{namespaceutilities_ad0d6881ae2e8a12deb7d14105f17e4fb}} 
+\index{utilities@{utilities}!eulerAnglesToRotationMatrix@{eulerAnglesToRotationMatrix}}
+\index{eulerAnglesToRotationMatrix@{eulerAnglesToRotationMatrix}!utilities@{utilities}}
+\doxysubsubsection{\texorpdfstring{eulerAnglesToRotationMatrix()}{eulerAnglesToRotationMatrix()}}
+{\footnotesize\ttfamily def utilities.\+euler\+Angles\+To\+Rotation\+Matrix (\begin{DoxyParamCaption}\item[{}]{angles }\end{DoxyParamCaption})}
+
+
+
+Function that transforms euler angle coordinates into the rotation matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angles} & euler angles, i.\+e. orientation with respect to X, Y, Z axes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+R\+: rotation matrix 
+\end{DoxyReturn}
+
+
+Definition at line 37 of file utilities.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{37 \textcolor{keyword}{def }\mbox{\hyperlink{namespacerotation__matrix__server_a7aaa0fb233a7f3aaaac351a1a8cd3ce3}{eulerAnglesToRotationMatrix}}(angles):  \textcolor{comment}{\# angles [roll, pitch, yaw]}}
+\DoxyCodeLine{38     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{39 \textcolor{stringliteral}{    Function that transforms euler angle coordinates into the rotation matrix}}
+\DoxyCodeLine{40 \textcolor{stringliteral}{    @param angles: euler angles, i.e. orientation with respect to X, Y, Z axes}}
+\DoxyCodeLine{41 \textcolor{stringliteral}{    @returns R: rotation matrix}}
+\DoxyCodeLine{42 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44     R\_x = np.array([[1,         0,                  0],}
+\DoxyCodeLine{45                     [0,         np.cos(angles[0]),   np.sin(angles[0])],}
+\DoxyCodeLine{46                     [0,         -\/np.sin(angles[0]),  np.cos(angles[0])]}
+\DoxyCodeLine{47                     ])}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     R\_y = np.array([[np.cos(angles[1]),    0,      -\/np.sin(angles[1])],}
+\DoxyCodeLine{50                     [0,                      1,      0],}
+\DoxyCodeLine{51                     [np.sin(angles[1]),    0,      np.cos(angles[1])]}
+\DoxyCodeLine{52                     ])}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     R\_z = np.array([[np.cos(angles[2]),      np.sin(angles[2]),     0],}
+\DoxyCodeLine{55                     [-\/np.sin(angles[2]),     np.cos(angles[2]),     0],}
+\DoxyCodeLine{56                     [0,                        0,                       1]}
+\DoxyCodeLine{57                     ])}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     R = np.dot(R\_x, np.dot(R\_y, R\_z))}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{keywordflow}{return} R}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutilities_a4d7d9250bceb72af0c0fd04fcba4d65c}\label{namespaceutilities_a4d7d9250bceb72af0c0fd04fcba4d65c}} 
+\index{utilities@{utilities}!init\_float64\_multiarray@{init\_float64\_multiarray}}
+\index{init\_float64\_multiarray@{init\_float64\_multiarray}!utilities@{utilities}}
+\doxysubsubsection{\texorpdfstring{init\_float64\_multiarray()}{init\_float64\_multiarray()}}
+{\footnotesize\ttfamily def utilities.\+init\+\_\+float64\+\_\+multiarray (\begin{DoxyParamCaption}\item[{}]{rows,  }\item[{}]{columns }\end{DoxyParamCaption})}
+
+
+
+Function that initializes a Float64\+Multi\+Array of size rows x columns. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rows} & Number of rows of the returned multiarray. \\
+\hline
+{\em columns} & Number of columns of the returned multiarray. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a\+: empty Float64\+Multi\+Array instance. 
+\end{DoxyReturn}
+
+
+Definition at line 4 of file utilities.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{4 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceutilities_a4d7d9250bceb72af0c0fd04fcba4d65c}{init\_float64\_multiarray}}(rows,columns):}
+\DoxyCodeLine{5     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{6 \textcolor{stringliteral}{    Function that initializes a Float64MultiArray of size rows x columns.}}
+\DoxyCodeLine{7 \textcolor{stringliteral}{    @param rows: Number of rows of the returned multiarray.}}
+\DoxyCodeLine{8 \textcolor{stringliteral}{    @param columns: Number of columns of the returned multiarray.}}
+\DoxyCodeLine{9 \textcolor{stringliteral}{    @return a: empty Float64MultiArray instance.}}
+\DoxyCodeLine{10 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{11     a = Float64MultiArray()}
+\DoxyCodeLine{12     a.layout.dim.append(MultiArrayDimension())}
+\DoxyCodeLine{13     a.layout.dim.append(MultiArrayDimension())}
+\DoxyCodeLine{14     a.layout.dim[0].label =\textcolor{stringliteral}{"{}rows"{}}}
+\DoxyCodeLine{15     a.layout.dim[0].size = rows}
+\DoxyCodeLine{16     a.layout.dim[1].label =\textcolor{stringliteral}{"{}columns"{}}}
+\DoxyCodeLine{17     a.layout.dim[1].size = columns}
+\DoxyCodeLine{18     \textcolor{keywordflow}{return} a}
+\DoxyCodeLine{19 }
+
+\end{DoxyCode}

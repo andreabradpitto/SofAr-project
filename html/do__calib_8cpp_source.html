@@ -142,7 +142,7 @@ $(function() {
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">return</span> state_ != DONE;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">void</span> DoCalib::imuCallback(sensor_msgs::Imu::ConstPtr imu)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">void</span> DoCalib::imuCallback(sensor_msgs::Imu::ConstPtr <a class="code" href="launcher_8sh.html#a02d05ca4cdeaf71a7e4b91de568ba94c">imu</a>)</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;{</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="keywordtype">bool</span> accepted;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
@@ -177,9 +177,9 @@ $(function() {
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="keywordflow">case</span> RECEIVING:</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    accepted = calib_.<a class="code" href="classimu__calib_1_1AccelCalib.html#ade432edb16621bf71b9430306cd09bb6">addMeasurement</a>(current_orientation_,</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                                     imu-&gt;linear_acceleration.x,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                                     imu-&gt;linear_acceleration.y,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                                     imu-&gt;linear_acceleration.z);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                                     <a class="code" href="launcher_8sh.html#a02d05ca4cdeaf71a7e4b91de568ba94c">imu</a>-&gt;linear_acceleration.x,</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                                     <a class="code" href="launcher_8sh.html#a02d05ca4cdeaf71a7e4b91de568ba94c">imu</a>-&gt;linear_acceleration.y,</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                                     <a class="code" href="launcher_8sh.html#a02d05ca4cdeaf71a7e4b91de568ba94c">imu</a>-&gt;linear_acceleration.z);</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    measurements_received_ += accepted ? 1 : 0;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">if</span> (measurements_received_ &gt;= measurements_per_orientation_)</div>
@@ -222,6 +222,7 @@ $(function() {
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;} <span class="comment">// namespace accel_calib</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="alauncher_8sh_html_a02d05ca4cdeaf71a7e4b91de568ba94c"><div class="ttname"><a href="launcher_8sh.html#a02d05ca4cdeaf71a7e4b91de568ba94c">imu</a></div><div class="ttdeci">then gnome terminal x sh c rostopic echo android imu</div><div class="ttdef"><b>Definition:</b> <a href="launcher_8sh_source.html#l00012">launcher.sh:12</a></div></div>
 <div class="ttc" id="aclassimu__calib_1_1DoCalib_html_a273cee2f416921782ecf753bcd92f51d"><div class="ttname"><a href="classimu__calib_1_1DoCalib.html#a273cee2f416921782ecf753bcd92f51d">imu_calib::DoCalib::running</a></div><div class="ttdeci">bool running()</div><div class="ttdef"><b>Definition:</b> <a href="do__calib_8cpp_source.html#l00073">do_calib.cpp:73</a></div></div>
 <div class="ttc" id="aclassimu__calib_1_1DoCalib_html_a6c84655a767ec840bfba16a8206534b6"><div class="ttname"><a href="classimu__calib_1_1DoCalib.html#a6c84655a767ec840bfba16a8206534b6">imu_calib::DoCalib::DoCalib</a></div><div class="ttdeci">DoCalib()</div><div class="ttdef"><b>Definition:</b> <a href="do__calib_8cpp_source.html#l00047">do_calib.cpp:47</a></div></div>
 <div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_aa8a4a212bb868fa5e4ba513dc15b41c4"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#aa8a4a212bb868fa5e4ba513dc15b41c4">imu_calib::AccelCalib::computeCalib</a></div><div class="ttdeci">bool computeCalib()</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8cpp_source.html#l00171">accel_calib.cpp:171</a></div></div>

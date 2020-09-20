@@ -1,0 +1,107 @@
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+ 
+
+$<$img height=\char`\"{}500\char`\"{} width=\char`\"{}500\char`\"{} src=\char`\"{}https\+://github.\+com/andreabradpitto/\+Sof\+Ar-\/project/blob/master/\+Images\%20and\%20multimedia/\+Image.\+jpeg?raw=true \char`\"{}Title\char`\"{}\char`\"{}$>$ 
+
+The project\textquotesingle{}s goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows\+: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone\textquotesingle{}s I\+MU is sent to the software and used to allow Baxter\textquotesingle{}s end-\/effector to follow the trajectory and orientation of the human hand. ~\newline
+ The project\textquotesingle{}s original goal was actually to not only track the end-\/effector\textquotesingle{}s configuration, but also to replicate the motion of the human arm into Baxter\textquotesingle{}s, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the E\+M\+A\+RO Lab. ~\newline
+ Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation. ~\newline
+\hypertarget{index_autotoc_md2}{}\doxysubsection{Prerequisites}\label{index_autotoc_md2}
+In order to run this software, the following prerequisites are needed\+: ~\newline
+
+\begin{DoxyItemize}
+\item \href{http://wiki.ros.org/kinetic/Installation/Ubuntu}{\texttt{ R\+OS kinetic}}, ~\newline
+
+\item \href{https://www.coppeliarobotics.com/helpFiles/en/ros1Tutorial.htm}{\texttt{ Coppelia\+Sim Edu V4}} (which has to be linked with R\+OS), ~\newline
+
+\item \href{https://releases.ubuntu.com/16.04/}{\texttt{ Ubuntu 16.\+04}}(Other Ubuntu versions may work, but this is the offcialy supported one by R\+OS kinetic, as well as the one on which all this code was produced.) ~\newline
+
+\end{DoxyItemize}
+
+Then, it is required to install the app on an Android mobile phone. Unzip {\itshape org.\+ros.\+android.\+android\+\_\+tutorial\+\_\+camera\+\_\+imu\+\_\+1.\+0.\+apk} in order to install the {\itshape Camera\+Imu} app in your smartphone. Warning\+: the app works best with Android 8.\+1 or older; earlier OS versions may cause frequent freezes/crashes ~\newline
+ Moreover, launching the software on a virtual machine cause great instability, so, it is strongly adviced against. ~\newline
+ In the testing phase, the following hardware characteristic were found to work discretely, which is why they are going to be taken as advised configuration. ~\newline
+ Characteristics\+: ~\newline
+
+\begin{DoxyItemize}
+\item i5 processors, 3.\+1\+G\+Hz, 2 cores
+\item 8GB D\+D\+R4 S\+D\+R\+AM
+\item 256 GB S\+SD memory
+\item 103.\+5\+GB dedicated to Ubuntu ( in testing 39.\+2\+GB of memory were used)
+\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysubsection{Installing}\label{index_autotoc_md3}
+In order to have a working version of this package running on your computer, you need to\+: ~\newline
+
+\begin{DoxyItemize}
+\item Place the package in the src folder of your src foulder of the catkin workspace, and having it named \char`\"{}\+Sof\+Ar-\/project\char`\"{}
+\item In case the folder \char`\"{}\+Sof\+Ar-\/project/\+Math/imu\+\_\+calib\char`\"{} is empty, you can solve it with the same code 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd SofAr-\/project/Smartphone}
+\DoxyCodeLine{rm \mbox{\hyperlink{namespaceimu__calib}{imu\_calib}}}
+\DoxyCodeLine{git clone https:\textcolor{comment}{//github.com/dpkoch/imu\_calib}}
+\end{DoxyCode}
+
+\item Have the Coppelia environment foulder in any place under the H\+O\+ME directory (it is advised to put it on the Desktop or directly in H\+O\+ME)
+\item If you don\textquotesingle{}t have the following libraries installed on your system procede with this code 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python -\/m pip install numpy}
+\DoxyCodeLine{python -\/m pip install -\/U matplotlib}
+\DoxyCodeLine{sudo apt-\/get install python-\/pandas}
+\DoxyCodeLine{sudo apt-\/get install python-\/scipy}
+\DoxyCodeLine{sudo apt-\/get install ros-\/kinetic-\/cmake-\/modules}
+\end{DoxyCode}
+
+\item Change the current directory to \char`\"{}\+Sof\+Ar-\/project\char`\"{} and activate the \mbox{\hyperlink{install_8sh}{install.\+sh}} script 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \textcolor{stringliteral}{"{}Your catkin workspace"{}}/src/SofAr-\/project}
+\DoxyCodeLine{chmod +x install.sh}
+\end{DoxyCode}
+
+\item Install the package via dedicated script 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./install.sh}
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{index_autotoc_md4}{}\doxysubsection{Running the tests\+: running the simulation without the smartphone to inspect that the simulation is working}\label{index_autotoc_md4}
+In order to see a test of the working system (without the smartphone application sending signals), proceed with the following commands 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \textcolor{stringliteral}{"{}Your catkin workspace"{}}/src/SofAr-\/project}
+\DoxyCodeLine{./launcher\_test.sh}
+\end{DoxyCode}
+
+
+When all components are open, find the user interface (the terminal where you have launched the system and the only one asking for the user input). ~\newline
+ There you can type \char`\"{}help\char`\"{} and enter to obtain the command list, or you can type \char`\"{}start\char`\"{} and enter to start the animation. ~\newline
+ At any moment, you can type \char`\"{}pause\char`\"{} or \char`\"{}stop\char`\"{} to interrupt the simulation and respectively stay in the position or return to the starting one. ~\newline
+ When stopped (not paused) you can type \char`\"{}set\+\_\+default\char`\"{} to set the starting configuration. ~\newline
+ Once you are done, you can type \char`\"{}exit\char`\"{} and press enter to close all this project components. ~\newline
+ The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation. ~\newline
+   \hypertarget{index_autotoc_md5}{}\doxysubsection{Deployment}\label{index_autotoc_md5}
+Here we are going to present how to use the software to attempt a tracking of the user arm using the data from the smartphone sensor. ~\newline
+ Note\+: when you are asked to take the phone in your hand during the procedures, you are to take it in your right hand, arm stretched, horizontal and at more or less 45 degrees with respect to the plane of the chest, with the smartphone screen vertical, facing you, and the camera in the direction of the thumb. When you give the command \char`\"{}calibration\char`\"{}, you can take it as you are most comfortable. ~\newline
+ To use the whole system at once, the following action have to take place\+: ~\newline
+
+\begin{DoxyItemize}
+\item Start the smartphone application
+\item Verify the IP address to be inserted in the app 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{hostname -\/I}
+\end{DoxyCode}
+
+\item Start the software on the computer with the following commands 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd \textcolor{stringliteral}{"{}Your catkin workspace"{}}/src/SofAr-\/project}
+\DoxyCodeLine{./launcher.sh}
+\end{DoxyCode}
+
+\item Find the terminal in which you started the software and follow the instructions written on it always checking the app is working properly (you can look at the terminal printing the linear acceleration, orientation and angular velocity)
+\item Once all the instructions are completed and the Coppelia environment opened, with the smartphone hand still type \char`\"{}calibration\char`\"{} and press enter ~\newline
+
+\item When you are done you can type \char`\"{}start\char`\"{} and procede with the movement
+\end{DoxyItemize}
+
+After the command \char`\"{}calibration\char`\"{}, you can apply every other string presented in the section \char`\"{}\+Running test\char`\"{}. ~\newline
+ When you type start, be sure you are more or less in the same configuration as baxter.\hypertarget{index_autotoc_md6}{}\doxysubsection{Versioning}\label{index_autotoc_md6}
+We use \href{http://semver.org/}{\texttt{ Sem\+Ver}} for versioning. For the versions available, see the \href{https://github.com/your/project/tags}{\texttt{ tags on this repository}}.\hypertarget{index_autotoc_md7}{}\doxysubsection{Authors}\label{index_autotoc_md7}
+\href{https://github.com/marcodemutti}{\texttt{ Marco Demutti}}, \href{https://github.com/mattedicenzi}{\texttt{ Matteo Dicenzi}}, \href{https://github.com/VinDp}{\texttt{ Vincenzo Di Pentima}}, \href{https://github.com/RobElena}{\texttt{ Elena Merlo}}, \href{https://github.com/Matt98x}{\texttt{ Matteo Palmas}}, \href{https://github.com/andreabradpitto}{\texttt{ Andrea Pitto}}, \href{https://github.com/emanuelericcardo}{\texttt{ Emanuele Rosi}}, \href{https://github.com/ChiaraSapo}{\texttt{ Chiara Saporetti}}, \href{https://github.com/Giulia24091997}{\texttt{ Giulia Scorza Azzarà}}, \href{https://github.com/LucaTars}{\texttt{ Luca Tarasi}}, \href{https://github.com/Cavalletta98}{\texttt{ Simone Voto}}, \href{https://github.com/Geraldone}{\texttt{ Gerald Xhaferaj}}\hypertarget{index_autotoc_md8}{}\doxysubsection{License}\label{index_autotoc_md8}
+This project is licensed under the M\+IT License -\/ see the L\+I\+C\+E\+N\+SE.md file for details. 

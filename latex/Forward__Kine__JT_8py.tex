@@ -1,0 +1,119 @@
+\hypertarget{Forward__Kine__JT_8py}{}\doxysection{Math/math\+\_\+pkg/scripts/\+Enhanced\+\_\+\+J\+\_\+\+Transpose/\+Forward\+\_\+\+Kine\+\_\+\+JT.py File Reference}
+\label{Forward__Kine__JT_8py}\index{Math/math\_pkg/scripts/Enhanced\_J\_Transpose/Forward\_Kine\_JT.py@{Math/math\_pkg/scripts/Enhanced\_J\_Transpose/Forward\_Kine\_JT.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceForward__Kine__JT}{Forward\+\_\+\+Kine\+\_\+\+JT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceForward__Kine__JT_a86fc6ff9833f0ec4709cfb24f705ac9f}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+main\+\_\+callback}} ()
+\begin{DoxyCompactList}\small\item\em Publish to error node and inverse kinematics nodes the data, in particular the jacobian matrix, the tracking vectors and the data needed to compute the errors. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceForward__Kine__JT_a455bb7de6f698ee38901c9809cef675a}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+baxter\+\_\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em Computes the configuration of baxter\textquotesingle{}s arm whenever the data are available, then extracts the rotation matrix from 0 to e.\+e and the position of the e.\+e. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceForward__Kine__JT_aeca78bf7964951526fae163cfa4d69ad}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+dot\+\_\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em Reads the q\+\_\+dots provided by the weighter. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceForward__Kine__JT_aa6d842213269f2d80194c35035aac73e}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+smart\+\_\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em Computes the linear acceleration, angular velocity projected on 0 given the data. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceForward__Kine__JT_aa1bd6636b1244911d74dc5dc3ecee211}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+simulate\+\_\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em Handles changes in the simulation. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceForward__Kine__JT_a0256e61eae12f36b68315c4ae9f753c2}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+subs}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a5952eff7791dedc9387c37e738d27d84}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+pub\+\_\+err}} = rospy.\+Publisher(\textquotesingle{}Data\+\_\+for\+\_\+errors\textquotesingle{}, Float64\+Multi\+Array, queue\+\_\+size=10)
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a69ba828eed23e1387ec32dae3e234cf1}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+pub\+\_\+track}} = rospy.\+Publisher(\textquotesingle{}tracking\textquotesingle{}, Float64\+Multi\+Array, queue\+\_\+size=10)
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a784fccb59fd45c10aef34f3916aeec27}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+pub\+\_\+jac}} = rospy.\+Publisher(\textquotesingle{}jacobian\textquotesingle{}, Float64\+Multi\+Array, queue\+\_\+size=10)
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a81f89c759e156af0e9e44334ea4910b9}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+pub\+\_\+axes}} = rospy.\+Publisher(\textquotesingle{}axes\textquotesingle{}, Float64\+Multi\+Array, queue\+\_\+size=10)
+\begin{DoxyCompactList}\small\item\em New part. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a3e89407c9fbb7877cbf1083a2a3af6e4}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+axis\+\_\+vect}} = np.\+zeros((9,3))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_aa95e92398d87fbd7c2ca76c517a24e1a}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+p}} = np.\+pi
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_a270cb8e1027891aee0ac576b76afdde6}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+n\+\_\+joints}} = 7
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_ab6072f7345987638d520432850e26ba0}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+L0}} = 0.\+27035
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_a69bcd055844f9bd33a74d5ca6ae15b5f}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+L1}} = 0.\+06900
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_ad58f40ac30384fbb2dcf3059e9bb31b1}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+L2}} = 0.\+36435
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_a30f0eb6df50ac1ef37509cd8073008be}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+L3}} = 0.\+06900
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_a4cb5ae9cbcbf4cabb8dc6e11a129f930}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+L4}} = 0.\+37429
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_a7990b68e24adfb7f35dc4498248e57db}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+L5}} = 0.\+01000
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_a6118ce4cfbaed7bd18cfb5d8ce10171d}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+L6}} = 0.\+36830
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_ade4b94f346e78041a10f6576d4707364}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+xeflag}} = 0
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a9ab422a6a4bf16afbed7d0ab85b5d655}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+DH}}
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a801599fea198169943b2b830c8e2acdc}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+T\+\_\+dh}} = t.\+D\+H\+\_\+to\+\_\+T(DH)
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a7daa0a2ce4366ce17c44693676f967f8}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+Jkmin1}} = np.\+zeros((6,7))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a5adb76a97fba9236b520a7e534c8c9d5}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+info}} = np.\+array(\mbox{[}1, 1, 1, 1, 1, 1, 1\mbox{]})
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_a74bd2fc62ae7c16153fbcf2142c5d2a9}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+ini\+\_\+bax}} = 0
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_ac21fefc8230ae7d1b9e24fd44971cf97}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+ini\+\_\+dot}} = 0
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_a6d8bed4905703661160b37dfcfa0f467}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+ini\+\_\+smart}} = 0
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_a93cde3d09517dd5dfad8824acaa627db}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+key\+\_\+bax}} = 0
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_ad8d0ab1862f1a91973f32966d3d9497d}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+key\+\_\+smart}} = 0
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_a81a85563f853da72ca5a075e13443a65}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+key\+\_\+dot}} = 0
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_a43013e1a4f01bda5fbe1919da2822267}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+key}} = -\/1
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_a641c29bea89f6d5874893e784146452a}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+flag\+\_\+bax}} = 0
+\item 
+int \mbox{\hyperlink{namespaceForward__Kine__JT_aee1f17bcc8d5fa06db35fb686475a48b}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+flag\+\_\+dot}} = 0
+\item 
+float \mbox{\hyperlink{namespaceForward__Kine__JT_a58f3e568cee9ea62caf40087676f6add}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+dt}} = 0.\+01
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_ae7458119567ec3e7780d06dedbf7ed7e}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+x\+\_\+0e\+\_\+kmin1}} = np.\+zeros((3,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_ad8956daedc2e13e8fd2782717f87bcad}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+x\+\_\+0e\+\_\+k}} = x\+\_\+0e\+\_\+kmin1
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a8e0e87ac959df66fbb18916ef4b3fcc2}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+x\+\_\+0e\+\_\+kmin1B}} = np.\+zeros((3,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a5f670a561b46509ae4b0e8ad1770b558}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+v\+\_\+0e\+\_\+kmin1}} = np.\+zeros((3,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a6aa2777d24d085b7f079bfba46b8451f}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+v\+\_\+0e\+\_\+k}} = v\+\_\+0e\+\_\+kmin1
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a8889de1d76397f0095c9567f56754231}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+v\+\_\+0e\+\_\+kmin1B}} = np.\+zeros((3,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a86485e873f9c40697e1a9414fdfbbc9f}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+q}} = np.\+zeros(7)
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a605f855a7963d11e6f49e62eccc7ee3a}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+q\+\_\+dot}} = np.\+zeros((7,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a5de33ae2fe85c877cacbd8da805cecc4}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+R0inert}} = np.\+zeros((3,3))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a30c72c4263ab5852d14e58453d1f33bd}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+R0e\+\_\+ini}} = np.\+zeros((3,3))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a72a95b20c281530f579ee6d911d7de7d}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+Reimu\+\_\+ini}}
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a4a202b1a67c6c4e929f883099c59d05b}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+Rimu\+\_\+inert\+\_\+k}} = np.\+zeros((3,3))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a5c93ce60e8c2314cf65d46fca21ee6b5}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+R0e\+\_\+kmin1}} = np.\+zeros((3,3))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_ade25de721f296d828c4f7fb962b5d0b7}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+R0e\+\_\+k}} = np.\+zeros((3,3))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a2e4b015681d057983a492777bbb67d9c}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+omega\+\_\+imu\+\_\+inert}} = np.\+zeros((3,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_adf6172bbbe501d4e0d5a1c53e9c99c06}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+a\+\_\+imu\+\_\+inert}} = np.\+zeros((3,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a77bb5e9fab85cbf93c0f3ae7eac272eb}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+omega\+\_\+0e}} = np.\+zeros((3,1))
+\item 
+\mbox{\hyperlink{namespaceForward__Kine__JT_a6f001efbac21b3532f1c070d0f188c41}{Forward\+\_\+\+Kine\+\_\+\+J\+T.\+a\+\_\+0e}} = np.\+zeros((3,1))
+\end{DoxyCompactItemize}

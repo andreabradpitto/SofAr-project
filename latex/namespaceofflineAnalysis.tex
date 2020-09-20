@@ -1,0 +1,280 @@
+\hypertarget{namespaceofflineAnalysis}{}\doxysection{offline\+Analysis Namespace Reference}
+\label{namespaceofflineAnalysis}\index{offlineAnalysis@{offlineAnalysis}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceofflineAnalysis_aa4c88bb457d35142c9028bf08bf1c547}{plot\+Data}} (df, subplt, \mbox{\hyperlink{namespaceofflineAnalysis_aacbdb9d0955f76a68f028b7ae7dc3a96}{x\+\_\+axis}}, y\+\_\+lable, title\+Plot)
+\begin{DoxyCompactList}\small\item\em This function simply plots data into a a graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{script\+\_\+dir}} = os.\+path.\+dirname(\+\_\+\+\_\+file\+\_\+\+\_\+)
+\item 
+string \mbox{\hyperlink{namespaceofflineAnalysis_a37c60fb3c2d56c510b55c04626dc2c2e}{rel\+\_\+path1}} = \char`\"{}../output/lin\+\_\+acc.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a9a53e320a313682194352ad182ac057b}{abs\+\_\+file\+\_\+path1}} = os.\+path.\+join(\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceofflineAnalysis_a37c60fb3c2d56c510b55c04626dc2c2e}{rel\+\_\+path1}})
+\item 
+string \mbox{\hyperlink{namespaceofflineAnalysis_ae865cea9fcd2d4f11543fe9e92c799f3}{rel\+\_\+path2}} = \char`\"{}../output/orientation.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a4fa8a8840aad86cccba8634b71621bd5}{abs\+\_\+file\+\_\+path2}} = os.\+path.\+join(\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceofflineAnalysis_ae865cea9fcd2d4f11543fe9e92c799f3}{rel\+\_\+path2}})
+\item 
+string \mbox{\hyperlink{namespaceofflineAnalysis_a9a44d13dd5a9356d14aa753969000ff0}{rel\+\_\+path3}} = \char`\"{}../output/ang\+Vel.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_af1021647df8ef33a087b665e9437caef}{abs\+\_\+file\+\_\+path3}} = os.\+path.\+join(\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceofflineAnalysis_a9a44d13dd5a9356d14aa753969000ff0}{rel\+\_\+path3}})
+\item 
+dictionary \mbox{\hyperlink{namespaceofflineAnalysis_a0599f5051f22e64f065b53c6942e6e55}{font}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a340921b53c8b83f111562f9c8de0bad2}{df\+\_\+linacc}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a47abc57e6cca79a254cf5a1a022630d5}{df\+\_\+rot}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a0fc5d7fb2d0aae1fe76f0913973e5da6}{df\+\_\+ang\+Vel}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a38709aff4db951314078fc8d0eaea703}{t}} = len(df\+\_\+linacc.\+X)
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_aacbdb9d0955f76a68f028b7ae7dc3a96}{x\+\_\+axis}} = np.\+arange(start=1, stop=\mbox{\hyperlink{namespaceofflineAnalysis_a38709aff4db951314078fc8d0eaea703}{t}} + 1, step=1)
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_af2a53eae106d38360dbbb459eb2cbd6c}{figsize}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a14735270ddfff28da61d8f7a193f5df1}{temp}} = df\+\_\+linacc.\+astype(float)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Documentation for the offline analysis tool
+This piece of code is mostly used to run tests relative to the incoming imu data
+and filtering/transformation performed in 'remove_gravity.py'
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceofflineAnalysis_aa4c88bb457d35142c9028bf08bf1c547}\label{namespaceofflineAnalysis_aa4c88bb457d35142c9028bf08bf1c547}} 
+\index{offlineAnalysis@{offlineAnalysis}!plotData@{plotData}}
+\index{plotData@{plotData}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{plotData()}{plotData()}}
+{\footnotesize\ttfamily def offline\+Analysis.\+plot\+Data (\begin{DoxyParamCaption}\item[{}]{df,  }\item[{}]{subplt,  }\item[{}]{x\+\_\+axis,  }\item[{}]{y\+\_\+lable,  }\item[{}]{title\+Plot }\end{DoxyParamCaption})}
+
+
+
+This function simply plots data into a a graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em df} & specifies the data set (orientation/linear acceleration/angular velocity) to be plotted \\
+\hline
+{\em subplt} & this specifies the position of the plot in the figure \\
+\hline
+{\em x\+\_\+axis} & ascending numbers (i.\+e. data samples) \\
+\hline
+{\em y\+\_\+lable} & data type and measurement unit \\
+\hline
+{\em title\+Plot} & title of the plot \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 29 of file offline\+Analysis.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{29 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceofflineAnalysis_aa4c88bb457d35142c9028bf08bf1c547}{plotData}}(df, subplt, x\_axis, y\_lable, titlePlot):}
+\DoxyCodeLine{30     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{31 \textcolor{stringliteral}{    This function simply plots data into a a graph}}
+\DoxyCodeLine{32 \textcolor{stringliteral}{    @param df specifies the data set (orientation/linear acceleration/angular velocity) to be plotted}}
+\DoxyCodeLine{33 \textcolor{stringliteral}{    @param subplt this specifies the position of the plot in the figure}}
+\DoxyCodeLine{34 \textcolor{stringliteral}{    @param x\_axis ascending numbers (i.e. data samples)}}
+\DoxyCodeLine{35 \textcolor{stringliteral}{    @param y\_lable data type and measurement unit}}
+\DoxyCodeLine{36 \textcolor{stringliteral}{    @param titlePlot title of the plot}}
+\DoxyCodeLine{37 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{38     plt.subplot(subplt)}
+\DoxyCodeLine{39     plt.plot(x\_axis, df.X)}
+\DoxyCodeLine{40     plt.plot(x\_axis, df.Y)}
+\DoxyCodeLine{41     plt.plot(x\_axis, df.Z)}
+\DoxyCodeLine{42     plt.xlabel(\textcolor{stringliteral}{'\#samples'}, fontdict=font)}
+\DoxyCodeLine{43     plt.ylabel(y\_lable, fontdict=font)}
+\DoxyCodeLine{44     plt.title(titlePlot, fontdict=font)}
+\DoxyCodeLine{45     plt.legend()}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceofflineAnalysis_a9a53e320a313682194352ad182ac057b}\label{namespaceofflineAnalysis_a9a53e320a313682194352ad182ac057b}} 
+\index{offlineAnalysis@{offlineAnalysis}!abs\_file\_path1@{abs\_file\_path1}}
+\index{abs\_file\_path1@{abs\_file\_path1}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{abs\_file\_path1}{abs\_file\_path1}}
+{\footnotesize\ttfamily offline\+Analysis.\+abs\+\_\+file\+\_\+path1 = os.\+path.\+join(\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceofflineAnalysis_a37c60fb3c2d56c510b55c04626dc2c2e}{rel\+\_\+path1}})}
+
+
+
+Definition at line 16 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a4fa8a8840aad86cccba8634b71621bd5}\label{namespaceofflineAnalysis_a4fa8a8840aad86cccba8634b71621bd5}} 
+\index{offlineAnalysis@{offlineAnalysis}!abs\_file\_path2@{abs\_file\_path2}}
+\index{abs\_file\_path2@{abs\_file\_path2}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{abs\_file\_path2}{abs\_file\_path2}}
+{\footnotesize\ttfamily offline\+Analysis.\+abs\+\_\+file\+\_\+path2 = os.\+path.\+join(\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceofflineAnalysis_ae865cea9fcd2d4f11543fe9e92c799f3}{rel\+\_\+path2}})}
+
+
+
+Definition at line 18 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_af1021647df8ef33a087b665e9437caef}\label{namespaceofflineAnalysis_af1021647df8ef33a087b665e9437caef}} 
+\index{offlineAnalysis@{offlineAnalysis}!abs\_file\_path3@{abs\_file\_path3}}
+\index{abs\_file\_path3@{abs\_file\_path3}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{abs\_file\_path3}{abs\_file\_path3}}
+{\footnotesize\ttfamily offline\+Analysis.\+abs\+\_\+file\+\_\+path3 = os.\+path.\+join(\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceofflineAnalysis_a9a44d13dd5a9356d14aa753969000ff0}{rel\+\_\+path3}})}
+
+
+
+Definition at line 20 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a0fc5d7fb2d0aae1fe76f0913973e5da6}\label{namespaceofflineAnalysis_a0fc5d7fb2d0aae1fe76f0913973e5da6}} 
+\index{offlineAnalysis@{offlineAnalysis}!df\_angVel@{df\_angVel}}
+\index{df\_angVel@{df\_angVel}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{df\_angVel}{df\_angVel}}
+{\footnotesize\ttfamily offline\+Analysis.\+df\+\_\+ang\+Vel}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  pd.read\_csv(abs\_file\_path3, names=[}
+\DoxyCodeLine{2                             \textcolor{stringliteral}{'X'}, \textcolor{stringliteral}{'Y'}, \textcolor{stringliteral}{'Z'}], header=0, decimal=\textcolor{stringliteral}{','})}
+
+\end{DoxyCode}
+
+
+Definition at line 57 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a340921b53c8b83f111562f9c8de0bad2}\label{namespaceofflineAnalysis_a340921b53c8b83f111562f9c8de0bad2}} 
+\index{offlineAnalysis@{offlineAnalysis}!df\_linacc@{df\_linacc}}
+\index{df\_linacc@{df\_linacc}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{df\_linacc}{df\_linacc}}
+{\footnotesize\ttfamily offline\+Analysis.\+df\+\_\+linacc}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  pd.read\_csv(abs\_file\_path1, names=[}
+\DoxyCodeLine{2                             \textcolor{stringliteral}{'X'}, \textcolor{stringliteral}{'Y'}, \textcolor{stringliteral}{'Z'}], header=0, decimal=\textcolor{stringliteral}{','})}
+
+\end{DoxyCode}
+
+
+Definition at line 53 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a47abc57e6cca79a254cf5a1a022630d5}\label{namespaceofflineAnalysis_a47abc57e6cca79a254cf5a1a022630d5}} 
+\index{offlineAnalysis@{offlineAnalysis}!df\_rot@{df\_rot}}
+\index{df\_rot@{df\_rot}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{df\_rot}{df\_rot}}
+{\footnotesize\ttfamily offline\+Analysis.\+df\+\_\+rot}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  pd.read\_csv(abs\_file\_path2, names=[}
+\DoxyCodeLine{2                          \textcolor{stringliteral}{'X'}, \textcolor{stringliteral}{'Y'}, \textcolor{stringliteral}{'Z'}], header=0, decimal=\textcolor{stringliteral}{','})}
+
+\end{DoxyCode}
+
+
+Definition at line 55 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_af2a53eae106d38360dbbb459eb2cbd6c}\label{namespaceofflineAnalysis_af2a53eae106d38360dbbb459eb2cbd6c}} 
+\index{offlineAnalysis@{offlineAnalysis}!figsize@{figsize}}
+\index{figsize@{figsize}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{figsize}{figsize}}
+{\footnotesize\ttfamily offline\+Analysis.\+figsize}
+
+
+
+Definition at line 65 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a0599f5051f22e64f065b53c6942e6e55}\label{namespaceofflineAnalysis_a0599f5051f22e64f065b53c6942e6e55}} 
+\index{offlineAnalysis@{offlineAnalysis}!font@{font}}
+\index{font@{font}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{font}{font}}
+{\footnotesize\ttfamily dictionary offline\+Analysis.\+font}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  \{\textcolor{stringliteral}{'family'}: \textcolor{stringliteral}{'serif'},}
+\DoxyCodeLine{2         \textcolor{stringliteral}{'color'}: \textcolor{stringliteral}{'darkred'},}
+\DoxyCodeLine{3         \textcolor{stringliteral}{'weight'}: \textcolor{stringliteral}{'normal'},}
+\DoxyCodeLine{4         \textcolor{stringliteral}{'size'}: 12,}
+\DoxyCodeLine{5         \}}
+
+\end{DoxyCode}
+
+
+Definition at line 22 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a37c60fb3c2d56c510b55c04626dc2c2e}\label{namespaceofflineAnalysis_a37c60fb3c2d56c510b55c04626dc2c2e}} 
+\index{offlineAnalysis@{offlineAnalysis}!rel\_path1@{rel\_path1}}
+\index{rel\_path1@{rel\_path1}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{rel\_path1}{rel\_path1}}
+{\footnotesize\ttfamily string offline\+Analysis.\+rel\+\_\+path1 = \char`\"{}../output/lin\+\_\+acc.\+csv\char`\"{}}
+
+
+
+Definition at line 15 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_ae865cea9fcd2d4f11543fe9e92c799f3}\label{namespaceofflineAnalysis_ae865cea9fcd2d4f11543fe9e92c799f3}} 
+\index{offlineAnalysis@{offlineAnalysis}!rel\_path2@{rel\_path2}}
+\index{rel\_path2@{rel\_path2}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{rel\_path2}{rel\_path2}}
+{\footnotesize\ttfamily string offline\+Analysis.\+rel\+\_\+path2 = \char`\"{}../output/orientation.\+csv\char`\"{}}
+
+
+
+Definition at line 17 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a9a44d13dd5a9356d14aa753969000ff0}\label{namespaceofflineAnalysis_a9a44d13dd5a9356d14aa753969000ff0}} 
+\index{offlineAnalysis@{offlineAnalysis}!rel\_path3@{rel\_path3}}
+\index{rel\_path3@{rel\_path3}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{rel\_path3}{rel\_path3}}
+{\footnotesize\ttfamily string offline\+Analysis.\+rel\+\_\+path3 = \char`\"{}../output/ang\+Vel.\+csv\char`\"{}}
+
+
+
+Definition at line 19 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}\label{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}} 
+\index{offlineAnalysis@{offlineAnalysis}!script\_dir@{script\_dir}}
+\index{script\_dir@{script\_dir}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{script\_dir}{script\_dir}}
+{\footnotesize\ttfamily offline\+Analysis.\+script\+\_\+dir = os.\+path.\+dirname(\+\_\+\+\_\+file\+\_\+\+\_\+)}
+
+
+
+Definition at line 14 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a38709aff4db951314078fc8d0eaea703}\label{namespaceofflineAnalysis_a38709aff4db951314078fc8d0eaea703}} 
+\index{offlineAnalysis@{offlineAnalysis}!t@{t}}
+\index{t@{t}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{t}{t}}
+{\footnotesize\ttfamily offline\+Analysis.\+t = len(df\+\_\+linacc.\+X)}
+
+
+
+Definition at line 61 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_a14735270ddfff28da61d8f7a193f5df1}\label{namespaceofflineAnalysis_a14735270ddfff28da61d8f7a193f5df1}} 
+\index{offlineAnalysis@{offlineAnalysis}!temp@{temp}}
+\index{temp@{temp}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{temp}{temp}}
+{\footnotesize\ttfamily offline\+Analysis.\+temp = df\+\_\+linacc.\+astype(float)}
+
+
+
+Definition at line 66 of file offline\+Analysis.\+py.
+
+\mbox{\Hypertarget{namespaceofflineAnalysis_aacbdb9d0955f76a68f028b7ae7dc3a96}\label{namespaceofflineAnalysis_aacbdb9d0955f76a68f028b7ae7dc3a96}} 
+\index{offlineAnalysis@{offlineAnalysis}!x\_axis@{x\_axis}}
+\index{x\_axis@{x\_axis}!offlineAnalysis@{offlineAnalysis}}
+\doxysubsubsection{\texorpdfstring{x\_axis}{x\_axis}}
+{\footnotesize\ttfamily offline\+Analysis.\+x\+\_\+axis = np.\+arange(start=1, stop=\mbox{\hyperlink{namespaceofflineAnalysis_a38709aff4db951314078fc8d0eaea703}{t}} + 1, step=1)}
+
+
+
+Definition at line 62 of file offline\+Analysis.\+py.
+

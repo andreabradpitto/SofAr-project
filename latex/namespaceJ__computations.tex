@@ -1,0 +1,252 @@
+\hypertarget{namespaceJ__computations}{}\doxysection{J\+\_\+computations Namespace Reference}
+\label{namespaceJ__computations}\index{J\_computations@{J\_computations}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceJ__computations_abb30eebe26223e7aa36f5329bd3163e7}{geometric\+\_\+vectors}} (T\+\_\+abs)
+\begin{DoxyCompactList}\small\item\em Computes the vectors needed to compute geometric jacobian. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceJ__computations_acf90fe3df295bde173d62030935635f6}{i\+\_\+j}} (T\+\_\+abs)
+\begin{DoxyCompactList}\small\item\em New part. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceJ__computations_a35cb56dea49bbec3d7fac2a056141d2a}{axis\+\_\+vector}} (i, j, k)
+\begin{DoxyCompactList}\small\item\em Computes the vector needed for Jtransp optimisation. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceJ__computations_a0251ceb85bce6623110e5607e495fa2e}{jacob}} (k, r, n\+\_\+joints, info)
+\begin{DoxyCompactList}\small\item\em Computes the jacobian matrix given the geometric vectors, number of joints and info. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceJ__computations_ae06549c18e5021958445300cd2cf7434}{J}} = np.\+concatenate((Jl, Ja), axis = 0)
+\begin{DoxyCompactList}\small\item\em else\+: zero = np.\+array(\mbox{[}\mbox{[}0\mbox{]}, \mbox{[}0\mbox{]}, \mbox{[}0\mbox{]}\mbox{]}) Ja = np.\+concatenate((Ja, zero), axis = 1) Jl = np.\+concatenate((Jl, k\mbox{[}i\mbox{]}), axis = 1) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceJ__computations_a35cb56dea49bbec3d7fac2a056141d2a}\label{namespaceJ__computations_a35cb56dea49bbec3d7fac2a056141d2a}} 
+\index{J\_computations@{J\_computations}!axis\_vector@{axis\_vector}}
+\index{axis\_vector@{axis\_vector}!J\_computations@{J\_computations}}
+\doxysubsubsection{\texorpdfstring{axis\_vector()}{axis\_vector()}}
+{\footnotesize\ttfamily def J\+\_\+computations.\+axis\+\_\+vector (\begin{DoxyParamCaption}\item[{}]{i,  }\item[{}]{j,  }\item[{}]{k }\end{DoxyParamCaption})}
+
+
+
+Computes the vector needed for Jtransp optimisation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em i,j,k} & joint axes projected on zero. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+v\+: vector containing some of this axes. 
+\end{DoxyReturn}
+
+
+Definition at line 60 of file J\+\_\+computations.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{60 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceJ__computations_a35cb56dea49bbec3d7fac2a056141d2a}{axis\_vector}}(i, j, k):}
+\DoxyCodeLine{61   \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{62 \textcolor{stringliteral}{  Computes the vector needed for Jtransp optimisation.}}
+\DoxyCodeLine{63 \textcolor{stringliteral}{  @param i, j, k: joint axes projected on zero.}}
+\DoxyCodeLine{64 \textcolor{stringliteral}{  @return v: vector containing some of this axes.}}
+\DoxyCodeLine{65 \textcolor{stringliteral}{  "{}"{}"{}}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67   v = np.zeros((9,3))}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69   v[0] = np.transpose(i[0])}
+\DoxyCodeLine{70   v[1] = np.transpose(j[1])}
+\DoxyCodeLine{71   v[2] = np.transpose(k[2])}
+\DoxyCodeLine{72   v[3] = np.transpose(j[3])}
+\DoxyCodeLine{73   v[4] = np.transpose(k[4])}
+\DoxyCodeLine{74   v[5] = np.transpose(j[5])}
+\DoxyCodeLine{75   v[6] = np.transpose(k[1])}
+\DoxyCodeLine{76   v[7] = np.transpose(k[3])}
+\DoxyCodeLine{77   v[8] = np.transpose(k[5])}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79   \textcolor{keywordflow}{return} v}
+\DoxyCodeLine{80 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceJ__computations_abb30eebe26223e7aa36f5329bd3163e7}\label{namespaceJ__computations_abb30eebe26223e7aa36f5329bd3163e7}} 
+\index{J\_computations@{J\_computations}!geometric\_vectors@{geometric\_vectors}}
+\index{geometric\_vectors@{geometric\_vectors}!J\_computations@{J\_computations}}
+\doxysubsubsection{\texorpdfstring{geometric\_vectors()}{geometric\_vectors()}}
+{\footnotesize\ttfamily def J\+\_\+computations.\+geometric\+\_\+vectors (\begin{DoxyParamCaption}\item[{}]{T\+\_\+abs }\end{DoxyParamCaption})}
+
+
+
+Computes the vectors needed to compute geometric jacobian. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Tabs} & the transformation matrices from joint to 0 frame in current configuration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+geom\+\_\+v\+: geometric vectors exctracted from Tabs that allow to compute the jacobian. 
+\end{DoxyReturn}
+
+
+Definition at line 3 of file J\+\_\+computations.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{3 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceJ__computations_abb30eebe26223e7aa36f5329bd3163e7}{geometric\_vectors}}(T\_abs):}
+\DoxyCodeLine{4   \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{5 \textcolor{stringliteral}{  Computes the vectors needed to compute geometric jacobian.}}
+\DoxyCodeLine{6 \textcolor{stringliteral}{  @param Tabs: the transformation matrices from joint to 0 frame in current configuration}}
+\DoxyCodeLine{7 \textcolor{stringliteral}{  @return geom\_v: geometric vectors exctracted from Tabs that allow to compute the jacobian.}}
+\DoxyCodeLine{8 \textcolor{stringliteral}{  "{}"{}"{}}}
+\DoxyCodeLine{9   r = []}
+\DoxyCodeLine{10   k = []}
+\DoxyCodeLine{11   geom\_v = []}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13   n\_matrices = len(T\_abs)}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15   \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(n\_matrices-\/1):}
+\DoxyCodeLine{16     tmp\_k = np.array([[T\_abs[i][0][2], T\_abs[i][1][2], T\_abs[i][2][2]]])}
+\DoxyCodeLine{17     tmp\_k = np.transpose(tmp\_k)}
+\DoxyCodeLine{18     k.append(tmp\_k)}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     tmp\_r = np.array([[T\_abs[n\_matrices-\/1][0][3] -\/ T\_abs[i][0][3], T\_abs[n\_matrices-\/1][1][3] -\/ T\_abs[i][1][3], T\_abs[n\_matrices-\/1][2][3] -\/ T\_abs[i][2][3]]])}
+\DoxyCodeLine{21     tmp\_r = np.transpose(tmp\_r)}
+\DoxyCodeLine{22     r.append(tmp\_r)}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24   geom\_v.append(k)}
+\DoxyCodeLine{25   geom\_v.append(r)}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27   \textcolor{keywordflow}{return} geom\_v}
+\DoxyCodeLine{28 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceJ__computations_acf90fe3df295bde173d62030935635f6}\label{namespaceJ__computations_acf90fe3df295bde173d62030935635f6}} 
+\index{J\_computations@{J\_computations}!i\_j@{i\_j}}
+\index{i\_j@{i\_j}!J\_computations@{J\_computations}}
+\doxysubsubsection{\texorpdfstring{i\_j()}{i\_j()}}
+{\footnotesize\ttfamily def J\+\_\+computations.\+i\+\_\+j (\begin{DoxyParamCaption}\item[{}]{T\+\_\+abs }\end{DoxyParamCaption})}
+
+
+
+New part. 
+
+Computes the vectors needed to optimize Jtransp 
+\begin{DoxyParams}{Parameters}
+{\em Tabs} & the transformation matrices from joint to 0 frame in current configuration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+i\+\_\+j\+: axes of joints projected on zero. 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file J\+\_\+computations.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{32 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceJ__computations_acf90fe3df295bde173d62030935635f6}{i\_j}}(T\_abs):}
+\DoxyCodeLine{33   \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{34 \textcolor{stringliteral}{  Computes the vectors needed to optimize Jtransp}}
+\DoxyCodeLine{35 \textcolor{stringliteral}{  @param Tabs: the transformation matrices from joint to 0 frame in current configuration}}
+\DoxyCodeLine{36 \textcolor{stringliteral}{  @return i\_j: axes of joints projected on zero.}}
+\DoxyCodeLine{37 \textcolor{stringliteral}{  "{}"{}"{}}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39   i = []}
+\DoxyCodeLine{40   j = []}
+\DoxyCodeLine{41   i\_j = []}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43   n\_matrices = len(T\_abs)}
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45   \textcolor{keywordflow}{for} h \textcolor{keywordflow}{in} range(n\_matrices-\/1):}
+\DoxyCodeLine{46     tmp\_i = np.array([[T\_abs[h][0][0], T\_abs[h][1][0], T\_abs[h][2][0]]])}
+\DoxyCodeLine{47     tmp\_j = np.array([[T\_abs[h][0][1], T\_abs[h][1][1], T\_abs[h][2][1]]])}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     tmp\_i = np.transpose(tmp\_i)}
+\DoxyCodeLine{50     tmp\_j = np.transpose(tmp\_j)}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52     i.append(tmp\_i)}
+\DoxyCodeLine{53     j.append(tmp\_j)}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55   i\_j.append(i)}
+\DoxyCodeLine{56   i\_j.append(j)}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58   \textcolor{keywordflow}{return} i\_j}
+\DoxyCodeLine{59 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceJ__computations_a0251ceb85bce6623110e5607e495fa2e}\label{namespaceJ__computations_a0251ceb85bce6623110e5607e495fa2e}} 
+\index{J\_computations@{J\_computations}!jacob@{jacob}}
+\index{jacob@{jacob}!J\_computations@{J\_computations}}
+\doxysubsubsection{\texorpdfstring{jacob()}{jacob()}}
+{\footnotesize\ttfamily def J\+\_\+computations.\+jacob (\begin{DoxyParamCaption}\item[{}]{k,  }\item[{}]{r,  }\item[{}]{n\+\_\+joints,  }\item[{}]{info }\end{DoxyParamCaption})}
+
+
+
+Computes the jacobian matrix given the geometric vectors, number of joints and info. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & versors of axis z of the joints projected on 0. \\
+\hline
+{\em r} & distance between joints and e.\+e. projected on 0. \\
+\hline
+{\em n\+\_\+joints} & explains it self. \\
+\hline
+{\em info} & 1-\/$>$revolute, 0-\/$>$prismatic. In case there is a change in the serial chain the algorithm still works. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+J\+: jacobian matrix. 
+\end{DoxyReturn}
+
+
+Definition at line 83 of file J\+\_\+computations.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{83 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceJ__computations_a0251ceb85bce6623110e5607e495fa2e}{jacob}}(k, r, n\_joints, info):}
+\DoxyCodeLine{84   \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{85 \textcolor{stringliteral}{  Computes the jacobian matrix given the geometric vectors, number of joints and info.}}
+\DoxyCodeLine{86 \textcolor{stringliteral}{  @param k: versors of axis z of the joints projected on 0.}}
+\DoxyCodeLine{87 \textcolor{stringliteral}{  @param r: distance between joints and e.e. projected on 0.}}
+\DoxyCodeLine{88 \textcolor{stringliteral}{  @param n\_joints: explains it self.}}
+\DoxyCodeLine{89 \textcolor{stringliteral}{  @param info: 1-\/>revolute, 0-\/>prismatic. In case there is a change in the serial chain the algorithm still works.}}
+\DoxyCodeLine{90 \textcolor{stringliteral}{  @return J: jacobian matrix.}}
+\DoxyCodeLine{91 \textcolor{stringliteral}{  "{}"{}"{}}}
+\DoxyCodeLine{92   }
+\DoxyCodeLine{93   Ja = np.array([[],}
+\DoxyCodeLine{94                  [],}
+\DoxyCodeLine{95                  []])}
+\DoxyCodeLine{96   Jl = np.array([[],}
+\DoxyCodeLine{97                  [],}
+\DoxyCodeLine{98                  []])}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{100   \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(n\_joints):}
+\DoxyCodeLine{101     \textcolor{keywordflow}{if} info[i] == 1:}
+\DoxyCodeLine{102       Ja = np.concatenate((Ja, k[i]), axis = 1)}
+\DoxyCodeLine{103       kx = k[i][0][0]}
+\DoxyCodeLine{104       ky = k[i][1][0]}
+\DoxyCodeLine{105       kz = k[i][2][0]}
+\DoxyCodeLine{106       k\_skew = np.array([[0, -\/kz, ky],}
+\DoxyCodeLine{107                          [kz, 0, -\/kx],}
+\DoxyCodeLine{108                          [-\/ky, kx, 0]])}
+\DoxyCodeLine{109       l\_column = np.dot(k\_skew, r[i])}
+\DoxyCodeLine{110       Jl = np.concatenate((Jl, l\_column), axis = 1)}
+\DoxyCodeLine{111 }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceJ__computations_ae06549c18e5021958445300cd2cf7434}\label{namespaceJ__computations_ae06549c18e5021958445300cd2cf7434}} 
+\index{J\_computations@{J\_computations}!J@{J}}
+\index{J@{J}!J\_computations@{J\_computations}}
+\doxysubsubsection{\texorpdfstring{J}{J}}
+{\footnotesize\ttfamily J\+\_\+computations.\+J = np.\+concatenate((Jl, Ja), axis = 0)}
+
+
+
+else\+: zero = np.\+array(\mbox{[}\mbox{[}0\mbox{]}, \mbox{[}0\mbox{]}, \mbox{[}0\mbox{]}\mbox{]}) Ja = np.\+concatenate((Ja, zero), axis = 1) Jl = np.\+concatenate((Jl, k\mbox{[}i\mbox{]}), axis = 1) 
+
+
+
+Definition at line 118 of file J\+\_\+computations.\+py.
+

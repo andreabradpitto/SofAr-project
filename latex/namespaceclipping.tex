@@ -1,0 +1,570 @@
+\hypertarget{namespaceclipping}{}\doxysection{clipping Namespace Reference}
+\label{namespaceclipping}\index{clipping@{clipping}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceclipping_a35e8ff08f4099c2406c9a357713a369a}{data\+File\+Initializer}} ()
+\begin{DoxyCompactList}\small\item\em Function used initialize the files in which sensor data will be stored; it will generate three files in the \textquotesingle{}output\textquotesingle{} folder. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_af172465c4f8760f413a24ad7c5dc93c2}{lin\+\_\+acc\+\_\+compensate}} (\mbox{\hyperlink{namespaceclipping_aaa9c45af65adbc814f8396980b26167a}{lin\+\_\+acc\+\_\+no\+\_\+g}}, threshold)
+\begin{DoxyCompactList}\small\item\em Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human operator shake. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}{store\+Data\+In\+Files}} (file\+Name, modality, data)
+\begin{DoxyCompactList}\small\item\em Function which stores incoming data into .csv files @params file\+Name name of the generated file @params modality parameter requested by the open() function\+: \textquotesingle{}a\textquotesingle{} stands for \textquotesingle{}open for appending at the end of the file without truncating it\textquotesingle{} @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity) \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_a61d89408f8bc1c0b8184bb85883deebc}{callback}} (data)
+\begin{DoxyCompactList}\small\item\em This is the callback function\+: it is invoked every time there is incoming data and has the duty of calling all the previously mentioned functions as well as \mbox{\hyperlink{namespaceutilities_ad0d6881ae2e8a12deb7d14105f17e4fb}{euler\+Angles\+To\+Rotation\+Matrix()}}. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_a8c34047ecae692b16baa7a9306db9e2d}{listener}} ()
+\begin{DoxyCompactList}\small\item\em The listener is used to instantiate the homonymous node and to subscribe to the android/imu\+\_\+corected topic, from which it receives incoming data of smarthpone accelerometers. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_aa8da1db9fa695d80388cd40a512f0504}{talker}} (msg)
+\begin{DoxyCompactList}\small\item\em The talker is used to publish the refined data on the so called \textquotesingle{}smartphone\textquotesingle{} topic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}} = os.\+path.\+dirname(\+\_\+\+\_\+file\+\_\+\+\_\+)
+\item 
+string \mbox{\hyperlink{namespaceclipping_af6eb332d3a2d24d13c70ef2f5546c0d3}{rel\+\_\+path1}} = \char`\"{}../output/lin\+\_\+acc.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_ab2a79c61ef4e3ba3cebdff6c4632fee4}{abs\+\_\+file\+\_\+path1}} = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_af6eb332d3a2d24d13c70ef2f5546c0d3}{rel\+\_\+path1}})
+\item 
+string \mbox{\hyperlink{namespaceclipping_a71fe3c160af28982edb1749ea81308a3}{rel\+\_\+path2}} = \char`\"{}../output/orientation.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_a23f780f18903fb04e6560650ee936fa1}{abs\+\_\+file\+\_\+path2}} = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_a71fe3c160af28982edb1749ea81308a3}{rel\+\_\+path2}})
+\item 
+string \mbox{\hyperlink{namespaceclipping_a4c9ddedce2fc1502dc21cfcf394f8cc3}{rel\+\_\+path3}} = \char`\"{}../output/ang\+Vel.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_a1c26a0de4167786433848ddf043dd0ab}{abs\+\_\+file\+\_\+path3}} = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_a4c9ddedce2fc1502dc21cfcf394f8cc3}{rel\+\_\+path3}})
+\item 
+string \mbox{\hyperlink{namespaceclipping_a40dc8f801a6d3d31d0961379d6ca9539}{rel\+\_\+path\+\_\+gravity}} = \char`\"{}../calibration/gravity.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_a6ee75d70b845da8ab4590c0c184b3a9c}{abs\+\_\+file\+\_\+gravity}} = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_a40dc8f801a6d3d31d0961379d6ca9539}{rel\+\_\+path\+\_\+gravity}})
+\item 
+int \mbox{\hyperlink{namespaceclipping_a14dc92c001ea2b7205201df8fa5b4b47}{flag\+Write\+Data}} = 1
+\item 
+int \mbox{\hyperlink{namespaceclipping_aaf2e04ce27b3129636907ce8b28ab747}{index}} = 1
+\item 
+float \mbox{\hyperlink{namespaceclipping_a872c980bf1743645999652715493d1ef}{delta}} = 0.\+05
+\item 
+list \mbox{\hyperlink{namespaceclipping_aaa9c45af65adbc814f8396980b26167a}{lin\+\_\+acc\+\_\+no\+\_\+g}} = \mbox{[}0, 0, 0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_a937106624563e50bdce6e396a1bbc4cf}{angular\+\_\+velocity}} = \mbox{[}0, 0, 0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_ac33e7b66a0ea7b9401550ecb54655abe}{orientation}} = \mbox{[}0, 0, 0, 0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_ae51849e973c472eab0c06114a689e57b}{g}} = \mbox{[}0 ,0 ,0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_a141da8c0f07a405ef3f205067579144f}{max\+\_\+lin\+\_\+acc}} = \mbox{[}0, 0, 0\mbox{]}
+\item 
+float \mbox{\hyperlink{namespaceclipping_a2967eccca06269489b420ab17fe76c92}{safety\+\_\+coeff}} = 1.\+1
+\item 
+int \mbox{\hyperlink{namespaceclipping_a4f89dd00d3e26e419ad07d652353c09d}{counter}} = 0
+\item 
+int \mbox{\hyperlink{namespaceclipping_a79cb0ad963b8cf030b2bcfc5675a83f0}{max\+Iteration}} = 50
+\item 
+\mbox{\hyperlink{namespaceclipping_a7a1488c3a0204855f4f4f1601f8812bd}{temp}} = pd.\+read\+\_\+csv(\mbox{\hyperlink{namespaceclipping_a6ee75d70b845da8ab4590c0c184b3a9c}{abs\+\_\+file\+\_\+gravity}}, names=\mbox{[}\textquotesingle{}X\textquotesingle{}, \textquotesingle{}Y\textquotesingle{}, \textquotesingle{}Z\textquotesingle{}\mbox{]}, header=0, decimal=\textquotesingle{},\textquotesingle{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Documentation for the clipping tool.
+This piece of code receives data from the imu sensor and removes noise from
+the incoming linear acceleration through a clipping algorithm.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceclipping_a61d89408f8bc1c0b8184bb85883deebc}\label{namespaceclipping_a61d89408f8bc1c0b8184bb85883deebc}} 
+\index{clipping@{clipping}!callback@{callback}}
+\index{callback@{callback}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{callback()}{callback()}}
+{\footnotesize\ttfamily def clipping.\+callback (\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})}
+
+
+
+This is the callback function\+: it is invoked every time there is incoming data and has the duty of calling all the previously mentioned functions as well as \mbox{\hyperlink{namespaceutilities_ad0d6881ae2e8a12deb7d14105f17e4fb}{euler\+Angles\+To\+Rotation\+Matrix()}}. 
+
+After these calls, it finally invokes the \mbox{\hyperlink{namespaceclipping_aa8da1db9fa695d80388cd40a512f0504}{talker()}}. In order to achieve all of this, it translates incoming quaternions into euler angles beforehand 
+\begin{DoxyParams}{Parameters}
+{\em data} & data incoming from the imu sensor \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 97 of file clipping.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{97 \textcolor{keyword}{def }\mbox{\hyperlink{namespacerotation__matrix__server_a1848f7eec568b1685bcc12a2e5a5b08f}{callback}}(data):}
+\DoxyCodeLine{98     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{99 \textcolor{stringliteral}{    This is the callback function: it is invoked every time there is incoming data and}}
+\DoxyCodeLine{100 \textcolor{stringliteral}{    has the duty of calling all the previously mentioned functions as well as eulerAnglesToRotationMatrix().}}
+\DoxyCodeLine{101 \textcolor{stringliteral}{    After these calls, it finally invokes the talker(). In order to achieve all of this,}}
+\DoxyCodeLine{102 \textcolor{stringliteral}{    it translates incoming quaternions into euler angles beforehand}}
+\DoxyCodeLine{103 \textcolor{stringliteral}{    @param data data incoming from the imu sensor}}
+\DoxyCodeLine{104 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{105     \textcolor{keyword}{global} index, lin\_acc\_no\_g, angular\_velocity, orientation, counter, max\_lin\_acc, delta}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     \textcolor{comment}{\# get data}}
+\DoxyCodeLine{108     orientation = [data.orientation.x, data.orientation.y,}
+\DoxyCodeLine{109                    data.orientation.z, data.orientation.w]}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111     \textcolor{comment}{\# transform quaternion to euler angles}}
+\DoxyCodeLine{112     tempAngles = tf.transformations.euler\_from\_quaternion(orientation, \textcolor{stringliteral}{"{}sxyz"{}})}
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114     rot\_matrix = \mbox{\hyperlink{namespacerotation__matrix__server_a7aaa0fb233a7f3aaaac351a1a8cd3ce3}{eulerAnglesToRotationMatrix}}(tempAngles)}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116     angular\_velocity = [data.angular\_velocity.x,}
+\DoxyCodeLine{117                         data.angular\_velocity.y, data.angular\_velocity.z]}
+\DoxyCodeLine{118     linear\_acceleration = [data.linear\_acceleration.x,}
+\DoxyCodeLine{119                            data.linear\_acceleration.y, data.linear\_acceleration.z]}
+\DoxyCodeLine{120 }
+\DoxyCodeLine{121     lin\_acc\_no\_g = \mbox{\hyperlink{namespaceremoveGravity}{removeGravity}}(linear\_acceleration, rot\_matrix, g)}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{123     \textcolor{keywordflow}{if} counter < maxIteration:}
+\DoxyCodeLine{124         \textcolor{comment}{\#compute root of gravity}}
+\DoxyCodeLine{125         g\_root = math.sqrt(}
+\DoxyCodeLine{126             pow(lin\_acc\_no\_g[0], 2) + pow(lin\_acc\_no\_g[1], 2) + pow(lin\_acc\_no\_g[2], 2))}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{128         max\_root = math.sqrt(}
+\DoxyCodeLine{129             pow(max\_lin\_acc[0], 2) + pow(max\_lin\_acc[1], 2) + pow(max\_lin\_acc[2], 2))}
+\DoxyCodeLine{130 }
+\DoxyCodeLine{131         \textcolor{keywordflow}{if} g\_root > max\_root:  \textcolor{comment}{\# if true, the 'maximum linear acceleration vector' has to be updated}}
+\DoxyCodeLine{132             max\_lin\_acc = lin\_acc\_no\_g}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134     \textcolor{keywordflow}{elif} counter == maxIteration:}
+\DoxyCodeLine{135         \textcolor{comment}{\#increase 'max\_lin\_acc' for safety reason}}
+\DoxyCodeLine{136         max\_lin\_acc = [safety\_coeff * i \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} max\_lin\_acc]}
+\DoxyCodeLine{137         max\_root = math.sqrt(}
+\DoxyCodeLine{138             pow(max\_lin\_acc[0], 2) + pow(max\_lin\_acc[1], 2) + pow(max\_lin\_acc[2], 2))}
+\DoxyCodeLine{139         }
+\DoxyCodeLine{140         delta\_root = math.sqrt(3 * (pow(delta, 2)))}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142         print(\textcolor{stringliteral}{"{}Calibration terminated"{}})}
+\DoxyCodeLine{143         \textcolor{comment}{\# if true, the 'maximum linear acceleration vector' is very small (which is good): lower delta accordingly}}
+\DoxyCodeLine{144         \textcolor{keywordflow}{if} max\_root > delta\_root:}
+\DoxyCodeLine{145             delta = max\_root}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147     \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{148         \textcolor{comment}{\#reduce noise on incoming linear acceleration data }}
+\DoxyCodeLine{149         lin\_acc\_no\_g = \mbox{\hyperlink{namespaceclipping_af172465c4f8760f413a24ad7c5dc93c2}{lin\_acc\_compensate}}(lin\_acc\_no\_g, delta)}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{151         \textcolor{keywordflow}{if} flagWriteData == 1:}
+\DoxyCodeLine{152             \textcolor{comment}{\# store data into .csv files in order to analyse them offline}}
+\DoxyCodeLine{153             \mbox{\hyperlink{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}{storeDataInFiles}}(abs\_file\_path1, \textcolor{stringliteral}{'a'}, lin\_acc\_no\_g)}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155             angles\_in\_deg = [(tempAngles[0]*180) / math.pi,}
+\DoxyCodeLine{156                              (tempAngles[1]*180) / math.pi, (tempAngles[2]*180) / math.pi]}
+\DoxyCodeLine{157             \mbox{\hyperlink{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}{storeDataInFiles}}(abs\_file\_path2, \textcolor{stringliteral}{'a'}, angles\_in\_deg)}
+\DoxyCodeLine{158             \mbox{\hyperlink{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}{storeDataInFiles}}(abs\_file\_path3, \textcolor{stringliteral}{'a'}, angular\_velocity)}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160             index += 1  \textcolor{comment}{\# update index}}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162         \textcolor{comment}{\# modify Imu message to be sent}}
+\DoxyCodeLine{163         data.orientation.x = orientation[0]}
+\DoxyCodeLine{164         data.orientation.y = orientation[1]}
+\DoxyCodeLine{165         data.orientation.z = orientation[2]}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167         data.angular\_velocity.x = angular\_velocity[0]}
+\DoxyCodeLine{168         data.angular\_velocity.y = angular\_velocity[1]}
+\DoxyCodeLine{169         data.angular\_velocity.z = angular\_velocity[2]}
+\DoxyCodeLine{170         data.linear\_acceleration.x = lin\_acc\_no\_g[0]}
+\DoxyCodeLine{171         data.linear\_acceleration.y = lin\_acc\_no\_g[1]}
+\DoxyCodeLine{172         data.linear\_acceleration.z = lin\_acc\_no\_g[2]}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{174         \textcolor{comment}{\# publish message}}
+\DoxyCodeLine{175         \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{176             \mbox{\hyperlink{namespaceclipping_aa8da1db9fa695d80388cd40a512f0504}{talker}}(data)}
+\DoxyCodeLine{177         \textcolor{keywordflow}{except} rospy.ROSInterruptException:}
+\DoxyCodeLine{178             \textcolor{keywordflow}{pass}}
+\DoxyCodeLine{179 }
+\DoxyCodeLine{180     counter +=1}
+\DoxyCodeLine{181 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceclipping_a35e8ff08f4099c2406c9a357713a369a}\label{namespaceclipping_a35e8ff08f4099c2406c9a357713a369a}} 
+\index{clipping@{clipping}!dataFileInitializer@{dataFileInitializer}}
+\index{dataFileInitializer@{dataFileInitializer}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{dataFileInitializer()}{dataFileInitializer()}}
+{\footnotesize\ttfamily def clipping.\+data\+File\+Initializer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Function used initialize the files in which sensor data will be stored; it will generate three files in the \textquotesingle{}output\textquotesingle{} folder. 
+
+
+
+Definition at line 50 of file clipping.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{50 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceclipping_a35e8ff08f4099c2406c9a357713a369a}{dataFileInitializer}}():}
+\DoxyCodeLine{51     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{52 \textcolor{stringliteral}{    Function used initialize the files in which sensor data will be stored; it will generate three files in the 'output' folder}}
+\DoxyCodeLine{53 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{54     \textcolor{comment}{\# initialize files to store data}}
+\DoxyCodeLine{55     \textcolor{keyword}{with} open(abs\_file\_path1, \textcolor{stringliteral}{'w'}) \textcolor{keyword}{as} file:}
+\DoxyCodeLine{56         writer = csv.writer(file)}
+\DoxyCodeLine{57         writer.writerow([\textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}X"{}}, \textcolor{stringliteral}{"{}Y"{}}, \textcolor{stringliteral}{"{}Z"{}}])}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     \textcolor{keyword}{with} open(abs\_file\_path2, \textcolor{stringliteral}{'w'}) \textcolor{keyword}{as} file:}
+\DoxyCodeLine{60         writer = csv.writer(file)}
+\DoxyCodeLine{61         writer.writerow([\textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}X"{}}, \textcolor{stringliteral}{"{}Y"{}}, \textcolor{stringliteral}{"{}Z"{}}])}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     \textcolor{keyword}{with} open(abs\_file\_path3, \textcolor{stringliteral}{'w'}) \textcolor{keyword}{as} file:}
+\DoxyCodeLine{64         writer = csv.writer(file)}
+\DoxyCodeLine{65         writer.writerow([\textcolor{stringliteral}{"{}"{}}, \textcolor{stringliteral}{"{}X"{}}, \textcolor{stringliteral}{"{}Y"{}}, \textcolor{stringliteral}{"{}Z"{}}])}
+\DoxyCodeLine{66 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceclipping_af172465c4f8760f413a24ad7c5dc93c2}\label{namespaceclipping_af172465c4f8760f413a24ad7c5dc93c2}} 
+\index{clipping@{clipping}!lin\_acc\_compensate@{lin\_acc\_compensate}}
+\index{lin\_acc\_compensate@{lin\_acc\_compensate}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{lin\_acc\_compensate()}{lin\_acc\_compensate()}}
+{\footnotesize\ttfamily def clipping.\+lin\+\_\+acc\+\_\+compensate (\begin{DoxyParamCaption}\item[{}]{lin\+\_\+acc\+\_\+no\+\_\+g,  }\item[{}]{threshold }\end{DoxyParamCaption})}
+
+
+
+Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human operator shake. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lin\+\_\+acc\+\_\+no\+\_\+g} & linear acceleration along X, Y, Z axes \\
+\hline
+{\em threshold} & a threshold computed in the calibration phase to remove unwanted vibrations -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns a filtered version (if necessary) of the input linear acceleration without gravity 
+\end{DoxyReturn}
+
+
+Definition at line 67 of file clipping.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{67 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceclipping_af172465c4f8760f413a24ad7c5dc93c2}{lin\_acc\_compensate}}(lin\_acc\_no\_g, threshold):}
+\DoxyCodeLine{68     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{69 \textcolor{stringliteral}{    Function used to filter unwanted minimal incoming data fluctuations,}}
+\DoxyCodeLine{70 \textcolor{stringliteral}{    due to noise as well as human operator shake}}
+\DoxyCodeLine{71 \textcolor{stringliteral}{    @param lin\_acc\_no\_g linear acceleration along X, Y, Z axes}}
+\DoxyCodeLine{72 \textcolor{stringliteral}{    @param threshold a threshold computed in the calibration phase to remove unwanted vibrations  -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{73 \textcolor{stringliteral}{    @returns returns a filtered version (if necessary) of the input linear acceleration without gravity}}
+\DoxyCodeLine{74 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{75     \textcolor{comment}{\# initialization}}
+\DoxyCodeLine{76     res = [0, 0, 0]}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     result = math.sqrt(}
+\DoxyCodeLine{79         pow(lin\_acc\_no\_g[0], 2) + pow(lin\_acc\_no\_g[1], 2) + pow(lin\_acc\_no\_g[2], 2))}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81     \textcolor{keywordflow}{if} result >= threshold:}
+\DoxyCodeLine{82         res = lin\_acc\_no\_g}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84     \textcolor{keywordflow}{return} res}
+\DoxyCodeLine{85 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceclipping_a8c34047ecae692b16baa7a9306db9e2d}\label{namespaceclipping_a8c34047ecae692b16baa7a9306db9e2d}} 
+\index{clipping@{clipping}!listener@{listener}}
+\index{listener@{listener}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{listener()}{listener()}}
+{\footnotesize\ttfamily def clipping.\+listener (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+The listener is used to instantiate the homonymous node and to subscribe to the android/imu\+\_\+corected topic, from which it receives incoming data of smarthpone accelerometers. 
+
+
+
+Definition at line 182 of file clipping.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{182 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceclipping_a8c34047ecae692b16baa7a9306db9e2d}{listener}}():}
+\DoxyCodeLine{183     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{184 \textcolor{stringliteral}{    The listener is used to instantiate the homonymous node and to subscribe to the android/imu\_corected topic,}}
+\DoxyCodeLine{185 \textcolor{stringliteral}{    from which it receives incoming data of smarthpone accelerometers}}
+\DoxyCodeLine{186 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{187 }
+\DoxyCodeLine{188     \textcolor{comment}{\# In ROS, nodes are uniquely named. If two nodes with the same}}
+\DoxyCodeLine{189     \textcolor{comment}{\# name are launched, the previous one is kicked off. The}}
+\DoxyCodeLine{190     \textcolor{comment}{\# anonymous = True flag means that rospy will choose a unique}}
+\DoxyCodeLine{191     \textcolor{comment}{\# name for our 'listener' node so that multiple listeners can}}
+\DoxyCodeLine{192     \textcolor{comment}{\# run simultaneously.}}
+\DoxyCodeLine{193     rospy.init\_node(\textcolor{stringliteral}{'clipping'}, anonymous=\textcolor{keyword}{True})}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{195     \textcolor{comment}{\# This declares that your node subscribes to the android/imu topic,}}
+\DoxyCodeLine{196     \textcolor{comment}{\# which is of type sensor\_msgs.msg.Imu. When new data is received,}}
+\DoxyCodeLine{197     \textcolor{comment}{\# callback is invoked with that data as argument.}}
+\DoxyCodeLine{198     rospy.Subscriber(\textcolor{stringliteral}{"{}/android/imu\_corrected"{}}, Imu, callback)}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{200     \textcolor{comment}{\# spin() simply keeps python from exiting until this node is stopped}}
+\DoxyCodeLine{201     rospy.spin()}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}\label{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}} 
+\index{clipping@{clipping}!storeDataInFiles@{storeDataInFiles}}
+\index{storeDataInFiles@{storeDataInFiles}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{storeDataInFiles()}{storeDataInFiles()}}
+{\footnotesize\ttfamily def clipping.\+store\+Data\+In\+Files (\begin{DoxyParamCaption}\item[{}]{file\+Name,  }\item[{}]{modality,  }\item[{}]{data }\end{DoxyParamCaption})}
+
+
+
+Function which stores incoming data into .csv files @params file\+Name name of the generated file @params modality parameter requested by the open() function\+: \textquotesingle{}a\textquotesingle{} stands for \textquotesingle{}open for appending at the end of the file without truncating it\textquotesingle{} @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity) 
+
+
+
+Definition at line 86 of file clipping.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{86 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}{storeDataInFiles}}(fileName, modality, data):}
+\DoxyCodeLine{87     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{88 \textcolor{stringliteral}{    Function which stores incoming data into .csv files}}
+\DoxyCodeLine{89 \textcolor{stringliteral}{    @params fileName name of the generated file}}
+\DoxyCodeLine{90 \textcolor{stringliteral}{    @params modality parameter requested by the open() function: 'a' stands for 'open for appending at the end of the file without truncating it'}}
+\DoxyCodeLine{91 \textcolor{stringliteral}{    @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity)}}
+\DoxyCodeLine{92 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{93     \textcolor{keyword}{with} open(fileName, modality) \textcolor{keyword}{as} file:}
+\DoxyCodeLine{94         writer = csv.writer(file)}
+\DoxyCodeLine{95         writer.writerow([index, data[0], data[1], data[2]])}
+\DoxyCodeLine{96 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceclipping_aa8da1db9fa695d80388cd40a512f0504}\label{namespaceclipping_aa8da1db9fa695d80388cd40a512f0504}} 
+\index{clipping@{clipping}!talker@{talker}}
+\index{talker@{talker}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{talker()}{talker()}}
+{\footnotesize\ttfamily def clipping.\+talker (\begin{DoxyParamCaption}\item[{}]{msg }\end{DoxyParamCaption})}
+
+
+
+The talker is used to publish the refined data on the so called \textquotesingle{}smartphone\textquotesingle{} topic. 
+
+
+
+Definition at line 204 of file clipping.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{204 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceclipping_aa8da1db9fa695d80388cd40a512f0504}{talker}}(msg):}
+\DoxyCodeLine{205     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{206 \textcolor{stringliteral}{    The talker is used to publish the refined data on the so called 'smartphone' topic}}
+\DoxyCodeLine{207 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{208     pub = rospy.Publisher(\textcolor{stringliteral}{'smartphone'}, Imu, queue\_size=10)}
+\DoxyCodeLine{209     pub.publish(msg)}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211 }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceclipping_a6ee75d70b845da8ab4590c0c184b3a9c}\label{namespaceclipping_a6ee75d70b845da8ab4590c0c184b3a9c}} 
+\index{clipping@{clipping}!abs\_file\_gravity@{abs\_file\_gravity}}
+\index{abs\_file\_gravity@{abs\_file\_gravity}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{abs\_file\_gravity}{abs\_file\_gravity}}
+{\footnotesize\ttfamily clipping.\+abs\+\_\+file\+\_\+gravity = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_a40dc8f801a6d3d31d0961379d6ca9539}{rel\+\_\+path\+\_\+gravity}})}
+
+
+
+Definition at line 32 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_ab2a79c61ef4e3ba3cebdff6c4632fee4}\label{namespaceclipping_ab2a79c61ef4e3ba3cebdff6c4632fee4}} 
+\index{clipping@{clipping}!abs\_file\_path1@{abs\_file\_path1}}
+\index{abs\_file\_path1@{abs\_file\_path1}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{abs\_file\_path1}{abs\_file\_path1}}
+{\footnotesize\ttfamily clipping.\+abs\+\_\+file\+\_\+path1 = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_af6eb332d3a2d24d13c70ef2f5546c0d3}{rel\+\_\+path1}})}
+
+
+
+Definition at line 24 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a23f780f18903fb04e6560650ee936fa1}\label{namespaceclipping_a23f780f18903fb04e6560650ee936fa1}} 
+\index{clipping@{clipping}!abs\_file\_path2@{abs\_file\_path2}}
+\index{abs\_file\_path2@{abs\_file\_path2}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{abs\_file\_path2}{abs\_file\_path2}}
+{\footnotesize\ttfamily clipping.\+abs\+\_\+file\+\_\+path2 = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_a71fe3c160af28982edb1749ea81308a3}{rel\+\_\+path2}})}
+
+
+
+Definition at line 26 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a1c26a0de4167786433848ddf043dd0ab}\label{namespaceclipping_a1c26a0de4167786433848ddf043dd0ab}} 
+\index{clipping@{clipping}!abs\_file\_path3@{abs\_file\_path3}}
+\index{abs\_file\_path3@{abs\_file\_path3}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{abs\_file\_path3}{abs\_file\_path3}}
+{\footnotesize\ttfamily clipping.\+abs\+\_\+file\+\_\+path3 = os.\+path.\+join(\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{script\+\_\+dir}}, \mbox{\hyperlink{namespaceclipping_a4c9ddedce2fc1502dc21cfcf394f8cc3}{rel\+\_\+path3}})}
+
+
+
+Definition at line 28 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a937106624563e50bdce6e396a1bbc4cf}\label{namespaceclipping_a937106624563e50bdce6e396a1bbc4cf}} 
+\index{clipping@{clipping}!angular\_velocity@{angular\_velocity}}
+\index{angular\_velocity@{angular\_velocity}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{angular\_velocity}{angular\_velocity}}
+{\footnotesize\ttfamily list clipping.\+angular\+\_\+velocity = \mbox{[}0, 0, 0\mbox{]}}
+
+
+
+Definition at line 42 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a4f89dd00d3e26e419ad07d652353c09d}\label{namespaceclipping_a4f89dd00d3e26e419ad07d652353c09d}} 
+\index{clipping@{clipping}!counter@{counter}}
+\index{counter@{counter}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{counter}{counter}}
+{\footnotesize\ttfamily int clipping.\+counter = 0}
+
+
+
+Definition at line 47 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a872c980bf1743645999652715493d1ef}\label{namespaceclipping_a872c980bf1743645999652715493d1ef}} 
+\index{clipping@{clipping}!delta@{delta}}
+\index{delta@{delta}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{delta}{delta}}
+{\footnotesize\ttfamily float clipping.\+delta = 0.\+05}
+
+
+
+Definition at line 40 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a14dc92c001ea2b7205201df8fa5b4b47}\label{namespaceclipping_a14dc92c001ea2b7205201df8fa5b4b47}} 
+\index{clipping@{clipping}!flagWriteData@{flagWriteData}}
+\index{flagWriteData@{flagWriteData}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{flagWriteData}{flagWriteData}}
+{\footnotesize\ttfamily int clipping.\+flag\+Write\+Data = 1}
+
+
+
+Definition at line 35 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_ae51849e973c472eab0c06114a689e57b}\label{namespaceclipping_ae51849e973c472eab0c06114a689e57b}} 
+\index{clipping@{clipping}!g@{g}}
+\index{g@{g}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{g}{g}}
+{\footnotesize\ttfamily list clipping.\+g = \mbox{[}0 ,0 ,0\mbox{]}}
+
+
+
+Definition at line 44 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_aaf2e04ce27b3129636907ce8b28ab747}\label{namespaceclipping_aaf2e04ce27b3129636907ce8b28ab747}} 
+\index{clipping@{clipping}!index@{index}}
+\index{index@{index}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{index}{index}}
+{\footnotesize\ttfamily int clipping.\+index = 1}
+
+
+
+Definition at line 37 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_aaa9c45af65adbc814f8396980b26167a}\label{namespaceclipping_aaa9c45af65adbc814f8396980b26167a}} 
+\index{clipping@{clipping}!lin\_acc\_no\_g@{lin\_acc\_no\_g}}
+\index{lin\_acc\_no\_g@{lin\_acc\_no\_g}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{lin\_acc\_no\_g}{lin\_acc\_no\_g}}
+{\footnotesize\ttfamily list clipping.\+lin\+\_\+acc\+\_\+no\+\_\+g = \mbox{[}0, 0, 0\mbox{]}}
+
+
+
+Definition at line 41 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a141da8c0f07a405ef3f205067579144f}\label{namespaceclipping_a141da8c0f07a405ef3f205067579144f}} 
+\index{clipping@{clipping}!max\_lin\_acc@{max\_lin\_acc}}
+\index{max\_lin\_acc@{max\_lin\_acc}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{max\_lin\_acc}{max\_lin\_acc}}
+{\footnotesize\ttfamily list clipping.\+max\+\_\+lin\+\_\+acc = \mbox{[}0, 0, 0\mbox{]}}
+
+
+
+Definition at line 45 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a79cb0ad963b8cf030b2bcfc5675a83f0}\label{namespaceclipping_a79cb0ad963b8cf030b2bcfc5675a83f0}} 
+\index{clipping@{clipping}!maxIteration@{maxIteration}}
+\index{maxIteration@{maxIteration}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{maxIteration}{maxIteration}}
+{\footnotesize\ttfamily int clipping.\+max\+Iteration = 50}
+
+
+
+Definition at line 48 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_ac33e7b66a0ea7b9401550ecb54655abe}\label{namespaceclipping_ac33e7b66a0ea7b9401550ecb54655abe}} 
+\index{clipping@{clipping}!orientation@{orientation}}
+\index{orientation@{orientation}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{orientation}{orientation}}
+{\footnotesize\ttfamily list clipping.\+orientation = \mbox{[}0, 0, 0, 0\mbox{]}}
+
+
+
+Definition at line 43 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_af6eb332d3a2d24d13c70ef2f5546c0d3}\label{namespaceclipping_af6eb332d3a2d24d13c70ef2f5546c0d3}} 
+\index{clipping@{clipping}!rel\_path1@{rel\_path1}}
+\index{rel\_path1@{rel\_path1}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{rel\_path1}{rel\_path1}}
+{\footnotesize\ttfamily string clipping.\+rel\+\_\+path1 = \char`\"{}../output/lin\+\_\+acc.\+csv\char`\"{}}
+
+
+
+Definition at line 23 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a71fe3c160af28982edb1749ea81308a3}\label{namespaceclipping_a71fe3c160af28982edb1749ea81308a3}} 
+\index{clipping@{clipping}!rel\_path2@{rel\_path2}}
+\index{rel\_path2@{rel\_path2}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{rel\_path2}{rel\_path2}}
+{\footnotesize\ttfamily string clipping.\+rel\+\_\+path2 = \char`\"{}../output/orientation.\+csv\char`\"{}}
+
+
+
+Definition at line 25 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a4c9ddedce2fc1502dc21cfcf394f8cc3}\label{namespaceclipping_a4c9ddedce2fc1502dc21cfcf394f8cc3}} 
+\index{clipping@{clipping}!rel\_path3@{rel\_path3}}
+\index{rel\_path3@{rel\_path3}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{rel\_path3}{rel\_path3}}
+{\footnotesize\ttfamily string clipping.\+rel\+\_\+path3 = \char`\"{}../output/ang\+Vel.\+csv\char`\"{}}
+
+
+
+Definition at line 27 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a40dc8f801a6d3d31d0961379d6ca9539}\label{namespaceclipping_a40dc8f801a6d3d31d0961379d6ca9539}} 
+\index{clipping@{clipping}!rel\_path\_gravity@{rel\_path\_gravity}}
+\index{rel\_path\_gravity@{rel\_path\_gravity}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{rel\_path\_gravity}{rel\_path\_gravity}}
+{\footnotesize\ttfamily string clipping.\+rel\+\_\+path\+\_\+gravity = \char`\"{}../calibration/gravity.\+csv\char`\"{}}
+
+
+
+Definition at line 31 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a2967eccca06269489b420ab17fe76c92}\label{namespaceclipping_a2967eccca06269489b420ab17fe76c92}} 
+\index{clipping@{clipping}!safety\_coeff@{safety\_coeff}}
+\index{safety\_coeff@{safety\_coeff}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{safety\_coeff}{safety\_coeff}}
+{\footnotesize\ttfamily float clipping.\+safety\+\_\+coeff = 1.\+1}
+
+
+
+Definition at line 46 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_acc27d9174d32e3560344305305f3266b}\label{namespaceclipping_acc27d9174d32e3560344305305f3266b}} 
+\index{clipping@{clipping}!script\_dir@{script\_dir}}
+\index{script\_dir@{script\_dir}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{script\_dir}{script\_dir}}
+{\footnotesize\ttfamily clipping.\+script\+\_\+dir = os.\+path.\+dirname(\+\_\+\+\_\+file\+\_\+\+\_\+)}
+
+
+
+Definition at line 22 of file clipping.\+py.
+
+\mbox{\Hypertarget{namespaceclipping_a7a1488c3a0204855f4f4f1601f8812bd}\label{namespaceclipping_a7a1488c3a0204855f4f4f1601f8812bd}} 
+\index{clipping@{clipping}!temp@{temp}}
+\index{temp@{temp}!clipping@{clipping}}
+\doxysubsubsection{\texorpdfstring{temp}{temp}}
+{\footnotesize\ttfamily clipping.\+temp = pd.\+read\+\_\+csv(\mbox{\hyperlink{namespaceclipping_a6ee75d70b845da8ab4590c0c184b3a9c}{abs\+\_\+file\+\_\+gravity}}, names=\mbox{[}\textquotesingle{}X\textquotesingle{}, \textquotesingle{}Y\textquotesingle{}, \textquotesingle{}Z\textquotesingle{}\mbox{]}, header=0, decimal=\textquotesingle{},\textquotesingle{})}
+
+
+
+Definition at line 218 of file clipping.\+py.
+

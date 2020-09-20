@@ -1,0 +1,326 @@
+\hypertarget{namespaceintegrator}{}\doxysection{integrator Namespace Reference}
+\label{namespaceintegrator}\index{integrator@{integrator}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceintegrator_a22979cdd714ad2c612b7ced573d9f3b2}{sat}} (x, xmin, xmax)
+\item 
+def \mbox{\hyperlink{namespaceintegrator_a6581019664f229034955187e28ec3475}{qdot\+\_\+callback}} (qdot\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Receives qdot vector and sents q vector obtained by integration. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceintegrator_a255fcd12930bddb824408458626ec8e2}{simulate\+\_\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em Handles changes in the simulation. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceintegrator_af09c68e82d7f88b49d316975c60ab01a}{integr}} ()
+\begin{DoxyCompactList}\small\item\em Integrator function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceintegrator_a69c7baff9de268f49689234d68cff2e4}{q}} = np.\+zeros((7,1))
+\item 
+\mbox{\hyperlink{namespaceintegrator_a67a8293b47b1faca732f945078f55995}{qdot}} = np.\+zeros((7,1))
+\item 
+\mbox{\hyperlink{namespaceintegrator_a7799163702b53f88dd4519164df0d786}{qdotprev}} = None
+\item 
+\mbox{\hyperlink{namespaceintegrator_ad2fcbd764428557692acb72800b65a52}{qdotprevprev}} = None
+\item 
+bool \mbox{\hyperlink{namespaceintegrator_afd180b4c6377f909abdbbcb4f67d43d6}{qdotppnone}} = True
+\item 
+bool \mbox{\hyperlink{namespaceintegrator_a180d23e89f8f26dc4904612643ea07b7}{qdotpnone}} = True
+\item 
+\mbox{\hyperlink{namespaceintegrator_adec98149520cd67a87acbe58c25e11e1}{qold}} = np.\+zeros((7,1))
+\item 
+int \mbox{\hyperlink{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}{eff}} = 0
+\item 
+int \mbox{\hyperlink{namespaceintegrator_aea0fb34a111ffbf557f4e716f6ec6721}{key}} = 0
+\item 
+float \mbox{\hyperlink{namespaceintegrator_a310e2a1dc3871cf6977f6f55a9c60b34}{DT}} = 0.\+01
+\item 
+list \mbox{\hyperlink{namespaceintegrator_ab3ded41667f8cc4210092a7a644b09f6}{qmin}} = \mbox{[}-\/1.\+6817,-\/2.\+1268,-\/3.\+0343,-\/0.\+3,-\/3.\+0396,-\/1.\+5508,-\/3.\+0396\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceintegrator_acd9e3fb8a779bc99a87a4d363beebd30}{qmax}} = \mbox{[}1.\+6817,1.\+0272,3.\+0343,2.\+5829,3.\+0378,2.\+0744,3.\+0378\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceintegrator_a9c8130fe31d266bb5d15531201bd3cc0}{anonymous}}
+\item 
+\mbox{\hyperlink{namespaceintegrator_ad62b7be1d5b3c5a7d2ae896aa9c20937}{pub}} = rospy.\+Publisher(\textquotesingle{}logtopic\textquotesingle{}, Joint\+State, queue\+\_\+size=10)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceintegrator_af09c68e82d7f88b49d316975c60ab01a}\label{namespaceintegrator_af09c68e82d7f88b49d316975c60ab01a}} 
+\index{integrator@{integrator}!integr@{integr}}
+\index{integr@{integr}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{integr()}{integr()}}
+{\footnotesize\ttfamily def integrator.\+integr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Integrator function. 
+
+
+
+Definition at line 75 of file integrator.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{75 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceintegrator_af09c68e82d7f88b49d316975c60ab01a}{integr}}():}
+\DoxyCodeLine{76     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{77 \textcolor{stringliteral}{    Integrator function}}
+\DoxyCodeLine{78 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{79     \textcolor{keyword}{global} q,qdot,key}
+\DoxyCodeLine{80     rospy.Subscriber(\textcolor{stringliteral}{"{}cmdtopic"{}}, JointState, qdot\_callback) \textcolor{comment}{\# subscribe to weighter}}
+\DoxyCodeLine{81     rospy.Subscriber(\textcolor{stringliteral}{"{}handleSimulation"{}}, Int8, simulate\_callback) \textcolor{comment}{\# subscribe to simulation messages}}
+\DoxyCodeLine{82     }
+\DoxyCodeLine{83     \textcolor{comment}{\# spin() simply keeps python from exiting until this node is stopped}}
+\DoxyCodeLine{84     rospy.spin()  }
+\DoxyCodeLine{85 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator_a6581019664f229034955187e28ec3475}\label{namespaceintegrator_a6581019664f229034955187e28ec3475}} 
+\index{integrator@{integrator}!qdot\_callback@{qdot\_callback}}
+\index{qdot\_callback@{qdot\_callback}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qdot\_callback()}{qdot\_callback()}}
+{\footnotesize\ttfamily def integrator.\+qdot\+\_\+callback (\begin{DoxyParamCaption}\item[{}]{qdot\+\_\+data }\end{DoxyParamCaption})}
+
+
+
+Receives qdot vector and sents q vector obtained by integration. 
+
+@params qdot\+\_\+data\+: qdot message received from weighter. 
+
+Definition at line 29 of file integrator.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{29 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceintegrator_a6581019664f229034955187e28ec3475}{qdot\_callback}} (qdot\_data):}
+\DoxyCodeLine{30     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{31 \textcolor{stringliteral}{    Receives qdot vector and sents q vector obtained by integration.}}
+\DoxyCodeLine{32 \textcolor{stringliteral}{    @params qdot\_data: qdot message received from weighter.}}
+\DoxyCodeLine{33 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{34     \textcolor{keyword}{global} q,qdot,eff,key,pub,qdotprev,qdotprevprev,qold,qdotpnone,qdotppnone,qmin,qmax}
+\DoxyCodeLine{35     qdot = np.array([qdot\_data.velocity]).transpose() \textcolor{comment}{\# store received vector in global variable}}
+\DoxyCodeLine{36     eff = qdot\_data.effort[0] \textcolor{comment}{\# store new seq number}}
+\DoxyCodeLine{37     tosend = JointState() \textcolor{comment}{\# joint state object to be sent}}
+\DoxyCodeLine{38     qtmp = q \textcolor{comment}{\# store old q in qtmp}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40     \textcolor{comment}{\# Integration}}
+\DoxyCodeLine{41     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} qdotppnone: \textcolor{comment}{\# can use Simpson integration}}
+\DoxyCodeLine{42         q = qold + DT * (qdot + qdotprevprev + 4 * qdotprev) / 3}
+\DoxyCodeLine{43     \textcolor{keywordflow}{elif} \textcolor{keywordflow}{not} qdotpnone: \textcolor{comment}{\# can use trap integration}}
+\DoxyCodeLine{44         q = q + DT * (qdot + qdotprev) * .5}
+\DoxyCodeLine{45         \textcolor{comment}{\#qdotppnone = False}}
+\DoxyCodeLine{46     \textcolor{keywordflow}{else}: \textcolor{comment}{\# can use rectangular integration}}
+\DoxyCodeLine{47         q = q + DT * qdot}
+\DoxyCodeLine{48         qdotpnone = \textcolor{keyword}{False}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50     \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(7):}
+\DoxyCodeLine{51         q[i] = \mbox{\hyperlink{namespaceintegrator_a22979cdd714ad2c612b7ced573d9f3b2}{sat}}(q[i],qmin[i],qmax[i])}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53     \textcolor{comment}{\# Update past values}}
+\DoxyCodeLine{54     qdotprev = qdot}
+\DoxyCodeLine{55     qdotprevprev = qdotprev}
+\DoxyCodeLine{56     qold = qtmp}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58     \textcolor{comment}{\# Fill in and send object tosend}}
+\DoxyCodeLine{59     tosend.position = q}
+\DoxyCodeLine{60     tosend.effort = [eff]}
+\DoxyCodeLine{61     tosend.header.stamp = rospy.Time.now()}
+\DoxyCodeLine{62     pub.publish(tosend)}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator_a22979cdd714ad2c612b7ced573d9f3b2}\label{namespaceintegrator_a22979cdd714ad2c612b7ced573d9f3b2}} 
+\index{integrator@{integrator}!sat@{sat}}
+\index{sat@{sat}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{sat()}{sat()}}
+{\footnotesize\ttfamily def integrator.\+sat (\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{xmin,  }\item[{}]{xmax }\end{DoxyParamCaption})}
+
+
+
+Definition at line 23 of file integrator.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{23 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceintegrator_a22979cdd714ad2c612b7ced573d9f3b2}{sat}}(x,xmin,xmax):}
+\DoxyCodeLine{24     \textcolor{keywordflow}{if} x > xmax: \textcolor{keywordflow}{return} xmax}
+\DoxyCodeLine{25     \textcolor{keywordflow}{if} x < xmin: \textcolor{keywordflow}{return} xmin}
+\DoxyCodeLine{26     \textcolor{keywordflow}{return} x}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 }
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceintegrator_a255fcd12930bddb824408458626ec8e2}\label{namespaceintegrator_a255fcd12930bddb824408458626ec8e2}} 
+\index{integrator@{integrator}!simulate\_callback@{simulate\_callback}}
+\index{simulate\_callback@{simulate\_callback}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{simulate\_callback()}{simulate\_callback()}}
+{\footnotesize\ttfamily def integrator.\+simulate\+\_\+callback (\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})}
+
+
+
+Handles changes in the simulation. 
+
+If data = 0, then the initial conditions must be resetted. 
+\begin{DoxyParams}{Parameters}
+{\em data} & coming from coppelia\+\_\+sim. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 65 of file integrator.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{65 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceintegrator_a255fcd12930bddb824408458626ec8e2}{simulate\_callback}}(data):}
+\DoxyCodeLine{66     \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{67 \textcolor{stringliteral}{    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.}}
+\DoxyCodeLine{68 \textcolor{stringliteral}{    @param data: coming from coppelia\_sim.}}
+\DoxyCodeLine{69 \textcolor{stringliteral}{    "{}"{}"{}}}
+\DoxyCodeLine{70     \textcolor{keyword}{global} q,key}
+\DoxyCodeLine{71     \textcolor{keywordflow}{if} data.data == 0:}
+\DoxyCodeLine{72         q = np.zeros((7,1));key = 0}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceintegrator_a9c8130fe31d266bb5d15531201bd3cc0}\label{namespaceintegrator_a9c8130fe31d266bb5d15531201bd3cc0}} 
+\index{integrator@{integrator}!anonymous@{anonymous}}
+\index{anonymous@{anonymous}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{anonymous}{anonymous}}
+{\footnotesize\ttfamily integrator.\+anonymous}
+
+
+
+Definition at line 88 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_a310e2a1dc3871cf6977f6f55a9c60b34}\label{namespaceintegrator_a310e2a1dc3871cf6977f6f55a9c60b34}} 
+\index{integrator@{integrator}!DT@{DT}}
+\index{DT@{DT}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{DT}{DT}}
+{\footnotesize\ttfamily float integrator.\+DT = 0.\+01}
+
+
+
+Definition at line 18 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}\label{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}} 
+\index{integrator@{integrator}!eff@{eff}}
+\index{eff@{eff}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{eff}{eff}}
+{\footnotesize\ttfamily int integrator.\+eff = 0}
+
+
+
+Definition at line 16 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_aea0fb34a111ffbf557f4e716f6ec6721}\label{namespaceintegrator_aea0fb34a111ffbf557f4e716f6ec6721}} 
+\index{integrator@{integrator}!key@{key}}
+\index{key@{key}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{key}{key}}
+{\footnotesize\ttfamily int integrator.\+key = 0}
+
+
+
+Definition at line 17 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_ad62b7be1d5b3c5a7d2ae896aa9c20937}\label{namespaceintegrator_ad62b7be1d5b3c5a7d2ae896aa9c20937}} 
+\index{integrator@{integrator}!pub@{pub}}
+\index{pub@{pub}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{pub}{pub}}
+{\footnotesize\ttfamily integrator.\+pub = rospy.\+Publisher(\textquotesingle{}logtopic\textquotesingle{}, Joint\+State, queue\+\_\+size=10)}
+
+
+
+Definition at line 89 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_a69c7baff9de268f49689234d68cff2e4}\label{namespaceintegrator_a69c7baff9de268f49689234d68cff2e4}} 
+\index{integrator@{integrator}!q@{q}}
+\index{q@{q}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{q}{q}}
+{\footnotesize\ttfamily integrator.\+q = np.\+zeros((7,1))}
+
+
+
+Definition at line 9 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_a67a8293b47b1faca732f945078f55995}\label{namespaceintegrator_a67a8293b47b1faca732f945078f55995}} 
+\index{integrator@{integrator}!qdot@{qdot}}
+\index{qdot@{qdot}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qdot}{qdot}}
+{\footnotesize\ttfamily integrator.\+qdot = np.\+zeros((7,1))}
+
+
+
+Definition at line 10 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_a180d23e89f8f26dc4904612643ea07b7}\label{namespaceintegrator_a180d23e89f8f26dc4904612643ea07b7}} 
+\index{integrator@{integrator}!qdotpnone@{qdotpnone}}
+\index{qdotpnone@{qdotpnone}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qdotpnone}{qdotpnone}}
+{\footnotesize\ttfamily bool integrator.\+qdotpnone = True}
+
+
+
+Definition at line 14 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_afd180b4c6377f909abdbbcb4f67d43d6}\label{namespaceintegrator_afd180b4c6377f909abdbbcb4f67d43d6}} 
+\index{integrator@{integrator}!qdotppnone@{qdotppnone}}
+\index{qdotppnone@{qdotppnone}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qdotppnone}{qdotppnone}}
+{\footnotesize\ttfamily bool integrator.\+qdotppnone = True}
+
+
+
+Definition at line 13 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_a7799163702b53f88dd4519164df0d786}\label{namespaceintegrator_a7799163702b53f88dd4519164df0d786}} 
+\index{integrator@{integrator}!qdotprev@{qdotprev}}
+\index{qdotprev@{qdotprev}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qdotprev}{qdotprev}}
+{\footnotesize\ttfamily integrator.\+qdotprev = None}
+
+
+
+Definition at line 11 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_ad2fcbd764428557692acb72800b65a52}\label{namespaceintegrator_ad2fcbd764428557692acb72800b65a52}} 
+\index{integrator@{integrator}!qdotprevprev@{qdotprevprev}}
+\index{qdotprevprev@{qdotprevprev}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qdotprevprev}{qdotprevprev}}
+{\footnotesize\ttfamily integrator.\+qdotprevprev = None}
+
+
+
+Definition at line 12 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_acd9e3fb8a779bc99a87a4d363beebd30}\label{namespaceintegrator_acd9e3fb8a779bc99a87a4d363beebd30}} 
+\index{integrator@{integrator}!qmax@{qmax}}
+\index{qmax@{qmax}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qmax}{qmax}}
+{\footnotesize\ttfamily list integrator.\+qmax = \mbox{[}1.\+6817,1.\+0272,3.\+0343,2.\+5829,3.\+0378,2.\+0744,3.\+0378\mbox{]}}
+
+
+
+Definition at line 20 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_ab3ded41667f8cc4210092a7a644b09f6}\label{namespaceintegrator_ab3ded41667f8cc4210092a7a644b09f6}} 
+\index{integrator@{integrator}!qmin@{qmin}}
+\index{qmin@{qmin}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qmin}{qmin}}
+{\footnotesize\ttfamily list integrator.\+qmin = \mbox{[}-\/1.\+6817,-\/2.\+1268,-\/3.\+0343,-\/0.\+3,-\/3.\+0396,-\/1.\+5508,-\/3.\+0396\mbox{]}}
+
+
+
+Definition at line 19 of file integrator.\+py.
+
+\mbox{\Hypertarget{namespaceintegrator_adec98149520cd67a87acbe58c25e11e1}\label{namespaceintegrator_adec98149520cd67a87acbe58c25e11e1}} 
+\index{integrator@{integrator}!qold@{qold}}
+\index{qold@{qold}!integrator@{integrator}}
+\doxysubsubsection{\texorpdfstring{qold}{qold}}
+{\footnotesize\ttfamily integrator.\+qold = np.\+zeros((7,1))}
+
+
+
+Definition at line 15 of file integrator.\+py.
+

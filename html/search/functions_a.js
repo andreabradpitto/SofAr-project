@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['printarrayd_185',['printArrayd',['../utilities_8h.html#ad6a8030669f0512259a00bea84ca508e',1,'utilities.h']]],
-  ['printvectord_186',['printVectord',['../utilities_8h.html#a5cd30de72edd88cc68523970233e31ee',1,'utilities.h']]]
+  ['lin_5facc_5fcompensate_481',['lin_acc_compensate',['../namespaceclipping.html#af172465c4f8760f413a24ad7c5dc93c2',1,'clipping']]],
+  ['listener_482',['listener',['../namespaceclipping.html#a8c34047ecae692b16baa7a9306db9e2d',1,'clipping.listener()'],['../namespacecomputeGravity.html#a3c930a7cd8889fc28db7ab87088cf776',1,'computeGravity.listener()']]],
+  ['loadcalib_483',['loadCalib',['../classimu__calib_1_1AccelCalib.html#a2ca5069a85da989629cb248bef0f4959',1,'imu_calib::AccelCalib']]],
+  ['logtopiccallback_484',['logtopicCallback',['../logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8',1,'logger.cpp']]]
 ];

@@ -1,0 +1,49 @@
+\hypertarget{integrator_8py}{}\doxysection{Math/math\+\_\+pkg/scripts/integrator.py File Reference}
+\label{integrator_8py}\index{Math/math\_pkg/scripts/integrator.py@{Math/math\_pkg/scripts/integrator.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceintegrator}{integrator}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceintegrator_a22979cdd714ad2c612b7ced573d9f3b2}{integrator.\+sat}} (x, xmin, xmax)
+\item 
+def \mbox{\hyperlink{namespaceintegrator_a6581019664f229034955187e28ec3475}{integrator.\+qdot\+\_\+callback}} (qdot\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Receives qdot vector and sents q vector obtained by integration. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceintegrator_a255fcd12930bddb824408458626ec8e2}{integrator.\+simulate\+\_\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em Handles changes in the simulation. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceintegrator_af09c68e82d7f88b49d316975c60ab01a}{integrator.\+integr}} ()
+\begin{DoxyCompactList}\small\item\em Integrator function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceintegrator_a69c7baff9de268f49689234d68cff2e4}{integrator.\+q}} = np.\+zeros((7,1))
+\item 
+\mbox{\hyperlink{namespaceintegrator_a67a8293b47b1faca732f945078f55995}{integrator.\+qdot}} = np.\+zeros((7,1))
+\item 
+\mbox{\hyperlink{namespaceintegrator_a7799163702b53f88dd4519164df0d786}{integrator.\+qdotprev}} = None
+\item 
+\mbox{\hyperlink{namespaceintegrator_ad2fcbd764428557692acb72800b65a52}{integrator.\+qdotprevprev}} = None
+\item 
+bool \mbox{\hyperlink{namespaceintegrator_afd180b4c6377f909abdbbcb4f67d43d6}{integrator.\+qdotppnone}} = True
+\item 
+bool \mbox{\hyperlink{namespaceintegrator_a180d23e89f8f26dc4904612643ea07b7}{integrator.\+qdotpnone}} = True
+\item 
+\mbox{\hyperlink{namespaceintegrator_adec98149520cd67a87acbe58c25e11e1}{integrator.\+qold}} = np.\+zeros((7,1))
+\item 
+int \mbox{\hyperlink{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}{integrator.\+eff}} = 0
+\item 
+int \mbox{\hyperlink{namespaceintegrator_aea0fb34a111ffbf557f4e716f6ec6721}{integrator.\+key}} = 0
+\item 
+float \mbox{\hyperlink{namespaceintegrator_a310e2a1dc3871cf6977f6f55a9c60b34}{integrator.\+DT}} = 0.\+01
+\item 
+list \mbox{\hyperlink{namespaceintegrator_ab3ded41667f8cc4210092a7a644b09f6}{integrator.\+qmin}} = \mbox{[}-\/1.\+6817,-\/2.\+1268,-\/3.\+0343,-\/0.\+3,-\/3.\+0396,-\/1.\+5508,-\/3.\+0396\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceintegrator_acd9e3fb8a779bc99a87a4d363beebd30}{integrator.\+qmax}} = \mbox{[}1.\+6817,1.\+0272,3.\+0343,2.\+5829,3.\+0378,2.\+0744,3.\+0378\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceintegrator_a9c8130fe31d266bb5d15531201bd3cc0}{integrator.\+anonymous}}
+\item 
+\mbox{\hyperlink{namespaceintegrator_ad62b7be1d5b3c5a7d2ae896aa9c20937}{integrator.\+pub}} = rospy.\+Publisher(\textquotesingle{}logtopic\textquotesingle{}, Joint\+State, queue\+\_\+size=10)
+\end{DoxyCompactItemize}
