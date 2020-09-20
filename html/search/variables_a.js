@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['key_575',['key',['../namespaceForward__Kine__JT.html#a43013e1a4f01bda5fbe1919da2822267',1,'Forward_Kine_JT.key()'],['../namespaceForward__Kine2.html#a874264a931447898f15aae1ffef99caa',1,'Forward_Kine2.key()'],['../namespaceForward__Kine__halfcircle.html#a559c86b4b254f0537a8c63853bf39d3b',1,'Forward_Kine_halfcircle.key()'],['../namespaceintegrator.html#aea0fb34a111ffbf557f4e716f6ec6721',1,'integrator.key()'],['../namespacetest__publisher__halfcircle.html#a09e15b04ff43c87ad15787acc782df47',1,'test_publisher_halfcircle.key()']]],
-  ['key_5fbax_576',['key_bax',['../namespaceForward__Kine__JT.html#a93cde3d09517dd5dfad8824acaa627db',1,'Forward_Kine_JT.key_bax()'],['../namespaceForward__Kine2.html#a54bb5ee9f7f19756b30d1a924469a713',1,'Forward_Kine2.key_bax()'],['../namespaceForward__Kine__halfcircle.html#a617a0a22222b7e3feebf2dfc7c4102f6',1,'Forward_Kine_halfcircle.key_bax()']]],
-  ['key_5fdot_577',['key_dot',['../namespaceForward__Kine__JT.html#a81a85563f853da72ca5a075e13443a65',1,'Forward_Kine_JT.key_dot()'],['../namespaceForward__Kine2.html#abf7e5b65599c5ad92cc8babe9908511f',1,'Forward_Kine2.key_dot()'],['../namespaceForward__Kine__halfcircle.html#a10a5ab67cdc270ab06e64109988fb537',1,'Forward_Kine_halfcircle.key_dot()']]],
-  ['key_5fsmart_578',['key_smart',['../namespaceForward__Kine__JT.html#ad8d0ab1862f1a91973f32966d3d9497d',1,'Forward_Kine_JT.key_smart()'],['../namespaceForward__Kine2.html#ab3db1d1d84097bd59978dad9a9167f71',1,'Forward_Kine2.key_smart()'],['../namespaceForward__Kine__halfcircle.html#a09d82dd5cf626333c4db5f13f9ccac1a',1,'Forward_Kine_halfcircle.key_smart()']]]
+  ['q_224',['q',['../cost_8cpp.html#a548f6518b5c6b29d99ac72398bef200f',1,'q():&#160;cost.cpp'],['../safety_8cpp.html#a9cdf00135d8fde1d601bb55fec55a2e6',1,'q():&#160;safety.cpp']]],
+  ['qdot_225',['qdot',['../ik_8cpp.html#a4140c2cc2c5ca4d7a7d7e6736b3a2284',1,'qdot():&#160;ik.cpp'],['../safety_8cpp.html#a317c43362faf4475dce4577384fa9578',1,'qdot():&#160;safety.cpp']]],
+  ['qdotmax_226',['QDOTMAX',['../utilities_8h.html#a7793a0ce6c398126e6067e0ac1a4afac',1,'utilities.h']]],
+  ['qdotmin_227',['QDOTMIN',['../utilities_8h.html#a6167c47903ae87b6261e3f0b28eb8ae0',1,'utilities.h']]],
+  ['qinit_228',['QINIT',['../utilities_8h.html#a45bbb460fb37d3e73e82b64d9b7838c7',1,'utilities.h']]],
+  ['qmax_229',['QMAX',['../utilities_8h.html#a857331cbe5e4e72a02853ab15cd54a09',1,'utilities.h']]],
+  ['qmin_230',['QMIN',['../utilities_8h.html#ab092fe4291fb68da50654476ea0b7bd3',1,'utilities.h']]]
 ];

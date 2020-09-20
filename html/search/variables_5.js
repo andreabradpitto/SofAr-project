@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['figsize_552',['figsize',['../namespaceofflineAnalysis.html#af2a53eae106d38360dbbb459eb2cbd6c',1,'offlineAnalysis']]],
-  ['firststep_553',['firstStep',['../ik_8cpp.html#a2d738c8295c5f93e95c3285c32f9cbf2',1,'ik.cpp']]],
-  ['flag_5fbax_554',['flag_bax',['../namespaceForward__Kine__JT.html#a641c29bea89f6d5874893e784146452a',1,'Forward_Kine_JT.flag_bax()'],['../namespaceForward__Kine__halfcircle.html#a0ccdcb19f194f286bbea9a3cfa58f5e8',1,'Forward_Kine_halfcircle.flag_bax()']]],
-  ['flag_5fdot_555',['flag_dot',['../namespaceForward__Kine__JT.html#aee1f17bcc8d5fa06db35fb686475a48b',1,'Forward_Kine_JT.flag_dot()'],['../namespaceForward__Kine__halfcircle.html#a84bd411b7ebdc84f1d352df19bd7f83b',1,'Forward_Kine_halfcircle.flag_dot()']]],
-  ['flagwritedata_556',['flagWriteData',['../namespaceclipping.html#a14dc92c001ea2b7205201df8fa5b4b47',1,'clipping']]],
-  ['font_557',['font',['../namespaceofflineAnalysis.html#a0599f5051f22e64f065b53c6942e6e55',1,'offlineAnalysis']]]
+  ['id_5fmatrix_5fnj_208',['ID_MATRIX_NJ',['../utilities_8h.html#af89a8758592469410415b30b4c8accda',1,'utilities.h']]],
+  ['id_5fmatrix_5fspace_5fdofs_209',['ID_MATRIX_SPACE_DOFS',['../utilities_8h.html#a47db7d9ba8c0a5a126ac3d7dfc225f14',1,'utilities.h']]],
+  ['iksrv_210',['ikSrv',['../cost_8cpp.html#ad7a54b79a46081855d5631088dd1a0fa',1,'cost.cpp']]]
 ];

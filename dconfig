@@ -878,11 +878,11 @@ FILE_PATTERNS          = *.c \
                          *.inc \
                          *.m \
                          *.markdown \
-                         *.md \
                          *.mm \
                          *.dox \
                          *.doc \
                          *.txt \
+                         *.md\
                          *.py \
                          *.pyw \
                          *.f90 \
@@ -912,7 +912,13 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                =
+EXCLUDE                = ./Smartphone/smartphone/readme.md,
+						 ./Smartphone/smartphone/scripts/readme.md,
+						 ./V-rep/readme.md,
+						 ./Smartphone/README.md,
+						 ./Smartphone/imu_calib/README.md,
+						 ./Math/README.md
+
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

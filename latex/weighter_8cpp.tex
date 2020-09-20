@@ -95,8 +95,8 @@ Definition at line 119 of file weighter.\+cpp.
 \DoxyCodeLine{147         finalqdotState.velocity = finalqdot; \textcolor{comment}{// store final velocity vector into the velocity field of the object to be published.}}
 \DoxyCodeLine{148     \}}
 \DoxyCodeLine{149     \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}} = \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}} + 1;}
-\DoxyCodeLine{150     vector<double> \mbox{\hyperlink{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}{eff}}(1, \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}});}
-\DoxyCodeLine{151     finalqdotState.effort = \mbox{\hyperlink{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}{eff}};}
+\DoxyCodeLine{150     vector<double> eff(1, \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}});}
+\DoxyCodeLine{151     finalqdotState.effort = eff;}
 \DoxyCodeLine{152     \textcolor{keywordflow}{if} (isnan(finalqdot[0]))}
 \DoxyCodeLine{153         num\_obtained = -\/1;}
 \DoxyCodeLine{154     \textcolor{keywordflow}{return} num\_obtained;}
@@ -229,7 +229,7 @@ Definition at line 159 of file weighter.\+cpp.
 \DoxyCodeLine{166 }
 \DoxyCodeLine{167     ros::Subscriber sub1 = n.subscribe(\textcolor{stringliteral}{"{}handleSimulation"{}}, queSize, \mbox{\hyperlink{weighter_8cpp_a3fd3befff9ef8cf31fa8f531d611c5a8}{handleCallback}}); \textcolor{comment}{// subscribe to Jacobian}}
 \DoxyCodeLine{168 }
-\DoxyCodeLine{169     ros::Publisher \mbox{\hyperlink{namespaceErrors_a0d9c70e857a30fb1cd960b97e3e8a229}{pub}} = n.advertise<sensor\_msgs::JointState>(\textcolor{stringliteral}{"{}cmdtopic"{}}, queSize); \textcolor{comment}{// activate qdot publisher}}
+\DoxyCodeLine{169     ros::Publisher pub = n.advertise<sensor\_msgs::JointState>(\textcolor{stringliteral}{"{}cmdtopic"{}}, queSize); \textcolor{comment}{// activate qdot publisher}}
 \DoxyCodeLine{170     ros::Rate loopRate(100);                                                        \textcolor{comment}{// define publishing rate}}
 \DoxyCodeLine{171 }
 \DoxyCodeLine{172     \textcolor{comment}{// This node acts as a client for three services.}}
@@ -254,7 +254,7 @@ Definition at line 159 of file weighter.\+cpp.
 \DoxyCodeLine{191                 obt = \mbox{\hyperlink{weighter_8cpp_a7c1267677c7171346c67cfe3fb7e27fa}{computeWeightedqdot}}(toSend);}
 \DoxyCodeLine{192                 \textcolor{keywordflow}{if} (obt == -\/1)}
 \DoxyCodeLine{193                     \textcolor{keywordflow}{break};}
-\DoxyCodeLine{194                 \mbox{\hyperlink{namespaceErrors_a0d9c70e857a30fb1cd960b97e3e8a229}{pub}}.publish(toSend); \textcolor{comment}{// publish weighted qdot}}
+\DoxyCodeLine{194                 pub.publish(toSend); \textcolor{comment}{// publish weighted qdot}}
 \DoxyCodeLine{195             \}}
 \DoxyCodeLine{196             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\mbox{\hyperlink{weighter_8cpp_a8409a0d351d4fba2eeef26a7dcc585a8}{reset}})}
 \DoxyCodeLine{197             \{}
