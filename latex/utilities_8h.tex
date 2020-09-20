@@ -1,0 +1,435 @@
+\hypertarget{utilities_8h}{}\doxysection{Math/math\+\_\+pkg/src/utilities.h File Reference}
+\label{utilities_8h}\index{Math/math\_pkg/src/utilities.h@{Math/math\_pkg/src/utilities.h}}
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}cmath\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Eigen/\+Dense\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Eigen/\+S\+VD\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+Cost.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{utilities_8h_a943f07034774ef1261d62cd0d3d1fec9}{DT}}~0.\+01
+\item 
+\#define \mbox{\hyperlink{utilities_8h_af77edc1f833593caecfc032dcc5953a6}{E\+TA}}~5
+\item 
+\#define \mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}}~7
+\item 
+\#define \mbox{\hyperlink{utilities_8h_a819a4f71108d5d9256b7748a5df3b49d}{N\+U\+M\+\_\+\+I\+K\+\_\+\+S\+E\+R\+V\+I\+C\+ES}}~3
+\item 
+\#define \mbox{\hyperlink{utilities_8h_a0eb52d69807922661a9207382137f734}{N\+U\+M\+\_\+\+I\+K\+\_\+\+S\+O\+L\+U\+T\+I\+O\+NS}}~6
+\item 
+\#define \mbox{\hyperlink{utilities_8h_a77e163477d15eb7caed7e579f573f4e4}{N\+U\+M\+\_\+\+O\+P\+T\+I\+M\+I\+Z\+E\+D\+\_\+\+S\+O\+L\+U\+T\+I\+O\+NS}}~4
+\item 
+\#define \mbox{\hyperlink{utilities_8h_a32a375610a5faae17532ed8b522dd200}{S\+P\+A\+C\+E\+\_\+\+D\+O\+FS}}~6
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Matrix\+Xd \mbox{\hyperlink{utilities_8h_a2f7b2792391455d576fad101488fa9d5}{mypinv}} (Matrix\+Xd A)
+\item 
+Matrix\+Xd \mbox{\hyperlink{utilities_8h_a66dede39bc52472042a84f87099ec816}{reg\+Pinv}} (Matrix\+Xd X, Matrix\+Xd A, Matrix\+Xd Q, double \mbox{\hyperlink{ik_8cpp_a256d9bdd4efdff0fe88509ce8f4cfad1}{eta}}, double \&cond)
+\item 
+void \mbox{\hyperlink{utilities_8h_a5cd30de72edd88cc68523970233e31ee}{print\+Vectord}} (vector$<$ double $>$ \mbox{\hyperlink{ik_8cpp_a6a84fd0a294af9b7ef769d241dfbdf96}{v}}, char $\ast$name)
+\item 
+void \mbox{\hyperlink{utilities_8h_ad6a8030669f0512259a00bea84ca508e}{print\+Arrayd}} (double \mbox{\hyperlink{ik_8cpp_a6a84fd0a294af9b7ef769d241dfbdf96}{v}}\mbox{[}$\,$\mbox{]}, int size, char name\mbox{[}$\,$\mbox{]})
+\item 
+void \mbox{\hyperlink{utilities_8h_aa96f0c1374200da4ab329d5905ed1d25}{saturate}} (vector$<$ double $>$ \&qdots)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const double \mbox{\hyperlink{utilities_8h_ab092fe4291fb68da50654476ea0b7bd3}{Q\+M\+IN}} \mbox{[}$\,$\mbox{]} = \{-\/1.\+6817,-\/2.\+1268,-\/3.\+0343,-\/0.\+3,-\/3.\+0396,-\/1.\+5508,-\/3.\+0396\}
+\item 
+const double \mbox{\hyperlink{utilities_8h_a857331cbe5e4e72a02853ab15cd54a09}{Q\+M\+AX}} \mbox{[}$\,$\mbox{]} = \{1.\+6817,1.\+0272,3.\+0343,2.\+5829,3.\+0378,2.\+0744,3.\+0378\}
+\item 
+const double \mbox{\hyperlink{utilities_8h_a6167c47903ae87b6261e3f0b28eb8ae0}{Q\+D\+O\+T\+M\+IN}} \mbox{[}$\,$\mbox{]} = \{-\/1,-\/1,-\/1,-\/1,-\/1,-\/1,-\/1\}
+\item 
+const double \mbox{\hyperlink{utilities_8h_a7793a0ce6c398126e6067e0ac1a4afac}{Q\+D\+O\+T\+M\+AX}} \mbox{[}$\,$\mbox{]} = \{1,1,1,1,1,1,1\}
+\item 
+const double \mbox{\hyperlink{utilities_8h_a45bbb460fb37d3e73e82b64d9b7838c7}{Q\+I\+N\+IT}} \mbox{[}$\,$\mbox{]} = \{0,0,0,0,0,0,0\}
+\item 
+const double \mbox{\hyperlink{utilities_8h_a9dd3b533d08f54ca47088ac3ca35aaa5}{bell\+Constant\+GX}} = -\/log(0.\+5)/0.\+000001
+\item 
+const Matrix\+Xd \mbox{\hyperlink{utilities_8h_af89a8758592469410415b30b4c8accda}{I\+D\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+NJ}} = Matrix\+Xd\+::\+Identity(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}},\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}})
+\item 
+const Matrix\+Xd \mbox{\hyperlink{utilities_8h_a47db7d9ba8c0a5a126ac3d7dfc225f14}{I\+D\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+S\+P\+A\+C\+E\+\_\+\+D\+O\+FS}} = Matrix\+Xd\+::\+Identity(\mbox{\hyperlink{utilities_8h_a32a375610a5faae17532ed8b522dd200}{S\+P\+A\+C\+E\+\_\+\+D\+O\+FS}},\mbox{\hyperlink{utilities_8h_a32a375610a5faae17532ed8b522dd200}{S\+P\+A\+C\+E\+\_\+\+D\+O\+FS}})
+\item 
+const Vector\+Xd \mbox{\hyperlink{utilities_8h_a9c8d8f2e6b451c2ef367b0da25a248fa}{O\+N\+E\+S\+\_\+\+V\+E\+C\+\_\+\+NJ}} = Vector\+Xd\+::\+Constant(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}},1)
+\item 
+const Matrix\+Xd \mbox{\hyperlink{utilities_8h_a22fba5bfc52bb50f3accb17ab0bdbef4}{Z\+E\+R\+O\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+NJ}} = Matrix\+Xd\+::\+Zero(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}},\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}})
+\item 
+int \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}} = 0
+\item 
+bool \mbox{\hyperlink{utilities_8h_a43f47e95fd166d0196566027623721c5}{stay\+\_\+still}} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{utilities_8h_a943f07034774ef1261d62cd0d3d1fec9}\label{utilities_8h_a943f07034774ef1261d62cd0d3d1fec9}} 
+\index{utilities.h@{utilities.h}!DT@{DT}}
+\index{DT@{DT}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{DT}{DT}}
+{\footnotesize\ttfamily \#define DT~0.\+01}
+
+Simulation timestep. 
+
+Definition at line 16 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_af77edc1f833593caecfc032dcc5953a6}\label{utilities_8h_af77edc1f833593caecfc032dcc5953a6}} 
+\index{utilities.h@{utilities.h}!ETA@{ETA}}
+\index{ETA@{ETA}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{ETA}{ETA}}
+{\footnotesize\ttfamily \#define E\+TA~5}
+
+Auxiliary parameter for pseudoinversion. 
+
+Definition at line 18 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}\label{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}} 
+\index{utilities.h@{utilities.h}!NJOINTS@{NJOINTS}}
+\index{NJOINTS@{NJOINTS}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{NJOINTS}{NJOINTS}}
+{\footnotesize\ttfamily \#define N\+J\+O\+I\+N\+TS~7}
+
+Number of robot joint. 
+
+Definition at line 20 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a819a4f71108d5d9256b7748a5df3b49d}\label{utilities_8h_a819a4f71108d5d9256b7748a5df3b49d}} 
+\index{utilities.h@{utilities.h}!NUM\_IK\_SERVICES@{NUM\_IK\_SERVICES}}
+\index{NUM\_IK\_SERVICES@{NUM\_IK\_SERVICES}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{NUM\_IK\_SERVICES}{NUM\_IK\_SERVICES}}
+{\footnotesize\ttfamily \#define N\+U\+M\+\_\+\+I\+K\+\_\+\+S\+E\+R\+V\+I\+C\+ES~3}
+
+Number of invkin services. 
+
+Definition at line 22 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a0eb52d69807922661a9207382137f734}\label{utilities_8h_a0eb52d69807922661a9207382137f734}} 
+\index{utilities.h@{utilities.h}!NUM\_IK\_SOLUTIONS@{NUM\_IK\_SOLUTIONS}}
+\index{NUM\_IK\_SOLUTIONS@{NUM\_IK\_SOLUTIONS}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{NUM\_IK\_SOLUTIONS}{NUM\_IK\_SOLUTIONS}}
+{\footnotesize\ttfamily \#define N\+U\+M\+\_\+\+I\+K\+\_\+\+S\+O\+L\+U\+T\+I\+O\+NS~6}
+
+Number of invkin solutions (J transpose + analytical + 4 from Cost service). 
+
+Definition at line 24 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a77e163477d15eb7caed7e579f573f4e4}\label{utilities_8h_a77e163477d15eb7caed7e579f573f4e4}} 
+\index{utilities.h@{utilities.h}!NUM\_OPTIMIZED\_SOLUTIONS@{NUM\_OPTIMIZED\_SOLUTIONS}}
+\index{NUM\_OPTIMIZED\_SOLUTIONS@{NUM\_OPTIMIZED\_SOLUTIONS}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{NUM\_OPTIMIZED\_SOLUTIONS}{NUM\_OPTIMIZED\_SOLUTIONS}}
+{\footnotesize\ttfamily \#define N\+U\+M\+\_\+\+O\+P\+T\+I\+M\+I\+Z\+E\+D\+\_\+\+S\+O\+L\+U\+T\+I\+O\+NS~4}
+
+Number of optimized invkin solutions (the 4 from Cost service). 
+
+Definition at line 26 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a32a375610a5faae17532ed8b522dd200}\label{utilities_8h_a32a375610a5faae17532ed8b522dd200}} 
+\index{utilities.h@{utilities.h}!SPACE\_DOFS@{SPACE\_DOFS}}
+\index{SPACE\_DOFS@{SPACE\_DOFS}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{SPACE\_DOFS}{SPACE\_DOFS}}
+{\footnotesize\ttfamily \#define S\+P\+A\+C\+E\+\_\+\+D\+O\+FS~6}
+
+Spatial dofs of the robot. 
+
+Definition at line 28 of file utilities.\+h.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{utilities_8h_a2f7b2792391455d576fad101488fa9d5}\label{utilities_8h_a2f7b2792391455d576fad101488fa9d5}} 
+\index{utilities.h@{utilities.h}!mypinv@{mypinv}}
+\index{mypinv@{mypinv}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{mypinv()}{mypinv()}}
+{\footnotesize\ttfamily Matrix\+Xd mypinv (\begin{DoxyParamCaption}\item[{Matrix\+Xd}]{A }\end{DoxyParamCaption})}
+
+Pseudoinverse of matrix A. Since the pseudoinverse routine of the Eigen library is unstable (see \href{https://eigen.tuxfamily.org/dox/classEigen_1_1CompleteOrthogonalDecomposition.html}{\texttt{ https\+://eigen.\+tuxfamily.\+org/dox/class\+Eigen\+\_\+1\+\_\+1\+Complete\+Orthogonal\+Decomposition.\+html}}), this function was coded following M\+A\+T\+L\+AB\textquotesingle{}s pinv\textquotesingle{}s source code. 
+\begin{DoxyParams}{Parameters}
+{\em A} & matrix to be pseudoinverted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the pseudoinverse of A. 
+\end{DoxyReturn}
+
+
+Definition at line 61 of file utilities.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{61                             \{}
+\DoxyCodeLine{62     JacobiSVD<MatrixXd> svd(A, ComputeThinU | ComputeThinV);}
+\DoxyCodeLine{63     VectorXd s2 = svd.singularValues();}
+\DoxyCodeLine{64     \textcolor{keywordtype}{double} tol = 1e-\/16; \textcolor{comment}{// threshold for singular values}}
+\DoxyCodeLine{65     \textcolor{keywordtype}{int} cnt = 0;}
+\DoxyCodeLine{66     \textcolor{keywordtype}{int} s2sz = s2.size();}
+\DoxyCodeLine{67     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < s2sz; i++) \{}
+\DoxyCodeLine{68         \textcolor{keywordflow}{if} (s2(i) > tol) cnt++;}
+\DoxyCodeLine{69         \textcolor{keywordflow}{else} \textcolor{keywordflow}{break};}
+\DoxyCodeLine{70     \}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72     \textcolor{comment}{// Throw away portions of U, V related to null singular values of A.}}
+\DoxyCodeLine{73     VectorXd s2rev = s2.head(cnt);}
+\DoxyCodeLine{74     MatrixXd U = svd.matrixU();}
+\DoxyCodeLine{75     MatrixXd Urev = U.block(0,0,U.rows(),cnt);}
+\DoxyCodeLine{76     MatrixXd V = svd.matrixV();}
+\DoxyCodeLine{77     MatrixXd Vrev = V.block(0,0,V.rows(),cnt);}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79     \textcolor{comment}{// Compute pseudoinverse.}}
+\DoxyCodeLine{80     s2rev = s2rev.cwiseInverse();}
+\DoxyCodeLine{81     MatrixXd s2diag = s2rev.asDiagonal();}
+\DoxyCodeLine{82     MatrixXd pinvA = Vrev * s2diag * Urev.transpose();}
+\DoxyCodeLine{83     }
+\DoxyCodeLine{84     \textcolor{keywordflow}{return} pinvA;}
+\DoxyCodeLine{85 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{utilities_8h_ad6a8030669f0512259a00bea84ca508e}\label{utilities_8h_ad6a8030669f0512259a00bea84ca508e}} 
+\index{utilities.h@{utilities.h}!printArrayd@{printArrayd}}
+\index{printArrayd@{printArrayd}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{printArrayd()}{printArrayd()}}
+{\footnotesize\ttfamily void print\+Arrayd (\begin{DoxyParamCaption}\item[{double}]{v\mbox{[}$\,$\mbox{]},  }\item[{int}]{size,  }\item[{char}]{name\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Function that prints an array of doubles, used for debug. 
+\begin{DoxyParams}{Parameters}
+{\em v} & A std\+::vector of doubles. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 130 of file utilities.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{130                                                     \{}
+\DoxyCodeLine{131     clog << name << \textcolor{stringliteral}{"{}:"{}} << endl;}
+\DoxyCodeLine{132     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < size; i++) \{}
+\DoxyCodeLine{133         clog << \mbox{\hyperlink{ik_8cpp_a6a84fd0a294af9b7ef769d241dfbdf96}{v}}[i] << \textcolor{stringliteral}{"{},"{}};}
+\DoxyCodeLine{134     \}}
+\DoxyCodeLine{135     clog << endl;}
+\DoxyCodeLine{136 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{utilities_8h_a5cd30de72edd88cc68523970233e31ee}\label{utilities_8h_a5cd30de72edd88cc68523970233e31ee}} 
+\index{utilities.h@{utilities.h}!printVectord@{printVectord}}
+\index{printVectord@{printVectord}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{printVectord()}{printVectord()}}
+{\footnotesize\ttfamily void print\+Vectord (\begin{DoxyParamCaption}\item[{vector$<$ double $>$}]{v,  }\item[{char $\ast$}]{name }\end{DoxyParamCaption})}
+
+Function that prints a std\+::vector of doubles, used for debug. 
+\begin{DoxyParams}{Parameters}
+{\em v} & A std\+::vector of doubles. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 119 of file utilities.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{119                                                  \{}
+\DoxyCodeLine{120     clog << name << \textcolor{stringliteral}{"{}:"{}} << endl;}
+\DoxyCodeLine{121     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \mbox{\hyperlink{ik_8cpp_a6a84fd0a294af9b7ef769d241dfbdf96}{v}}.size(); i++) \{}
+\DoxyCodeLine{122         clog << \mbox{\hyperlink{ik_8cpp_a6a84fd0a294af9b7ef769d241dfbdf96}{v}}[i] << \textcolor{stringliteral}{"{},"{}};}
+\DoxyCodeLine{123     \}}
+\DoxyCodeLine{124     clog << endl;}
+\DoxyCodeLine{125 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{utilities_8h_a66dede39bc52472042a84f87099ec816}\label{utilities_8h_a66dede39bc52472042a84f87099ec816}} 
+\index{utilities.h@{utilities.h}!regPinv@{regPinv}}
+\index{regPinv@{regPinv}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{regPinv()}{regPinv()}}
+{\footnotesize\ttfamily Matrix\+Xd reg\+Pinv (\begin{DoxyParamCaption}\item[{Matrix\+Xd}]{X,  }\item[{Matrix\+Xd}]{A,  }\item[{Matrix\+Xd}]{Q,  }\item[{double}]{eta,  }\item[{double \&}]{cond }\end{DoxyParamCaption})}
+
+Function that computes generalized regularized pseudoinverse of matrix X according to the paper \char`\"{}\+A Novel Practical Technique to Integrate 
+\+Inequality Control Objectives and Task Transitions in Priority Based Control\char`\"{} by Casalino \& Simetti, p. 20, sec. 4.\+3. 
+\begin{DoxyParams}{Parameters}
+{\em X} & Matrix to be pseudoinverted. \\
+\hline
+{\em A} & Activation matrix. \\
+\hline
+{\em Q} & Auxiliary matrix. \\
+\hline
+{\em eta} & Auxiliary parameter. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the regularized pseudoinverse of X. 
+\end{DoxyReturn}
+
+
+Definition at line 96 of file utilities.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{96                                                                            \{}
+\DoxyCodeLine{97     \textcolor{comment}{// Adiag has size NJOINTS}}
+\DoxyCodeLine{98     MatrixXd XT = X.transpose();}
+\DoxyCodeLine{99     MatrixXd idMinusQ = \mbox{\hyperlink{utilities_8h_af89a8758592469410415b30b4c8accda}{ID\_MATRIX\_NJ}} -\/ Q;}
+\DoxyCodeLine{100     MatrixXd toSVD = XT*A*X + \mbox{\hyperlink{ik_8cpp_a256d9bdd4efdff0fe88509ce8f4cfad1}{eta}}*(idMinusQ.transpose()*idMinusQ);}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102     JacobiSVD<MatrixXd> svd(toSVD, ComputeThinU | ComputeThinV); \textcolor{comment}{// compute SVD}}
+\DoxyCodeLine{103     VectorXd sv = svd.singularValues();}
+\DoxyCodeLine{104     \textcolor{keywordtype}{int} svsz = sv.size(); \textcolor{comment}{// number of singular values}}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{106     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < svsz; i++) \{}
+\DoxyCodeLine{107         \textcolor{keywordflow}{if} (abs(sv(i)) > 1e-\/8) sv(i) = exp(-\/\mbox{\hyperlink{utilities_8h_a9dd3b533d08f54ca47088ac3ca35aaa5}{bellConstantGX}}*sv(i)*sv(i)); \textcolor{comment}{// bell-\/shaped regularization function}}
+\DoxyCodeLine{108         \textcolor{keywordflow}{else} \textcolor{keywordflow}{break};}
+\DoxyCodeLine{109     \}}
+\DoxyCodeLine{110     cond = sv(0) / sv(svsz-\/1); \textcolor{comment}{// condition number}}
+\DoxyCodeLine{111     \textcolor{keywordflow}{return} \mbox{\hyperlink{utilities_8h_a2f7b2792391455d576fad101488fa9d5}{mypinv}}(toSVD + svd.matrixV().transpose() * sv.asDiagonal() * svd.matrixV()) * XT * A * A;}
+\DoxyCodeLine{112 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{utilities_8h_aa96f0c1374200da4ab329d5905ed1d25}\label{utilities_8h_aa96f0c1374200da4ab329d5905ed1d25}} 
+\index{utilities.h@{utilities.h}!saturate@{saturate}}
+\index{saturate@{saturate}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{saturate()}{saturate()}}
+{\footnotesize\ttfamily void saturate (\begin{DoxyParamCaption}\item[{vector$<$ double $>$ \&}]{qdots }\end{DoxyParamCaption})}
+
+Function that saturates joint velocities. 
+\begin{DoxyParams}{Parameters}
+{\em qdots} & Vector to be saturated \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 141 of file utilities.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{141                                       \{}
+\DoxyCodeLine{142     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{short} i = 0; i < \mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}}; i++) \{}
+\DoxyCodeLine{143         \textcolor{keywordflow}{if} (qdots[i] > \mbox{\hyperlink{utilities_8h_a7793a0ce6c398126e6067e0ac1a4afac}{QDOTMAX}}[i]) qdots[i] = \mbox{\hyperlink{utilities_8h_a7793a0ce6c398126e6067e0ac1a4afac}{QDOTMAX}}[i];}
+\DoxyCodeLine{144         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (qdots[i] < \mbox{\hyperlink{utilities_8h_a6167c47903ae87b6261e3f0b28eb8ae0}{QDOTMIN}}[i]) qdots[i] = \mbox{\hyperlink{utilities_8h_a6167c47903ae87b6261e3f0b28eb8ae0}{QDOTMIN}}[i];}
+\DoxyCodeLine{145     \}}
+\DoxyCodeLine{146 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{utilities_8h_a9dd3b533d08f54ca47088ac3ca35aaa5}\label{utilities_8h_a9dd3b533d08f54ca47088ac3ca35aaa5}} 
+\index{utilities.h@{utilities.h}!bellConstantGX@{bellConstantGX}}
+\index{bellConstantGX@{bellConstantGX}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{bellConstantGX}{bellConstantGX}}
+{\footnotesize\ttfamily const double bell\+Constant\+GX = -\/log(0.\+5)/0.\+000001}
+
+Constant used in Gaussian computation for pseudoinversion. 
+
+Definition at line 40 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_af89a8758592469410415b30b4c8accda}\label{utilities_8h_af89a8758592469410415b30b4c8accda}} 
+\index{utilities.h@{utilities.h}!ID\_MATRIX\_NJ@{ID\_MATRIX\_NJ}}
+\index{ID\_MATRIX\_NJ@{ID\_MATRIX\_NJ}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{ID\_MATRIX\_NJ}{ID\_MATRIX\_NJ}}
+{\footnotesize\ttfamily const Matrix\+Xd I\+D\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+NJ = Matrix\+Xd\+::\+Identity(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}},\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}})}
+
+Identity matrix of size N\+J\+O\+I\+N\+TS. 
+
+Definition at line 42 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a47db7d9ba8c0a5a126ac3d7dfc225f14}\label{utilities_8h_a47db7d9ba8c0a5a126ac3d7dfc225f14}} 
+\index{utilities.h@{utilities.h}!ID\_MATRIX\_SPACE\_DOFS@{ID\_MATRIX\_SPACE\_DOFS}}
+\index{ID\_MATRIX\_SPACE\_DOFS@{ID\_MATRIX\_SPACE\_DOFS}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{ID\_MATRIX\_SPACE\_DOFS}{ID\_MATRIX\_SPACE\_DOFS}}
+{\footnotesize\ttfamily const Matrix\+Xd I\+D\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+S\+P\+A\+C\+E\+\_\+\+D\+O\+FS = Matrix\+Xd\+::\+Identity(\mbox{\hyperlink{utilities_8h_a32a375610a5faae17532ed8b522dd200}{S\+P\+A\+C\+E\+\_\+\+D\+O\+FS}},\mbox{\hyperlink{utilities_8h_a32a375610a5faae17532ed8b522dd200}{S\+P\+A\+C\+E\+\_\+\+D\+O\+FS}})}
+
+Identity matrix of size 6. 
+
+Definition at line 44 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a9c8d8f2e6b451c2ef367b0da25a248fa}\label{utilities_8h_a9c8d8f2e6b451c2ef367b0da25a248fa}} 
+\index{utilities.h@{utilities.h}!ONES\_VEC\_NJ@{ONES\_VEC\_NJ}}
+\index{ONES\_VEC\_NJ@{ONES\_VEC\_NJ}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{ONES\_VEC\_NJ}{ONES\_VEC\_NJ}}
+{\footnotesize\ttfamily const Vector\+Xd O\+N\+E\+S\+\_\+\+V\+E\+C\+\_\+\+NJ = Vector\+Xd\+::\+Constant(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}},1)}
+
+Vector of ones of size N\+J\+O\+I\+N\+TS. 
+
+Definition at line 46 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a7793a0ce6c398126e6067e0ac1a4afac}\label{utilities_8h_a7793a0ce6c398126e6067e0ac1a4afac}} 
+\index{utilities.h@{utilities.h}!QDOTMAX@{QDOTMAX}}
+\index{QDOTMAX@{QDOTMAX}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{QDOTMAX}{QDOTMAX}}
+{\footnotesize\ttfamily const double Q\+D\+O\+T\+M\+AX\mbox{[}$\,$\mbox{]} = \{1,1,1,1,1,1,1\}}
+
+Max joint velocities. 
+
+Definition at line 36 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a6167c47903ae87b6261e3f0b28eb8ae0}\label{utilities_8h_a6167c47903ae87b6261e3f0b28eb8ae0}} 
+\index{utilities.h@{utilities.h}!QDOTMIN@{QDOTMIN}}
+\index{QDOTMIN@{QDOTMIN}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{QDOTMIN}{QDOTMIN}}
+{\footnotesize\ttfamily const double Q\+D\+O\+T\+M\+IN\mbox{[}$\,$\mbox{]} = \{-\/1,-\/1,-\/1,-\/1,-\/1,-\/1,-\/1\}}
+
+Min joint velocities. 
+
+Definition at line 34 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a45bbb460fb37d3e73e82b64d9b7838c7}\label{utilities_8h_a45bbb460fb37d3e73e82b64d9b7838c7}} 
+\index{utilities.h@{utilities.h}!QINIT@{QINIT}}
+\index{QINIT@{QINIT}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{QINIT}{QINIT}}
+{\footnotesize\ttfamily const double Q\+I\+N\+IT\mbox{[}$\,$\mbox{]} = \{0,0,0,0,0,0,0\}}
+
+Initial joint angles. 
+
+Definition at line 38 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a857331cbe5e4e72a02853ab15cd54a09}\label{utilities_8h_a857331cbe5e4e72a02853ab15cd54a09}} 
+\index{utilities.h@{utilities.h}!QMAX@{QMAX}}
+\index{QMAX@{QMAX}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{QMAX}{QMAX}}
+{\footnotesize\ttfamily const double Q\+M\+AX\mbox{[}$\,$\mbox{]} = \{1.\+6817,1.\+0272,3.\+0343,2.\+5829,3.\+0378,2.\+0744,3.\+0378\}}
+
+Max joint angles. 
+
+Definition at line 32 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_ab092fe4291fb68da50654476ea0b7bd3}\label{utilities_8h_ab092fe4291fb68da50654476ea0b7bd3}} 
+\index{utilities.h@{utilities.h}!QMIN@{QMIN}}
+\index{QMIN@{QMIN}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{QMIN}{QMIN}}
+{\footnotesize\ttfamily const double Q\+M\+IN\mbox{[}$\,$\mbox{]} = \{-\/1.\+6817,-\/2.\+1268,-\/3.\+0343,-\/0.\+3,-\/3.\+0396,-\/1.\+5508,-\/3.\+0396\}}
+
+Min joint angles. 
+
+Definition at line 30 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}\label{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}} 
+\index{utilities.h@{utilities.h}!seq@{seq}}
+\index{seq@{seq}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{seq}{seq}}
+{\footnotesize\ttfamily int seq = 0}
+
+Sequence number used for synchronization. 
+
+Definition at line 50 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a43f47e95fd166d0196566027623721c5}\label{utilities_8h_a43f47e95fd166d0196566027623721c5}} 
+\index{utilities.h@{utilities.h}!stay\_still@{stay\_still}}
+\index{stay\_still@{stay\_still}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{stay\_still}{stay\_still}}
+{\footnotesize\ttfamily bool stay\+\_\+still = false}
+
+Becomes true when error is zero. 
+
+Definition at line 52 of file utilities.\+h.
+
+\mbox{\Hypertarget{utilities_8h_a22fba5bfc52bb50f3accb17ab0bdbef4}\label{utilities_8h_a22fba5bfc52bb50f3accb17ab0bdbef4}} 
+\index{utilities.h@{utilities.h}!ZERO\_MATRIX\_NJ@{ZERO\_MATRIX\_NJ}}
+\index{ZERO\_MATRIX\_NJ@{ZERO\_MATRIX\_NJ}!utilities.h@{utilities.h}}
+\doxysubsubsection{\texorpdfstring{ZERO\_MATRIX\_NJ}{ZERO\_MATRIX\_NJ}}
+{\footnotesize\ttfamily const Matrix\+Xd Z\+E\+R\+O\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+NJ = Matrix\+Xd\+::\+Zero(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}},\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{N\+J\+O\+I\+N\+TS}})}
+
+Zero matrix of size N\+J\+O\+I\+N\+TS. 
+
+Definition at line 48 of file utilities.\+h.
+

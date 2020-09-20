@@ -1,0 +1,104 @@
+\hypertarget{launcher_8sh}{}\doxysection{launcher.\+sh File Reference}
+\label{launcher_8sh}\index{launcher.sh@{launcher.sh}}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+gnome terminal x sh c \mbox{\hyperlink{launcher_8sh_a81af5a1733f3b405ef244a950f51f6fa}{roscore}}
+\item 
+bash echo Place the phone on an even horizontal surface echo Press enter to proceed read \mbox{\hyperlink{ik_8cpp_a421689437204a5d93bb79c17f06c27b5}{a}} gnome terminal x sh c rostopic echo \mbox{\hyperlink{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}{smartphone}}
+\item 
+bash echo If you want to \mbox{\hyperlink{launcher__test_8sh_a27ae379b235f9b017a6ce7c1eeff354d}{launch}} the sensor calibration process type yes and press enter read b \mbox{\hyperlink{launcher_8sh_aecf1c3c6d4c86f147f4617c1f42525f0}{if}}
+\item 
+then gnome terminal x sh c rostopic echo android \mbox{\hyperlink{launcher_8sh_a02d05ca4cdeaf71a7e4b91de568ba94c}{imu}}
+\item 
+bash rosrun imu\+\_\+calib do\+\_\+calib fi gnome terminal x sh c rosrun imu\+\_\+calib \mbox{\hyperlink{launcher_8sh_ae81883b895c8f24e03535c93954002af}{apply\+\_\+calib}}
+\item 
+bash rosrun \mbox{\hyperlink{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}{smartphone}} remove\+Gravity \mbox{\hyperlink{launcher__test_8sh_a476eb289e7cace942941ccf8416a78c5}{py}} echo With your \mbox{\hyperlink{launcher_8sh_a3eb72fb878763f6ff4b6058a09a1e8c4}{hand}}
+\item 
+bash rosrun \mbox{\hyperlink{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}{smartphone}} remove\+Gravity py echo With your hold the phone in the calibration position and mantain the position echo Press enter to proceed read \mbox{\hyperlink{ik_8cpp_a421689437204a5d93bb79c17f06c27b5}{a}} gnome terminal x sh c rosrun \mbox{\hyperlink{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}{smartphone}} clipping \mbox{\hyperlink{launcher_8sh_aae518373efcd21f197ba962cae3523b6}{py}}
+\item 
+bash gnome terminal x sh c roslaunch wait math\+\_\+pkg math\+All \mbox{\hyperlink{launcher_8sh_a1ecff369b372e64356f5ffeb4d22fb46}{launch}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{launcher_8sh_ae81883b895c8f24e03535c93954002af}\label{launcher_8sh_ae81883b895c8f24e03535c93954002af}} 
+\index{launcher.sh@{launcher.sh}!apply\_calib@{apply\_calib}}
+\index{apply\_calib@{apply\_calib}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{apply\_calib}{apply\_calib}}
+{\footnotesize\ttfamily bash rosrun imu\+\_\+calib do\+\_\+calib fi gnome terminal x sh c rosrun imu\+\_\+calib apply\+\_\+calib}
+
+
+
+Definition at line 15 of file launcher.\+sh.
+
+\mbox{\Hypertarget{launcher_8sh_a3eb72fb878763f6ff4b6058a09a1e8c4}\label{launcher_8sh_a3eb72fb878763f6ff4b6058a09a1e8c4}} 
+\index{launcher.sh@{launcher.sh}!hand@{hand}}
+\index{hand@{hand}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{hand}{hand}}
+{\footnotesize\ttfamily bash rosrun \mbox{\hyperlink{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}{smartphone}} remove\+Gravity \mbox{\hyperlink{launcher__test_8sh_a476eb289e7cace942941ccf8416a78c5}{py}} echo With your hand}
+
+
+
+Definition at line 17 of file launcher.\+sh.
+
+\mbox{\Hypertarget{launcher_8sh_aecf1c3c6d4c86f147f4617c1f42525f0}\label{launcher_8sh_aecf1c3c6d4c86f147f4617c1f42525f0}} 
+\index{launcher.sh@{launcher.sh}!if@{if}}
+\index{if@{if}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{if}{if}}
+{\footnotesize\ttfamily bash echo If you want to \mbox{\hyperlink{launcher__test_8sh_a27ae379b235f9b017a6ce7c1eeff354d}{launch}} the sensor calibration process type yes and press enter read b if}
+
+
+
+Definition at line 11 of file launcher.\+sh.
+
+\mbox{\Hypertarget{launcher_8sh_a02d05ca4cdeaf71a7e4b91de568ba94c}\label{launcher_8sh_a02d05ca4cdeaf71a7e4b91de568ba94c}} 
+\index{launcher.sh@{launcher.sh}!imu@{imu}}
+\index{imu@{imu}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{imu}{imu}}
+{\footnotesize\ttfamily then gnome terminal x sh c rostopic echo android imu}
+
+
+
+Definition at line 12 of file launcher.\+sh.
+
+\mbox{\Hypertarget{launcher_8sh_a1ecff369b372e64356f5ffeb4d22fb46}\label{launcher_8sh_a1ecff369b372e64356f5ffeb4d22fb46}} 
+\index{launcher.sh@{launcher.sh}!launch@{launch}}
+\index{launch@{launch}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{launch}{launch}}
+{\footnotesize\ttfamily bash gnome terminal x sh c roslaunch wait math\+\_\+pkg math\+All launch}
+
+
+
+Definition at line 22 of file launcher.\+sh.
+
+\mbox{\Hypertarget{launcher_8sh_aae518373efcd21f197ba962cae3523b6}\label{launcher_8sh_aae518373efcd21f197ba962cae3523b6}} 
+\index{launcher.sh@{launcher.sh}!py@{py}}
+\index{py@{py}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{py}{py}}
+{\footnotesize\ttfamily bash rosrun \mbox{\hyperlink{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}{smartphone}} remove\+Gravity py echo With your hold the phone in the calibration position and mantain the position echo Press enter to proceed read \mbox{\hyperlink{ik_8cpp_a421689437204a5d93bb79c17f06c27b5}{a}} gnome terminal x sh c rosrun \mbox{\hyperlink{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}{smartphone}} clipping py}
+
+
+
+Definition at line 20 of file launcher.\+sh.
+
+\mbox{\Hypertarget{launcher_8sh_a81af5a1733f3b405ef244a950f51f6fa}\label{launcher_8sh_a81af5a1733f3b405ef244a950f51f6fa}} 
+\index{launcher.sh@{launcher.sh}!roscore@{roscore}}
+\index{roscore@{roscore}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{roscore}{roscore}}
+{\footnotesize\ttfamily gnome terminal x sh c roscore}
+
+
+
+Definition at line 3 of file launcher.\+sh.
+
+\mbox{\Hypertarget{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}\label{launcher_8sh_a07e2601f60b1611a5bf424960cb65f85}} 
+\index{launcher.sh@{launcher.sh}!smartphone@{smartphone}}
+\index{smartphone@{smartphone}!launcher.sh@{launcher.sh}}
+\doxysubsubsection{\texorpdfstring{smartphone}{smartphone}}
+{\footnotesize\ttfamily bash echo Place the phone on an even horizontal surface echo Press enter to proceed read \mbox{\hyperlink{ik_8cpp_a421689437204a5d93bb79c17f06c27b5}{a}} gnome terminal x sh c rostopic echo smartphone}
+
+
+
+Definition at line 8 of file launcher.\+sh.
+

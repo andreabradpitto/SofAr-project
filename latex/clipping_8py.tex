@@ -1,0 +1,67 @@
+\hypertarget{clipping_8py}{}\doxysection{Smartphone/smartphone/scripts/clipping.py File Reference}
+\label{clipping_8py}\index{Smartphone/smartphone/scripts/clipping.py@{Smartphone/smartphone/scripts/clipping.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceclipping}{clipping}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceclipping_a35e8ff08f4099c2406c9a357713a369a}{clipping.\+data\+File\+Initializer}} ()
+\begin{DoxyCompactList}\small\item\em Function used initialize the files in which sensor data will be stored; it will generate three files in the \textquotesingle{}output\textquotesingle{} folder. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_af172465c4f8760f413a24ad7c5dc93c2}{clipping.\+lin\+\_\+acc\+\_\+compensate}} (lin\+\_\+acc\+\_\+no\+\_\+g, threshold)
+\begin{DoxyCompactList}\small\item\em Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human operator shake. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_a0592327b674d9c61a52b4048f1ce4108}{clipping.\+store\+Data\+In\+Files}} (file\+Name, modality, data)
+\begin{DoxyCompactList}\small\item\em Function which stores incoming data into .csv files @params file\+Name name of the generated file @params modality parameter requested by the open() function\+: \textquotesingle{}a\textquotesingle{} stands for \textquotesingle{}open for appending at the end of the file without truncating it\textquotesingle{} @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity) \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_a61d89408f8bc1c0b8184bb85883deebc}{clipping.\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em This is the callback function\+: it is invoked every time there is incoming data and has the duty of calling all the previously mentioned functions as well as \mbox{\hyperlink{namespaceutilities_ad0d6881ae2e8a12deb7d14105f17e4fb}{euler\+Angles\+To\+Rotation\+Matrix()}}. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_a8c34047ecae692b16baa7a9306db9e2d}{clipping.\+listener}} ()
+\begin{DoxyCompactList}\small\item\em The listener is used to instantiate the homonymous node and to subscribe to the android/imu\+\_\+corected topic, from which it receives incoming data of smarthpone accelerometers. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceclipping_aa8da1db9fa695d80388cd40a512f0504}{clipping.\+talker}} (msg)
+\begin{DoxyCompactList}\small\item\em The talker is used to publish the refined data on the so called \textquotesingle{}smartphone\textquotesingle{} topic. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceclipping_acc27d9174d32e3560344305305f3266b}{clipping.\+script\+\_\+dir}} = os.\+path.\+dirname(\+\_\+\+\_\+file\+\_\+\+\_\+)
+\item 
+string \mbox{\hyperlink{namespaceclipping_af6eb332d3a2d24d13c70ef2f5546c0d3}{clipping.\+rel\+\_\+path1}} = \char`\"{}../output/lin\+\_\+acc.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_ab2a79c61ef4e3ba3cebdff6c4632fee4}{clipping.\+abs\+\_\+file\+\_\+path1}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path1)
+\item 
+string \mbox{\hyperlink{namespaceclipping_a71fe3c160af28982edb1749ea81308a3}{clipping.\+rel\+\_\+path2}} = \char`\"{}../output/orientation.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_a23f780f18903fb04e6560650ee936fa1}{clipping.\+abs\+\_\+file\+\_\+path2}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path2)
+\item 
+string \mbox{\hyperlink{namespaceclipping_a4c9ddedce2fc1502dc21cfcf394f8cc3}{clipping.\+rel\+\_\+path3}} = \char`\"{}../output/ang\+Vel.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_a1c26a0de4167786433848ddf043dd0ab}{clipping.\+abs\+\_\+file\+\_\+path3}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path3)
+\item 
+string \mbox{\hyperlink{namespaceclipping_a40dc8f801a6d3d31d0961379d6ca9539}{clipping.\+rel\+\_\+path\+\_\+gravity}} = \char`\"{}../calibration/gravity.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceclipping_a6ee75d70b845da8ab4590c0c184b3a9c}{clipping.\+abs\+\_\+file\+\_\+gravity}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path\+\_\+gravity)
+\item 
+int \mbox{\hyperlink{namespaceclipping_a14dc92c001ea2b7205201df8fa5b4b47}{clipping.\+flag\+Write\+Data}} = 1
+\item 
+int \mbox{\hyperlink{namespaceclipping_aaf2e04ce27b3129636907ce8b28ab747}{clipping.\+index}} = 1
+\item 
+float \mbox{\hyperlink{namespaceclipping_a872c980bf1743645999652715493d1ef}{clipping.\+delta}} = 0.\+05
+\item 
+list \mbox{\hyperlink{namespaceclipping_aaa9c45af65adbc814f8396980b26167a}{clipping.\+lin\+\_\+acc\+\_\+no\+\_\+g}} = \mbox{[}0, 0, 0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_a937106624563e50bdce6e396a1bbc4cf}{clipping.\+angular\+\_\+velocity}} = \mbox{[}0, 0, 0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_ac33e7b66a0ea7b9401550ecb54655abe}{clipping.\+orientation}} = \mbox{[}0, 0, 0, 0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_ae51849e973c472eab0c06114a689e57b}{clipping.\+g}} = \mbox{[}0 ,0 ,0\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceclipping_a141da8c0f07a405ef3f205067579144f}{clipping.\+max\+\_\+lin\+\_\+acc}} = \mbox{[}0, 0, 0\mbox{]}
+\item 
+float \mbox{\hyperlink{namespaceclipping_a2967eccca06269489b420ab17fe76c92}{clipping.\+safety\+\_\+coeff}} = 1.\+1
+\item 
+int \mbox{\hyperlink{namespaceclipping_a4f89dd00d3e26e419ad07d652353c09d}{clipping.\+counter}} = 0
+\item 
+int \mbox{\hyperlink{namespaceclipping_a79cb0ad963b8cf030b2bcfc5675a83f0}{clipping.\+max\+Iteration}} = 50
+\item 
+\mbox{\hyperlink{namespaceclipping_a7a1488c3a0204855f4f4f1601f8812bd}{clipping.\+temp}} = pd.\+read\+\_\+csv(abs\+\_\+file\+\_\+gravity, names=\mbox{[}\textquotesingle{}X\textquotesingle{}, \textquotesingle{}Y\textquotesingle{}, \textquotesingle{}Z\textquotesingle{}\mbox{]}, header=0, decimal=\textquotesingle{},\textquotesingle{})
+\end{DoxyCompactItemize}

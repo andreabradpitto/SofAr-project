@@ -1,0 +1,45 @@
+\hypertarget{offlineAnalysis_8py}{}\doxysection{Smartphone/smartphone/scripts/offline\+Analysis.py File Reference}
+\label{offlineAnalysis_8py}\index{Smartphone/smartphone/scripts/offlineAnalysis.py@{Smartphone/smartphone/scripts/offlineAnalysis.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceofflineAnalysis}{offline\+Analysis}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceofflineAnalysis_aa4c88bb457d35142c9028bf08bf1c547}{offline\+Analysis.\+plot\+Data}} (df, subplt, x\+\_\+axis, y\+\_\+lable, title\+Plot)
+\begin{DoxyCompactList}\small\item\em This function simply plots data into a a graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a19e977626622e6ef76f8bdce5b6ff12f}{offline\+Analysis.\+script\+\_\+dir}} = os.\+path.\+dirname(\+\_\+\+\_\+file\+\_\+\+\_\+)
+\item 
+string \mbox{\hyperlink{namespaceofflineAnalysis_a37c60fb3c2d56c510b55c04626dc2c2e}{offline\+Analysis.\+rel\+\_\+path1}} = \char`\"{}../output/lin\+\_\+acc.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a9a53e320a313682194352ad182ac057b}{offline\+Analysis.\+abs\+\_\+file\+\_\+path1}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path1)
+\item 
+string \mbox{\hyperlink{namespaceofflineAnalysis_ae865cea9fcd2d4f11543fe9e92c799f3}{offline\+Analysis.\+rel\+\_\+path2}} = \char`\"{}../output/orientation.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a4fa8a8840aad86cccba8634b71621bd5}{offline\+Analysis.\+abs\+\_\+file\+\_\+path2}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path2)
+\item 
+string \mbox{\hyperlink{namespaceofflineAnalysis_a9a44d13dd5a9356d14aa753969000ff0}{offline\+Analysis.\+rel\+\_\+path3}} = \char`\"{}../output/ang\+Vel.\+csv\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_af1021647df8ef33a087b665e9437caef}{offline\+Analysis.\+abs\+\_\+file\+\_\+path3}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path3)
+\item 
+dictionary \mbox{\hyperlink{namespaceofflineAnalysis_a0599f5051f22e64f065b53c6942e6e55}{offline\+Analysis.\+font}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a340921b53c8b83f111562f9c8de0bad2}{offline\+Analysis.\+df\+\_\+linacc}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a47abc57e6cca79a254cf5a1a022630d5}{offline\+Analysis.\+df\+\_\+rot}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a0fc5d7fb2d0aae1fe76f0913973e5da6}{offline\+Analysis.\+df\+\_\+ang\+Vel}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a38709aff4db951314078fc8d0eaea703}{offline\+Analysis.\+t}} = len(df\+\_\+linacc.\+X)
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_aacbdb9d0955f76a68f028b7ae7dc3a96}{offline\+Analysis.\+x\+\_\+axis}} = np.\+arange(start=1, stop=t + 1, step=1)
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_af2a53eae106d38360dbbb459eb2cbd6c}{offline\+Analysis.\+figsize}}
+\item 
+\mbox{\hyperlink{namespaceofflineAnalysis_a14735270ddfff28da61d8f7a193f5df1}{offline\+Analysis.\+temp}} = df\+\_\+linacc.\+astype(float)
+\end{DoxyCompactItemize}

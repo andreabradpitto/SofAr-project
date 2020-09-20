@@ -1,0 +1,356 @@
+\hypertarget{weighter_8cpp}{}\doxysection{Math/math\+\_\+pkg/src/weighter.cpp File Reference}
+\label{weighter_8cpp}\index{Math/math\_pkg/src/weighter.cpp@{Math/math\_pkg/src/weighter.cpp}}
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+Cost.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+I\+K.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+I\+K\+\_\+\+J\+T\+A.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+I\+K\+\_\+\+Jtra.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+Safety.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ros/ros.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/\+Joint\+State.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}std\+\_\+msgs/\+Float64\+Multi\+Array.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}std\+\_\+msgs/\+Int8.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{weighter_8cpp_a3fd3befff9ef8cf31fa8f531d611c5a8}{handle\+Callback}} (const std\+\_\+msgs\+::\+Int8 \&msg)
+\item 
+int \mbox{\hyperlink{weighter_8cpp_a31bde68cedeb0fd155d2c1d4780c7ce8}{get\+Allqdots}} (vector$<$ double $>$ qdots\mbox{[}$\,$\mbox{]}, bool obtained\mbox{[}$\,$\mbox{]})
+\item 
+int \mbox{\hyperlink{weighter_8cpp_a7c1267677c7171346c67cfe3fb7e27fa}{compute\+Weightedqdot}} (Joint\+State \&finalqdot\+State)
+\item 
+int \mbox{\hyperlink{weighter_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+ros\+::\+Service\+Client \mbox{\hyperlink{weighter_8cpp_a53646e871148316c166391f3f67275c3}{clients}} \mbox{[}\mbox{\hyperlink{utilities_8h_a819a4f71108d5d9256b7748a5df3b49d}{N\+U\+M\+\_\+\+I\+K\+\_\+\+S\+E\+R\+V\+I\+C\+ES}}\mbox{]}
+\item 
+math\+\_\+pkg\+::\+Cost \mbox{\hyperlink{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}{cost\+Srv}}
+\item 
+math\+\_\+pkg\+::\+I\+K\+\_\+\+Jtra \mbox{\hyperlink{weighter_8cpp_a7228f83bc479e7a1c62ba86f286f0783}{tra\+Srv}}
+\item 
+math\+\_\+pkg\+::\+I\+K\+\_\+\+J\+TA \mbox{\hyperlink{weighter_8cpp_a336eacd93b1124429f5a6c00ec3444d4}{T\+A\+Srv}}
+\item 
+bool \mbox{\hyperlink{weighter_8cpp_a8409a0d351d4fba2eeef26a7dcc585a8}{reset}} = false
+\item 
+bool \mbox{\hyperlink{weighter_8cpp_a7115881a0afae37af150daa16ec5def9}{must\+Pause}} = false
+\item 
+bool \mbox{\hyperlink{weighter_8cpp_afefdd37060569069d2ed47479b2d8f35}{move\+On}} = false
+\item 
+int \mbox{\hyperlink{weighter_8cpp_a1f48abe5f7066045e18c4f65eed63182}{best\+Idx}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{weighter_8cpp_a7c1267677c7171346c67cfe3fb7e27fa}\label{weighter_8cpp_a7c1267677c7171346c67cfe3fb7e27fa}} 
+\index{weighter.cpp@{weighter.cpp}!computeWeightedqdot@{computeWeightedqdot}}
+\index{computeWeightedqdot@{computeWeightedqdot}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{computeWeightedqdot()}{computeWeightedqdot()}}
+{\footnotesize\ttfamily int compute\+Weightedqdot (\begin{DoxyParamCaption}\item[{Joint\+State \&}]{finalqdot\+State }\end{DoxyParamCaption})}
+
+Function that computes the final joint velocities. 
+\begin{DoxyParams}{Parameters}
+{\em finalqdot\+State} & Joint state object to be filled in. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of retrieved velocities vectors. 
+\end{DoxyReturn}
+
+
+Definition at line 119 of file weighter.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{120 \{}
+\DoxyCodeLine{121     vector<double> finalqdot(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}}, 0);        \textcolor{comment}{// initialize content of object to be published}}
+\DoxyCodeLine{122     vector<double> qdots[\mbox{\hyperlink{utilities_8h_a0eb52d69807922661a9207382137f734}{NUM\_IK\_SOLUTIONS}}];     \textcolor{comment}{// will contain all qdots computed by the invkin services}}
+\DoxyCodeLine{123     \textcolor{keywordtype}{bool} obt[\mbox{\hyperlink{utilities_8h_a0eb52d69807922661a9207382137f734}{NUM\_IK\_SOLUTIONS}}];                 \textcolor{comment}{// i-\/th element is true if i-\/th solution was obtained, false otherwise}}
+\DoxyCodeLine{124     \textcolor{keywordtype}{int} num\_obtained = \mbox{\hyperlink{weighter_8cpp_a31bde68cedeb0fd155d2c1d4780c7ce8}{getAllqdots}}(qdots, obt); \textcolor{comment}{// get all computed qdots}}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126     \textcolor{comment}{// Select best qdot.}}
+\DoxyCodeLine{127     \textcolor{keywordflow}{if} (obt[0] \&\& !obt[1] \&\& !obt[2])}
+\DoxyCodeLine{128     \{}
+\DoxyCodeLine{129         \mbox{\hyperlink{weighter_8cpp_a1f48abe5f7066045e18c4f65eed63182}{bestIdx}} = 0;}
+\DoxyCodeLine{130     \}}
+\DoxyCodeLine{131     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (obt[1] \&\& !obt[2])}
+\DoxyCodeLine{132     \{}
+\DoxyCodeLine{133         \mbox{\hyperlink{weighter_8cpp_a1f48abe5f7066045e18c4f65eed63182}{bestIdx}} = 1;}
+\DoxyCodeLine{134     \}}
+\DoxyCodeLine{135     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (obt[2])}
+\DoxyCodeLine{136     \{}
+\DoxyCodeLine{137         \mbox{\hyperlink{weighter_8cpp_a1f48abe5f7066045e18c4f65eed63182}{bestIdx}} = 2;}
+\DoxyCodeLine{138     \}}
+\DoxyCodeLine{139 }
+\DoxyCodeLine{140     \textcolor{keywordflow}{if} (num\_obtained > 0)}
+\DoxyCodeLine{141     \{}
+\DoxyCodeLine{142         finalqdot = qdots[\mbox{\hyperlink{weighter_8cpp_a1f48abe5f7066045e18c4f65eed63182}{bestIdx}}]; \textcolor{comment}{// best qdot assigned}}
+\DoxyCodeLine{143     \}}
+\DoxyCodeLine{144     \mbox{\hyperlink{utilities_8h_aa96f0c1374200da4ab329d5905ed1d25}{saturate}}(finalqdot);}
+\DoxyCodeLine{145     \textcolor{keywordflow}{if} (num\_obtained > 0)}
+\DoxyCodeLine{146     \{}
+\DoxyCodeLine{147         finalqdotState.velocity = finalqdot; \textcolor{comment}{// store final velocity vector into the velocity field of the object to be published.}}
+\DoxyCodeLine{148     \}}
+\DoxyCodeLine{149     \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}} = \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}} + 1;}
+\DoxyCodeLine{150     vector<double> \mbox{\hyperlink{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}{eff}}(1, \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}});}
+\DoxyCodeLine{151     finalqdotState.effort = \mbox{\hyperlink{namespaceintegrator_ae3d178259dfc9e74b6819abc9e6af302}{eff}};}
+\DoxyCodeLine{152     \textcolor{keywordflow}{if} (isnan(finalqdot[0]))}
+\DoxyCodeLine{153         num\_obtained = -\/1;}
+\DoxyCodeLine{154     \textcolor{keywordflow}{return} num\_obtained;}
+\DoxyCodeLine{155 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{weighter_8cpp_a31bde68cedeb0fd155d2c1d4780c7ce8}\label{weighter_8cpp_a31bde68cedeb0fd155d2c1d4780c7ce8}} 
+\index{weighter.cpp@{weighter.cpp}!getAllqdots@{getAllqdots}}
+\index{getAllqdots@{getAllqdots}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{getAllqdots()}{getAllqdots()}}
+{\footnotesize\ttfamily int get\+Allqdots (\begin{DoxyParamCaption}\item[{vector$<$ double $>$}]{qdots\mbox{[}$\,$\mbox{]},  }\item[{bool}]{obtained\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+Function that calls all the invkin modules and retrieves the computed joint velocities. 
+\begin{DoxyParams}{Parameters}
+{\em qdots} & Vector that will contain the computed qdots, to be filled. \\
+\hline
+{\em obtained} & Vector that at position i contains a boolean that is true if i-\/th solution was retrieved, false otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of retrieved velocities vectors. 
+\end{DoxyReturn}
+
+
+Definition at line 62 of file weighter.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{63 \{}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     \textcolor{keywordtype}{bool} costObtained;    \textcolor{comment}{// will be true if call to Cost service will succeed.}}
+\DoxyCodeLine{66     \textcolor{keywordtype}{int} num\_obtained = 0; \textcolor{comment}{// initialization}}
+\DoxyCodeLine{67     \mbox{\hyperlink{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}{costSrv}}.request.seq.data = \mbox{\hyperlink{utilities_8h_a96ef966cdecc2e582959632b5c35eaef}{seq}};}
+\DoxyCodeLine{68 \textcolor{comment}{// Each service call is performed in parallel.}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#pragma omp sections}}
+\DoxyCodeLine{70     \{}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#pragma omp section}}
+\DoxyCodeLine{72         \{}
+\DoxyCodeLine{73             costObtained = \mbox{\hyperlink{weighter_8cpp_a53646e871148316c166391f3f67275c3}{clients}}[0].call(\mbox{\hyperlink{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}{costSrv}}); \textcolor{comment}{// call service Cost}}
+\DoxyCodeLine{74         \}}
+\DoxyCodeLine{75 \textcolor{preprocessor}{\#pragma omp section}}
+\DoxyCodeLine{76         \{}
+\DoxyCodeLine{77             obtained[0] = \mbox{\hyperlink{weighter_8cpp_a53646e871148316c166391f3f67275c3}{clients}}[1].call(\mbox{\hyperlink{weighter_8cpp_a7228f83bc479e7a1c62ba86f286f0783}{traSrv}});}
+\DoxyCodeLine{78         \}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#pragma omp section}}
+\DoxyCodeLine{81         \{}
+\DoxyCodeLine{82             obtained[1] = \mbox{\hyperlink{weighter_8cpp_a53646e871148316c166391f3f67275c3}{clients}}[2].call(\mbox{\hyperlink{weighter_8cpp_a336eacd93b1124429f5a6c00ec3444d4}{TASrv}});}
+\DoxyCodeLine{83         \}}
+\DoxyCodeLine{84     \}}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86     \textcolor{keywordflow}{if} (costObtained)}
+\DoxyCodeLine{87     \{ \textcolor{comment}{// store solutions obtained from Cost and update num\_obtained}}
+\DoxyCodeLine{88         qdots[2] = \mbox{\hyperlink{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}{costSrv}}.response.qdot1opt1.velocity;}
+\DoxyCodeLine{89         qdots[3] = \mbox{\hyperlink{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}{costSrv}}.response.qdot1opt2.velocity;}
+\DoxyCodeLine{90         qdots[4] = \mbox{\hyperlink{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}{costSrv}}.response.qdot2opt1.velocity;}
+\DoxyCodeLine{91         qdots[5] = \mbox{\hyperlink{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}{costSrv}}.response.qdot2opt2.velocity;}
+\DoxyCodeLine{92         num\_obtained = num\_obtained + 4;}
+\DoxyCodeLine{93     \}}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95     \textcolor{keywordflow}{if} (obtained[0])}
+\DoxyCodeLine{96     \{}
+\DoxyCodeLine{97         qdots[0] = \mbox{\hyperlink{weighter_8cpp_a7228f83bc479e7a1c62ba86f286f0783}{traSrv}}.response.q\_dot.velocity;}
+\DoxyCodeLine{98         num\_obtained++;}
+\DoxyCodeLine{99     \}}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{101     \textcolor{keywordflow}{if} (obtained[1])}
+\DoxyCodeLine{102     \{}
+\DoxyCodeLine{103         qdots[1] = \mbox{\hyperlink{weighter_8cpp_a336eacd93b1124429f5a6c00ec3444d4}{TASrv}}.response.q\_dot.velocity;}
+\DoxyCodeLine{104         num\_obtained++;}
+\DoxyCodeLine{105     \}}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 2; i < \mbox{\hyperlink{utilities_8h_a0eb52d69807922661a9207382137f734}{NUM\_IK\_SOLUTIONS}}; i++)}
+\DoxyCodeLine{108     \{}
+\DoxyCodeLine{109         obtained[i] = costObtained;}
+\DoxyCodeLine{110     \}}
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112     \textcolor{keywordflow}{return} num\_obtained;}
+\DoxyCodeLine{113 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{weighter_8cpp_a3fd3befff9ef8cf31fa8f531d611c5a8}\label{weighter_8cpp_a3fd3befff9ef8cf31fa8f531d611c5a8}} 
+\index{weighter.cpp@{weighter.cpp}!handleCallback@{handleCallback}}
+\index{handleCallback@{handleCallback}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{handleCallback()}{handleCallback()}}
+{\footnotesize\ttfamily void handle\+Callback (\begin{DoxyParamCaption}\item[{const std\+\_\+msgs\+::\+Int8 \&}]{msg }\end{DoxyParamCaption})}
+
+Callback function for simulation signals. Handles changes in the simulation. If data = 0, then the initial conditions must be resetted. If data = 1, then the algorithm moves on. If data = 2, then the algorithm pauses. 
+\begin{DoxyParams}{Parameters}
+{\em msg} & The received data. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file weighter.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{45 \{}
+\DoxyCodeLine{46     \textcolor{keywordflow}{if} (msg.data == 0)}
+\DoxyCodeLine{47     \{}
+\DoxyCodeLine{48         \mbox{\hyperlink{weighter_8cpp_a8409a0d351d4fba2eeef26a7dcc585a8}{reset}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{49         \mbox{\hyperlink{weighter_8cpp_afefdd37060569069d2ed47479b2d8f35}{moveOn}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{50     \}}
+\DoxyCodeLine{51     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (msg.data == 1)}
+\DoxyCodeLine{52         \mbox{\hyperlink{weighter_8cpp_afefdd37060569069d2ed47479b2d8f35}{moveOn}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{53     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (msg.data == 2)}
+\DoxyCodeLine{54         \mbox{\hyperlink{weighter_8cpp_afefdd37060569069d2ed47479b2d8f35}{moveOn}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{55 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{weighter_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{weighter_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{weighter.cpp@{weighter.cpp}!main@{main}}
+\index{main@{main}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+Main function of the node. 
+
+Definition at line 159 of file weighter.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{160 \{}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162     ros::init(argc, argv, \textcolor{stringliteral}{"{}weighter"{}}); \textcolor{comment}{// initialize node}}
+\DoxyCodeLine{163     ros::NodeHandle n;                 \textcolor{comment}{// define node handle}}
+\DoxyCodeLine{164 }
+\DoxyCodeLine{165     \textcolor{keywordtype}{int} queSize = 10;}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167     ros::Subscriber sub1 = n.subscribe(\textcolor{stringliteral}{"{}handleSimulation"{}}, queSize, \mbox{\hyperlink{weighter_8cpp_a3fd3befff9ef8cf31fa8f531d611c5a8}{handleCallback}}); \textcolor{comment}{// subscribe to Jacobian}}
+\DoxyCodeLine{168 }
+\DoxyCodeLine{169     ros::Publisher \mbox{\hyperlink{namespaceErrors_a0d9c70e857a30fb1cd960b97e3e8a229}{pub}} = n.advertise<sensor\_msgs::JointState>(\textcolor{stringliteral}{"{}cmdtopic"{}}, queSize); \textcolor{comment}{// activate qdot publisher}}
+\DoxyCodeLine{170     ros::Rate loopRate(100);                                                        \textcolor{comment}{// define publishing rate}}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{172     \textcolor{comment}{// This node acts as a client for three services.}}
+\DoxyCodeLine{173     \mbox{\hyperlink{weighter_8cpp_a53646e871148316c166391f3f67275c3}{clients}}[0] = n.serviceClient<math\_pkg::Cost>(\textcolor{stringliteral}{"{}cost"{}});}
+\DoxyCodeLine{174     \mbox{\hyperlink{weighter_8cpp_a53646e871148316c166391f3f67275c3}{clients}}[1] = n.serviceClient<math\_pkg::IK\_Jtra>(\textcolor{stringliteral}{"{}IK\_Jtransp"{}});}
+\DoxyCodeLine{175     \mbox{\hyperlink{weighter_8cpp_a53646e871148316c166391f3f67275c3}{clients}}[2] = n.serviceClient<math\_pkg::IK\_JTA>(\textcolor{stringliteral}{"{}IK\_JAnalytic"{}});}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177     \textcolor{keywordflow}{while} (ros::ok())}
+\DoxyCodeLine{178     \{}
+\DoxyCodeLine{179         vector<double> tosendFirst(\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}}, 0);}
+\DoxyCodeLine{180         vector<double> firstEffort(1, 0);}
+\DoxyCodeLine{181         sensor\_msgs::JointState toSend; \textcolor{comment}{// initialize object to be published}}
+\DoxyCodeLine{182         toSend.velocity = tosendFirst;}
+\DoxyCodeLine{183         toSend.effort = firstEffort;}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{185         \textcolor{keywordtype}{int} obt;}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{187         \textcolor{keywordflow}{while} (ros::ok())}
+\DoxyCodeLine{188         \{}
+\DoxyCodeLine{189             \textcolor{keywordflow}{if} (\mbox{\hyperlink{weighter_8cpp_afefdd37060569069d2ed47479b2d8f35}{moveOn}})}
+\DoxyCodeLine{190             \{}
+\DoxyCodeLine{191                 obt = \mbox{\hyperlink{weighter_8cpp_a7c1267677c7171346c67cfe3fb7e27fa}{computeWeightedqdot}}(toSend);}
+\DoxyCodeLine{192                 \textcolor{keywordflow}{if} (obt == -\/1)}
+\DoxyCodeLine{193                     \textcolor{keywordflow}{break};}
+\DoxyCodeLine{194                 \mbox{\hyperlink{namespaceErrors_a0d9c70e857a30fb1cd960b97e3e8a229}{pub}}.publish(toSend); \textcolor{comment}{// publish weighted qdot}}
+\DoxyCodeLine{195             \}}
+\DoxyCodeLine{196             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\mbox{\hyperlink{weighter_8cpp_a8409a0d351d4fba2eeef26a7dcc585a8}{reset}})}
+\DoxyCodeLine{197             \{}
+\DoxyCodeLine{198                 \mbox{\hyperlink{weighter_8cpp_a8409a0d351d4fba2eeef26a7dcc585a8}{reset}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{199                 \mbox{\hyperlink{utilities_8h_a43f47e95fd166d0196566027623721c5}{stay\_still}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{200                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{201             \}}
+\DoxyCodeLine{202             ros::spinOnce();}
+\DoxyCodeLine{203             loopRate.sleep();}
+\DoxyCodeLine{204         \}}
+\DoxyCodeLine{205     \}}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{208 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{weighter_8cpp_a1f48abe5f7066045e18c4f65eed63182}\label{weighter_8cpp_a1f48abe5f7066045e18c4f65eed63182}} 
+\index{weighter.cpp@{weighter.cpp}!bestIdx@{bestIdx}}
+\index{bestIdx@{bestIdx}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{bestIdx}{bestIdx}}
+{\footnotesize\ttfamily int best\+Idx = 0}
+
+
+
+Definition at line 37 of file weighter.\+cpp.
+
+\mbox{\Hypertarget{weighter_8cpp_a53646e871148316c166391f3f67275c3}\label{weighter_8cpp_a53646e871148316c166391f3f67275c3}} 
+\index{weighter.cpp@{weighter.cpp}!clients@{clients}}
+\index{clients@{clients}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{clients}{clients}}
+{\footnotesize\ttfamily ros\+::\+Service\+Client clients\mbox{[}\mbox{\hyperlink{utilities_8h_a819a4f71108d5d9256b7748a5df3b49d}{N\+U\+M\+\_\+\+I\+K\+\_\+\+S\+E\+R\+V\+I\+C\+ES}}\mbox{]}}
+
+Client objects needed for service calls. 
+
+Definition at line 16 of file weighter.\+cpp.
+
+\mbox{\Hypertarget{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}\label{weighter_8cpp_a0f0b5225070cb07f03692d6f83f72ca5}} 
+\index{weighter.cpp@{weighter.cpp}!costSrv@{costSrv}}
+\index{costSrv@{costSrv}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{costSrv}{costSrv}}
+{\footnotesize\ttfamily math\+\_\+pkg\+::\+Cost cost\+Srv}
+
+Cost server object. 
+
+Definition at line 19 of file weighter.\+cpp.
+
+\mbox{\Hypertarget{weighter_8cpp_afefdd37060569069d2ed47479b2d8f35}\label{weighter_8cpp_afefdd37060569069d2ed47479b2d8f35}} 
+\index{weighter.cpp@{weighter.cpp}!moveOn@{moveOn}}
+\index{moveOn@{moveOn}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{moveOn}{moveOn}}
+{\footnotesize\ttfamily bool move\+On = false}
+
+
+
+Definition at line 34 of file weighter.\+cpp.
+
+\mbox{\Hypertarget{weighter_8cpp_a7115881a0afae37af150daa16ec5def9}\label{weighter_8cpp_a7115881a0afae37af150daa16ec5def9}} 
+\index{weighter.cpp@{weighter.cpp}!mustPause@{mustPause}}
+\index{mustPause@{mustPause}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{mustPause}{mustPause}}
+{\footnotesize\ttfamily bool must\+Pause = false}
+
+
+
+Definition at line 31 of file weighter.\+cpp.
+
+\mbox{\Hypertarget{weighter_8cpp_a8409a0d351d4fba2eeef26a7dcc585a8}\label{weighter_8cpp_a8409a0d351d4fba2eeef26a7dcc585a8}} 
+\index{weighter.cpp@{weighter.cpp}!reset@{reset}}
+\index{reset@{reset}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{reset}{reset}}
+{\footnotesize\ttfamily bool reset = false}
+
+
+
+Definition at line 28 of file weighter.\+cpp.
+
+\mbox{\Hypertarget{weighter_8cpp_a336eacd93b1124429f5a6c00ec3444d4}\label{weighter_8cpp_a336eacd93b1124429f5a6c00ec3444d4}} 
+\index{weighter.cpp@{weighter.cpp}!TASrv@{TASrv}}
+\index{TASrv@{TASrv}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{TASrv}{TASrv}}
+{\footnotesize\ttfamily math\+\_\+pkg\+::\+I\+K\+\_\+\+J\+TA T\+A\+Srv}
+
+
+
+Definition at line 25 of file weighter.\+cpp.
+
+\mbox{\Hypertarget{weighter_8cpp_a7228f83bc479e7a1c62ba86f286f0783}\label{weighter_8cpp_a7228f83bc479e7a1c62ba86f286f0783}} 
+\index{weighter.cpp@{weighter.cpp}!traSrv@{traSrv}}
+\index{traSrv@{traSrv}!weighter.cpp@{weighter.cpp}}
+\doxysubsubsection{\texorpdfstring{traSrv}{traSrv}}
+{\footnotesize\ttfamily math\+\_\+pkg\+::\+I\+K\+\_\+\+Jtra tra\+Srv}
+
+
+
+Definition at line 22 of file weighter.\+cpp.
+

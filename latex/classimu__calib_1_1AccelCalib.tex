@@ -1,0 +1,576 @@
+\hypertarget{classimu__calib_1_1AccelCalib}{}\doxysection{imu\+\_\+calib\+::Accel\+Calib Class Reference}
+\label{classimu__calib_1_1AccelCalib}\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+
+
+{\ttfamily \#include $<$accel\+\_\+calib.\+h$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4d}{Orientation}} \{ \newline
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157}{X\+P\+OS}} = 0, 
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618}{X\+N\+EG}}, 
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812}{Y\+P\+OS}}, 
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a}{Y\+N\+EG}}, 
+\newline
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c}{Z\+P\+OS}}, 
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9}{Z\+N\+EG}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a6e2dd8b476d03b7183d8d71e1fc8b257}{Accel\+Calib}} ()
+\item 
+\mbox{\hyperlink{classimu__calib_1_1AccelCalib_aaabc2668ed44e306111fc3c8edf3bcd2}{Accel\+Calib}} (std\+::string calib\+\_\+file)
+\item 
+bool \mbox{\hyperlink{classimu__calib_1_1AccelCalib_acc7eb6a4caca3c0193c555057de85e55}{calib\+Ready}} ()
+\item 
+bool \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a2ca5069a85da989629cb248bef0f4959}{load\+Calib}} (std\+::string calib\+\_\+file)
+\item 
+bool \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a9eb55c1754c99f697793245e6dcd1e66}{save\+Calib}} (std\+::string calib\+\_\+file)
+\item 
+void \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a1dd8664f26906e36fc6e9bca223355e4}{begin\+Calib}} (int measurements, double reference\+\_\+acceleration)
+\item 
+bool \mbox{\hyperlink{classimu__calib_1_1AccelCalib_ade432edb16621bf71b9430306cd09bb6}{add\+Measurement}} (\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4d}{Orientation}} orientation, double ax, double ay, double az)
+\item 
+bool \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa8a4a212bb868fa5e4ba513dc15b41c4}{compute\+Calib}} ()
+\item 
+void \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a612705c34e1368e683b4cdf4b14b2a10}{apply\+Calib}} (double raw\mbox{[}3\mbox{]}, double corrected\mbox{[}3\mbox{]})
+\item 
+void \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a98af9b0dc84c17d547b0df7ba8b94654}{apply\+Calib}} (double raw\+\_\+x, double raw\+\_\+y, double raw\+\_\+z, double $\ast$corr\+\_\+x, double $\ast$corr\+\_\+y, double $\ast$corr\+\_\+z)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}{calib\+\_\+ready\+\_\+}}
+\item 
+Eigen\+::\+Matrix3d \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}{S\+M\+\_\+}}
+\begin{DoxyCompactList}\small\item\em combined scale and misalignment parameters \end{DoxyCompactList}\item 
+Eigen\+::\+Vector3d \mbox{\hyperlink{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}{bias\+\_\+}}
+\begin{DoxyCompactList}\small\item\em scaled and rotated bias parameters \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a24822222cd38a3a58fda469d352d7fde}{reference\+\_\+acceleration\+\_\+}}
+\begin{DoxyCompactList}\small\item\em expected acceleration measurement (e.\+g. 1.\+0 for unit of g\textquotesingle{}s, 9.\+80665 for unit of m/s$^\wedge$2) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a57e9dac3bc28b67a3de9fc4be0cea65d}{calib\+\_\+initialized\+\_\+}}
+\item 
+int \mbox{\hyperlink{classimu__calib_1_1AccelCalib_afc8cc395d7427baa857f4f08e12257e0}{orientation\+\_\+count\+\_\+}} \mbox{[}6\mbox{]}
+\item 
+Eigen\+::\+Matrix\+Xd \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\+\_\+}}
+\begin{DoxyCompactList}\small\item\em least squares measurements matrix \end{DoxyCompactList}\item 
+Eigen\+::\+Vector\+Xd \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a3071798127fa61aca2748c73fd1d5870}{ref\+\_\+}}
+\begin{DoxyCompactList}\small\item\em least squares expected measurements vector \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classimu__calib_1_1AccelCalib_ab58cc678d5404288a342b0bde889c632}{num\+\_\+measurements\+\_\+}}
+\begin{DoxyCompactList}\small\item\em number of measurements expected for this calibration \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\+\_\+received\+\_\+}}
+\begin{DoxyCompactList}\small\item\em number of measurements received for this calibration \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a3653385ad7e564f00d5ffdc7eb729e2d}{reference\+\_\+index\+\_\+}} \mbox{[}6\mbox{]} = \{ 0, 0, 1, 1, 2, 2 \}
+\item 
+static const int \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a358c87f48c5aa5fb2aa53e425c608150}{reference\+\_\+sign\+\_\+}} \mbox{[}6\mbox{]} = \{ 1, -\/1, 1, -\/1, 1, -\/1 \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 49 of file accel\+\_\+calib.\+h.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4d}\label{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4d}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!Orientation@{Orientation}}
+\index{Orientation@{Orientation}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{Orientation}{Orientation}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4d}{imu\+\_\+calib\+::\+Accel\+Calib\+::\+Orientation}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{XPOS@{XPOS}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!XPOS@{XPOS}}}\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157}\label{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157}} 
+X\+P\+OS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{XNEG@{XNEG}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!XNEG@{XNEG}}}\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618}\label{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618}} 
+X\+N\+EG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{YPOS@{YPOS}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!YPOS@{YPOS}}}\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812}\label{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812}} 
+Y\+P\+OS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{YNEG@{YNEG}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!YNEG@{YNEG}}}\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a}\label{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a}} 
+Y\+N\+EG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ZPOS@{ZPOS}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!ZPOS@{ZPOS}}}\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c}\label{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c}} 
+Z\+P\+OS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ZNEG@{ZNEG}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!ZNEG@{ZNEG}}}\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9}\label{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9}} 
+Z\+N\+EG&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line 53 of file accel\+\_\+calib.\+h.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{53 \{ \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157}{XPOS}} = 0, \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618}{XNEG}}, \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812}{YPOS}}, \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a}{YNEG}}, \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c}{ZPOS}}, \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9}{ZNEG}} \};}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a6e2dd8b476d03b7183d8d71e1fc8b257}\label{classimu__calib_1_1AccelCalib_a6e2dd8b476d03b7183d8d71e1fc8b257}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!AccelCalib@{AccelCalib}}
+\index{AccelCalib@{AccelCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{AccelCalib()}{AccelCalib()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily imu\+\_\+calib\+::\+Accel\+Calib\+::\+Accel\+Calib (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 54 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{54                        :}
+\DoxyCodeLine{55   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}{calib\_ready\_}}(\textcolor{keyword}{false}),}
+\DoxyCodeLine{56   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a57e9dac3bc28b67a3de9fc4be0cea65d}{calib\_initialized\_}}(\textcolor{keyword}{false}) \{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_aaabc2668ed44e306111fc3c8edf3bcd2}\label{classimu__calib_1_1AccelCalib_aaabc2668ed44e306111fc3c8edf3bcd2}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!AccelCalib@{AccelCalib}}
+\index{AccelCalib@{AccelCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{AccelCalib()}{AccelCalib()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily imu\+\_\+calib\+::\+Accel\+Calib\+::\+Accel\+Calib (\begin{DoxyParamCaption}\item[{std\+::string}]{calib\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Definition at line 58 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{59 \{}
+\DoxyCodeLine{60   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a6e2dd8b476d03b7183d8d71e1fc8b257}{AccelCalib}}();}
+\DoxyCodeLine{61   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a2ca5069a85da989629cb248bef0f4959}{loadCalib}}(calib\_file);}
+\DoxyCodeLine{62 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_ade432edb16621bf71b9430306cd09bb6}\label{classimu__calib_1_1AccelCalib_ade432edb16621bf71b9430306cd09bb6}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!addMeasurement@{addMeasurement}}
+\index{addMeasurement@{addMeasurement}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{addMeasurement()}{addMeasurement()}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Accel\+Calib\+::add\+Measurement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4d}{Accel\+Calib\+::\+Orientation}}}]{orientation,  }\item[{double}]{ax,  }\item[{double}]{ay,  }\item[{double}]{az }\end{DoxyParamCaption})}
+
+
+
+Definition at line 145 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{146 \{}
+\DoxyCodeLine{147   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a57e9dac3bc28b67a3de9fc4be0cea65d}{calib\_initialized\_}} \&\& \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} < \mbox{\hyperlink{classimu__calib_1_1AccelCalib_ab58cc678d5404288a342b0bde889c632}{num\_measurements\_}})}
+\DoxyCodeLine{148   \{}
+\DoxyCodeLine{149     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++)}
+\DoxyCodeLine{150     \{}
+\DoxyCodeLine{151       \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\_}}(3*\mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} + i, 3*i) = ax;}
+\DoxyCodeLine{152       \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\_}}(3*\mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} + i, 3*i + 1) = ay;}
+\DoxyCodeLine{153       \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\_}}(3*\mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} + i, 3*i + 2) = az;}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155       \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\_}}(3*\mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} + i, 9 + i) = -\/1.0;}
+\DoxyCodeLine{156     \}}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158     \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a3071798127fa61aca2748c73fd1d5870}{ref\_}}(3*\mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} + \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a3653385ad7e564f00d5ffdc7eb729e2d}{reference\_index\_}}[\mbox{\hyperlink{namespaceclipping_ac33e7b66a0ea7b9401550ecb54655abe}{orientation}}], 0) = \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a358c87f48c5aa5fb2aa53e425c608150}{reference\_sign\_}}[\mbox{\hyperlink{namespaceclipping_ac33e7b66a0ea7b9401550ecb54655abe}{orientation}}] *  \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a24822222cd38a3a58fda469d352d7fde}{reference\_acceleration\_}};}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160     \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}}++;}
+\DoxyCodeLine{161     \mbox{\hyperlink{classimu__calib_1_1AccelCalib_afc8cc395d7427baa857f4f08e12257e0}{orientation\_count\_}}[\mbox{\hyperlink{namespaceclipping_ac33e7b66a0ea7b9401550ecb54655abe}{orientation}}]++;}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{163     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{164   \}}
+\DoxyCodeLine{165   \textcolor{keywordflow}{else}}
+\DoxyCodeLine{166   \{}
+\DoxyCodeLine{167     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{168   \}}
+\DoxyCodeLine{169 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a612705c34e1368e683b4cdf4b14b2a10}\label{classimu__calib_1_1AccelCalib_a612705c34e1368e683b4cdf4b14b2a10}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!applyCalib@{applyCalib}}
+\index{applyCalib@{applyCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{applyCalib()}{applyCalib()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void imu\+\_\+calib\+::\+Accel\+Calib\+::apply\+Calib (\begin{DoxyParamCaption}\item[{double}]{raw\mbox{[}3\mbox{]},  }\item[{double}]{corrected\mbox{[}3\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Definition at line 201 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{202 \{}
+\DoxyCodeLine{203   Eigen::Vector3d raw\_accel(raw[0], raw[1], raw[2]);}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205   Eigen::Vector3d corrected\_accel = \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}{SM\_}}*raw\_accel -\/ \mbox{\hyperlink{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}{bias\_}};}
+\DoxyCodeLine{206 }
+\DoxyCodeLine{207   corrected[0] = corrected\_accel(0);}
+\DoxyCodeLine{208   corrected[1] = corrected\_accel(1);}
+\DoxyCodeLine{209   corrected[2] = corrected\_accel(2);}
+\DoxyCodeLine{210 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a98af9b0dc84c17d547b0df7ba8b94654}\label{classimu__calib_1_1AccelCalib_a98af9b0dc84c17d547b0df7ba8b94654}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!applyCalib@{applyCalib}}
+\index{applyCalib@{applyCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{applyCalib()}{applyCalib()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void imu\+\_\+calib\+::\+Accel\+Calib\+::apply\+Calib (\begin{DoxyParamCaption}\item[{double}]{raw\+\_\+x,  }\item[{double}]{raw\+\_\+y,  }\item[{double}]{raw\+\_\+z,  }\item[{double $\ast$}]{corr\+\_\+x,  }\item[{double $\ast$}]{corr\+\_\+y,  }\item[{double $\ast$}]{corr\+\_\+z }\end{DoxyParamCaption})}
+
+
+
+Definition at line 212 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{213 \{}
+\DoxyCodeLine{214   Eigen::Vector3d raw\_accel(raw\_x, raw\_y, raw\_z);}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216   Eigen::Vector3d corrected\_accel = \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}{SM\_}}*raw\_accel -\/ \mbox{\hyperlink{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}{bias\_}};}
+\DoxyCodeLine{217 }
+\DoxyCodeLine{218   *corr\_x = corrected\_accel(0);}
+\DoxyCodeLine{219   *corr\_y = corrected\_accel(1);}
+\DoxyCodeLine{220   *corr\_z = corrected\_accel(2);}
+\DoxyCodeLine{221 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a1dd8664f26906e36fc6e9bca223355e4}\label{classimu__calib_1_1AccelCalib_a1dd8664f26906e36fc6e9bca223355e4}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!beginCalib@{beginCalib}}
+\index{beginCalib@{beginCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{beginCalib()}{beginCalib()}}
+{\footnotesize\ttfamily void imu\+\_\+calib\+::\+Accel\+Calib\+::begin\+Calib (\begin{DoxyParamCaption}\item[{int}]{measurements,  }\item[{double}]{reference\+\_\+acceleration }\end{DoxyParamCaption})}
+
+
+
+Definition at line 128 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{129 \{}
+\DoxyCodeLine{130   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a24822222cd38a3a58fda469d352d7fde}{reference\_acceleration\_}} = reference\_acceleration;}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_ab58cc678d5404288a342b0bde889c632}{num\_measurements\_}} = measurements;}
+\DoxyCodeLine{133   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} = 0;}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\_}}.resize(3*measurements, 12);}
+\DoxyCodeLine{136   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\_}}.setZero();}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a3071798127fa61aca2748c73fd1d5870}{ref\_}}.resize(3*measurements);}
+\DoxyCodeLine{139   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a3071798127fa61aca2748c73fd1d5870}{ref\_}}.setZero();}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{141   memset(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_afc8cc395d7427baa857f4f08e12257e0}{orientation\_count\_}}, 0, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_afc8cc395d7427baa857f4f08e12257e0}{orientation\_count\_}}));}
+\DoxyCodeLine{142   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a57e9dac3bc28b67a3de9fc4be0cea65d}{calib\_initialized\_}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{143 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_acc7eb6a4caca3c0193c555057de85e55}\label{classimu__calib_1_1AccelCalib_acc7eb6a4caca3c0193c555057de85e55}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!calibReady@{calibReady}}
+\index{calibReady@{calibReady}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{calibReady()}{calibReady()}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Accel\+Calib\+::calib\+Ready (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 64 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{65 \{}
+\DoxyCodeLine{66   \textcolor{keywordflow}{return} \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}{calib\_ready\_}};}
+\DoxyCodeLine{67 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_aa8a4a212bb868fa5e4ba513dc15b41c4}\label{classimu__calib_1_1AccelCalib_aa8a4a212bb868fa5e4ba513dc15b41c4}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!computeCalib@{computeCalib}}
+\index{computeCalib@{computeCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{computeCalib()}{computeCalib()}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Accel\+Calib\+::compute\+Calib (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 171 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{172 \{}
+\DoxyCodeLine{173   \textcolor{comment}{// check status}}
+\DoxyCodeLine{174   \textcolor{keywordflow}{if} (\mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}{measurements\_received\_}} < 12)}
+\DoxyCodeLine{175     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{177   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 6; i++)}
+\DoxyCodeLine{178   \{}
+\DoxyCodeLine{179     \textcolor{keywordflow}{if} (\mbox{\hyperlink{classimu__calib_1_1AccelCalib_afc8cc395d7427baa857f4f08e12257e0}{orientation\_count\_}}[i] == 0)}
+\DoxyCodeLine{180       \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{181   \}}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{183   \textcolor{comment}{// solve least squares}}
+\DoxyCodeLine{184   Eigen::VectorXd xhat = \mbox{\hyperlink{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}{meas\_}}.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a3071798127fa61aca2748c73fd1d5870}{ref\_}});}
+\DoxyCodeLine{185 }
+\DoxyCodeLine{186   \textcolor{comment}{// extract solution}}
+\DoxyCodeLine{187   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 9; i++)}
+\DoxyCodeLine{188   \{}
+\DoxyCodeLine{189     \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}{SM\_}}(i/3, i\%3) = xhat(i);}
+\DoxyCodeLine{190   \}}
+\DoxyCodeLine{191 }
+\DoxyCodeLine{192   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++)}
+\DoxyCodeLine{193   \{}
+\DoxyCodeLine{194     \mbox{\hyperlink{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}{bias\_}}(i) = xhat(9+i);}
+\DoxyCodeLine{195   \}}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197   \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}{calib\_ready\_}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{198   \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{199 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a2ca5069a85da989629cb248bef0f4959}\label{classimu__calib_1_1AccelCalib_a2ca5069a85da989629cb248bef0f4959}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!loadCalib@{loadCalib}}
+\index{loadCalib@{loadCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{loadCalib()}{loadCalib()}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Accel\+Calib\+::load\+Calib (\begin{DoxyParamCaption}\item[{std\+::string}]{calib\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Definition at line 69 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{70 \{}
+\DoxyCodeLine{71   \textcolor{keywordflow}{try}}
+\DoxyCodeLine{72   \{}
+\DoxyCodeLine{73     YAML::Node node = YAML::LoadFile(calib\_file);}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     assert(node[\textcolor{stringliteral}{"{}SM"{}}].IsSequence() \&\& node[\textcolor{stringliteral}{"{}SM"{}}].size() == 9);}
+\DoxyCodeLine{76     assert(node[\textcolor{stringliteral}{"{}bias"{}}].IsSequence() \&\& node[\textcolor{stringliteral}{"{}bias"{}}].size() == 3);}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 9; i++)}
+\DoxyCodeLine{79     \{}
+\DoxyCodeLine{80       \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}{SM\_}}(i/3,i\%3) = node[\textcolor{stringliteral}{"{}SM"{}}][i].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{81     \}}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{83     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++)}
+\DoxyCodeLine{84     \{}
+\DoxyCodeLine{85       \mbox{\hyperlink{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}{bias\_}}(i) = node[\textcolor{stringliteral}{"{}bias"{}}][i].as<\textcolor{keywordtype}{double}>();}
+\DoxyCodeLine{86     \}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88     \mbox{\hyperlink{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}{calib\_ready\_}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{89     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{90   \}}
+\DoxyCodeLine{91   \textcolor{keywordflow}{catch} (...)}
+\DoxyCodeLine{92   \{}
+\DoxyCodeLine{93     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{94   \}}
+\DoxyCodeLine{95 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a9eb55c1754c99f697793245e6dcd1e66}\label{classimu__calib_1_1AccelCalib_a9eb55c1754c99f697793245e6dcd1e66}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!saveCalib@{saveCalib}}
+\index{saveCalib@{saveCalib}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{saveCalib()}{saveCalib()}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Accel\+Calib\+::save\+Calib (\begin{DoxyParamCaption}\item[{std\+::string}]{calib\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Definition at line 97 of file accel\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{98 \{}
+\DoxyCodeLine{99   \textcolor{keywordflow}{if} (!\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}{calib\_ready\_}})}
+\DoxyCodeLine{100     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{102   YAML::Node node;}
+\DoxyCodeLine{103   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 9; i++)}
+\DoxyCodeLine{104   \{}
+\DoxyCodeLine{105       node[\textcolor{stringliteral}{"{}SM"{}}].push\_back(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}{SM\_}}(i/3,i\%3));}
+\DoxyCodeLine{106   \}}
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108   \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 3; i++)}
+\DoxyCodeLine{109   \{}
+\DoxyCodeLine{110     node[\textcolor{stringliteral}{"{}bias"{}}].push\_back(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}{bias\_}}(i));}
+\DoxyCodeLine{111   \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113   \textcolor{keywordflow}{try}}
+\DoxyCodeLine{114   \{}
+\DoxyCodeLine{115     std::ofstream fout;}
+\DoxyCodeLine{116     fout.open(calib\_file.c\_str());}
+\DoxyCodeLine{117     fout << node;}
+\DoxyCodeLine{118     fout.close();}
+\DoxyCodeLine{119   \}}
+\DoxyCodeLine{120   \textcolor{keywordflow}{catch} (...)}
+\DoxyCodeLine{121   \{}
+\DoxyCodeLine{122     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{123   \}}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125   \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{126 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}\label{classimu__calib_1_1AccelCalib_af8f20674605c96d96decf6a3a6b7df11}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!bias\_@{bias\_}}
+\index{bias\_@{bias\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{bias\_}{bias\_}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d imu\+\_\+calib\+::\+Accel\+Calib\+::bias\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+scaled and rotated bias parameters 
+
+
+
+Definition at line 80 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a57e9dac3bc28b67a3de9fc4be0cea65d}\label{classimu__calib_1_1AccelCalib_a57e9dac3bc28b67a3de9fc4be0cea65d}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!calib\_initialized\_@{calib\_initialized\_}}
+\index{calib\_initialized\_@{calib\_initialized\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{calib\_initialized\_}{calib\_initialized\_}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Accel\+Calib\+::calib\+\_\+initialized\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 84 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}\label{classimu__calib_1_1AccelCalib_a902fd6695c2973fc1ee3606449a633f6}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!calib\_ready\_@{calib\_ready\_}}
+\index{calib\_ready\_@{calib\_ready\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{calib\_ready\_}{calib\_ready\_}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Accel\+Calib\+::calib\+\_\+ready\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 77 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}\label{classimu__calib_1_1AccelCalib_aa3310e26dd6a693e465fb9d41cfc3644}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!meas\_@{meas\_}}
+\index{meas\_@{meas\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{meas\_}{meas\_}}
+{\footnotesize\ttfamily Eigen\+::\+Matrix\+Xd imu\+\_\+calib\+::\+Accel\+Calib\+::meas\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+least squares measurements matrix 
+
+
+
+Definition at line 87 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}\label{classimu__calib_1_1AccelCalib_aa5203b54b4ab977232b7013473196e4b}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!measurements\_received\_@{measurements\_received\_}}
+\index{measurements\_received\_@{measurements\_received\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{measurements\_received\_}{measurements\_received\_}}
+{\footnotesize\ttfamily int imu\+\_\+calib\+::\+Accel\+Calib\+::measurements\+\_\+received\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+number of measurements received for this calibration 
+
+
+
+Definition at line 90 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_ab58cc678d5404288a342b0bde889c632}\label{classimu__calib_1_1AccelCalib_ab58cc678d5404288a342b0bde889c632}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!num\_measurements\_@{num\_measurements\_}}
+\index{num\_measurements\_@{num\_measurements\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{num\_measurements\_}{num\_measurements\_}}
+{\footnotesize\ttfamily int imu\+\_\+calib\+::\+Accel\+Calib\+::num\+\_\+measurements\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+number of measurements expected for this calibration 
+
+
+
+Definition at line 89 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_afc8cc395d7427baa857f4f08e12257e0}\label{classimu__calib_1_1AccelCalib_afc8cc395d7427baa857f4f08e12257e0}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!orientation\_count\_@{orientation\_count\_}}
+\index{orientation\_count\_@{orientation\_count\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{orientation\_count\_}{orientation\_count\_}}
+{\footnotesize\ttfamily int imu\+\_\+calib\+::\+Accel\+Calib\+::orientation\+\_\+count\+\_\+\mbox{[}6\mbox{]}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line 85 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a3071798127fa61aca2748c73fd1d5870}\label{classimu__calib_1_1AccelCalib_a3071798127fa61aca2748c73fd1d5870}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!ref\_@{ref\_}}
+\index{ref\_@{ref\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{ref\_}{ref\_}}
+{\footnotesize\ttfamily Eigen\+::\+Vector\+Xd imu\+\_\+calib\+::\+Accel\+Calib\+::ref\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+least squares expected measurements vector 
+
+
+
+Definition at line 88 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a24822222cd38a3a58fda469d352d7fde}\label{classimu__calib_1_1AccelCalib_a24822222cd38a3a58fda469d352d7fde}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!reference\_acceleration\_@{reference\_acceleration\_}}
+\index{reference\_acceleration\_@{reference\_acceleration\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{reference\_acceleration\_}{reference\_acceleration\_}}
+{\footnotesize\ttfamily double imu\+\_\+calib\+::\+Accel\+Calib\+::reference\+\_\+acceleration\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+expected acceleration measurement (e.\+g. 1.\+0 for unit of g\textquotesingle{}s, 9.\+80665 for unit of m/s$^\wedge$2) 
+
+
+
+Definition at line 82 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a3653385ad7e564f00d5ffdc7eb729e2d}\label{classimu__calib_1_1AccelCalib_a3653385ad7e564f00d5ffdc7eb729e2d}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!reference\_index\_@{reference\_index\_}}
+\index{reference\_index\_@{reference\_index\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{reference\_index\_}{reference\_index\_}}
+{\footnotesize\ttfamily const int imu\+\_\+calib\+::\+Accel\+Calib\+::reference\+\_\+index\+\_\+ = \{ 0, 0, 1, 1, 2, 2 \}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 75 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a358c87f48c5aa5fb2aa53e425c608150}\label{classimu__calib_1_1AccelCalib_a358c87f48c5aa5fb2aa53e425c608150}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!reference\_sign\_@{reference\_sign\_}}
+\index{reference\_sign\_@{reference\_sign\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{reference\_sign\_}{reference\_sign\_}}
+{\footnotesize\ttfamily const int imu\+\_\+calib\+::\+Accel\+Calib\+::reference\+\_\+sign\+\_\+ = \{ 1, -\/1, 1, -\/1, 1, -\/1 \}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+
+
+Definition at line 76 of file accel\+\_\+calib.\+h.
+
+\mbox{\Hypertarget{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}\label{classimu__calib_1_1AccelCalib_a13bd339041ac729ed263d1988e1789f8}} 
+\index{imu\_calib::AccelCalib@{imu\_calib::AccelCalib}!SM\_@{SM\_}}
+\index{SM\_@{SM\_}!imu\_calib::AccelCalib@{imu\_calib::AccelCalib}}
+\doxysubsubsection{\texorpdfstring{SM\_}{SM\_}}
+{\footnotesize\ttfamily Eigen\+::\+Matrix3d imu\+\_\+calib\+::\+Accel\+Calib\+::\+S\+M\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+combined scale and misalignment parameters 
+
+
+
+Definition at line 79 of file accel\+\_\+calib.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Smartphone/imu\+\_\+calib/include/imu\+\_\+calib/\mbox{\hyperlink{accel__calib_8h}{accel\+\_\+calib.\+h}}\item 
+Smartphone/imu\+\_\+calib/src/accel\+\_\+calib/\mbox{\hyperlink{accel__calib_8cpp}{accel\+\_\+calib.\+cpp}}\end{DoxyCompactItemize}

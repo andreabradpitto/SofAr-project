@@ -1,0 +1,47 @@
+\hypertarget{namespaceremoveGravity}{}\doxysection{remove\+Gravity Namespace Reference}
+\label{namespaceremoveGravity}\index{removeGravity@{removeGravity}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceremoveGravity_a2756f8aa27782ece0dc678565bbe2008}{remove\+Gravity}} (lin\+\_\+acc, Rot\+\_\+m, g)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}This piece of code carries out the gravity removal
+@param lin_acc linear acceleration data incoming from the accelerometer
+@param Rot_m rotation matrix computed with eulerAnglesToRotationMatrix()
+@param g gravity vector
+@returns the output is the same linear acceleration vector provided, but without gravity influence
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceremoveGravity_a2756f8aa27782ece0dc678565bbe2008}\label{namespaceremoveGravity_a2756f8aa27782ece0dc678565bbe2008}} 
+\index{removeGravity@{removeGravity}!removeGravity@{removeGravity}}
+\index{removeGravity@{removeGravity}!removeGravity@{removeGravity}}
+\doxysubsubsection{\texorpdfstring{removeGravity()}{removeGravity()}}
+{\footnotesize\ttfamily def remove\+Gravity.\+remove\+Gravity (\begin{DoxyParamCaption}\item[{}]{lin\+\_\+acc,  }\item[{}]{Rot\+\_\+m,  }\item[{}]{g }\end{DoxyParamCaption})}
+
+
+
+Definition at line 12 of file remove\+Gravity.\+py.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{12 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceremoveGravity_a2756f8aa27782ece0dc678565bbe2008}{removeGravity}}(lin\_acc, Rot\_m, g):}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14     \textcolor{comment}{\# rotate g vector in the current frame}}
+\DoxyCodeLine{15     g\_frame\_i = np.dot(Rot\_m, g)}
+\DoxyCodeLine{16     g\_removed = [0, 0, 0]  \textcolor{comment}{\# define linear acceleration without gravity}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18     \textcolor{comment}{\#check the sign of the current linear acceleration, and remove the gravity properly}}
+\DoxyCodeLine{19     \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} range(0, 3):}
+\DoxyCodeLine{20         \textcolor{keywordflow}{if} lin\_acc[i] >= 0: }
+\DoxyCodeLine{21             g\_removed[i] = lin\_acc[i] -\/ abs(g\_frame\_i[i])}
+\DoxyCodeLine{22         \textcolor{keywordflow}{if} lin\_acc[i] < 0:}
+\DoxyCodeLine{23             g\_removed[i] = lin\_acc[i] + abs(g\_frame\_i[i])}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{25     \textcolor{keywordflow}{return} g\_removed}
+
+\end{DoxyCode}

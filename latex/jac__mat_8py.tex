@@ -1,0 +1,37 @@
+\hypertarget{jac__mat_8py}{}\doxysection{Math/math\+\_\+pkg/scripts/jac\+\_\+mat.py File Reference}
+\label{jac__mat_8py}\index{Math/math\_pkg/scripts/jac\_mat.py@{Math/math\_pkg/scripts/jac\_mat.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacejac__mat}{jac\+\_\+mat}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacejac__mat_acea62356e13dcd40a0f7b69288cb1ff8}{jac\+\_\+mat.\+sat}} (x, xmin, xmax)
+\begin{DoxyCompactList}\small\item\em Saturates the input value in the given interval. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_a701c95f46a60e0d4735aa9f3b9d1c0ad}{jac\+\_\+mat.\+bell}} (s)
+\begin{DoxyCompactList}\small\item\em Creates a bell shaped function to regularize singular values. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_a1b70eedcec80991a4a9e4befb0d4f72a}{jac\+\_\+mat.\+regularized\+\_\+pseudoinverse}} (\mbox{\hyperlink{ik_8cpp_af2f8d0151c18d9e648b6353879e885ad}{J}})
+\begin{DoxyCompactList}\small\item\em Computes the regularized pseudo inverse of mxn matrix J by applying svd decomposition and multiplication for bell shaped function. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_a860043b48277a9033f9576db20cc1c63}{jac\+\_\+mat.\+calculations\+\_\+6}} (q\+\_\+coppelia)
+\begin{DoxyCompactList}\small\item\em Builds the 6 dof Jacobian by computing the transformation matrices, extracting the geometric vectors from the results and finally building the matrix. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_a3f8d14b0577487e6feb88e38d5518ad5}{jac\+\_\+mat.\+jacobian\+\_\+callback}} (data)
+\begin{DoxyCompactList}\small\item\em Callback Function for the Joints Positions. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_ab6fa90b8afa2d953a8f166c55b4792c5}{jac\+\_\+mat.\+error\+\_\+callback}} (message)
+\begin{DoxyCompactList}\small\item\em Callback Function for the error on the position of the ee. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_a12b4ec5da8077136f06320ce5d577407}{jac\+\_\+mat.\+vel\+\_\+callback}} (message)
+\begin{DoxyCompactList}\small\item\em Callback Function for the linear and angular velocities of the ee. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_a79b5770d439fef38364187d16902bf41}{jac\+\_\+mat.\+handle\+\_\+\+I\+K\+\_\+\+J\+Analytic}} (req)
+\begin{DoxyCompactList}\small\item\em Handler for the Server\+: computes the ee velocity Vee and the joint velocities vector q\+\_\+dot Vee is computed as\+: Vee = vel + K$\ast$error q\+\_\+dot is computed as\+: q\+\_\+dot = J\# $\ast$ Vee then each value of q\+\_\+dot is saturated in a pre-\/determined interval. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacejac__mat_a8e223e62c8624094cfa20b52b1c098f0}{jac\+\_\+mat.\+jac\+\_\+mat}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespacejac__mat_a85ca3feeaa6ba1dfd16285a59c4ef174}{jac\+\_\+mat.\+ready\+Err}} = False
+\item 
+bool \mbox{\hyperlink{namespacejac__mat_af336a5a7bf90772409bbb56da3c600c9}{jac\+\_\+mat.\+readyJ}} = False
+\item 
+bool \mbox{\hyperlink{namespacejac__mat_a707dd549cfb0f1316be715adebc23f90}{jac\+\_\+mat.\+ready\+Vel}} = False
+\end{DoxyCompactItemize}

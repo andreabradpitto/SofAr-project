@@ -1,0 +1,88 @@
+\hypertarget{classimu__calib_1_1DoCalib}{}\doxysection{imu\+\_\+calib\+::Do\+Calib Class Reference}
+\label{classimu__calib_1_1DoCalib}\index{imu\_calib::DoCalib@{imu\_calib::DoCalib}}
+
+
+{\ttfamily \#include $<$do\+\_\+calib.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classimu__calib_1_1DoCalib_a6c84655a767ec840bfba16a8206534b6}{Do\+Calib}} ()
+\item 
+bool \mbox{\hyperlink{classimu__calib_1_1DoCalib_a273cee2f416921782ecf753bcd92f51d}{running}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 54 of file do\+\_\+calib.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classimu__calib_1_1DoCalib_a6c84655a767ec840bfba16a8206534b6}\label{classimu__calib_1_1DoCalib_a6c84655a767ec840bfba16a8206534b6}} 
+\index{imu\_calib::DoCalib@{imu\_calib::DoCalib}!DoCalib@{DoCalib}}
+\index{DoCalib@{DoCalib}!imu\_calib::DoCalib@{imu\_calib::DoCalib}}
+\doxysubsubsection{\texorpdfstring{DoCalib()}{DoCalib()}}
+{\footnotesize\ttfamily imu\+\_\+calib\+::\+Do\+Calib\+::\+Do\+Calib (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 47 of file do\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{47                  :}
+\DoxyCodeLine{48   state\_(START)}
+\DoxyCodeLine{49 \{}
+\DoxyCodeLine{50   ros::NodeHandle nh;}
+\DoxyCodeLine{51   imu\_sub\_ = nh.subscribe(\textcolor{stringliteral}{"{}imu"{}}, 1, \&DoCalib::imuCallback, \textcolor{keyword}{this});}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53   ros::NodeHandle nh\_private(\textcolor{stringliteral}{"{}\string~"{}});}
+\DoxyCodeLine{54   nh\_private.param<\textcolor{keywordtype}{int}>(\textcolor{stringliteral}{"{}measurements"{}}, measurements\_per\_orientation\_, 500);}
+\DoxyCodeLine{55   nh\_private.param<\textcolor{keywordtype}{double}>(\textcolor{stringliteral}{"{}reference\_acceleration"{}}, reference\_acceleration\_, 9.80665);}
+\DoxyCodeLine{56   nh\_private.param<std::string>(\textcolor{stringliteral}{"{}output\_file"{}}, output\_file\_, \textcolor{stringliteral}{"{}imu\_calib.yaml"{}});}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58   orientations\_.push(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157}{AccelCalib::XPOS}});}
+\DoxyCodeLine{59   orientations\_.push(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618}{AccelCalib::XNEG}});}
+\DoxyCodeLine{60   orientations\_.push(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812}{AccelCalib::YPOS}});}
+\DoxyCodeLine{61   orientations\_.push(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a}{AccelCalib::YNEG}});}
+\DoxyCodeLine{62   orientations\_.push(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c}{AccelCalib::ZPOS}});}
+\DoxyCodeLine{63   orientations\_.push(\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9}{AccelCalib::ZNEG}});}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65   orientation\_labels\_[\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157}{AccelCalib::XPOS}}] = \textcolor{stringliteral}{"{}X+"{}};}
+\DoxyCodeLine{66   orientation\_labels\_[\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618}{AccelCalib::XNEG}}] = \textcolor{stringliteral}{"{}X-\/"{}};}
+\DoxyCodeLine{67   orientation\_labels\_[\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812}{AccelCalib::YPOS}}] = \textcolor{stringliteral}{"{}Y+"{}};}
+\DoxyCodeLine{68   orientation\_labels\_[\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a}{AccelCalib::YNEG}}] = \textcolor{stringliteral}{"{}Y-\/"{}};}
+\DoxyCodeLine{69   orientation\_labels\_[\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c}{AccelCalib::ZPOS}}] = \textcolor{stringliteral}{"{}Z+"{}};}
+\DoxyCodeLine{70   orientation\_labels\_[\mbox{\hyperlink{classimu__calib_1_1AccelCalib_a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9}{AccelCalib::ZNEG}}] = \textcolor{stringliteral}{"{}Z-\/"{}};}
+\DoxyCodeLine{71 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classimu__calib_1_1DoCalib_a273cee2f416921782ecf753bcd92f51d}\label{classimu__calib_1_1DoCalib_a273cee2f416921782ecf753bcd92f51d}} 
+\index{imu\_calib::DoCalib@{imu\_calib::DoCalib}!running@{running}}
+\index{running@{running}!imu\_calib::DoCalib@{imu\_calib::DoCalib}}
+\doxysubsubsection{\texorpdfstring{running()}{running()}}
+{\footnotesize\ttfamily bool imu\+\_\+calib\+::\+Do\+Calib\+::running (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 73 of file do\+\_\+calib.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{74 \{}
+\DoxyCodeLine{75   \textcolor{keywordflow}{return} state\_ != DONE;}
+\DoxyCodeLine{76 \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Smartphone/imu\+\_\+calib/include/imu\+\_\+calib/\mbox{\hyperlink{do__calib_8h}{do\+\_\+calib.\+h}}\item 
+Smartphone/imu\+\_\+calib/src/\mbox{\hyperlink{do__calib_8cpp}{do\+\_\+calib.\+cpp}}\end{DoxyCompactItemize}

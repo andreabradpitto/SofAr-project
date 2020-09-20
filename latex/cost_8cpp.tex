@@ -1,0 +1,259 @@
+\hypertarget{cost_8cpp}{}\doxysection{Math/math\+\_\+pkg/src/cost.cpp File Reference}
+\label{cost_8cpp}\index{Math/math\_pkg/src/cost.cpp@{Math/math\_pkg/src/cost.cpp}}
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+Cost.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math\+\_\+pkg/\+I\+K.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ros/ros.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/\+Joint\+State.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}std\+\_\+msgs/\+Float64\+Multi\+Array.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{cost_8cpp_ac9e8062795dc6b92071ec2fdecd07bd4}{cost\+Callbackq}} (const sensor\+\_\+msgs\+::\+Joint\+State \&msg)
+\item 
+void \mbox{\hyperlink{cost_8cpp_ac42b86f1e60e127a09f4945592017bde}{compute\+Cost\+Response}} (Vector\+Xd \mbox{\hyperlink{safety_8cpp_a9cdf00135d8fde1d601bb55fec55a2e6}{q}}, Vector\+Xd qdot1, Vector\+Xd qdot2, Matrix\+Xd Q2, math\+\_\+pkg\+::\+Cost\+::\+Response \&res)
+\item 
+bool \mbox{\hyperlink{cost_8cpp_a2572f5a9dccdcbe4b157d9753d63f471}{compute\+Optqdot}} (math\+\_\+pkg\+::\+Cost\+::\+Request \&req, math\+\_\+pkg\+::\+Cost\+::\+Response \&res)
+\item 
+int \mbox{\hyperlink{cost_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}{readyq}}
+\item 
+Vector\+Xd \mbox{\hyperlink{cost_8cpp_a548f6518b5c6b29d99ac72398bef200f}{q}}
+\item 
+ros\+::\+Service\+Client \mbox{\hyperlink{cost_8cpp_a17bcd065930a8a7f9f194078d9977268}{client}}
+\item 
+math\+\_\+pkg\+::\+IK \mbox{\hyperlink{cost_8cpp_ad7a54b79a46081855d5631088dd1a0fa}{ik\+Srv}}
+\item 
+int \mbox{\hyperlink{cost_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}{seqtry}}
+\item 
+int \mbox{\hyperlink{cost_8cpp_a55940f2082172bcf964876c896f8fe90}{cost\+Fail}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{cost_8cpp_ac42b86f1e60e127a09f4945592017bde}\label{cost_8cpp_ac42b86f1e60e127a09f4945592017bde}} 
+\index{cost.cpp@{cost.cpp}!computeCostResponse@{computeCostResponse}}
+\index{computeCostResponse@{computeCostResponse}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{computeCostResponse()}{computeCostResponse()}}
+{\footnotesize\ttfamily void compute\+Cost\+Response (\begin{DoxyParamCaption}\item[{Vector\+Xd}]{q,  }\item[{Vector\+Xd}]{qdot1,  }\item[{Vector\+Xd}]{qdot2,  }\item[{Matrix\+Xd}]{Q2,  }\item[{math\+\_\+pkg\+::\+Cost\+::\+Response \&}]{res }\end{DoxyParamCaption})}
+
+Function that computes the optimized velocity vectors. 
+\begin{DoxyParams}{Parameters}
+{\em q} & Most recent arm configuration. \\
+\hline
+{\em qdot1} & Joint velocity vector computed with closed loop IK of order 1. \\
+\hline
+{\em qdot2} & Joint velocity vector computed with closed loop IK of order 2. \\
+\hline
+{\em Q2} & Auxiliary matrix for tracking task. \\
+\hline
+{\em res} & Response to client of cost service. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 46 of file cost.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{46                                                                                                          \{}
+\DoxyCodeLine{47     VectorXd qdot1opt1,qdot1opt2,qdot2opt1,qdot2opt2; \textcolor{comment}{// initialization}}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     \textcolor{keywordtype}{double} cond1,cond2;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{comment}{// Each optimized velocity vector is given by: non-\/optimized vector + G * z, where z is a NJOINTSx1 vector.}}
+\DoxyCodeLine{52     \textcolor{comment}{// Optimization n. 1: minimize qdot}}
+\DoxyCodeLine{53     \textcolor{comment}{/* qdot1opt1 and qdot2opt1 are computed according to the paper "{}A Novel Practical Technique to Integrate Inequality Control}}
+\DoxyCodeLine{54 \textcolor{comment}{     * Objectives and Task Transitions in Priority Based Control"{} by Casalino \& Simetti, p. 20, sec. 4.4.*/}}
+\DoxyCodeLine{55     MatrixXd IdMinusQ2 = \mbox{\hyperlink{utilities_8h_af89a8758592469410415b30b4c8accda}{ID\_MATRIX\_NJ}} -\/ Q2;}
+\DoxyCodeLine{56     MatrixXd toPinv = Q2.transpose() * Q2 + 0.1 * IdMinusQ2.transpose()*(IdMinusQ2);}
+\DoxyCodeLine{57     MatrixXd temp1 = -\/\mbox{\hyperlink{utilities_8h_a66dede39bc52472042a84f87099ec816}{regPinv}}(toPinv,\mbox{\hyperlink{utilities_8h_af89a8758592469410415b30b4c8accda}{ID\_MATRIX\_NJ}},\mbox{\hyperlink{utilities_8h_af89a8758592469410415b30b4c8accda}{ID\_MATRIX\_NJ}},\mbox{\hyperlink{utilities_8h_af77edc1f833593caecfc032dcc5953a6}{ETA}},cond1) * Q2.transpose();}
+\DoxyCodeLine{58     qdot1opt1 = qdot1 + Q2*temp1*qdot1; \textcolor{comment}{// optimize solution 1}}
+\DoxyCodeLine{59     qdot2opt1 = qdot2 + Q2*temp1*qdot2; \textcolor{comment}{// optimize solution 2}}
+\DoxyCodeLine{60     }
+\DoxyCodeLine{61     \textcolor{comment}{// Optimization n. 2: stay close to favourite pose (initial pose)}}
+\DoxyCodeLine{62     MatrixXd Q2Sharp = \mbox{\hyperlink{utilities_8h_a66dede39bc52472042a84f87099ec816}{regPinv}}(Q2,\mbox{\hyperlink{utilities_8h_af89a8758592469410415b30b4c8accda}{ID\_MATRIX\_NJ}},\mbox{\hyperlink{utilities_8h_af89a8758592469410415b30b4c8accda}{ID\_MATRIX\_NJ}},\mbox{\hyperlink{utilities_8h_af77edc1f833593caecfc032dcc5953a6}{ETA}},cond2);}
+\DoxyCodeLine{63     VectorXd qdot\_fav = 0.001 * \mbox{\hyperlink{cost_8cpp_a548f6518b5c6b29d99ac72398bef200f}{q}};}
+\DoxyCodeLine{64     \textcolor{keywordtype}{int} multFact = 0;}
+\DoxyCodeLine{65     \textcolor{keywordflow}{if} (cond2 < 100) multFact = 1;}
+\DoxyCodeLine{66     qdot1opt2 = qdot1 + multFact*Q2*Q2Sharp*(qdot\_fav -\/ qdot1); \textcolor{comment}{// optimize solution 1}}
+\DoxyCodeLine{67     qdot2opt2 = qdot2 + multFact*Q2*Q2Sharp*(qdot\_fav -\/ qdot2); \textcolor{comment}{// optimize solution 2}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{comment}{// Fill the response object.}}
+\DoxyCodeLine{70     res.qdot1opt1.velocity = vector<double> (qdot1opt1.data(),qdot1opt1.data()+qdot1opt1.size());}
+\DoxyCodeLine{71     res.qdot1opt2.velocity = vector<double> (qdot1opt2.data(),qdot1opt2.data()+qdot1opt2.size());}
+\DoxyCodeLine{72     res.qdot2opt1.velocity = vector<double> (qdot2opt1.data(),qdot2opt1.data()+qdot2opt1.size());}
+\DoxyCodeLine{73     res.qdot2opt2.velocity = vector<double> (qdot2opt2.data(),qdot2opt2.data()+qdot2opt2.size());}
+\DoxyCodeLine{74 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{cost_8cpp_a2572f5a9dccdcbe4b157d9753d63f471}\label{cost_8cpp_a2572f5a9dccdcbe4b157d9753d63f471}} 
+\index{cost.cpp@{cost.cpp}!computeOptqdot@{computeOptqdot}}
+\index{computeOptqdot@{computeOptqdot}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{computeOptqdot()}{computeOptqdot()}}
+{\footnotesize\ttfamily bool compute\+Optqdot (\begin{DoxyParamCaption}\item[{math\+\_\+pkg\+::\+Cost\+::\+Request \&}]{req,  }\item[{math\+\_\+pkg\+::\+Cost\+::\+Response \&}]{res }\end{DoxyParamCaption})}
+
+Service function for the Safety service, which computes the optimized joint velocities according to 2 optimization criteria\+: closeness to a preferred positional configuration and closeness to a preferred velocity vector. 
+\begin{DoxyParams}{Parameters}
+{\em req} & Contains current sequence number, sent by the weighter. \\
+\hline
+{\em res} & Four optimized joint velocities, respectively computed from IK 1 with cost function 1 and 2, and from IK 2 again with both cost functions. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if client-\/service call succeeded, false otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 84 of file cost.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{84                                                                          \{}
+\DoxyCodeLine{85     \textcolor{comment}{//clock\_t begin = clock();}}
+\DoxyCodeLine{86     \textcolor{keywordflow}{if} (\mbox{\hyperlink{cost_8cpp_a17bcd065930a8a7f9f194078d9977268}{client}}.call(\mbox{\hyperlink{cost_8cpp_ad7a54b79a46081855d5631088dd1a0fa}{ikSrv}})) \{ \textcolor{comment}{// if Jacobian is available and the service call succeeded}}
+\DoxyCodeLine{87         \textcolor{keywordflow}{if} (!(\mbox{\hyperlink{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}{readyq}} \&\& \mbox{\hyperlink{cost_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}{seqtry}} == req.seq.data)) \{ \textcolor{comment}{// Jacobian not available}}
+\DoxyCodeLine{88             \mbox{\hyperlink{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}{readyq}} = \textcolor{keyword}{false}; \textcolor{comment}{// reset availability flag}}
+\DoxyCodeLine{89             ROS\_ERROR(\textcolor{stringliteral}{"{}cost service could not run: missing data."{}});}
+\DoxyCodeLine{90             \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{91         \}}
+\DoxyCodeLine{92         \mbox{\hyperlink{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}{readyq}} = \textcolor{keyword}{false}; \textcolor{comment}{// reset availability flag}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94         \textcolor{comment}{// Map the non-\/optimized vectors and matrix returned by the call into Eigen library objects.}}
+\DoxyCodeLine{95         VectorXd qdot1 = Map<VectorXd>(\mbox{\hyperlink{cost_8cpp_ad7a54b79a46081855d5631088dd1a0fa}{ikSrv}}.response.qdot1.velocity.data(),\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}});}
+\DoxyCodeLine{96         VectorXd qdot2 = Map<VectorXd>(\mbox{\hyperlink{cost_8cpp_ad7a54b79a46081855d5631088dd1a0fa}{ikSrv}}.response.qdot2.velocity.data(),\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}});}
+\DoxyCodeLine{97         MatrixXd Q2 = Map<MatrixXd>(\mbox{\hyperlink{cost_8cpp_ad7a54b79a46081855d5631088dd1a0fa}{ikSrv}}.response.Q2.data.data(),\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}},\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}});}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{99         \textcolor{comment}{// Compute optimized vectors and fill the response object.}}
+\DoxyCodeLine{100         \mbox{\hyperlink{cost_8cpp_ac42b86f1e60e127a09f4945592017bde}{computeCostResponse}}(\mbox{\hyperlink{cost_8cpp_a548f6518b5c6b29d99ac72398bef200f}{q}},qdot1,qdot2,Q2,res);}
+\DoxyCodeLine{101     \}}
+\DoxyCodeLine{102     \textcolor{keywordflow}{else} \{ \textcolor{comment}{// if Jacobian is available but the service call did not succeed}}
+\DoxyCodeLine{103         \mbox{\hyperlink{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}{readyq}} = \textcolor{keyword}{false}; \textcolor{comment}{// reset availability flag}}
+\DoxyCodeLine{104         ROS\_ERROR(\textcolor{stringliteral}{"{}Call to ik service failed."{}});}
+\DoxyCodeLine{105         \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{106     \}}
+\DoxyCodeLine{107     \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{108 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{cost_8cpp_ac9e8062795dc6b92071ec2fdecd07bd4}\label{cost_8cpp_ac9e8062795dc6b92071ec2fdecd07bd4}} 
+\index{cost.cpp@{cost.cpp}!costCallbackq@{costCallbackq}}
+\index{costCallbackq@{costCallbackq}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{costCallbackq()}{costCallbackq()}}
+{\footnotesize\ttfamily void cost\+Callbackq (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::\+Joint\+State \&}]{msg }\end{DoxyParamCaption})}
+
+Callback function for joint position. 
+\begin{DoxyParams}{Parameters}
+{\em msg} & The received joint position vector. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 30 of file cost.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{31 \{}
+\DoxyCodeLine{32     \mbox{\hyperlink{cost_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}{seqtry}} = (int)msg.effort[0]; \textcolor{comment}{// store seq number of received q}}
+\DoxyCodeLine{33     vector<double> rcvdq = msg.position;}
+\DoxyCodeLine{34     \mbox{\hyperlink{cost_8cpp_a548f6518b5c6b29d99ac72398bef200f}{q}} = Map<VectorXd>(rcvdq.data(),\mbox{\hyperlink{utilities_8h_a02e7d9123cf9196d84fc399cf563e378}{NJOINTS}}); \textcolor{comment}{// store q in global variable}}
+\DoxyCodeLine{35     \mbox{\hyperlink{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}{readyq}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{36 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{cost_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{cost_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{cost.cpp@{cost.cpp}!main@{main}}
+\index{main@{main}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+Main function of the node. 
+
+Definition at line 113 of file cost.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{113                                \{}
+\DoxyCodeLine{114     ros::init(argc, argv, \textcolor{stringliteral}{"{}cost\_server"{}}); \textcolor{comment}{// initialize node}}
+\DoxyCodeLine{115     ros::NodeHandle n; \textcolor{comment}{// define node handle}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117     \textcolor{keywordtype}{int} queSize = 10;}
+\DoxyCodeLine{118     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"{}logtopic"{}}, queSize, \mbox{\hyperlink{cost_8cpp_ac9e8062795dc6b92071ec2fdecd07bd4}{costCallbackq}}); \textcolor{comment}{// subscribe to integrator}}
+\DoxyCodeLine{119 }
+\DoxyCodeLine{120     ros::ServiceServer service = n.advertiseService(\textcolor{stringliteral}{"{}cost"{}}, \mbox{\hyperlink{cost_8cpp_a2572f5a9dccdcbe4b157d9753d63f471}{computeOptqdot}}); \textcolor{comment}{// activate Cost service}}
+\DoxyCodeLine{121     }
+\DoxyCodeLine{122     \mbox{\hyperlink{cost_8cpp_a17bcd065930a8a7f9f194078d9977268}{client}} = n.serviceClient<math\_pkg::IK>(\textcolor{stringliteral}{"{}ik"{}}); \textcolor{comment}{// Cost is a client of IK}}
+\DoxyCodeLine{123     ros::spin();}
+\DoxyCodeLine{124     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{125 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{cost_8cpp_a17bcd065930a8a7f9f194078d9977268}\label{cost_8cpp_a17bcd065930a8a7f9f194078d9977268}} 
+\index{cost.cpp@{cost.cpp}!client@{client}}
+\index{client@{client}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{client}{client}}
+{\footnotesize\ttfamily ros\+::\+Service\+Client client}
+
+Client object needed to perform service calls. 
+
+Definition at line 18 of file cost.\+cpp.
+
+\mbox{\Hypertarget{cost_8cpp_a55940f2082172bcf964876c896f8fe90}\label{cost_8cpp_a55940f2082172bcf964876c896f8fe90}} 
+\index{cost.cpp@{cost.cpp}!costFail@{costFail}}
+\index{costFail@{costFail}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{costFail}{costFail}}
+{\footnotesize\ttfamily int cost\+Fail = 0}
+
+Failure counter, used for debug. 
+
+Definition at line 24 of file cost.\+cpp.
+
+\mbox{\Hypertarget{cost_8cpp_ad7a54b79a46081855d5631088dd1a0fa}\label{cost_8cpp_ad7a54b79a46081855d5631088dd1a0fa}} 
+\index{cost.cpp@{cost.cpp}!ikSrv@{ikSrv}}
+\index{ikSrv@{ikSrv}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{ikSrv}{ikSrv}}
+{\footnotesize\ttfamily math\+\_\+pkg\+::\+IK ik\+Srv}
+
+IK server object. 
+
+Definition at line 20 of file cost.\+cpp.
+
+\mbox{\Hypertarget{cost_8cpp_a548f6518b5c6b29d99ac72398bef200f}\label{cost_8cpp_a548f6518b5c6b29d99ac72398bef200f}} 
+\index{cost.cpp@{cost.cpp}!q@{q}}
+\index{q@{q}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{q}{q}}
+{\footnotesize\ttfamily Vector\+Xd q}
+
+Current Jacobian matrix. 
+
+Definition at line 16 of file cost.\+cpp.
+
+\mbox{\Hypertarget{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}\label{cost_8cpp_a36f414f3027e17561da1cc980cc683f7}} 
+\index{cost.cpp@{cost.cpp}!readyq@{readyq}}
+\index{readyq@{readyq}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{readyq}{readyq}}
+{\footnotesize\ttfamily bool readyq}
+
+Availability flag for Jacobian matrix. 
+
+Definition at line 14 of file cost.\+cpp.
+
+\mbox{\Hypertarget{cost_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}\label{cost_8cpp_ac9950c5982e6fa3841bc2b31e3a317b9}} 
+\index{cost.cpp@{cost.cpp}!seqtry@{seqtry}}
+\index{seqtry@{seqtry}!cost.cpp@{cost.cpp}}
+\doxysubsubsection{\texorpdfstring{seqtry}{seqtry}}
+{\footnotesize\ttfamily int seqtry}
+
+Sequence number for received q message. 
+
+Definition at line 22 of file cost.\+cpp.
+

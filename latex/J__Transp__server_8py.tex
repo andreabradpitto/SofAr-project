@@ -1,0 +1,41 @@
+\hypertarget{J__Transp__server_8py}{}\doxysection{Math/math\+\_\+pkg/scripts/\+J\+\_\+\+Transp\+\_\+server.py File Reference}
+\label{J__Transp__server_8py}\index{Math/math\_pkg/scripts/J\_Transp\_server.py@{Math/math\_pkg/scripts/J\_Transp\_server.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceJ__Transp__server}{J\+\_\+\+Transp\+\_\+server}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceJ__Transp__server_af16c5c0bb418245988ca08340e7a20f1}{J\+\_\+\+Transp\+\_\+server.\+init\+\_\+float64\+\_\+multiarray}} (rows, columns)
+\begin{DoxyCompactList}\small\item\em Function that initializes a Float64\+Multi\+Array of size rows x columns. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceJ__Transp__server_aa8b8d05e05dace9b63f69f1762d92c3f}{J\+\_\+\+Transp\+\_\+server.\+j\+\_\+transp}} (err, err\+\_\+dot, \mbox{\hyperlink{ik_8cpp_af2f8d0151c18d9e648b6353879e885ad}{J}}, Wp, Wd, delta\+\_\+t)
+\begin{DoxyCompactList}\small\item\em Function that performs Inverse kinematics using the Jacobian Transpose approach. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceJ__Transp__server_ad79ac84bb447cc731f26d77999fa228c}{J\+\_\+\+Transp\+\_\+server.\+handle\+\_\+\+I\+K\+\_\+\+Jtransp}} (req)
+\item 
+def \mbox{\hyperlink{namespaceJ__Transp__server_a7643a6416d664ba49bbd47a1aaebb1bf}{J\+\_\+\+Transp\+\_\+server.\+error\+\_\+callback}} (message)
+\item 
+def \mbox{\hyperlink{namespaceJ__Transp__server_adacca9ee671ece7fedc2765ccf497ed4}{J\+\_\+\+Transp\+\_\+server.\+jacobian\+\_\+callback}} (message)
+\item 
+def \mbox{\hyperlink{namespaceJ__Transp__server_a079a7a2746957fab51a3078a29dc791b}{J\+\_\+\+Transp\+\_\+server.\+J\+T\+\_\+server}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespaceJ__Transp__server_aa1a273d451fdc9f86b53d880a5872e9d}{J\+\_\+\+Transp\+\_\+server.\+ready\+Err}} = False
+\item 
+bool \mbox{\hyperlink{namespaceJ__Transp__server_ab961873c53344f728fda825f2989dcb7}{J\+\_\+\+Transp\+\_\+server.\+readyJ}} = False
+\item 
+list \mbox{\hyperlink{namespaceJ__Transp__server_a3cdbfa5bddd708004b86f747f5e7c6d4}{J\+\_\+\+Transp\+\_\+server.\+wp}} = \mbox{[}50, 50, 50, 1, 1, 1\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceJ__Transp__server_a7b63a85f74996c7d650a644c9e04c42b}{J\+\_\+\+Transp\+\_\+server.\+wd}} = \mbox{[}50,50,50,0.\+5,0.\+5,0.\+5\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceJ__Transp__server_ab4f49bbffb1d139685dc9fc7d1e1c146}{J\+\_\+\+Transp\+\_\+server.\+script\+\_\+dir}} = os.\+path.\+dirname(\+\_\+\+\_\+file\+\_\+\+\_\+)
+\item 
+string \mbox{\hyperlink{namespaceJ__Transp__server_a4f652bf97c5a5ae81445add6bc2b8e25}{J\+\_\+\+Transp\+\_\+server.\+rel\+\_\+path}} = \char`\"{}./Output/Output.\+txt\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceJ__Transp__server_a047639e1ade9372d1cd5072189d0923c}{J\+\_\+\+Transp\+\_\+server.\+abs\+\_\+file\+\_\+path}} = os.\+path.\+join(script\+\_\+dir, rel\+\_\+path)
+\item 
+int \mbox{\hyperlink{namespaceJ__Transp__server_ad8d6b15adbd159d570cb95750299368a}{J\+\_\+\+Transp\+\_\+server.\+L\+O\+G\+\_\+\+F\+L\+AG}} = 0
+\end{DoxyCompactItemize}

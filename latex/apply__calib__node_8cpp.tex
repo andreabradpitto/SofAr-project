@@ -1,0 +1,40 @@
+\hypertarget{apply__calib__node_8cpp}{}\doxysection{Smartphone/imu\+\_\+calib/src/apply\+\_\+calib\+\_\+node.cpp File Reference}
+\label{apply__calib__node_8cpp}\index{Smartphone/imu\_calib/src/apply\_calib\_node.cpp@{Smartphone/imu\_calib/src/apply\_calib\_node.cpp}}
+{\ttfamily \#include $<$ros/ros.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}imu\+\_\+calib/apply\+\_\+calib.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{apply__calib__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Daniel Koch $<$\href{mailto:daniel.p.koch@gmail.com}{\texttt{ daniel.\+p.\+koch@gmail.\+com}}
+\end{DoxyAuthor}
+Node applies a previosly computed calibration to imu data 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{apply__calib__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{apply__calib__node_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{apply\_calib\_node.cpp@{apply\_calib\_node.cpp}!main@{main}}
+\index{main@{main}!apply\_calib\_node.cpp@{apply\_calib\_node.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Definition at line 46 of file apply\+\_\+calib\+\_\+node.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{47 \{}
+\DoxyCodeLine{48   ros::init(argc, argv, \textcolor{stringliteral}{"{}apply\_calib"{}});}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50   \mbox{\hyperlink{classimu__calib_1_1ApplyCalib}{imu\_calib::ApplyCalib}} calib;}
+\DoxyCodeLine{51   ros::spin();}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{54 \}}
+
+\end{DoxyCode}

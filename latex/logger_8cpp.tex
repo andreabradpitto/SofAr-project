@@ -1,0 +1,106 @@
+\hypertarget{logger_8cpp}{}\doxysection{V-\/rep/src/logger.cpp File Reference}
+\label{logger_8cpp}\index{V-\/rep/src/logger.cpp@{V-\/rep/src/logger.cpp}}
+{\ttfamily \#include \char`\"{}stdlib.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}unistd.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}stdio.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}fcntl.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}math.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ros/ros.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}std\+\_\+msgs/\+Float64.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/\+Joint\+State.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{logger_8cpp_afe24649b312db36184c63f1fe04b37b8}{logtopic\+Callback}} (const sensor\+\_\+msgs\+::\+Joint\+State\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em The Callback function allows to write both a timestamp and the joint configuration values in the log file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{logger_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em The main function opens the log file, initiates the R\+OS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+F\+I\+LE $\ast$ \mbox{\hyperlink{logger_8cpp_a3a6bd5f7cd72e0a16f4a2054b9a2e64e}{myfile}}
+\begin{DoxyCompactList}\small\item\em The log file identifier is here declared. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{logger_8cpp_afe24649b312db36184c63f1fe04b37b8}\label{logger_8cpp_afe24649b312db36184c63f1fe04b37b8}} 
+\index{logger.cpp@{logger.cpp}!logtopicCallback@{logtopicCallback}}
+\index{logtopicCallback@{logtopicCallback}!logger.cpp@{logger.cpp}}
+\doxysubsubsection{\texorpdfstring{logtopicCallback()}{logtopicCallback()}}
+{\footnotesize\ttfamily void logtopic\+Callback (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::\+Joint\+State\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+The Callback function allows to write both a timestamp and the joint configuration values in the log file. 
+
+
+
+Definition at line 42 of file logger.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{43 \{}
+\DoxyCodeLine{44     \textcolor{keywordtype}{char} st[50];}
+\DoxyCodeLine{45     memset(st,0,\textcolor{keyword}{sizeof}(st));}
+\DoxyCodeLine{46     \textcolor{keywordtype}{double} stamp = msg-\/>header.stamp.toSec();}
+\DoxyCodeLine{47     sprintf(st,\textcolor{stringliteral}{"{}\%f"{}},stamp);}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     fprintf(\mbox{\hyperlink{logger_8cpp_a3a6bd5f7cd72e0a16f4a2054b9a2e64e}{myfile}}, \textcolor{stringliteral}{"{}\%s \%lf \%lf \%lf \%lf \%lf \%lf \%lf \(\backslash\)n"{}}, st, msg-\/>position[0], msg-\/>position[1], msg-\/>position[2], msg-\/>position[3], msg-\/>position[4], msg-\/>position[5], msg-\/>position[6]);}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{logger_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{logger_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{logger.cpp@{logger.cpp}!main@{main}}
+\index{main@{main}!logger.cpp@{logger.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+The main function opens the log file, initiates the R\+OS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble. 
+
+
+
+Definition at line 54 of file logger.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{55 \{}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57     \mbox{\hyperlink{logger_8cpp_a3a6bd5f7cd72e0a16f4a2054b9a2e64e}{myfile}} = fopen(\textcolor{stringliteral}{"{}logger.txt"{}}, \textcolor{stringliteral}{"{}w"{}});}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     ros::init(argc, argv, \textcolor{stringliteral}{"{}logger"{}}); \textcolor{comment}{//initialize the ros sys, giving it a name}}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     ros::NodeHandle n; \textcolor{comment}{//obj of NodeHandle class}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63     ros::Subscriber sub = n.subscribe(\textcolor{stringliteral}{"{}logtopic"{}}, 1000, \mbox{\hyperlink{logger_8cpp_afe24649b312db36184c63f1fe04b37b8}{logtopicCallback}}); \textcolor{comment}{//subscriber declaration}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     ros::spin();}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67     fclose(\mbox{\hyperlink{logger_8cpp_a3a6bd5f7cd72e0a16f4a2054b9a2e64e}{myfile}});}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{70 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{logger_8cpp_a3a6bd5f7cd72e0a16f4a2054b9a2e64e}\label{logger_8cpp_a3a6bd5f7cd72e0a16f4a2054b9a2e64e}} 
+\index{logger.cpp@{logger.cpp}!myfile@{myfile}}
+\index{myfile@{myfile}!logger.cpp@{logger.cpp}}
+\doxysubsubsection{\texorpdfstring{myfile}{myfile}}
+{\footnotesize\ttfamily F\+I\+LE$\ast$ myfile}
+
+
+
+The log file identifier is here declared. 
+
+
+
+Definition at line 38 of file logger.\+cpp.
+
