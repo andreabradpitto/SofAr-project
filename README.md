@@ -29,12 +29,6 @@ Characteristics:
 
 In order to have a working version of this package running on your computer, you need to:  
 - Place the package in the src folder of your src foulder of the catkin workspace, and having it named "SofAr-project"
-- In case the folder "SofAr-project/Math/imu_calib" is empty, you can solve it with the same code
-```sh
-cd SofAr-project/Smartphone
-rmdir imu_calib
-git clone https://github.com/dpkoch/imu_calib
-```
 - Have the Coppelia environment foulder in any place under the HOME directory (it is advised to put it on the Desktop or directly in HOME)
 - If you don't have the following libraries installed on your system procede with this code
 ```sh
@@ -66,6 +60,7 @@ At any moment, you can type "pause" or "stop" to interrupt the simulation and re
 When stopped (not paused) you can type "set_default" to set the starting configuration.  
 Once you are done, you can type "exit" and press enter to close all this project components.  
 The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation.  
+
 <div align="center">
   <img height="500" width="500" src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif">
 </div>
@@ -76,6 +71,7 @@ Note: when you are asked to take the phone in your hand during the procedures, y
 To use the whole system at once, the following action have to take place:  
 - Start the smartphone application
 - Verify the IP address to be inserted in the app
+
 ```sh
 hostname -I
 ```
@@ -91,15 +87,8 @@ cd "Your catkin workspace"/src/SofAr-project
 After the command "calibration", you can apply every other string presented in the section "Running test".  
 When you type start, be sure you are more or less in the same configuration as baxter.
 
-### Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ### Authors
 
 [Marco Demutti](https://github.com/marcodemutti), [Matteo Dicenzi](https://github.com/mattedicenzi), [Vincenzo Di Pentima](https://github.com/VinDp), [Elena Merlo](https://github.com/RobElena), [Matteo Palmas](https://github.com/Matt98x), [Andrea Pitto](https://github.com/andreabradpitto), [Emanuele Rosi](https://github.com/emanuelericcardo), [Chiara Saporetti](https://github.com/ChiaraSapo), [Giulia Scorza Azzarà](https://github.com/Giulia24091997), [Luca Tarasi](https://github.com/LucaTars), [Simone Voto](https://github.com/Cavalletta98), [Gerald Xhaferaj](https://github.com/Geraldone)
 
-
-### License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.

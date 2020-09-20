@@ -32,13 +32,6 @@ In order to have a working version of this package running on your computer, you
 
 \begin{DoxyItemize}
 \item Place the package in the src folder of your src foulder of the catkin workspace, and having it named \char`\"{}\+Sof\+Ar-\/project\char`\"{}
-\item In case the folder \char`\"{}\+Sof\+Ar-\/project/\+Math/imu\+\_\+calib\char`\"{} is empty, you can solve it with the same code 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{cd SofAr-\/project/Smartphone}
-\DoxyCodeLine{rmdir \mbox{\hyperlink{namespaceimu__calib}{imu\_calib}}}
-\DoxyCodeLine{git clone https:\textcolor{comment}{//github.com/dpkoch/imu\_calib}}
-\end{DoxyCode}
-
 \item Have the Coppelia environment foulder in any place under the H\+O\+ME directory (it is advised to put it on the Desktop or directly in H\+O\+ME)
 \item If you don\textquotesingle{}t have the following libraries installed on your system procede with this code 
 \begin{DoxyCode}{0}
@@ -81,11 +74,17 @@ Here we are going to present how to use the software to attempt a tracking of th
 
 \begin{DoxyItemize}
 \item Start the smartphone application
-\item Verify the IP address to be inserted in the app 
+\item Verify the IP address to be inserted in the app
+\end{DoxyItemize}
+
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{hostname -\/I}
 \end{DoxyCode}
 
+
+
+\begin{DoxyItemize}
 \item Start the software on the computer with the following commands 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{cd \textcolor{stringliteral}{"{}Your catkin workspace"{}}/src/SofAr-\/project}
@@ -99,7 +98,5 @@ Here we are going to present how to use the software to attempt a tracking of th
 \end{DoxyItemize}
 
 After the command \char`\"{}calibration\char`\"{}, you can apply every other string presented in the section \char`\"{}\+Running test\char`\"{}. ~\newline
- When you type start, be sure you are more or less in the same configuration as baxter.\hypertarget{index_autotoc_md5}{}\doxysubsection{Versioning}\label{index_autotoc_md5}
-We use \href{http://semver.org/}{\texttt{ Sem\+Ver}} for versioning. For the versions available, see the \href{https://github.com/your/project/tags}{\texttt{ tags on this repository}}.\hypertarget{index_autotoc_md6}{}\doxysubsection{Authors}\label{index_autotoc_md6}
-\href{https://github.com/marcodemutti}{\texttt{ Marco Demutti}}, \href{https://github.com/mattedicenzi}{\texttt{ Matteo Dicenzi}}, \href{https://github.com/VinDp}{\texttt{ Vincenzo Di Pentima}}, \href{https://github.com/RobElena}{\texttt{ Elena Merlo}}, \href{https://github.com/Matt98x}{\texttt{ Matteo Palmas}}, \href{https://github.com/andreabradpitto}{\texttt{ Andrea Pitto}}, \href{https://github.com/emanuelericcardo}{\texttt{ Emanuele Rosi}}, \href{https://github.com/ChiaraSapo}{\texttt{ Chiara Saporetti}}, \href{https://github.com/Giulia24091997}{\texttt{ Giulia Scorza Azzarà}}, \href{https://github.com/LucaTars}{\texttt{ Luca Tarasi}}, \href{https://github.com/Cavalletta98}{\texttt{ Simone Voto}}, \href{https://github.com/Geraldone}{\texttt{ Gerald Xhaferaj}}\hypertarget{index_autotoc_md7}{}\doxysubsection{License}\label{index_autotoc_md7}
-This project is licensed under the M\+IT License -\/ see the L\+I\+C\+E\+N\+SE.md file for details. 
+ When you type start, be sure you are more or less in the same configuration as baxter.\hypertarget{index_autotoc_md5}{}\doxysubsection{Authors}\label{index_autotoc_md5}
+\href{https://github.com/marcodemutti}{\texttt{ Marco Demutti}}, \href{https://github.com/mattedicenzi}{\texttt{ Matteo Dicenzi}}, \href{https://github.com/VinDp}{\texttt{ Vincenzo Di Pentima}}, \href{https://github.com/RobElena}{\texttt{ Elena Merlo}}, \href{https://github.com/Matt98x}{\texttt{ Matteo Palmas}}, \href{https://github.com/andreabradpitto}{\texttt{ Andrea Pitto}}, \href{https://github.com/emanuelericcardo}{\texttt{ Emanuele Rosi}}, \href{https://github.com/ChiaraSapo}{\texttt{ Chiara Saporetti}}, \href{https://github.com/Giulia24091997}{\texttt{ Giulia Scorza Azzarà}}, \href{https://github.com/LucaTars}{\texttt{ Luca Tarasi}}, \href{https://github.com/Cavalletta98}{\texttt{ Simone Voto}}, \href{https://github.com/Geraldone}{\texttt{ Gerald Xhaferaj}} 

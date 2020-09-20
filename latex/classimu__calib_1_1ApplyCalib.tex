@@ -55,8 +55,8 @@ Definition at line 47 of file apply\+\_\+calib.\+cpp.
 \DoxyCodeLine{68   \textcolor{keywordtype}{int} queue\_size;}
 \DoxyCodeLine{69   nh\_private.param<\textcolor{keywordtype}{int}>(\textcolor{stringliteral}{"{}queue\_size"{}}, queue\_size, 5);}
 \DoxyCodeLine{70 }
-\DoxyCodeLine{71   raw\_sub\_ = nh.subscribe(\textcolor{stringliteral}{"{}raw"{}}, queue\_size, \&ApplyCalib::rawImuCallback, \textcolor{keyword}{this});}
-\DoxyCodeLine{72   corrected\_pub\_ = nh.advertise<sensor\_msgs::Imu>(\textcolor{stringliteral}{"{}corrected"{}}, queue\_size);}
+\DoxyCodeLine{71   raw\_sub\_ = nh.subscribe(\textcolor{stringliteral}{"{}android/imu"{}}, queue\_size, \&ApplyCalib::rawImuCallback, \textcolor{keyword}{this});}
+\DoxyCodeLine{72   corrected\_pub\_ = nh.advertise<sensor\_msgs::Imu>(\textcolor{stringliteral}{"{}/android/imu\_corrected"{}}, queue\_size);}
 \DoxyCodeLine{73 \}}
 
 \end{DoxyCode}
@@ -64,5 +64,5 @@ Definition at line 47 of file apply\+\_\+calib.\+cpp.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-Smartphone/imu\+\_\+calib/include/imu\+\_\+calib/\mbox{\hyperlink{apply__calib_8h}{apply\+\_\+calib.\+h}}\item 
-Smartphone/imu\+\_\+calib/src/\mbox{\hyperlink{apply__calib_8cpp}{apply\+\_\+calib.\+cpp}}\end{DoxyCompactItemize}
+Smartphone/compensation/include/imu\+\_\+calib/\mbox{\hyperlink{apply__calib_8h}{apply\+\_\+calib.\+h}}\item 
+Smartphone/compensation/src/\mbox{\hyperlink{apply__calib_8cpp}{apply\+\_\+calib.\+cpp}}\end{DoxyCompactItemize}

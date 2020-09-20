@@ -109,7 +109,7 @@ Public Member Functions</h2></td></tr>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  state_(START)</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  ros::NodeHandle nh;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  imu_sub_ = nh.subscribe(<span class="stringliteral">&quot;imu&quot;</span>, 1, &amp;DoCalib::imuCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  imu_sub_ = nh.subscribe(<span class="stringliteral">&quot;/android/imu&quot;</span>, 1, &amp;DoCalib::imuCallback, <span class="keyword">this</span>);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  ros::NodeHandle nh_private(<span class="stringliteral">&quot;~&quot;</span>);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  nh_private.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;measurements&quot;</span>, measurements_per_orientation_, 500);</div>
@@ -157,8 +157,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>Smartphone/imu_calib/include/imu_calib/<a class="el" href="do__calib_8h_source.html">do_calib.h</a></li>
-<li>Smartphone/imu_calib/src/<a class="el" href="do__calib_8cpp_source.html">do_calib.cpp</a></li>
+<li>Smartphone/compensation/include/imu_calib/<a class="el" href="do__calib_8h_source.html">do_calib.h</a></li>
+<li>Smartphone/compensation/src/<a class="el" href="do__calib_8cpp_source.html">do_calib.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812">imu_calib::AccelCalib::YPOS</a></div><div class="ttdeci">@ YPOS</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00053">accel_calib.h:53</a></div></div>

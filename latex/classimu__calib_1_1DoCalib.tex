@@ -37,7 +37,7 @@ Definition at line 47 of file do\+\_\+calib.\+cpp.
 \DoxyCodeLine{48   state\_(START)}
 \DoxyCodeLine{49 \{}
 \DoxyCodeLine{50   ros::NodeHandle nh;}
-\DoxyCodeLine{51   imu\_sub\_ = nh.subscribe(\textcolor{stringliteral}{"{}imu"{}}, 1, \&DoCalib::imuCallback, \textcolor{keyword}{this});}
+\DoxyCodeLine{51   imu\_sub\_ = nh.subscribe(\textcolor{stringliteral}{"{}/android/imu"{}}, 1, \&DoCalib::imuCallback, \textcolor{keyword}{this});}
 \DoxyCodeLine{52 }
 \DoxyCodeLine{53   ros::NodeHandle nh\_private(\textcolor{stringliteral}{"{}\string~"{}});}
 \DoxyCodeLine{54   nh\_private.param<\textcolor{keywordtype}{int}>(\textcolor{stringliteral}{"{}measurements"{}}, measurements\_per\_orientation\_, 500);}
@@ -84,5 +84,5 @@ Definition at line 73 of file do\+\_\+calib.\+cpp.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-Smartphone/imu\+\_\+calib/include/imu\+\_\+calib/\mbox{\hyperlink{do__calib_8h}{do\+\_\+calib.\+h}}\item 
-Smartphone/imu\+\_\+calib/src/\mbox{\hyperlink{do__calib_8cpp}{do\+\_\+calib.\+cpp}}\end{DoxyCompactItemize}
+Smartphone/compensation/include/imu\+\_\+calib/\mbox{\hyperlink{do__calib_8h}{do\+\_\+calib.\+h}}\item 
+Smartphone/compensation/src/\mbox{\hyperlink{do__calib_8cpp}{do\+\_\+calib.\+cpp}}\end{DoxyCompactItemize}

@@ -127,15 +127,15 @@ Public Member Functions</h2></td></tr>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordtype">int</span> queue_size;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  nh_private.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;queue_size&quot;</span>, queue_size, 5);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  raw_sub_ = nh.subscribe(<span class="stringliteral">&quot;raw&quot;</span>, queue_size, &amp;ApplyCalib::rawImuCallback, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  corrected_pub_ = nh.advertise&lt;sensor_msgs::Imu&gt;(<span class="stringliteral">&quot;corrected&quot;</span>, queue_size);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  raw_sub_ = nh.subscribe(<span class="stringliteral">&quot;android/imu&quot;</span>, queue_size, &amp;ApplyCalib::rawImuCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  corrected_pub_ = nh.advertise&lt;sensor_msgs::Imu&gt;(<span class="stringliteral">&quot;/android/imu_corrected&quot;</span>, queue_size);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>Smartphone/imu_calib/include/imu_calib/<a class="el" href="apply__calib_8h_source.html">apply_calib.h</a></li>
-<li>Smartphone/imu_calib/src/<a class="el" href="apply__calib_8cpp_source.html">apply_calib.cpp</a></li>
+<li>Smartphone/compensation/include/imu_calib/<a class="el" href="apply__calib_8h_source.html">apply_calib.h</a></li>
+<li>Smartphone/compensation/src/<a class="el" href="apply__calib_8cpp_source.html">apply_calib.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_acc7eb6a4caca3c0193c555057de85e55"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#acc7eb6a4caca3c0193c555057de85e55">imu_calib::AccelCalib::calibReady</a></div><div class="ttdeci">bool calibReady()</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8cpp_source.html#l00064">accel_calib.cpp:64</a></div></div>
