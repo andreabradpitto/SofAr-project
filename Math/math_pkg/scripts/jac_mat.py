@@ -243,11 +243,7 @@ def handle_IK_JAnalytic(req):
         # Since the third Joint is blocked, its velocity must be set to 0
         q_dot.velocity = np.insert(q_dot_6, 2, 0)
 
-        # Set vee to multiarray
-        veeMultiArray = init_float64_multiarray(6, 1)
-        veeMultiArray.data = vee
-
-        return IK_JTAResponse(q_dot, veeMultiArray)
+        return IK_JTAResponse(q_dot)
 
 
 def jac_mat():
