@@ -32,7 +32,7 @@ In order to have a working version of this package running on your computer, you
 - In case the folder "SofAr-project/Math/imu_calib" is empty, you can solve it with the same code
 ```sh
 cd SofAr-project/Smartphone
-rm imu_calib
+rmdir imu_calib
 git clone https://github.com/dpkoch/imu_calib
 ```
 - Have the Coppelia environment foulder in any place under the HOME directory (it is advised to put it on the Desktop or directly in HOME)
