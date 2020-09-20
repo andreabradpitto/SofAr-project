@@ -72,7 +72,7 @@ $(function() {
 <div class="title">integrator.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<a href="integrator_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespaceintegrator.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> rospy</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
@@ -80,27 +80,27 @@ $(function() {
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">from</span> std_msgs.msg <span class="keyword">import</span> MultiArrayDimension,Int8</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">from</span> sensor_msgs.msg <span class="keyword">import</span> JointState</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;q = np.zeros((7,1))</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;qdot = np.zeros((7,1))</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;qdotprev = <span class="keywordtype">None</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;qdotprevprev = <span class="keywordtype">None</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;qdotppnone = <span class="keyword">True</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;qdotpnone = <span class="keyword">True</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;qold = np.zeros((7,1))</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;eff = 0</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;key = 0</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;DT = 0.01</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;qmin = [-1.6817,-2.1268,-3.0343,-0.3,-3.0396,-1.5508,-3.0396]</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;qmax = [1.6817,1.0272,3.0343,2.5829,3.0378,2.0744,3.0378]</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a69c7baff9de268f49689234d68cff2e4">    9</a></span>&#160;q = np.zeros((7,1))</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a67a8293b47b1faca732f945078f55995">   10</a></span>&#160;qdot = np.zeros((7,1))</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a7799163702b53f88dd4519164df0d786">   11</a></span>&#160;qdotprev = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#ad2fcbd764428557692acb72800b65a52">   12</a></span>&#160;qdotprevprev = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#afd180b4c6377f909abdbbcb4f67d43d6">   13</a></span>&#160;qdotppnone = <span class="keyword">True</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a180d23e89f8f26dc4904612643ea07b7">   14</a></span>&#160;qdotpnone = <span class="keyword">True</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#adec98149520cd67a87acbe58c25e11e1">   15</a></span>&#160;qold = np.zeros((7,1))</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#ae3d178259dfc9e74b6819abc9e6af302">   16</a></span>&#160;eff = 0</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#aea0fb34a111ffbf557f4e716f6ec6721">   17</a></span>&#160;key = 0</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a310e2a1dc3871cf6977f6f55a9c60b34">   18</a></span>&#160;DT = 0.01</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#ab3ded41667f8cc4210092a7a644b09f6">   19</a></span>&#160;qmin = [-1.6817,-2.1268,-3.0343,-0.3,-3.0396,-1.5508,-3.0396]</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#acd9e3fb8a779bc99a87a4d363beebd30">   20</a></span>&#160;qmax = [1.6817,1.0272,3.0343,2.5829,3.0378,2.0744,3.0378]</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">def </span>sat(x,xmin,xmax):</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a22979cdd714ad2c612b7ced573d9f3b2">   23</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceintegrator.html#a22979cdd714ad2c612b7ced573d9f3b2">sat</a>(x,xmin,xmax):</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">if</span> x &gt; xmax: <span class="keywordflow">return</span> xmax</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">if</span> x &lt; xmin: <span class="keywordflow">return</span> xmin</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> x</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">def </span>qdot_callback (qdot_data):</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a6581019664f229034955187e28ec3475">   29</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceintegrator.html#a6581019664f229034955187e28ec3475">qdot_callback</a> (qdot_data):</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">    Receives qdot vector and sents q vector obtained by integration.</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    @params qdot_data: qdot message received from weighter.</span></div>
@@ -122,7 +122,7 @@ $(function() {
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        qdotpnone = <span class="keyword">False</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(7):</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        q[i] = sat(q[i],qmin[i],qmax[i])</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        q[i] = <a class="code" href="namespaceintegrator.html#a22979cdd714ad2c612b7ced573d9f3b2">sat</a>(q[i],qmin[i],qmax[i])</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment"># Update past values</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    qdotprev = qdot</div>
@@ -136,7 +136,7 @@ $(function() {
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    pub.publish(tosend)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">def </span>simulate_callback(data):</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a255fcd12930bddb824408458626ec8e2">   65</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceintegrator.html#a255fcd12930bddb824408458626ec8e2">simulate_callback</a>(data):</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="stringliteral">    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="stringliteral">    @param data: coming from coppelia_sim.</span></div>
@@ -146,7 +146,7 @@ $(function() {
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        q = np.zeros((7,1));key = 0</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">def </span>integr():</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#af09c68e82d7f88b49d316975c60ab01a">   75</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceintegrator.html#af09c68e82d7f88b49d316975c60ab01a">integr</a>():</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">    Integrator function</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
@@ -159,12 +159,16 @@ $(function() {
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        rospy.init_node(<span class="stringliteral">&#39;integrator_node&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        pub = rospy.Publisher(<span class="stringliteral">&#39;logtopic&#39;</span>, JointState, queue_size=10)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        integr()</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#a9c8130fe31d266bb5d15531201bd3cc0">   88</a></span>&#160;        rospy.init_node(<span class="stringliteral">&#39;integrator_node&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="namespaceintegrator.html#ad62b7be1d5b3c5a7d2ae896aa9c20937">   89</a></span>&#160;        pub = rospy.Publisher(<span class="stringliteral">&#39;logtopic&#39;</span>, JointState, queue_size=10)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="namespaceintegrator.html#af09c68e82d7f88b49d316975c60ab01a">integr</a>()</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">except</span> rospy.ROSInterruptException:</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">pass</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespaceintegrator_html_a6581019664f229034955187e28ec3475"><div class="ttname"><a href="namespaceintegrator.html#a6581019664f229034955187e28ec3475">integrator.qdot_callback</a></div><div class="ttdeci">def qdot_callback(qdot_data)</div><div class="ttdoc">Receives qdot vector and sents q vector obtained by integration.</div><div class="ttdef"><b>Definition:</b> <a href="integrator_8py_source.html#l00029">integrator.py:29</a></div></div>
+<div class="ttc" id="anamespaceintegrator_html_a255fcd12930bddb824408458626ec8e2"><div class="ttname"><a href="namespaceintegrator.html#a255fcd12930bddb824408458626ec8e2">integrator.simulate_callback</a></div><div class="ttdeci">def simulate_callback(data)</div><div class="ttdoc">Handles changes in the simulation.</div><div class="ttdef"><b>Definition:</b> <a href="integrator_8py_source.html#l00065">integrator.py:65</a></div></div>
+<div class="ttc" id="anamespaceintegrator_html_af09c68e82d7f88b49d316975c60ab01a"><div class="ttname"><a href="namespaceintegrator.html#af09c68e82d7f88b49d316975c60ab01a">integrator.integr</a></div><div class="ttdeci">def integr()</div><div class="ttdoc">Integrator function.</div><div class="ttdef"><b>Definition:</b> <a href="integrator_8py_source.html#l00075">integrator.py:75</a></div></div>
+<div class="ttc" id="anamespaceintegrator_html_a22979cdd714ad2c612b7ced573d9f3b2"><div class="ttname"><a href="namespaceintegrator.html#a22979cdd714ad2c612b7ced573d9f3b2">integrator.sat</a></div><div class="ttdeci">def sat(x, xmin, xmax)</div><div class="ttdef"><b>Definition:</b> <a href="integrator_8py_source.html#l00023">integrator.py:23</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

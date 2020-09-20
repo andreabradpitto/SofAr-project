@@ -70,13 +70,14 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p>To use this package: 1) Download the math_pkg folder. 2) Put it in <code>catkin_ws/src</code>, where <code>catkin_ws</code> is the absolute path to your catkin workspace. 3) In the catkin folder, be sure to source your setup.bash file with the command <br  />
  </p><div class="fragment"><div class="line"> {$}</div>
-<div class="line">4) Make all the Python files executable by running   </div>
-<div class="line">```$ find math_pkg -type f -iname &quot;*.sh&quot; -exec chmod +x {} \</div>
-</div><!-- fragment --><p>5) In the catkin folder, compile the package by running <br  />
- </p><div class="fragment"><div class="line"> {$}</div>
-<div class="line">6) In the catkin folder, launch all the math_pkg nodes by executing  </div>
-<div class="line">```$ roslaunch math_pkg mathAll.launc</div>
-</div><!-- fragment --><p>7) Run a publisher node (for example, <code><a class="el" href="test__publisher__halfcircle_8py_source.html">test_publisher_halfcircle.py</a></code> is provided in the package). </p>
+<div class="line">4) Make all the Python files executable by running    </div>
+<div class="line">```$ a=$(find &quot;$(pwd)&quot; -name  *.py </div>
+</div><!-- fragment --><div class="fragment"><div class="line"> {$}</div>
+<div class="line">5) In the catkin folder, compile the package by running  </div>
+<div class="line">```$ catkin_mak</div>
+</div><!-- fragment --><p>6) In the catkin folder, launch all the math_pkg nodes by executing <br  />
+ <code>$ roslaunch math_pkg mathAll.launch</code> <br  />
+ 7) Run a publisher node (for example, <code>test_publisher_halfcircle.py</code> is provided in the package). </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

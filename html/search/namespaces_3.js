@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['removegravity_142',['removeGravity',['../namespaceremoveGravity.html',1,'']]],
-  ['rotation_5fmatrix_5fserver_143',['rotation_matrix_server',['../namespacerotation__matrix__server.html',1,'']]],
-  ['rotationmatrix_144',['rotationMatrix',['../namespacerotationMatrix.html',1,'']]]
+  ['imu_5fcalib_368',['imu_calib',['../namespaceimu__calib.html',1,'']]],
+  ['integrator_369',['integrator',['../namespaceintegrator.html',1,'']]]
 ];

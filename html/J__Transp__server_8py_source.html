@@ -72,7 +72,7 @@ $(function() {
 <div class="title">J_Transp_server.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<a href="J__Transp__server_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> rospy</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
@@ -91,21 +91,21 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> sensor_msgs.msg <span class="keyword">import</span> JointState</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"># Flags to define Availability of the data required by the Service</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;readyErr = <span class="keyword">False</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;readyJ = <span class="keyword">False</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#aa1a273d451fdc9f86b53d880a5872e9d">   20</a></span>&#160;readyErr = <span class="keyword">False</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#ab961873c53344f728fda825f2989dcb7">   21</a></span>&#160;readyJ = <span class="keyword">False</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"># Weights for the J transpose:</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;wp = [50, 50, 50, 1, 1, 1]<span class="comment">#[5000, 5000, 5000, 2, 2, 2]#[50, 50, 50, 1, 1, 1] #[100, 100, 100, 2, 2, 2]</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;wd = [50,50,50,0.5,0.5,0.5] <span class="comment">#[0, 0, 0, 0, 0, 0]#[50,50,50,0.5,0.5,0.5]</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#a3cdbfa5bddd708004b86f747f5e7c6d4">   24</a></span>&#160;wp = [50, 50, 50, 1, 1, 1]<span class="comment">#[5000, 5000, 5000, 2, 2, 2]#[50, 50, 50, 1, 1, 1] #[100, 100, 100, 2, 2, 2]</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#a7b63a85f74996c7d650a644c9e04c42b">   25</a></span>&#160;wd = [50,50,50,0.5,0.5,0.5] <span class="comment">#[0, 0, 0, 0, 0, 0]#[50,50,50,0.5,0.5,0.5]</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"># Path to write the log file</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;script_dir = os.path.dirname(__file__)  <span class="comment"># absolute directory the script is in</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;rel_path = <span class="stringliteral">&quot;./Output/Output.txt&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;abs_file_path = os.path.join(script_dir, rel_path)</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;LOG_FLAG = 0</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#ab4f49bbffb1d139685dc9fc7d1e1c146">   29</a></span>&#160;script_dir = os.path.dirname(__file__)  <span class="comment"># absolute directory the script is in</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#a4f652bf97c5a5ae81445add6bc2b8e25">   30</a></span>&#160;rel_path = <span class="stringliteral">&quot;./Output/Output.txt&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#a047639e1ade9372d1cd5072189d0923c">   31</a></span>&#160;abs_file_path = os.path.join(script_dir, rel_path)</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#ad8d6b15adbd159d570cb95750299368a">   32</a></span>&#160;LOG_FLAG = 0</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">def </span>init_float64_multiarray(rows,columns):</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#af16c5c0bb418245988ca08340e7a20f1">   34</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__Transp__server.html#af16c5c0bb418245988ca08340e7a20f1">init_float64_multiarray</a>(rows,columns):</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">    Function that initializes a Float64MultiArray of size rows x columns.</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">    @param rows: Number of rows of the returned multiarray.</span></div>
@@ -121,7 +121,7 @@ $(function() {
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    a.layout.dim[1].size = columns</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> a</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">def </span>j_transp(err, err_dot, J, Wp, Wd, delta_t):</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#aa8b8d05e05dace9b63f69f1762d92c3f">   50</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__Transp__server.html#aa8b8d05e05dace9b63f69f1762d92c3f">j_transp</a>(err, err_dot, J, Wp, Wd, delta_t):</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;! </span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">    Function that performs Inverse kinematics using the Jacobian Transpose</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">    approach.</span></div>
@@ -178,7 +178,7 @@ $(function() {
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    </div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"># Handler for the Server</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keyword">def </span>handle_IK_Jtransp(req):</div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#ad79ac84bb447cc731f26d77999fa228c">  107</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__Transp__server.html#ad79ac84bb447cc731f26d77999fa228c">handle_IK_Jtransp</a>(req):</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment"># Declaration to work with global variables</span></div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">global</span> readyErr, readyJ, wp, wd</div>
@@ -197,14 +197,14 @@ $(function() {
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keyword">with</span> open(abs_file_path, <span class="stringliteral">&#39;a&#39;</span>) <span class="keyword">as</span> f:</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                f.write(str(timestamp))</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                f.write(<span class="stringliteral">&quot;\t&quot;</span>)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                f.write(str(j_transp(error[:6], error[6:], J, wp, wd, 0.01).velocity.T))</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                f.write(str(<a class="code" href="namespaceJ__Transp__server.html#aa8b8d05e05dace9b63f69f1762d92c3f">j_transp</a>(error[:6], error[6:], J, wp, wd, 0.01).velocity.T))</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                f.write(<span class="stringliteral">&quot;\n\n&quot;</span>)</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">return</span> IK_JtraResponse(j_transp(error[:6], error[6:], J, wp, wd, 0.01))        </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">return</span> IK_JtraResponse(<a class="code" href="namespaceJ__Transp__server.html#aa8b8d05e05dace9b63f69f1762d92c3f">j_transp</a>(error[:6], error[6:], J, wp, wd, 0.01))        </div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">#return IK_JtraResponse(j_transp(error, J, 0.01))</span></div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"># Callback Function for the error on the position (error on Xee)</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keyword">def </span>error_callback(message):</div>
+<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#a7643a6416d664ba49bbd47a1aaebb1bf">  133</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__Transp__server.html#a7643a6416d664ba49bbd47a1aaebb1bf">error_callback</a>(message):</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="comment"># Declaration to work with global variables</span></div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keyword">global</span> error,readyErr</div>
@@ -224,7 +224,7 @@ $(function() {
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="comment">#print(readyErr)</span></div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment"># Callback Function for the Jacobian matrix</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="keyword">def </span>jacobian_callback(message):</div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#adacca9ee671ece7fedc2765ccf497ed4">  153</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__Transp__server.html#adacca9ee671ece7fedc2765ccf497ed4">jacobian_callback</a>(message):</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    </div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment"># Declaration to work with global variables</span></div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keyword">global</span> J, readyJ</div>
@@ -237,7 +237,7 @@ $(function() {
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    readyJ = <span class="keyword">True</span></div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment"># Main body containing 2 Subscribers and the Service defition</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keyword">def </span>JT_server():</div>
+<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="namespaceJ__Transp__server.html#a079a7a2746957fab51a3078a29dc791b">  166</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__Transp__server.html#a079a7a2746957fab51a3078a29dc791b">JT_server</a>():</div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="comment"># Node Initialization</span></div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    rospy.init_node(<span class="stringliteral">&#39;IK_Jtransp_server&#39;</span>)</div>
@@ -252,9 +252,15 @@ $(function() {
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    rospy.spin()</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    </div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    JT_server()</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <a class="code" href="namespaceJ__Transp__server.html#a079a7a2746957fab51a3078a29dc791b">JT_server</a>()</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespaceJ__Transp__server_html_aa8b8d05e05dace9b63f69f1762d92c3f"><div class="ttname"><a href="namespaceJ__Transp__server.html#aa8b8d05e05dace9b63f69f1762d92c3f">J_Transp_server.j_transp</a></div><div class="ttdeci">def j_transp(err, err_dot, J, Wp, Wd, delta_t)</div><div class="ttdoc">Function that performs Inverse kinematics using the Jacobian Transpose approach.</div><div class="ttdef"><b>Definition:</b> <a href="J__Transp__server_8py_source.html#l00050">J_Transp_server.py:50</a></div></div>
+<div class="ttc" id="anamespaceJ__Transp__server_html_adacca9ee671ece7fedc2765ccf497ed4"><div class="ttname"><a href="namespaceJ__Transp__server.html#adacca9ee671ece7fedc2765ccf497ed4">J_Transp_server.jacobian_callback</a></div><div class="ttdeci">def jacobian_callback(message)</div><div class="ttdef"><b>Definition:</b> <a href="J__Transp__server_8py_source.html#l00153">J_Transp_server.py:153</a></div></div>
+<div class="ttc" id="anamespaceJ__Transp__server_html_ad79ac84bb447cc731f26d77999fa228c"><div class="ttname"><a href="namespaceJ__Transp__server.html#ad79ac84bb447cc731f26d77999fa228c">J_Transp_server.handle_IK_Jtransp</a></div><div class="ttdeci">def handle_IK_Jtransp(req)</div><div class="ttdef"><b>Definition:</b> <a href="J__Transp__server_8py_source.html#l00107">J_Transp_server.py:107</a></div></div>
+<div class="ttc" id="anamespaceJ__Transp__server_html_a7643a6416d664ba49bbd47a1aaebb1bf"><div class="ttname"><a href="namespaceJ__Transp__server.html#a7643a6416d664ba49bbd47a1aaebb1bf">J_Transp_server.error_callback</a></div><div class="ttdeci">def error_callback(message)</div><div class="ttdef"><b>Definition:</b> <a href="J__Transp__server_8py_source.html#l00133">J_Transp_server.py:133</a></div></div>
+<div class="ttc" id="anamespaceJ__Transp__server_html_a079a7a2746957fab51a3078a29dc791b"><div class="ttname"><a href="namespaceJ__Transp__server.html#a079a7a2746957fab51a3078a29dc791b">J_Transp_server.JT_server</a></div><div class="ttdeci">def JT_server()</div><div class="ttdef"><b>Definition:</b> <a href="J__Transp__server_8py_source.html#l00166">J_Transp_server.py:166</a></div></div>
+<div class="ttc" id="anamespaceJ__Transp__server_html_af16c5c0bb418245988ca08340e7a20f1"><div class="ttname"><a href="namespaceJ__Transp__server.html#af16c5c0bb418245988ca08340e7a20f1">J_Transp_server.init_float64_multiarray</a></div><div class="ttdeci">def init_float64_multiarray(rows, columns)</div><div class="ttdoc">Function that initializes a Float64MultiArray of size rows x columns.</div><div class="ttdef"><b>Definition:</b> <a href="J__Transp__server_8py_source.html#l00034">J_Transp_server.py:34</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

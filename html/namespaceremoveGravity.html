@@ -73,8 +73,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2756f8aa27782ece0dc678565bbe2008"><td class="memItemLeft" align="right" valign="top"><a id="a2756f8aa27782ece0dc678565bbe2008"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>removeGravity</b> (lin_acc, Rot_m, g)</td></tr>
+<tr class="memitem:a2756f8aa27782ece0dc678565bbe2008"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceremoveGravity.html#a2756f8aa27782ece0dc678565bbe2008">removeGravity</a> (lin_acc, Rot_m, g)</td></tr>
 <tr class="separator:a2756f8aa27782ece0dc678565bbe2008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -83,7 +82,59 @@ def&#160;</td><td class="memItemRight" valign="bottom"><b>removeGravity</b> (lin
 @param Rot_m rotation matrix computed with eulerAnglesToRotationMatrix()
 @param g gravity vector
 @returns the output is the same linear acceleration vector provided, but without gravity influence
-</pre> </div></div><!-- contents -->
+</pre> </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a2756f8aa27782ece0dc678565bbe2008"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2756f8aa27782ece0dc678565bbe2008">&#9670;&nbsp;</a></span>removeGravity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def removeGravity.removeGravity </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>lin_acc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>Rot_m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>g</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="removeGravity_8py_source.html#l00012">12</a> of file <a class="el" href="removeGravity_8py_source.html">removeGravity.py</a>.</p>
+<div class="fragment"><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">def </span><a class="code" href="namespaceremoveGravity.html#a2756f8aa27782ece0dc678565bbe2008">removeGravity</a>(lin_acc, Rot_m, g):</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment"># rotate g vector in the current frame</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    g_frame_i = np.dot(Rot_m, g)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    g_removed = [0, 0, 0]  <span class="comment"># define linear acceleration without gravity</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">#check the sign of the current linear acceleration, and remove the gravity properly</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, 3):</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">if</span> lin_acc[i] &gt;= 0: </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            g_removed[i] = lin_acc[i] - abs(g_frame_i[i])</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span> lin_acc[i] &lt; 0:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            g_removed[i] = lin_acc[i] + abs(g_frame_i[i])</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> g_removed</div>
+</div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
+<div class="ttc" id="anamespaceremoveGravity_html_a2756f8aa27782ece0dc678565bbe2008"><div class="ttname"><a href="namespaceremoveGravity.html#a2756f8aa27782ece0dc678565bbe2008">removeGravity.removeGravity</a></div><div class="ttdeci">def removeGravity(lin_acc, Rot_m, g)</div><div class="ttdef"><b>Definition:</b> <a href="removeGravity_8py_source.html#l00012">removeGravity.py:12</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

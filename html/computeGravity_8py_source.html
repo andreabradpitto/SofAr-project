@@ -72,7 +72,7 @@ $(function() {
 <div class="title">computeGravity.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<a href="computeGravity_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">Documentation for the compute gravity tool.</span></div>
@@ -93,22 +93,22 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">import</span> time</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">import</span> sys</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;script_dir = os.path.dirname(__file__)  <span class="comment"># absolute directory the script is in</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;rel_path_gravity = <span class="stringliteral">&quot;../calibration/gravity.csv&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;abs_file_path_gravity = os.path.join(script_dir, rel_path_gravity)</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#aa5447e110c181ecc4a5708def848b2cf">   22</a></span>&#160;script_dir = os.path.dirname(__file__)  <span class="comment"># absolute directory the script is in</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#aee4ce2da2d8646fc369d488622919f18">   23</a></span>&#160;rel_path_gravity = <span class="stringliteral">&quot;../calibration/gravity.csv&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a4bcb0b6f591e7554afe7bdf964bd5e6c">   24</a></span>&#160;abs_file_path_gravity = os.path.join(script_dir, rel_path_gravity)</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;counter = 0 <span class="comment"># current number of sensor data received</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;sum_x = 0.0 <span class="comment"># sum of the first &#39;maxIteration&#39; samples of the linear acceleration</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;sum_y = 0.0</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;sum_z = 0.0</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#ae9bd0768463f0d426a96aa9aa265498b">   26</a></span>&#160;counter = 0 <span class="comment"># current number of sensor data received</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a2520fab26409f99d185fbc034b1b798e">   27</a></span>&#160;sum_x = 0.0 <span class="comment"># sum of the first &#39;maxIteration&#39; samples of the linear acceleration</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a6d933b02a0ad6de3ac23264baa84dc29">   28</a></span>&#160;sum_y = 0.0</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a5875defcc86be30af483287ee1b839cc">   29</a></span>&#160;sum_z = 0.0</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;delta = 0.05 <span class="comment"># error on the sensor, learned by experience</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;safety_coeff = 1.1 </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;max_lin_acc = [0, 0, 0]</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;lin_acc_no_g = [0, 0, 0]</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;orientation = [0, 0, 0, 0]</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;g = [0, 0, 0] <span class="comment"># ravity vector initialization</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;maxIteration = 50 <span class="comment"># number of iterations needed to estimate the current gravity vector</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a5ed555ed0d5aa84b570de188ccbc4fb1">   31</a></span>&#160;delta = 0.05 <span class="comment"># error on the sensor, learned by experience</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#aad39ffc68ce966527f8d0ccb7015cfd1">   32</a></span>&#160;safety_coeff = 1.1 </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a311e222cb5a4035b099992de9f8e429e">   33</a></span>&#160;max_lin_acc = [0, 0, 0]</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a2e2bbbd24c8a3e05887dce6836500a9d">   34</a></span>&#160;lin_acc_no_g = [0, 0, 0]</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a5e37ac13b4aff930fe1155694be4c17b">   35</a></span>&#160;orientation = [0, 0, 0, 0]</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a0096cd12db620b4aeed8e64a504a5e1b">   36</a></span>&#160;g = [0, 0, 0] <span class="comment"># ravity vector initialization</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#a979739aace77bd28c0e658205722ffc7">   37</a></span>&#160;maxIteration = 50 <span class="comment"># number of iterations needed to estimate the current gravity vector</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="namespacecomputeGravity.html#afb155b69a185b0711db7220d143fdd51">   39</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacecomputeGravity.html#afb155b69a185b0711db7220d143fdd51">dataFileInitializer</a>():</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
@@ -137,7 +137,7 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    tempAngles = tf.transformations.euler_from_quaternion(orientation, <span class="stringliteral">&quot;sxyz&quot;</span>)</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">#compute the rotation matrix</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    rot_matrix = eulerAnglesToRotationMatrix(tempAngles)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    rot_matrix = <a class="code" href="namespaceutilities.html#ad0d6881ae2e8a12deb7d14105f17e4fb">eulerAnglesToRotationMatrix</a>(tempAngles)</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">#define the linear acceleration vector</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    linear_acceleration = [data.linear_acceleration.x,</div>
@@ -197,6 +197,7 @@ $(function() {
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    </div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespacecomputeGravity_html_afb155b69a185b0711db7220d143fdd51"><div class="ttname"><a href="namespacecomputeGravity.html#afb155b69a185b0711db7220d143fdd51">computeGravity.dataFileInitializer</a></div><div class="ttdeci">def dataFileInitializer()</div><div class="ttdoc">Function used initialize the files in which data will be stored; it will be stored in the calibration...</div><div class="ttdef"><b>Definition:</b> <a href="computeGravity_8py_source.html#l00039">computeGravity.py:39</a></div></div>
+<div class="ttc" id="anamespaceutilities_html_ad0d6881ae2e8a12deb7d14105f17e4fb"><div class="ttname"><a href="namespaceutilities.html#ad0d6881ae2e8a12deb7d14105f17e4fb">utilities.eulerAnglesToRotationMatrix</a></div><div class="ttdeci">def eulerAnglesToRotationMatrix(angles)</div><div class="ttdoc">Function that transforms euler angle coordinates into the rotation matrix.</div><div class="ttdef"><b>Definition:</b> <a href="utilities_8py_source.html#l00037">utilities.py:37</a></div></div>
 <div class="ttc" id="anamespacecomputeGravity_html_a3c930a7cd8889fc28db7ab87088cf776"><div class="ttname"><a href="namespacecomputeGravity.html#a3c930a7cd8889fc28db7ab87088cf776">computeGravity.listener</a></div><div class="ttdeci">def listener()</div><div class="ttdoc">The listener is used to instantiate the homonymous node and to subscribe to the android/imu_corrected...</div><div class="ttdef"><b>Definition:</b> <a href="computeGravity_8py_source.html#l00095">computeGravity.py:95</a></div></div>
 <div class="ttc" id="anamespacecomputeGravity_html_a00a68ed9e0999b90c75314279567da17"><div class="ttname"><a href="namespacecomputeGravity.html#a00a68ed9e0999b90c75314279567da17">computeGravity.callback</a></div><div class="ttdeci">def callback(data)</div><div class="ttdoc">This is the callback function: it is invoked every time there is incoming data and has the duty of ca...</div><div class="ttdef"><b>Definition:</b> <a href="computeGravity_8py_source.html#l00048">computeGravity.py:48</a></div></div>
 <!-- start footer part -->

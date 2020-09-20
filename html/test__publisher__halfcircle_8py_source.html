@@ -72,7 +72,7 @@ $(function() {
 <div class="title">test_publisher_halfcircle.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<a href="test__publisher__halfcircle_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacetest__publisher__halfcircle.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> rospy</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
@@ -81,12 +81,12 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">from</span> std_msgs.msg <span class="keyword">import</span> Int8</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;key = 0 <span class="comment"># 1 if publisher must publish, 0 otherwise</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;reset = 0 <span class="comment"># 1 if publisher must reset to initial conditions, 0 otherwise</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;pub = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespacetest__publisher__halfcircle.html#a09e15b04ff43c87ad15787acc782df47">   10</a></span>&#160;key = 0 <span class="comment"># 1 if publisher must publish, 0 otherwise</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespacetest__publisher__halfcircle.html#a843a30a23ad2ce410decd787897cb365">   11</a></span>&#160;reset = 0 <span class="comment"># 1 if publisher must reset to initial conditions, 0 otherwise</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespacetest__publisher__halfcircle.html#a595abb57c5deb11a8493142f3a38df0a">   12</a></span>&#160;pub = <span class="keywordtype">None</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">def </span>simulate_callback(data):</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="namespacetest__publisher__halfcircle.html#ad045e608fb8266e65b5b25cbfecdff57">   15</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacetest__publisher__halfcircle.html#ad045e608fb8266e65b5b25cbfecdff57">simulate_callback</a>(data):</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="stringliteral">    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral">    If data = 1, then the algorithm moves on. If data = 2, then the algorithm pauses.</span></div>
@@ -102,7 +102,7 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">def </span>talker():</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespacetest__publisher__halfcircle.html#a34acd668a2e06641d784aa78488fa13c">   31</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacetest__publisher__halfcircle.html#a34acd668a2e06641d784aa78488fa13c">talker</a>():</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">    Publishes mock smartphone signals, read from files.</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
@@ -141,13 +141,15 @@ $(function() {
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;       rospy.init_node(<span class="stringliteral">&#39;fakeSmart&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="namespacetest__publisher__halfcircle.html#aaaf99616f2844c76539c4b6dfc4f8888">   70</a></span>&#160;       rospy.init_node(<span class="stringliteral">&#39;fakeSmart&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;       pub = rospy.Publisher(<span class="stringliteral">&#39;smartphone&#39;</span>, Imu, queue_size=10)</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;       rospy.Subscriber(<span class="stringliteral">&quot;handleSimulation&quot;</span>, Int8, simulate_callback) <span class="comment"># subscribe to simulation messages</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;       talker()</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;       <a class="code" href="namespacetest__publisher__halfcircle.html#a34acd668a2e06641d784aa78488fa13c">talker</a>()</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">except</span> rospy.ROSInterruptException:</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;       <span class="keywordflow">pass</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespacetest__publisher__halfcircle_html_a34acd668a2e06641d784aa78488fa13c"><div class="ttname"><a href="namespacetest__publisher__halfcircle.html#a34acd668a2e06641d784aa78488fa13c">test_publisher_halfcircle.talker</a></div><div class="ttdeci">def talker()</div><div class="ttdoc">Publishes mock smartphone signals, read from files.</div><div class="ttdef"><b>Definition:</b> <a href="test__publisher__halfcircle_8py_source.html#l00031">test_publisher_halfcircle.py:31</a></div></div>
+<div class="ttc" id="anamespacetest__publisher__halfcircle_html_ad045e608fb8266e65b5b25cbfecdff57"><div class="ttname"><a href="namespacetest__publisher__halfcircle.html#ad045e608fb8266e65b5b25cbfecdff57">test_publisher_halfcircle.simulate_callback</a></div><div class="ttdeci">def simulate_callback(data)</div><div class="ttdoc">Handles changes in the simulation.</div><div class="ttdef"><b>Definition:</b> <a href="test__publisher__halfcircle_8py_source.html#l00015">test_publisher_halfcircle.py:15</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

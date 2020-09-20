@@ -72,7 +72,7 @@ $(function() {
 <div class="title">Forward_Kine_halfcircle.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<a href="Forward__Kine__halfcircle_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> rospy</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
@@ -85,26 +85,26 @@ $(function() {
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"># GLOBAL VARIABLES</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;pub_err = rospy.Publisher(<span class="stringliteral">&#39;Data_for_errors&#39;</span>, Float64MultiArray, queue_size=10)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;pub_track = rospy.Publisher(<span class="stringliteral">&#39;tracking&#39;</span>, Float64MultiArray, queue_size=10)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;pub_jac = rospy.Publisher(<span class="stringliteral">&#39;jacobian&#39;</span>, Float64MultiArray, queue_size=10)</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a405743bed1e0edb9f9a21af8cb2170c1">   14</a></span>&#160;pub_err = rospy.Publisher(<span class="stringliteral">&#39;Data_for_errors&#39;</span>, Float64MultiArray, queue_size=10)</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#acb9846d007e289ae124572ef4adff20b">   15</a></span>&#160;pub_track = rospy.Publisher(<span class="stringliteral">&#39;tracking&#39;</span>, Float64MultiArray, queue_size=10)</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a2950510d65271485a73737aa9c1936b4">   16</a></span>&#160;pub_jac = rospy.Publisher(<span class="stringliteral">&#39;jacobian&#39;</span>, Float64MultiArray, queue_size=10)</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;p = np.pi</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;n_joints = 7</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a2fb5200a47b7f66d078933b73d90e590">   18</a></span>&#160;p = np.pi</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a357ae320072ed52ac2e882380fb3b5e6">   19</a></span>&#160;n_joints = 7</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"># Links length. [m]</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;L0 = 0.27035</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;L1 = 0.06900</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;L2 = 0.36435</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;L3 = 0.06900</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;L4 = 0.37429</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;L5 = 0.01000</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;L6 = 0.36830</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;xeflag = 0</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a12b4e1deedcc3d0fb05414bc63d75647">   22</a></span>&#160;L0 = 0.27035</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#aae0a266979407b9e3090627224170443">   23</a></span>&#160;L1 = 0.06900</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a055951a9421f2d78ba53048b225a5c59">   24</a></span>&#160;L2 = 0.36435</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a4cf8ec21fcb6731ad34f54358b220565">   25</a></span>&#160;L3 = 0.06900</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#add0719687caddfed6c5786ee1d698f76">   26</a></span>&#160;L4 = 0.37429</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a06b3534bf3dce3d8eb47d8ff53bd6199">   27</a></span>&#160;L5 = 0.01000</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a17258d84025f780ac93b35d86cb7741f">   28</a></span>&#160;L6 = 0.36830</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#ac14dc8792ed43c7d8593ffe30f55b456">   29</a></span>&#160;xeflag = 0</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment"># DH table of Baxter: alpha(i-1), a(i-1), d(i), theta(i).</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"># Last row relates 7-th joint to end-effector.</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;DH = np.array([[0, 0, L0, 0],</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a8ae0d24bb6a5a7b2a387b020f7061828">   33</a></span>&#160;DH = np.array([[0, 0, L0, 0],</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;               [-p/2, L1, 0, p/2],</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;               [p/2, 0, L2, 0],</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;               [-p/2, L3, 0, 0],</div>
@@ -114,61 +114,61 @@ $(function() {
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;               [0, 0, L6, 0]])</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"># Trasformation matrices given DH table. T0,1 T1,2 ... T7,e</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;T_dh = t.DH_to_T(DH)</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a5ae13f2592dc0c3bfb63cef4c81a461c">   43</a></span>&#160;T_dh = t.DH_to_T(DH)</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"># Jacobian at time k minus 1</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;Jkmin1 = np.zeros((6,7))</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a151b4815e6a51d1e291c60dc6d3d0f5b">   46</a></span>&#160;Jkmin1 = np.zeros((6,7))</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"># type of joints, 1 = revolute, 0 = prismatic.</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;info = np.array([1, 1, 1, 1, 1, 1, 1])</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#afed3147075ba647ab840130882d5c6c9">   49</a></span>&#160;info = np.array([1, 1, 1, 1, 1, 1, 1])</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"># Need this variable to store initial rotation matrix, because it&#39;s equal to</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># rotation matrix from 0 to inertial frame.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;ini_bax = 0</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;ini_dot = 0 <span class="comment"># needed to differentiate from initial condition to computed qdots.</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;ini_smart = 0</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#af854b1a40105f5c2894f71e3989e8288">   53</a></span>&#160;ini_bax = 0</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a1d561816c392ee41aa9071a1f052a42c">   54</a></span>&#160;ini_dot = 0 <span class="comment"># needed to differentiate from initial condition to computed qdots.</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a34a381b2764263c39008f0aae6026ec2">   55</a></span>&#160;ini_smart = 0</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"># Sync variables</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;key_bax = 0</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;key_smart = 0</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;key_dot = 0</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;key = 1 <span class="comment"># used to handle the simulation.</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a617a0a22222b7e3feebf2dfc7c4102f6">   58</a></span>&#160;key_bax = 0</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a09d82dd5cf626333c4db5f13f9ccac1a">   59</a></span>&#160;key_smart = 0</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a10a5ab67cdc270ab06e64109988fb537">   60</a></span>&#160;key_dot = 0</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a559c86b4b254f0537a8c63853bf39d3b">   61</a></span>&#160;key = 1 <span class="comment"># used to handle the simulation.</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"># Flag variables to know which data are reliable.</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;flag_bax = 0</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;flag_dot = 0</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a0ccdcb19f194f286bbea9a3cfa58f5e8">   64</a></span>&#160;flag_bax = 0</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a84bd411b7ebdc84f1d352df19bd7f83b">   65</a></span>&#160;flag_dot = 0</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"># Sampling time</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;dt = 0.01</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a97cc91919c84869019585b255c53cc37">   68</a></span>&#160;dt = 0.01</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"># Assing position of e.e. w.r.t. 0. One used for integration, the other to compute errors.</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;x_0e_kmin1 = np.zeros((3,1))</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;x_0e_k = x_0e_kmin1</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;x_0e_kmin1B = np.zeros((3,1))</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a77e03adbb81bfd2be602cad6f44fe458">   71</a></span>&#160;x_0e_kmin1 = np.zeros((3,1))</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a0b90da39271256bc8fcd8ed05488709c">   72</a></span>&#160;x_0e_k = x_0e_kmin1</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#ac7f1ac48890949e065b8b763afa6ab48">   73</a></span>&#160;x_0e_kmin1B = np.zeros((3,1))</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment"># Initial velocity of end effector w.r.t. zero</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;v_0e_kmin1 = np.zeros((3,1)) <span class="comment"># starting velocity</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;v_0e_k = v_0e_kmin1</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;v_0e_kmin1B = np.zeros((3,1))</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#ad2481ddd3698498c251554b24b7f9f78">   76</a></span>&#160;v_0e_kmin1 = np.zeros((3,1)) <span class="comment"># starting velocity</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a925b21ffe1959b07d36367b1249f8022">   77</a></span>&#160;v_0e_k = v_0e_kmin1</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#aeac4ab27c60979756af3464f6d375aa1">   78</a></span>&#160;v_0e_kmin1B = np.zeros((3,1))</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"># Define the q&#39;s and q dots</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;q = np.zeros(7)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;q_dot = np.zeros((7,1))</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a8bac76e7261eda4a659b671257aaf489">   81</a></span>&#160;q = np.zeros(7)</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a650874d81b414709e585c910d5bd17c2">   82</a></span>&#160;q_dot = np.zeros((7,1))</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"># Definition of some variables that change over time when a callback is triggered</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;R0inert = np.zeros((3,3))</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;R0e_ini = np.zeros((3,3))</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;Rimu_inert_k = np.zeros((3,3))</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;R0e_kmin1 = np.zeros((3,3))</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;R0e_k = np.zeros((3,3))</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a1032b5476e9caab74932c4befc6e916d">   85</a></span>&#160;R0inert = np.zeros((3,3))</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a3e60a3907815f0b30cbf3f4d12eb3e13">   86</a></span>&#160;R0e_ini = np.zeros((3,3))</div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#af47f71a314a215febd8aeabd5d705130">   87</a></span>&#160;Rimu_inert_k = np.zeros((3,3))</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a154b36f1dfe0cd678f1d88cda253552b">   88</a></span>&#160;R0e_kmin1 = np.zeros((3,3))</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a3087fa234558380c406bc98b8e420781">   89</a></span>&#160;R0e_k = np.zeros((3,3))</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;omega_imu_inert = np.zeros((3,1))</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;a_imu_inert = np.zeros((3,1))</div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a9cbc935fa7d686de852ba216d38f965c">   91</a></span>&#160;omega_imu_inert = np.zeros((3,1))</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#afcef969fa1914346375865a4354ed6ae">   92</a></span>&#160;a_imu_inert = np.zeros((3,1))</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;omega_0e = np.zeros((3,1))</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;a_0e = np.zeros((3,1))</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#ae6654d44aea881a985edf5378b6fd73d">   94</a></span>&#160;omega_0e = np.zeros((3,1))</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#ad40ff7a853880fd9cce70d131ee3ad08">   95</a></span>&#160;a_0e = np.zeros((3,1))</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">def </span>main_callback():</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a5d4bb5437384aa972e901bebcfe338d8">   97</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceForward__Kine__halfcircle.html#a5d4bb5437384aa972e901bebcfe338d8">main_callback</a>():</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="stringliteral">    Publish to error node and inverse kinematics nodes the data, in particular the</span></div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="stringliteral">    jacobian matrix, the tracking vectors and the data needed to compute the errors.</span></div>
@@ -204,7 +204,7 @@ $(function() {
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="comment">#print(&quot;Published&quot;)</span></div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="keyword">def </span>baxter_callback(data):</div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a9e12858c78f1983699796784eaaf5e75">  140</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceForward__Kine__halfcircle.html#a9e12858c78f1983699796784eaaf5e75">baxter_callback</a>(data):</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="stringliteral">    Computes the configuration of baxter&#39;s arm whenever the data are available, then extracts the rotation</span></div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="stringliteral">    matrix from 0 to e.e and the position of the e.e. with respect to 0. It also computes the jacobian matrix.</span></div>
@@ -265,15 +265,15 @@ $(function() {
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(3):</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    v_0e_kmin1B[i][0] = x_dot[i][0]</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                if(key_smart &gt;= 1):</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                <a class="code" href="launcher_8sh.html#aecf1c3c6d4c86f147f4617c1f42525f0">if</a>(key_smart &gt;= 1):</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    key_bax = 0</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    key_dot = 0</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    key_smart = 0</div>
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                    main_callback()</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                    <a class="code" href="namespaceForward__Kine__halfcircle.html#a5d4bb5437384aa972e901bebcfe338d8">main_callback</a>()</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="keyword">def </span>dot_callback(data):</div>
+<div class="line"><a name="l00211"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a2c0a8ad740a9ceebdd057a9822cfe036">  211</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceForward__Kine__halfcircle.html#a2c0a8ad740a9ceebdd057a9822cfe036">dot_callback</a>(data):</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="stringliteral">    Reads the q_dots provided by the weighter. In case all the other callbacks have been called then it computes the velocity of the</span></div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="stringliteral">    e.e. with respect to 0 and the end it calls the main_callback.</span></div>
@@ -299,15 +299,15 @@ $(function() {
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(3):</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                v_0e_kmin1B[i][0] = x_dot[i][0]</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            if(key_smart &gt;= 1):</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <a class="code" href="launcher_8sh.html#aecf1c3c6d4c86f147f4617c1f42525f0">if</a>(key_smart &gt;= 1):</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                key_bax = 0</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                key_dot = 0</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                key_smart = 0</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                main_callback()    </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                <a class="code" href="namespaceForward__Kine__halfcircle.html#a5d4bb5437384aa972e901bebcfe338d8">main_callback</a>()    </div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="keyword">def </span>smart_callback(data):</div>
+<div class="line"><a name="l00248"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#ae771bc46d833d0b00d7d3fe09868d572">  248</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceForward__Kine__halfcircle.html#ae771bc46d833d0b00d7d3fe09868d572">smart_callback</a>(data):</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="stringliteral">    Computes the linear acceleration, angular velocity projected on 0 given the data. In case all the other callbacks have been called then it computes the velocity of the</span></div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="stringliteral">    e.e. with respect to 0 and the end it calls the main_callback.</span></div>
@@ -380,7 +380,7 @@ $(function() {
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            key_dot = 0</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            key_smart = 0</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            <span class="keywordflow">if</span> (xeflag == 0): xeflag = 1</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            main_callback()</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <a class="code" href="namespaceForward__Kine__halfcircle.html#a5d4bb5437384aa972e901bebcfe338d8">main_callback</a>()</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        </div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="comment"># Update this vectors to compute integration at next steps.</span></div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160; </div>
@@ -388,7 +388,7 @@ $(function() {
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        v_0e_kmin1 = v_0e_k</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160; </div>
 <div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    </div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="keyword">def </span>simulate_callback(data):</div>
+<div class="line"><a name="l00334"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a071bf197483de0ef0633f6bf12253fb5">  334</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceForward__Kine__halfcircle.html#a071bf197483de0ef0633f6bf12253fb5">simulate_callback</a>(data):</div>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="stringliteral">    Handles changes in the simulation. If data = 0, then the initial conditions must be resetted.</span></div>
 <div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="stringliteral">    If data = 1, then the algorithm moves on. If data = 2, then the algorithm pauses.</span></div>
@@ -425,11 +425,11 @@ $(function() {
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        q = np.zeros(7)</div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        q_dot = np.zeros((7,1))</div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        baxter_callback(0) <span class="comment"># to set the initial conditions.</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        dot_callback(0) <span class="comment"># to set the initial conditions.</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        <a class="code" href="namespaceForward__Kine__halfcircle.html#a9e12858c78f1983699796784eaaf5e75">baxter_callback</a>(0) <span class="comment"># to set the initial conditions.</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        <a class="code" href="namespaceForward__Kine__halfcircle.html#a2c0a8ad740a9ceebdd057a9822cfe036">dot_callback</a>(0) <span class="comment"># to set the initial conditions.</span></div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160; </div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="keyword">def </span>FK():</div>
+<div class="line"><a name="l00375"></a><span class="lineno"><a class="line" href="namespaceForward__Kine__halfcircle.html#a183d332c31b2c48e653eea8ff5a9d112">  375</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceForward__Kine__halfcircle.html#a183d332c31b2c48e653eea8ff5a9d112">FK</a>():</div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="comment"># In ROS, nodes are uniquely named. If two nodes with the same</span></div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="comment"># name are launched, the previous one is kicked off. The</span></div>
@@ -452,10 +452,17 @@ $(function() {
 <div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; </div>
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;  </div>
 <div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    baxter_callback(0) <span class="comment"># to set the initial conditions.</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    dot_callback(0) <span class="comment"># to set the initial conditions.</span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    FK()</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    <a class="code" href="namespaceForward__Kine__halfcircle.html#a9e12858c78f1983699796784eaaf5e75">baxter_callback</a>(0) <span class="comment"># to set the initial conditions.</span></div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    <a class="code" href="namespaceForward__Kine__halfcircle.html#a2c0a8ad740a9ceebdd057a9822cfe036">dot_callback</a>(0) <span class="comment"># to set the initial conditions.</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <a class="code" href="namespaceForward__Kine__halfcircle.html#a183d332c31b2c48e653eea8ff5a9d112">FK</a>()</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespaceForward__Kine__halfcircle_html_a9e12858c78f1983699796784eaaf5e75"><div class="ttname"><a href="namespaceForward__Kine__halfcircle.html#a9e12858c78f1983699796784eaaf5e75">Forward_Kine_halfcircle.baxter_callback</a></div><div class="ttdeci">def baxter_callback(data)</div><div class="ttdoc">Computes the configuration of baxter's arm whenever the data are available, then extracts the rotatio...</div><div class="ttdef"><b>Definition:</b> <a href="Forward__Kine__halfcircle_8py_source.html#l00140">Forward_Kine_halfcircle.py:140</a></div></div>
+<div class="ttc" id="anamespaceForward__Kine__halfcircle_html_ae771bc46d833d0b00d7d3fe09868d572"><div class="ttname"><a href="namespaceForward__Kine__halfcircle.html#ae771bc46d833d0b00d7d3fe09868d572">Forward_Kine_halfcircle.smart_callback</a></div><div class="ttdeci">def smart_callback(data)</div><div class="ttdoc">Computes the linear acceleration, angular velocity projected on 0 given the data.</div><div class="ttdef"><b>Definition:</b> <a href="Forward__Kine__halfcircle_8py_source.html#l00248">Forward_Kine_halfcircle.py:248</a></div></div>
+<div class="ttc" id="anamespaceForward__Kine__halfcircle_html_a071bf197483de0ef0633f6bf12253fb5"><div class="ttname"><a href="namespaceForward__Kine__halfcircle.html#a071bf197483de0ef0633f6bf12253fb5">Forward_Kine_halfcircle.simulate_callback</a></div><div class="ttdeci">def simulate_callback(data)</div><div class="ttdoc">Handles changes in the simulation.</div><div class="ttdef"><b>Definition:</b> <a href="Forward__Kine__halfcircle_8py_source.html#l00334">Forward_Kine_halfcircle.py:334</a></div></div>
+<div class="ttc" id="alauncher_8sh_html_aecf1c3c6d4c86f147f4617c1f42525f0"><div class="ttname"><a href="launcher_8sh.html#aecf1c3c6d4c86f147f4617c1f42525f0">if</a></div><div class="ttdeci">bash echo If you want to launch the sensor calibration process type yes and press enter read b if</div><div class="ttdef"><b>Definition:</b> <a href="launcher_8sh_source.html#l00011">launcher.sh:11</a></div></div>
+<div class="ttc" id="anamespaceForward__Kine__halfcircle_html_a5d4bb5437384aa972e901bebcfe338d8"><div class="ttname"><a href="namespaceForward__Kine__halfcircle.html#a5d4bb5437384aa972e901bebcfe338d8">Forward_Kine_halfcircle.main_callback</a></div><div class="ttdeci">def main_callback()</div><div class="ttdoc">Publish to error node and inverse kinematics nodes the data, in particular the jacobian matrix,...</div><div class="ttdef"><b>Definition:</b> <a href="Forward__Kine__halfcircle_8py_source.html#l00097">Forward_Kine_halfcircle.py:97</a></div></div>
+<div class="ttc" id="anamespaceForward__Kine__halfcircle_html_a2c0a8ad740a9ceebdd057a9822cfe036"><div class="ttname"><a href="namespaceForward__Kine__halfcircle.html#a2c0a8ad740a9ceebdd057a9822cfe036">Forward_Kine_halfcircle.dot_callback</a></div><div class="ttdeci">def dot_callback(data)</div><div class="ttdoc">Reads the q_dots provided by the weighter.</div><div class="ttdef"><b>Definition:</b> <a href="Forward__Kine__halfcircle_8py_source.html#l00211">Forward_Kine_halfcircle.py:211</a></div></div>
+<div class="ttc" id="anamespaceForward__Kine__halfcircle_html_a183d332c31b2c48e653eea8ff5a9d112"><div class="ttname"><a href="namespaceForward__Kine__halfcircle.html#a183d332c31b2c48e653eea8ff5a9d112">Forward_Kine_halfcircle.FK</a></div><div class="ttdeci">def FK()</div><div class="ttdef"><b>Definition:</b> <a href="Forward__Kine__halfcircle_8py_source.html#l00375">Forward_Kine_halfcircle.py:375</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

@@ -72,9 +72,9 @@ $(function() {
 <div class="title">J_computations.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
+<a href="Enhanced__J__Transpose_2J__computations_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespaceJ__computations.html">    1</a></span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">def </span>geometric_vectors(T_abs):</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="namespaceJ__computations.html#abb30eebe26223e7aa36f5329bd3163e7">    3</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__computations.html#abb30eebe26223e7aa36f5329bd3163e7">geometric_vectors</a>(T_abs):</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">  Computes the vectors needed to compute geometric jacobian.</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">  @param Tabs: the transformation matrices from joint to 0 frame in current configuration</span></div>
@@ -102,7 +102,7 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">def </span>i_j(T_abs):</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="namespaceJ__computations.html#acf90fe3df295bde173d62030935635f6">   32</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__computations.html#acf90fe3df295bde173d62030935635f6">i_j</a>(T_abs):</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">  Computes the vectors needed to optimize Jtransp</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">  @param Tabs: the transformation matrices from joint to 0 frame in current configuration</span></div>
@@ -130,7 +130,7 @@ $(function() {
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">return</span> i_j</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">def </span>axis_vector(i, j, k):</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="namespaceJ__computations.html#a35cb56dea49bbec3d7fac2a056141d2a">   60</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__computations.html#a35cb56dea49bbec3d7fac2a056141d2a">axis_vector</a>(i, j, k):</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">  Computes the vector needed for Jtransp optimisation.</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">  @param i, j, k: joint axes projected on zero.</span></div>
@@ -153,7 +153,7 @@ $(function() {
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">def </span>jacob(k, r, n_joints, info):</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="namespaceJ__computations.html#a0251ceb85bce6623110e5607e495fa2e">   83</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceJ__computations.html#a0251ceb85bce6623110e5607e495fa2e">jacob</a>(k, r, n_joints, info):</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="stringliteral">  Computes the jacobian matrix given the geometric vectors, number of joints and info.</span></div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="stringliteral">  @param k: versors of axis z of the joints projected on 0.</span></div>
@@ -183,10 +183,14 @@ $(function() {
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      Jl = np.concatenate((Jl, l_column), axis = 1)</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  J = np.concatenate((Jl, Ja), axis = 0)</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="namespaceJ__computations.html#ae06549c18e5021958445300cd2cf7434">  118</a></span>&#160;  J = np.concatenate((Jl, Ja), axis = 0)</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordflow">return</span> J</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespaceJ__computations_html_abb30eebe26223e7aa36f5329bd3163e7"><div class="ttname"><a href="namespaceJ__computations.html#abb30eebe26223e7aa36f5329bd3163e7">J_computations.geometric_vectors</a></div><div class="ttdeci">def geometric_vectors(T_abs)</div><div class="ttdoc">Computes the vectors needed to compute geometric jacobian.</div><div class="ttdef"><b>Definition:</b> <a href="Enhanced__J__Transpose_2J__computations_8py_source.html#l00003">J_computations.py:3</a></div></div>
+<div class="ttc" id="anamespaceJ__computations_html_acf90fe3df295bde173d62030935635f6"><div class="ttname"><a href="namespaceJ__computations.html#acf90fe3df295bde173d62030935635f6">J_computations.i_j</a></div><div class="ttdeci">def i_j(T_abs)</div><div class="ttdoc">New part.</div><div class="ttdef"><b>Definition:</b> <a href="Enhanced__J__Transpose_2J__computations_8py_source.html#l00032">J_computations.py:32</a></div></div>
+<div class="ttc" id="anamespaceJ__computations_html_a35cb56dea49bbec3d7fac2a056141d2a"><div class="ttname"><a href="namespaceJ__computations.html#a35cb56dea49bbec3d7fac2a056141d2a">J_computations.axis_vector</a></div><div class="ttdeci">def axis_vector(i, j, k)</div><div class="ttdoc">Computes the vector needed for Jtransp optimisation.</div><div class="ttdef"><b>Definition:</b> <a href="Enhanced__J__Transpose_2J__computations_8py_source.html#l00060">J_computations.py:60</a></div></div>
+<div class="ttc" id="anamespaceJ__computations_html_a0251ceb85bce6623110e5607e495fa2e"><div class="ttname"><a href="namespaceJ__computations.html#a0251ceb85bce6623110e5607e495fa2e">J_computations.jacob</a></div><div class="ttdeci">def jacob(k, r, n_joints, info)</div><div class="ttdoc">Computes the jacobian matrix given the geometric vectors, number of joints and info.</div><div class="ttdef"><b>Definition:</b> <a href="Enhanced__J__Transpose_2J__computations_8py_source.html#l00083">J_computations.py:83</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

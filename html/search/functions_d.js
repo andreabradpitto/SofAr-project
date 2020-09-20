@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['talker_199',['talker',['../namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504',1,'clipping']]]
+  ['qdot_5fcallback_491',['qdot_callback',['../namespaceintegrator.html#a6581019664f229034955187e28ec3475',1,'integrator']]]
 ];

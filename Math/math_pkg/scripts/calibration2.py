@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-''' \file pyexample
-'''
+"""@package pyexample
+"""
 import rospy
 import numpy as np
 import tf

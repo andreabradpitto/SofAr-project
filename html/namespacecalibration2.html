@@ -80,23 +80,55 @@ Functions</h2></td></tr>
 <tr class="memitem:a135759f4bfd57e278f8b9c254fea9993"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecalibration2.html#a135759f4bfd57e278f8b9c254fea9993">simulate_callback</a> (data)</td></tr>
 <tr class="memdesc:a135759f4bfd57e278f8b9c254fea9993"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits for the start from handle simulation topic.  <a href="namespacecalibration2.html#a135759f4bfd57e278f8b9c254fea9993">More...</a><br /></td></tr>
 <tr class="separator:a135759f4bfd57e278f8b9c254fea9993"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab20361e80faad56a05972dd525b91628"><td class="memItemLeft" align="right" valign="top"><a id="ab20361e80faad56a05972dd525b91628"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>calibrate_orientation</b> ()</td></tr>
+<tr class="memitem:ab20361e80faad56a05972dd525b91628"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecalibration2.html#ab20361e80faad56a05972dd525b91628">calibrate_orientation</a> ()</td></tr>
 <tr class="separator:ab20361e80faad56a05972dd525b91628"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a7e7cbe182e92c26a1506676e38eb169e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>pub_rot_matrices</b></td></tr>
+<tr class="memitem:a7e7cbe182e92c26a1506676e38eb169e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecalibration2.html#a7e7cbe182e92c26a1506676e38eb169e">pub_rot_matrices</a></td></tr>
 <tr class="separator:a7e7cbe182e92c26a1506676e38eb169e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d4aeda07821ccf8a281a1769b94c616"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><b>R0e</b></td></tr>
+<tr class="memitem:a1d4aeda07821ccf8a281a1769b94c616"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecalibration2.html#a1d4aeda07821ccf8a281a1769b94c616">R0e</a></td></tr>
 <tr class="separator:a1d4aeda07821ccf8a281a1769b94c616"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a055c86e4979dabb9ffe2e8c5f714b720"><td class="memItemLeft" align="right" valign="top"><a id="a055c86e4979dabb9ffe2e8c5f714b720"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>start</b> = 0</td></tr>
+<tr class="memitem:a055c86e4979dabb9ffe2e8c5f714b720"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecalibration2.html#a055c86e4979dabb9ffe2e8c5f714b720">start</a> = 0</td></tr>
 <tr class="separator:a055c86e4979dabb9ffe2e8c5f714b720"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">\file pyexample
+<div class="textblock"><pre class="fragment">@package pyexample
 </pre> </div><h2 class="groupheader">Function Documentation</h2>
+<a id="ab20361e80faad56a05972dd525b91628"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab20361e80faad56a05972dd525b91628">&#9670;&nbsp;</a></span>calibrate_orientation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def calibration2.calibrate_orientation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="calibration2_8py_source.html#l00073">73</a> of file <a class="el" href="calibration2_8py_source.html">calibration2.py</a>.</p>
+<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">def </span><a class="code" href="namespacecalibration2.html#ab20361e80faad56a05972dd525b91628">calibrate_orientation</a>():</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment"># In ROS, nodes are uniquely named. If two nodes with the same</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment"># name are launched, the previous one is kicked off. The</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment"># anonymous=True flag means that rospy will choose a unique</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment"># name for our &#39;listener&#39; node so that multiple listeners can</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="comment"># run simultaneously.</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    rospy.init_node(<span class="stringliteral">&#39;calibrate_orientation&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;smartphone&quot;</span>, Imu, imu_ee_calibration)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;handleSimulation&quot;</span>, Int8, simulate_callback)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    rospy.spin()</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="adc99e1f9eefd926e91cd9e785005df94"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adc99e1f9eefd926e91cd9e785005df94">&#9670;&nbsp;</a></span>imu_ee_calibration()</h2>
 
@@ -122,7 +154,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>start</b> = 0</td></tr
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="calibration2_8py_source.html#l00029">29</a> of file <a class="el" href="calibration2_8py_source.html">calibration2.py</a>.</p>
-<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">def </span>imu_ee_calibration(data):</div>
+<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">def </span><a class="code" href="namespacecalibration2.html#adc99e1f9eefd926e91cd9e785005df94">imu_ee_calibration</a>(data):</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">    Computes the orientation between 0 and global frame using an</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    initial configuration.</span></div>
@@ -182,7 +214,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>start</b> = 0</td></tr
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="calibration2_8py_source.html#l00061">61</a> of file <a class="el" href="calibration2_8py_source.html">calibration2.py</a>.</p>
-<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">def </span>simulate_callback(data):</div>
+<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">def </span><a class="code" href="namespacecalibration2.html#a135759f4bfd57e278f8b9c254fea9993">simulate_callback</a>(data):</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">    Waits for the start from handle simulation topic.</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="stringliteral">    @param data: integer used to understand which part of the simulation is on.</span></div>
@@ -235,7 +267,26 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>start</b> = 0</td></tr
 
 </div>
 </div>
+<a id="a055c86e4979dabb9ffe2e8c5f714b720"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a055c86e4979dabb9ffe2e8c5f714b720">&#9670;&nbsp;</a></span>start</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int calibration2.start = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="calibration2_8py_source.html#l00026">26</a> of file <a class="el" href="calibration2_8py_source.html">calibration2.py</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
+<div class="ttc" id="anamespacecalibration2_html_ab20361e80faad56a05972dd525b91628"><div class="ttname"><a href="namespacecalibration2.html#ab20361e80faad56a05972dd525b91628">calibration2.calibrate_orientation</a></div><div class="ttdeci">def calibrate_orientation()</div><div class="ttdef"><b>Definition:</b> <a href="calibration2_8py_source.html#l00073">calibration2.py:73</a></div></div>
+<div class="ttc" id="anamespacecalibration2_html_adc99e1f9eefd926e91cd9e785005df94"><div class="ttname"><a href="namespacecalibration2.html#adc99e1f9eefd926e91cd9e785005df94">calibration2.imu_ee_calibration</a></div><div class="ttdeci">def imu_ee_calibration(data)</div><div class="ttdoc">Computes the orientation between 0 and global frame using an initial configuration.</div><div class="ttdef"><b>Definition:</b> <a href="calibration2_8py_source.html#l00029">calibration2.py:29</a></div></div>
+<div class="ttc" id="anamespacecalibration2_html_a135759f4bfd57e278f8b9c254fea9993"><div class="ttname"><a href="namespacecalibration2.html#a135759f4bfd57e278f8b9c254fea9993">calibration2.simulate_callback</a></div><div class="ttdeci">def simulate_callback(data)</div><div class="ttdoc">Waits for the start from handle simulation topic.</div><div class="ttdef"><b>Definition:</b> <a href="calibration2_8py_source.html#l00061">calibration2.py:61</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

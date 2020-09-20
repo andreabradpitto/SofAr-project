@@ -129,8 +129,7 @@ Variables</h2></td></tr>
 <tr class="separator:a317c43362faf4475dce4577384fa9578"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9950c5982e6fa3841bc2b31e3a317b9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="safety_8cpp.html#ac9950c5982e6fa3841bc2b31e3a317b9">seqtry</a></td></tr>
 <tr class="separator:ac9950c5982e6fa3841bc2b31e3a317b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ceb5170a23ad09b5f7571491ccf9da6"><td class="memItemLeft" align="right" valign="top"><a id="a4ceb5170a23ad09b5f7571491ccf9da6"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>seqqdot</b></td></tr>
+<tr class="memitem:a4ceb5170a23ad09b5f7571491ccf9da6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="safety_8cpp.html#a4ceb5170a23ad09b5f7571491ccf9da6">seqqdot</a></td></tr>
 <tr class="separator:a4ceb5170a23ad09b5f7571491ccf9da6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -239,7 +238,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>seqqdot</b></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="safety_8cpp_source.html#l00149">149</a> of file <a class="el" href="safety_8cpp_source.html">safety.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                                                                                  {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordflow">if</span> (!(<a class="code" href="safety_8cpp.html#a36f414f3027e17561da1cc980cc683f7">readyq</a> &amp;&amp; <a class="code" href="safety_8cpp.html#a264031af035928b59314f611ace3c38d">readyqdot</a>)||(<a class="code" href="safety_8cpp.html#ac9950c5982e6fa3841bc2b31e3a317b9">seqtry</a> != seqqdot)) { <span class="comment">// at least one subscribtion data is missing</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordflow">if</span> (!(<a class="code" href="safety_8cpp.html#a36f414f3027e17561da1cc980cc683f7">readyq</a> &amp;&amp; <a class="code" href="safety_8cpp.html#a264031af035928b59314f611ace3c38d">readyqdot</a>)||(<a class="code" href="safety_8cpp.html#ac9950c5982e6fa3841bc2b31e3a317b9">seqtry</a> != <a class="code" href="safety_8cpp.html#a4ceb5170a23ad09b5f7571491ccf9da6">seqqdot</a>)) { <span class="comment">// at least one subscribtion data is missing</span></div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <a class="code" href="safety_8cpp.html#a36f414f3027e17561da1cc980cc683f7">readyq</a> = <a class="code" href="safety_8cpp.html#a264031af035928b59314f611ace3c38d">readyqdot</a> = <span class="keyword">false</span>; <span class="comment">// reset availability flag</span></div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        ROS_ERROR(<span class="stringliteral">&quot;safety service could not run: missing data.&quot;</span>);</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -501,7 +500,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>seqqdot</b></td></tr>
 <p class="definition">Definition at line <a class="el" href="safety_8cpp_source.html#l00038">38</a> of file <a class="el" href="safety_8cpp_source.html">safety.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                                                       {</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="safety_8cpp.html#ac9950c5982e6fa3841bc2b31e3a317b9">seqtry</a> = (int)msg.effort[0]; <span class="comment">// q sequence number</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    if (<a class="code" href="safety_8cpp.html#ac9950c5982e6fa3841bc2b31e3a317b9">seqtry</a> &lt; seqqdot) <span class="keywordflow">return</span>; <span class="comment">// the received q is old, nothing to do with it</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="launcher_8sh.html#aecf1c3c6d4c86f147f4617c1f42525f0">if</a> (<a class="code" href="safety_8cpp.html#ac9950c5982e6fa3841bc2b31e3a317b9">seqtry</a> &lt; <a class="code" href="safety_8cpp.html#a4ceb5170a23ad09b5f7571491ccf9da6">seqqdot</a>) <span class="keywordflow">return</span>; <span class="comment">// the received q is old, nothing to do with it</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// At this point, the received q is up to date: store it in global variable q.</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    vector&lt;double&gt; rcvd_q = msg.position; <span class="comment">// should look at the position field, but Coppelia has a problem with it...</span></div>
@@ -539,7 +538,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>seqqdot</b></td></tr>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    vector&lt;double&gt; rcvd_qdot = msg.velocity;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::copy(rcvd_qdot.begin(), rcvd_qdot.end(), <a class="code" href="safety_8cpp.html#a317c43362faf4475dce4577384fa9578">qdot</a>);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    seqqdot = (int)msg.effort[0]; <span class="comment">// update sequence number</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="safety_8cpp.html#a4ceb5170a23ad09b5f7571491ccf9da6">seqqdot</a> = (int)msg.effort[0]; <span class="comment">// update sequence number</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="safety_8cpp.html#a264031af035928b59314f611ace3c38d">readyqdot</a> = <span class="keyword">true</span>; <span class="comment">// qdot available, thus set flag to true</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
 </div><!-- fragment -->
@@ -703,6 +702,22 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>seqqdot</b></td></tr>
 
 </div>
 </div>
+<a id="a4ceb5170a23ad09b5f7571491ccf9da6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ceb5170a23ad09b5f7571491ccf9da6">&#9670;&nbsp;</a></span>seqqdot</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int seqqdot</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="safety_8cpp_source.html#l00033">33</a> of file <a class="el" href="safety_8cpp_source.html">safety.cpp</a>.</p>
+
+</div>
+</div>
 <a id="ac9950c5982e6fa3841bc2b31e3a317b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac9950c5982e6fa3841bc2b31e3a317b9">&#9670;&nbsp;</a></span>seqtry</h2>
 
@@ -731,11 +746,13 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>seqqdot</b></td></tr>
 <div class="ttc" id="asafety_8cpp_html_a264031af035928b59314f611ace3c38d"><div class="ttname"><a href="safety_8cpp.html#a264031af035928b59314f611ace3c38d">readyqdot</a></div><div class="ttdeci">bool readyqdot</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00013">safety.cpp:13</a></div></div>
 <div class="ttc" id="asafety_8cpp_html_a356e9371247711c51b3b4fed9c8a9965"><div class="ttname"><a href="safety_8cpp.html#a356e9371247711c51b3b4fed9c8a9965">JOINTS_MARGIN</a></div><div class="ttdeci">#define JOINTS_MARGIN</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00027">safety.cpp:27</a></div></div>
 <div class="ttc" id="autilities_8h_html_af89a8758592469410415b30b4c8accda"><div class="ttname"><a href="utilities_8h.html#af89a8758592469410415b30b4c8accda">ID_MATRIX_NJ</a></div><div class="ttdeci">const MatrixXd ID_MATRIX_NJ</div><div class="ttdef"><b>Definition:</b> <a href="utilities_8h_source.html#l00042">utilities.h:42</a></div></div>
+<div class="ttc" id="alauncher_8sh_html_aecf1c3c6d4c86f147f4617c1f42525f0"><div class="ttname"><a href="launcher_8sh.html#aecf1c3c6d4c86f147f4617c1f42525f0">if</a></div><div class="ttdeci">bash echo If you want to launch the sensor calibration process type yes and press enter read b if</div><div class="ttdef"><b>Definition:</b> <a href="launcher_8sh_source.html#l00011">launcher.sh:11</a></div></div>
 <div class="ttc" id="asafety_8cpp_html_a317c43362faf4475dce4577384fa9578"><div class="ttname"><a href="safety_8cpp.html#a317c43362faf4475dce4577384fa9578">qdot</a></div><div class="ttdeci">double qdot[NJOINTS]</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00021">safety.cpp:21</a></div></div>
 <div class="ttc" id="asafety_8cpp_html_aa7a3c54f6ce8de220877d3ecd2a860c7"><div class="ttname"><a href="safety_8cpp.html#aa7a3c54f6ce8de220877d3ecd2a860c7">currentAnglePole</a></div><div class="ttdeci">double currentAnglePole[NJOINTS]</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00015">safety.cpp:15</a></div></div>
 <div class="ttc" id="asafety_8cpp_html_ac9950c5982e6fa3841bc2b31e3a317b9"><div class="ttname"><a href="safety_8cpp.html#ac9950c5982e6fa3841bc2b31e3a317b9">seqtry</a></div><div class="ttdeci">int seqtry</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00031">safety.cpp:31</a></div></div>
 <div class="ttc" id="autilities_8h_html_a66dede39bc52472042a84f87099ec816"><div class="ttname"><a href="utilities_8h.html#a66dede39bc52472042a84f87099ec816">regPinv</a></div><div class="ttdeci">MatrixXd regPinv(MatrixXd X, MatrixXd A, MatrixXd Q, double eta, double &amp;cond)</div><div class="ttdef"><b>Definition:</b> <a href="utilities_8h_source.html#l00096">utilities.h:96</a></div></div>
 <div class="ttc" id="asafety_8cpp_html_ac0c5b59b06e31ad50542ecdd259b7c2d"><div class="ttname"><a href="safety_8cpp.html#ac0c5b59b06e31ad50542ecdd259b7c2d">computePartialqdot</a></div><div class="ttdeci">bool computePartialqdot(math_pkg::Safety::Request &amp;req, math_pkg::Safety::Response &amp;res)</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00149">safety.cpp:149</a></div></div>
+<div class="ttc" id="asafety_8cpp_html_a4ceb5170a23ad09b5f7571491ccf9da6"><div class="ttname"><a href="safety_8cpp.html#a4ceb5170a23ad09b5f7571491ccf9da6">seqqdot</a></div><div class="ttdeci">int seqqdot</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00033">safety.cpp:33</a></div></div>
 <div class="ttc" id="asafety_8cpp_html_a209f415afdd52b0876ae3cb46e04f9b2"><div class="ttname"><a href="safety_8cpp.html#a209f415afdd52b0876ae3cb46e04f9b2">currentVelPole</a></div><div class="ttdeci">double currentVelPole[NJOINTS]</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00017">safety.cpp:17</a></div></div>
 <div class="ttc" id="asafety_8cpp_html_a82ba145e1df3611122ac365407d89b80"><div class="ttname"><a href="safety_8cpp.html#a82ba145e1df3611122ac365407d89b80">safetyCallbackqdot</a></div><div class="ttdeci">void safetyCallbackqdot(const sensor_msgs::JointState &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="safety_8cpp_source.html#l00053">safety.cpp:53</a></div></div>
 <div class="ttc" id="autilities_8h_html_ab092fe4291fb68da50654476ea0b7bd3"><div class="ttname"><a href="utilities_8h.html#ab092fe4291fb68da50654476ea0b7bd3">QMIN</a></div><div class="ttdeci">const double QMIN[]</div><div class="ttdef"><b>Definition:</b> <a href="utilities_8h_source.html#l00030">utilities.h:30</a></div></div>

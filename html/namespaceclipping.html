@@ -74,93 +74,68 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a35e8ff08f4099c2406c9a357713a369a"><td class="memItemLeft" align="right" valign="top"><a id="a35e8ff08f4099c2406c9a357713a369a"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a35e8ff08f4099c2406c9a357713a369a">dataFileInitializer</a> ()</td></tr>
-<tr class="memdesc:a35e8ff08f4099c2406c9a357713a369a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function used initialize the files in which sensor data will be stored; it will generate three files in the 'output' folder. <br /></td></tr>
+<tr class="memitem:a35e8ff08f4099c2406c9a357713a369a"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a35e8ff08f4099c2406c9a357713a369a">dataFileInitializer</a> ()</td></tr>
+<tr class="memdesc:a35e8ff08f4099c2406c9a357713a369a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function used initialize the files in which sensor data will be stored; it will generate three files in the 'output' folder.  <a href="namespaceclipping.html#a35e8ff08f4099c2406c9a357713a369a">More...</a><br /></td></tr>
 <tr class="separator:a35e8ff08f4099c2406c9a357713a369a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af172465c4f8760f413a24ad7c5dc93c2"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#af172465c4f8760f413a24ad7c5dc93c2">lin_acc_compensate</a> (lin_acc_no_g, threshold)</td></tr>
+<tr class="memitem:af172465c4f8760f413a24ad7c5dc93c2"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#af172465c4f8760f413a24ad7c5dc93c2">lin_acc_compensate</a> (<a class="el" href="namespaceclipping.html#aaa9c45af65adbc814f8396980b26167a">lin_acc_no_g</a>, threshold)</td></tr>
 <tr class="memdesc:af172465c4f8760f413a24ad7c5dc93c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human operator shake.  <a href="namespaceclipping.html#af172465c4f8760f413a24ad7c5dc93c2">More...</a><br /></td></tr>
 <tr class="separator:af172465c4f8760f413a24ad7c5dc93c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0592327b674d9c61a52b4048f1ce4108"><td class="memItemLeft" align="right" valign="top"><a id="a0592327b674d9c61a52b4048f1ce4108"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">storeDataInFiles</a> (fileName, modality, data)</td></tr>
-<tr class="memdesc:a0592327b674d9c61a52b4048f1ce4108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function which stores incoming data into .csv files @params fileName name of the generated file @params modality parameter requested by the open() function: 'a' stands for 'open for appending at the end of the file without truncating it' @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity) <br /></td></tr>
+<tr class="memitem:a0592327b674d9c61a52b4048f1ce4108"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">storeDataInFiles</a> (fileName, modality, data)</td></tr>
+<tr class="memdesc:a0592327b674d9c61a52b4048f1ce4108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function which stores incoming data into .csv files @params fileName name of the generated file @params modality parameter requested by the open() function: 'a' stands for 'open for appending at the end of the file without truncating it' @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity)  <a href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">More...</a><br /></td></tr>
 <tr class="separator:a0592327b674d9c61a52b4048f1ce4108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61d89408f8bc1c0b8184bb85883deebc"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a61d89408f8bc1c0b8184bb85883deebc">callback</a> (data)</td></tr>
-<tr class="memdesc:a61d89408f8bc1c0b8184bb85883deebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the callback function: it is invoked every time there is incoming data and has the duty of calling all the previously mentioned functions as well as eulerAnglesToRotationMatrix().  <a href="namespaceclipping.html#a61d89408f8bc1c0b8184bb85883deebc">More...</a><br /></td></tr>
+<tr class="memdesc:a61d89408f8bc1c0b8184bb85883deebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is the callback function: it is invoked every time there is incoming data and has the duty of calling all the previously mentioned functions as well as <a class="el" href="namespaceutilities.html#ad0d6881ae2e8a12deb7d14105f17e4fb" title="Function that transforms euler angle coordinates into the rotation matrix.">eulerAnglesToRotationMatrix()</a>.  <a href="namespaceclipping.html#a61d89408f8bc1c0b8184bb85883deebc">More...</a><br /></td></tr>
 <tr class="separator:a61d89408f8bc1c0b8184bb85883deebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c34047ecae692b16baa7a9306db9e2d"><td class="memItemLeft" align="right" valign="top"><a id="a8c34047ecae692b16baa7a9306db9e2d"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a8c34047ecae692b16baa7a9306db9e2d">listener</a> ()</td></tr>
-<tr class="memdesc:a8c34047ecae692b16baa7a9306db9e2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The listener is used to instantiate the homonymous node and to subscribe to the android/imu_corected topic, from which it receives incoming data of smarthpone accelerometers. <br /></td></tr>
+<tr class="memitem:a8c34047ecae692b16baa7a9306db9e2d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a8c34047ecae692b16baa7a9306db9e2d">listener</a> ()</td></tr>
+<tr class="memdesc:a8c34047ecae692b16baa7a9306db9e2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The listener is used to instantiate the homonymous node and to subscribe to the android/imu_corected topic, from which it receives incoming data of smarthpone accelerometers.  <a href="namespaceclipping.html#a8c34047ecae692b16baa7a9306db9e2d">More...</a><br /></td></tr>
 <tr class="separator:a8c34047ecae692b16baa7a9306db9e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8da1db9fa695d80388cd40a512f0504"><td class="memItemLeft" align="right" valign="top"><a id="aa8da1db9fa695d80388cd40a512f0504"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504">talker</a> (msg)</td></tr>
-<tr class="memdesc:aa8da1db9fa695d80388cd40a512f0504"><td class="mdescLeft">&#160;</td><td class="mdescRight">The talker is used to publish the refined data on the so called 'smartphone' topic. <br /></td></tr>
+<tr class="memitem:aa8da1db9fa695d80388cd40a512f0504"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504">talker</a> (msg)</td></tr>
+<tr class="memdesc:aa8da1db9fa695d80388cd40a512f0504"><td class="mdescLeft">&#160;</td><td class="mdescRight">The talker is used to publish the refined data on the so called 'smartphone' topic.  <a href="namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504">More...</a><br /></td></tr>
 <tr class="separator:aa8da1db9fa695d80388cd40a512f0504"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:acc27d9174d32e3560344305305f3266b"><td class="memItemLeft" align="right" valign="top"><a id="acc27d9174d32e3560344305305f3266b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>script_dir</b> = os.path.dirname(__file__)</td></tr>
+<tr class="memitem:acc27d9174d32e3560344305305f3266b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a> = os.path.dirname(__file__)</td></tr>
 <tr class="separator:acc27d9174d32e3560344305305f3266b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6eb332d3a2d24d13c70ef2f5546c0d3"><td class="memItemLeft" align="right" valign="top"><a id="af6eb332d3a2d24d13c70ef2f5546c0d3"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>rel_path1</b> = &quot;../output/lin_acc.csv&quot;</td></tr>
+<tr class="memitem:af6eb332d3a2d24d13c70ef2f5546c0d3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#af6eb332d3a2d24d13c70ef2f5546c0d3">rel_path1</a> = &quot;../output/lin_acc.csv&quot;</td></tr>
 <tr class="separator:af6eb332d3a2d24d13c70ef2f5546c0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2a79c61ef4e3ba3cebdff6c4632fee4"><td class="memItemLeft" align="right" valign="top"><a id="ab2a79c61ef4e3ba3cebdff6c4632fee4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>abs_file_path1</b> = os.path.join(script_dir, rel_path1)</td></tr>
+<tr class="memitem:ab2a79c61ef4e3ba3cebdff6c4632fee4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#ab2a79c61ef4e3ba3cebdff6c4632fee4">abs_file_path1</a> = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#af6eb332d3a2d24d13c70ef2f5546c0d3">rel_path1</a>)</td></tr>
 <tr class="separator:ab2a79c61ef4e3ba3cebdff6c4632fee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71fe3c160af28982edb1749ea81308a3"><td class="memItemLeft" align="right" valign="top"><a id="a71fe3c160af28982edb1749ea81308a3"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>rel_path2</b> = &quot;../output/orientation.csv&quot;</td></tr>
+<tr class="memitem:a71fe3c160af28982edb1749ea81308a3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a71fe3c160af28982edb1749ea81308a3">rel_path2</a> = &quot;../output/orientation.csv&quot;</td></tr>
 <tr class="separator:a71fe3c160af28982edb1749ea81308a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23f780f18903fb04e6560650ee936fa1"><td class="memItemLeft" align="right" valign="top"><a id="a23f780f18903fb04e6560650ee936fa1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>abs_file_path2</b> = os.path.join(script_dir, rel_path2)</td></tr>
+<tr class="memitem:a23f780f18903fb04e6560650ee936fa1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a23f780f18903fb04e6560650ee936fa1">abs_file_path2</a> = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#a71fe3c160af28982edb1749ea81308a3">rel_path2</a>)</td></tr>
 <tr class="separator:a23f780f18903fb04e6560650ee936fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c9ddedce2fc1502dc21cfcf394f8cc3"><td class="memItemLeft" align="right" valign="top"><a id="a4c9ddedce2fc1502dc21cfcf394f8cc3"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>rel_path3</b> = &quot;../output/angVel.csv&quot;</td></tr>
+<tr class="memitem:a4c9ddedce2fc1502dc21cfcf394f8cc3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a4c9ddedce2fc1502dc21cfcf394f8cc3">rel_path3</a> = &quot;../output/angVel.csv&quot;</td></tr>
 <tr class="separator:a4c9ddedce2fc1502dc21cfcf394f8cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c26a0de4167786433848ddf043dd0ab"><td class="memItemLeft" align="right" valign="top"><a id="a1c26a0de4167786433848ddf043dd0ab"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>abs_file_path3</b> = os.path.join(script_dir, rel_path3)</td></tr>
+<tr class="memitem:a1c26a0de4167786433848ddf043dd0ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a1c26a0de4167786433848ddf043dd0ab">abs_file_path3</a> = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#a4c9ddedce2fc1502dc21cfcf394f8cc3">rel_path3</a>)</td></tr>
 <tr class="separator:a1c26a0de4167786433848ddf043dd0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40dc8f801a6d3d31d0961379d6ca9539"><td class="memItemLeft" align="right" valign="top"><a id="a40dc8f801a6d3d31d0961379d6ca9539"></a>
-string&#160;</td><td class="memItemRight" valign="bottom"><b>rel_path_gravity</b> = &quot;../calibration/gravity.csv&quot;</td></tr>
+<tr class="memitem:a40dc8f801a6d3d31d0961379d6ca9539"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a40dc8f801a6d3d31d0961379d6ca9539">rel_path_gravity</a> = &quot;../calibration/gravity.csv&quot;</td></tr>
 <tr class="separator:a40dc8f801a6d3d31d0961379d6ca9539"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ee75d70b845da8ab4590c0c184b3a9c"><td class="memItemLeft" align="right" valign="top"><a id="a6ee75d70b845da8ab4590c0c184b3a9c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>abs_file_gravity</b> = os.path.join(script_dir, rel_path_gravity)</td></tr>
+<tr class="memitem:a6ee75d70b845da8ab4590c0c184b3a9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a6ee75d70b845da8ab4590c0c184b3a9c">abs_file_gravity</a> = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#a40dc8f801a6d3d31d0961379d6ca9539">rel_path_gravity</a>)</td></tr>
 <tr class="separator:a6ee75d70b845da8ab4590c0c184b3a9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14dc92c001ea2b7205201df8fa5b4b47"><td class="memItemLeft" align="right" valign="top"><a id="a14dc92c001ea2b7205201df8fa5b4b47"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>flagWriteData</b> = 1</td></tr>
+<tr class="memitem:a14dc92c001ea2b7205201df8fa5b4b47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a14dc92c001ea2b7205201df8fa5b4b47">flagWriteData</a> = 1</td></tr>
 <tr class="separator:a14dc92c001ea2b7205201df8fa5b4b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf2e04ce27b3129636907ce8b28ab747"><td class="memItemLeft" align="right" valign="top"><a id="aaf2e04ce27b3129636907ce8b28ab747"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>index</b> = 1</td></tr>
+<tr class="memitem:aaf2e04ce27b3129636907ce8b28ab747"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#aaf2e04ce27b3129636907ce8b28ab747">index</a> = 1</td></tr>
 <tr class="separator:aaf2e04ce27b3129636907ce8b28ab747"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a872c980bf1743645999652715493d1ef"><td class="memItemLeft" align="right" valign="top"><a id="a872c980bf1743645999652715493d1ef"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>delta</b> = 0.05</td></tr>
+<tr class="memitem:a872c980bf1743645999652715493d1ef"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a872c980bf1743645999652715493d1ef">delta</a> = 0.05</td></tr>
 <tr class="separator:a872c980bf1743645999652715493d1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa9c45af65adbc814f8396980b26167a"><td class="memItemLeft" align="right" valign="top"><a id="aaa9c45af65adbc814f8396980b26167a"></a>
-list&#160;</td><td class="memItemRight" valign="bottom"><b>lin_acc_no_g</b> = [0, 0, 0]</td></tr>
+<tr class="memitem:aaa9c45af65adbc814f8396980b26167a"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#aaa9c45af65adbc814f8396980b26167a">lin_acc_no_g</a> = [0, 0, 0]</td></tr>
 <tr class="separator:aaa9c45af65adbc814f8396980b26167a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a937106624563e50bdce6e396a1bbc4cf"><td class="memItemLeft" align="right" valign="top"><a id="a937106624563e50bdce6e396a1bbc4cf"></a>
-list&#160;</td><td class="memItemRight" valign="bottom"><b>angular_velocity</b> = [0, 0, 0]</td></tr>
+<tr class="memitem:a937106624563e50bdce6e396a1bbc4cf"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a937106624563e50bdce6e396a1bbc4cf">angular_velocity</a> = [0, 0, 0]</td></tr>
 <tr class="separator:a937106624563e50bdce6e396a1bbc4cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac33e7b66a0ea7b9401550ecb54655abe"><td class="memItemLeft" align="right" valign="top"><a id="ac33e7b66a0ea7b9401550ecb54655abe"></a>
-list&#160;</td><td class="memItemRight" valign="bottom"><b>orientation</b> = [0, 0, 0, 0]</td></tr>
+<tr class="memitem:ac33e7b66a0ea7b9401550ecb54655abe"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#ac33e7b66a0ea7b9401550ecb54655abe">orientation</a> = [0, 0, 0, 0]</td></tr>
 <tr class="separator:ac33e7b66a0ea7b9401550ecb54655abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae51849e973c472eab0c06114a689e57b"><td class="memItemLeft" align="right" valign="top"><a id="ae51849e973c472eab0c06114a689e57b"></a>
-list&#160;</td><td class="memItemRight" valign="bottom"><b>g</b> = [0 ,0 ,0]</td></tr>
+<tr class="memitem:ae51849e973c472eab0c06114a689e57b"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#ae51849e973c472eab0c06114a689e57b">g</a> = [0 ,0 ,0]</td></tr>
 <tr class="separator:ae51849e973c472eab0c06114a689e57b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a141da8c0f07a405ef3f205067579144f"><td class="memItemLeft" align="right" valign="top"><a id="a141da8c0f07a405ef3f205067579144f"></a>
-list&#160;</td><td class="memItemRight" valign="bottom"><b>max_lin_acc</b> = [0, 0, 0]</td></tr>
+<tr class="memitem:a141da8c0f07a405ef3f205067579144f"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a141da8c0f07a405ef3f205067579144f">max_lin_acc</a> = [0, 0, 0]</td></tr>
 <tr class="separator:a141da8c0f07a405ef3f205067579144f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2967eccca06269489b420ab17fe76c92"><td class="memItemLeft" align="right" valign="top"><a id="a2967eccca06269489b420ab17fe76c92"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>safety_coeff</b> = 1.1</td></tr>
+<tr class="memitem:a2967eccca06269489b420ab17fe76c92"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a2967eccca06269489b420ab17fe76c92">safety_coeff</a> = 1.1</td></tr>
 <tr class="separator:a2967eccca06269489b420ab17fe76c92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f89dd00d3e26e419ad07d652353c09d"><td class="memItemLeft" align="right" valign="top"><a id="a4f89dd00d3e26e419ad07d652353c09d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>counter</b> = 0</td></tr>
+<tr class="memitem:a4f89dd00d3e26e419ad07d652353c09d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a4f89dd00d3e26e419ad07d652353c09d">counter</a> = 0</td></tr>
 <tr class="separator:a4f89dd00d3e26e419ad07d652353c09d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79cb0ad963b8cf030b2bcfc5675a83f0"><td class="memItemLeft" align="right" valign="top"><a id="a79cb0ad963b8cf030b2bcfc5675a83f0"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>maxIteration</b> = 50</td></tr>
+<tr class="memitem:a79cb0ad963b8cf030b2bcfc5675a83f0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a79cb0ad963b8cf030b2bcfc5675a83f0">maxIteration</a> = 50</td></tr>
 <tr class="separator:a79cb0ad963b8cf030b2bcfc5675a83f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a1488c3a0204855f4f4f1601f8812bd"><td class="memItemLeft" align="right" valign="top"><a id="a7a1488c3a0204855f4f4f1601f8812bd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>temp</b> = pd.read_csv(abs_file_gravity, names=['X', 'Y', 'Z'], header=0, decimal=',')</td></tr>
+<tr class="memitem:a7a1488c3a0204855f4f4f1601f8812bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceclipping.html#a7a1488c3a0204855f4f4f1601f8812bd">temp</a> = pd.read_csv(<a class="el" href="namespaceclipping.html#a6ee75d70b845da8ab4590c0c184b3a9c">abs_file_gravity</a>, names=['X', 'Y', 'Z'], header=0, decimal=',')</td></tr>
 <tr class="separator:a7a1488c3a0204855f4f4f1601f8812bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -184,7 +159,7 @@ the incoming linear acceleration through a clipping algorithm.
       </table>
 </div><div class="memdoc">
 
-<p>This is the callback function: it is invoked every time there is incoming data and has the duty of calling all the previously mentioned functions as well as eulerAnglesToRotationMatrix(). </p>
+<p>This is the callback function: it is invoked every time there is incoming data and has the duty of calling all the previously mentioned functions as well as <a class="el" href="namespaceutilities.html#ad0d6881ae2e8a12deb7d14105f17e4fb" title="Function that transforms euler angle coordinates into the rotation matrix.">eulerAnglesToRotationMatrix()</a>. </p>
 <p>After these calls, it finally invokes the <a class="el" href="namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504" title="The talker is used to publish the refined data on the so called &#39;smartphone&#39; topic.">talker()</a>. In order to achieve all of this, it translates incoming quaternions into euler angles beforehand </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>data incoming from the imu sensor </td></tr>
@@ -245,16 +220,16 @@ the incoming linear acceleration through a clipping algorithm.
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordflow">else</span>:</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="comment">#reduce noise on incoming linear acceleration data </span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        lin_acc_no_g = lin_acc_compensate(lin_acc_no_g, delta)</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        lin_acc_no_g = <a class="code" href="namespaceclipping.html#af172465c4f8760f413a24ad7c5dc93c2">lin_acc_compensate</a>(lin_acc_no_g, delta)</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordflow">if</span> flagWriteData == 1:</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="comment"># store data into .csv files in order to analyse them offline</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            storeDataInFiles(abs_file_path1, <span class="stringliteral">&#39;a&#39;</span>, lin_acc_no_g)</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <a class="code" href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">storeDataInFiles</a>(abs_file_path1, <span class="stringliteral">&#39;a&#39;</span>, lin_acc_no_g)</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            angles_in_deg = [(tempAngles[0]*180) / math.pi,</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                             (tempAngles[1]*180) / math.pi, (tempAngles[2]*180) / math.pi]</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            storeDataInFiles(abs_file_path2, <span class="stringliteral">&#39;a&#39;</span>, angles_in_deg)</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            storeDataInFiles(abs_file_path3, <span class="stringliteral">&#39;a&#39;</span>, angular_velocity)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <a class="code" href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">storeDataInFiles</a>(abs_file_path2, <span class="stringliteral">&#39;a&#39;</span>, angles_in_deg)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <a class="code" href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">storeDataInFiles</a>(abs_file_path3, <span class="stringliteral">&#39;a&#39;</span>, angular_velocity)</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            index += 1  <span class="comment"># update index</span></div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
@@ -272,12 +247,50 @@ the incoming linear acceleration through a clipping algorithm.
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="comment"># publish message</span></div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            talker(data)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <a class="code" href="namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504">talker</a>(data)</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <span class="keywordflow">except</span> rospy.ROSInterruptException:</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keywordflow">pass</span></div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    counter +=1</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a35e8ff08f4099c2406c9a357713a369a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35e8ff08f4099c2406c9a357713a369a">&#9670;&nbsp;</a></span>dataFileInitializer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def clipping.dataFileInitializer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function used initialize the files in which sensor data will be stored; it will generate three files in the 'output' folder. </p>
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00050">50</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">def </span><a class="code" href="namespaceclipping.html#a35e8ff08f4099c2406c9a357713a369a">dataFileInitializer</a>():</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">    Function used initialize the files in which sensor data will be stored; it will generate three files in the &#39;output&#39; folder</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment"># initialize files to store data</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">with</span> open(abs_file_path1, <span class="stringliteral">&#39;w&#39;</span>) <span class="keyword">as</span> file:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        writer = csv.writer(file)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        writer.writerow([<span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;X&quot;</span>, <span class="stringliteral">&quot;Y&quot;</span>, <span class="stringliteral">&quot;Z&quot;</span>])</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">with</span> open(abs_file_path2, <span class="stringliteral">&#39;w&#39;</span>) <span class="keyword">as</span> file:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        writer = csv.writer(file)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        writer.writerow([<span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;X&quot;</span>, <span class="stringliteral">&quot;Y&quot;</span>, <span class="stringliteral">&quot;Z&quot;</span>])</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">with</span> open(abs_file_path3, <span class="stringliteral">&#39;w&#39;</span>) <span class="keyword">as</span> file:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        writer = csv.writer(file)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        writer.writerow([<span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;X&quot;</span>, <span class="stringliteral">&quot;Y&quot;</span>, <span class="stringliteral">&quot;Z&quot;</span>])</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -318,7 +331,7 @@ the incoming linear acceleration through a clipping algorithm.
 <dl class="section return"><dt>Returns</dt><dd>returns a filtered version (if necessary) of the input linear acceleration without gravity </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00067">67</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">def </span>lin_acc_compensate(lin_acc_no_g, threshold):</div>
+<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">def </span><a class="code" href="namespaceclipping.html#af172465c4f8760f413a24ad7c5dc93c2">lin_acc_compensate</a>(lin_acc_no_g, threshold):</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="stringliteral">    Function used to filter unwanted minimal incoming data fluctuations,</span></div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="stringliteral">    due to noise as well as human operator shake</span></div>
@@ -340,10 +353,474 @@ the incoming linear acceleration through a clipping algorithm.
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a8c34047ecae692b16baa7a9306db9e2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c34047ecae692b16baa7a9306db9e2d">&#9670;&nbsp;</a></span>listener()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def clipping.listener </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The listener is used to instantiate the homonymous node and to subscribe to the android/imu_corected topic, from which it receives incoming data of smarthpone accelerometers. </p>
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00182">182</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+<div class="fragment"><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="keyword">def </span><a class="code" href="namespaceclipping.html#a8c34047ecae692b16baa7a9306db9e2d">listener</a>():</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="stringliteral">    The listener is used to instantiate the homonymous node and to subscribe to the android/imu_corected topic,</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="stringliteral">    from which it receives incoming data of smarthpone accelerometers</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="comment"># In ROS, nodes are uniquely named. If two nodes with the same</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="comment"># name are launched, the previous one is kicked off. The</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="comment"># anonymous = True flag means that rospy will choose a unique</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="comment"># name for our &#39;listener&#39; node so that multiple listeners can</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment"># run simultaneously.</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    rospy.init_node(<span class="stringliteral">&#39;clipping&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment"># This declares that your node subscribes to the android/imu topic,</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment"># which is of type sensor_msgs.msg.Imu. When new data is received,</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment"># callback is invoked with that data as argument.</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;/android/imu_corrected&quot;</span>, Imu, callback)</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="comment"># spin() simply keeps python from exiting until this node is stopped</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    rospy.spin()</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a0592327b674d9c61a52b4048f1ce4108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0592327b674d9c61a52b4048f1ce4108">&#9670;&nbsp;</a></span>storeDataInFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def clipping.storeDataInFiles </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>fileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>modality</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function which stores incoming data into .csv files @params fileName name of the generated file @params modality parameter requested by the open() function: 'a' stands for 'open for appending at the end of the file without truncating it' @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity) </p>
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00086">86</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+<div class="fragment"><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">def </span><a class="code" href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">storeDataInFiles</a>(fileName, modality, data):</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="stringliteral">    Function which stores incoming data into .csv files</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="stringliteral">    @params fileName name of the generated file</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="stringliteral">    @params modality parameter requested by the open() function: &#39;a&#39; stands for &#39;open for appending at the end of the file without truncating it&#39;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="stringliteral">    @params data data to be inserted in the .csv file (orientation/linear acceleration/angular velocity)</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">with</span> open(fileName, modality) <span class="keyword">as</span> file:</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        writer = csv.writer(file)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        writer.writerow([index, data[0], data[1], data[2]])</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aa8da1db9fa695d80388cd40a512f0504"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8da1db9fa695d80388cd40a512f0504">&#9670;&nbsp;</a></span>talker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def clipping.talker </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The talker is used to publish the refined data on the so called 'smartphone' topic. </p>
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00204">204</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+<div class="fragment"><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="keyword">def </span><a class="code" href="namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504">talker</a>(msg):</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="stringliteral">    The talker is used to publish the refined data on the so called &#39;smartphone&#39; topic</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    pub = rospy.Publisher(<span class="stringliteral">&#39;smartphone&#39;</span>, Imu, queue_size=10)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    pub.publish(msg)</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a6ee75d70b845da8ab4590c0c184b3a9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ee75d70b845da8ab4590c0c184b3a9c">&#9670;&nbsp;</a></span>abs_file_gravity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clipping.abs_file_gravity = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#a40dc8f801a6d3d31d0961379d6ca9539">rel_path_gravity</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00032">32</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="ab2a79c61ef4e3ba3cebdff6c4632fee4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2a79c61ef4e3ba3cebdff6c4632fee4">&#9670;&nbsp;</a></span>abs_file_path1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clipping.abs_file_path1 = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#af6eb332d3a2d24d13c70ef2f5546c0d3">rel_path1</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00024">24</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a23f780f18903fb04e6560650ee936fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23f780f18903fb04e6560650ee936fa1">&#9670;&nbsp;</a></span>abs_file_path2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clipping.abs_file_path2 = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#a71fe3c160af28982edb1749ea81308a3">rel_path2</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00026">26</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a1c26a0de4167786433848ddf043dd0ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c26a0de4167786433848ddf043dd0ab">&#9670;&nbsp;</a></span>abs_file_path3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clipping.abs_file_path3 = os.path.join(<a class="el" href="namespaceclipping.html#acc27d9174d32e3560344305305f3266b">script_dir</a>, <a class="el" href="namespaceclipping.html#a4c9ddedce2fc1502dc21cfcf394f8cc3">rel_path3</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00028">28</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a937106624563e50bdce6e396a1bbc4cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a937106624563e50bdce6e396a1bbc4cf">&#9670;&nbsp;</a></span>angular_velocity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list clipping.angular_velocity = [0, 0, 0]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00042">42</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a4f89dd00d3e26e419ad07d652353c09d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f89dd00d3e26e419ad07d652353c09d">&#9670;&nbsp;</a></span>counter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int clipping.counter = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00047">47</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a872c980bf1743645999652715493d1ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a872c980bf1743645999652715493d1ef">&#9670;&nbsp;</a></span>delta</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float clipping.delta = 0.05</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00040">40</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a14dc92c001ea2b7205201df8fa5b4b47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14dc92c001ea2b7205201df8fa5b4b47">&#9670;&nbsp;</a></span>flagWriteData</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int clipping.flagWriteData = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00035">35</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="ae51849e973c472eab0c06114a689e57b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae51849e973c472eab0c06114a689e57b">&#9670;&nbsp;</a></span>g</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list clipping.g = [0 ,0 ,0]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00044">44</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="aaf2e04ce27b3129636907ce8b28ab747"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf2e04ce27b3129636907ce8b28ab747">&#9670;&nbsp;</a></span>index</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int clipping.index = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00037">37</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="aaa9c45af65adbc814f8396980b26167a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa9c45af65adbc814f8396980b26167a">&#9670;&nbsp;</a></span>lin_acc_no_g</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list clipping.lin_acc_no_g = [0, 0, 0]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00041">41</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a141da8c0f07a405ef3f205067579144f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a141da8c0f07a405ef3f205067579144f">&#9670;&nbsp;</a></span>max_lin_acc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list clipping.max_lin_acc = [0, 0, 0]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00045">45</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a79cb0ad963b8cf030b2bcfc5675a83f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79cb0ad963b8cf030b2bcfc5675a83f0">&#9670;&nbsp;</a></span>maxIteration</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int clipping.maxIteration = 50</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00048">48</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="ac33e7b66a0ea7b9401550ecb54655abe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33e7b66a0ea7b9401550ecb54655abe">&#9670;&nbsp;</a></span>orientation</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list clipping.orientation = [0, 0, 0, 0]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00043">43</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="af6eb332d3a2d24d13c70ef2f5546c0d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6eb332d3a2d24d13c70ef2f5546c0d3">&#9670;&nbsp;</a></span>rel_path1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string clipping.rel_path1 = &quot;../output/lin_acc.csv&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00023">23</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a71fe3c160af28982edb1749ea81308a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71fe3c160af28982edb1749ea81308a3">&#9670;&nbsp;</a></span>rel_path2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string clipping.rel_path2 = &quot;../output/orientation.csv&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00025">25</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a4c9ddedce2fc1502dc21cfcf394f8cc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c9ddedce2fc1502dc21cfcf394f8cc3">&#9670;&nbsp;</a></span>rel_path3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string clipping.rel_path3 = &quot;../output/angVel.csv&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00027">27</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a40dc8f801a6d3d31d0961379d6ca9539"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40dc8f801a6d3d31d0961379d6ca9539">&#9670;&nbsp;</a></span>rel_path_gravity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string clipping.rel_path_gravity = &quot;../calibration/gravity.csv&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00031">31</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a2967eccca06269489b420ab17fe76c92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2967eccca06269489b420ab17fe76c92">&#9670;&nbsp;</a></span>safety_coeff</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float clipping.safety_coeff = 1.1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00046">46</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="acc27d9174d32e3560344305305f3266b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc27d9174d32e3560344305305f3266b">&#9670;&nbsp;</a></span>script_dir</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clipping.script_dir = os.path.dirname(__file__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00022">22</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
+<a id="a7a1488c3a0204855f4f4f1601f8812bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a1488c3a0204855f4f4f1601f8812bd">&#9670;&nbsp;</a></span>temp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">clipping.temp = pd.read_csv(<a class="el" href="namespaceclipping.html#a6ee75d70b845da8ab4590c0c184b3a9c">abs_file_gravity</a>, names=['X', 'Y', 'Z'], header=0, decimal=',')</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="clipping_8py_source.html#l00218">218</a> of file <a class="el" href="clipping_8py_source.html">clipping.py</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <div class="ttc" id="anamespacerotation__matrix__server_html_a1848f7eec568b1685bcc12a2e5a5b08f"><div class="ttname"><a href="namespacerotation__matrix__server.html#a1848f7eec568b1685bcc12a2e5a5b08f">rotation_matrix_server.callback</a></div><div class="ttdeci">def callback(data)</div><div class="ttdoc">This is the callback function: it is invoked every time there is incoming data.</div><div class="ttdef"><b>Definition:</b> <a href="rotation__matrix__server_8py_source.html#l00068">rotation_matrix_server.py:68</a></div></div>
+<div class="ttc" id="anamespaceclipping_html_a8c34047ecae692b16baa7a9306db9e2d"><div class="ttname"><a href="namespaceclipping.html#a8c34047ecae692b16baa7a9306db9e2d">clipping.listener</a></div><div class="ttdeci">def listener()</div><div class="ttdoc">The listener is used to instantiate the homonymous node and to subscribe to the android/imu_corected ...</div><div class="ttdef"><b>Definition:</b> <a href="clipping_8py_source.html#l00182">clipping.py:182</a></div></div>
 <div class="ttc" id="anamespaceremoveGravity_html"><div class="ttname"><a href="namespaceremoveGravity.html">removeGravity</a></div><div class="ttdef"><b>Definition:</b> <a href="removeGravity_8py_source.html#l00001">removeGravity.py:1</a></div></div>
+<div class="ttc" id="anamespaceclipping_html_af172465c4f8760f413a24ad7c5dc93c2"><div class="ttname"><a href="namespaceclipping.html#af172465c4f8760f413a24ad7c5dc93c2">clipping.lin_acc_compensate</a></div><div class="ttdeci">def lin_acc_compensate(lin_acc_no_g, threshold)</div><div class="ttdoc">Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human op...</div><div class="ttdef"><b>Definition:</b> <a href="clipping_8py_source.html#l00067">clipping.py:67</a></div></div>
+<div class="ttc" id="anamespaceclipping_html_a0592327b674d9c61a52b4048f1ce4108"><div class="ttname"><a href="namespaceclipping.html#a0592327b674d9c61a52b4048f1ce4108">clipping.storeDataInFiles</a></div><div class="ttdeci">def storeDataInFiles(fileName, modality, data)</div><div class="ttdoc">Function which stores incoming data into .csv files @params fileName name of the generated file @para...</div><div class="ttdef"><b>Definition:</b> <a href="clipping_8py_source.html#l00086">clipping.py:86</a></div></div>
 <div class="ttc" id="anamespacerotation__matrix__server_html_a7aaa0fb233a7f3aaaac351a1a8cd3ce3"><div class="ttname"><a href="namespacerotation__matrix__server.html#a7aaa0fb233a7f3aaaac351a1a8cd3ce3">rotation_matrix_server.eulerAnglesToRotationMatrix</a></div><div class="ttdeci">def eulerAnglesToRotationMatrix(angles)</div><div class="ttdoc">Function that transforms euler angle coordinates into the rotation matrix.</div><div class="ttdef"><b>Definition:</b> <a href="rotation__matrix__server_8py_source.html#l00024">rotation_matrix_server.py:24</a></div></div>
+<div class="ttc" id="anamespaceclipping_html_aa8da1db9fa695d80388cd40a512f0504"><div class="ttname"><a href="namespaceclipping.html#aa8da1db9fa695d80388cd40a512f0504">clipping.talker</a></div><div class="ttdeci">def talker(msg)</div><div class="ttdoc">The talker is used to publish the refined data on the so called 'smartphone' topic.</div><div class="ttdef"><b>Definition:</b> <a href="clipping_8py_source.html#l00204">clipping.py:204</a></div></div>
+<div class="ttc" id="anamespaceclipping_html_a35e8ff08f4099c2406c9a357713a369a"><div class="ttname"><a href="namespaceclipping.html#a35e8ff08f4099c2406c9a357713a369a">clipping.dataFileInitializer</a></div><div class="ttdeci">def dataFileInitializer()</div><div class="ttdoc">Function used initialize the files in which sensor data will be stored; it will generate three files ...</div><div class="ttdef"><b>Definition:</b> <a href="clipping_8py_source.html#l00050">clipping.py:50</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

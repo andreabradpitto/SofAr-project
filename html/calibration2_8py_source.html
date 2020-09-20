@@ -72,10 +72,10 @@ $(function() {
 <div class="title">calibration2.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacecalibration2.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<a href="calibration2_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacecalibration2.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&#39;&#39;&#39; \file pyexample</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;@package pyexample</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> rospy</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> tf</div>
@@ -85,19 +85,19 @@ $(function() {
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"># GLOBAL VARIABLES</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;pub_rot_matrices = rospy.Publisher(</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespacecalibration2.html#a7e7cbe182e92c26a1506676e38eb169e">   14</a></span>&#160;pub_rot_matrices = rospy.Publisher(</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="stringliteral">&#39;rot_matrices&#39;</span>, Float64MultiArray, queue_size=10)</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"># Since the calibration involves an human arm and not a robot manipulator,</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"># this orientation has been computed offline on Baxter arm model.</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"># q = [0, 0, .., 0]</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;R0e = np.array([[0,  0,  1],</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="namespacecalibration2.html#a1d4aeda07821ccf8a281a1769b94c616">   21</a></span>&#160;R0e = np.array([[0,  0,  1],</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                [0,  1,  0],</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                [-1,  0,  0]])</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"># determines the starting phase.</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;start = 0</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespacecalibration2.html#a055c86e4979dabb9ffe2e8c5f714b720">   26</a></span>&#160;start = 0</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="namespacecalibration2.html#adc99e1f9eefd926e91cd9e785005df94">   29</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacecalibration2.html#adc99e1f9eefd926e91cd9e785005df94">imu_ee_calibration</a>(data):</div>
@@ -144,7 +144,7 @@ $(function() {
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        start = 1</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">def </span>calibrate_orientation():</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="namespacecalibration2.html#ab20361e80faad56a05972dd525b91628">   73</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacecalibration2.html#ab20361e80faad56a05972dd525b91628">calibrate_orientation</a>():</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment"># In ROS, nodes are uniquely named. If two nodes with the same</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment"># name are launched, the previous one is kicked off. The</span></div>
@@ -161,8 +161,9 @@ $(function() {
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    calibrate_orientation()</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="namespacecalibration2.html#ab20361e80faad56a05972dd525b91628">calibrate_orientation</a>()</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespacecalibration2_html_ab20361e80faad56a05972dd525b91628"><div class="ttname"><a href="namespacecalibration2.html#ab20361e80faad56a05972dd525b91628">calibration2.calibrate_orientation</a></div><div class="ttdeci">def calibrate_orientation()</div><div class="ttdef"><b>Definition:</b> <a href="calibration2_8py_source.html#l00073">calibration2.py:73</a></div></div>
 <div class="ttc" id="anamespacecalibration2_html_adc99e1f9eefd926e91cd9e785005df94"><div class="ttname"><a href="namespacecalibration2.html#adc99e1f9eefd926e91cd9e785005df94">calibration2.imu_ee_calibration</a></div><div class="ttdeci">def imu_ee_calibration(data)</div><div class="ttdoc">Computes the orientation between 0 and global frame using an initial configuration.</div><div class="ttdef"><b>Definition:</b> <a href="calibration2_8py_source.html#l00029">calibration2.py:29</a></div></div>
 <div class="ttc" id="anamespacecalibration2_html_a135759f4bfd57e278f8b9c254fea9993"><div class="ttname"><a href="namespacecalibration2.html#a135759f4bfd57e278f8b9c254fea9993">calibration2.simulate_callback</a></div><div class="ttdeci">def simulate_callback(data)</div><div class="ttdoc">Waits for the start from handle simulation topic.</div><div class="ttdef"><b>Definition:</b> <a href="calibration2_8py_source.html#l00061">calibration2.py:61</a></div></div>
 <!-- start footer part -->

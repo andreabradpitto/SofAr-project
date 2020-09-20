@@ -91,23 +91,121 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afe24649b312db36184c63f1fe04b37b8"><td class="memItemLeft" align="right" valign="top"><a id="afe24649b312db36184c63f1fe04b37b8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">logtopicCallback</a> (const sensor_msgs::JointState::ConstPtr &amp;msg)</td></tr>
-<tr class="memdesc:afe24649b312db36184c63f1fe04b37b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Callback function allows to write both a timestamp and the joint configuration values in the log file. <br /></td></tr>
+<tr class="memitem:afe24649b312db36184c63f1fe04b37b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">logtopicCallback</a> (const sensor_msgs::JointState::ConstPtr &amp;msg)</td></tr>
+<tr class="memdesc:afe24649b312db36184c63f1fe04b37b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Callback function allows to write both a timestamp and the joint configuration values in the log file.  <a href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">More...</a><br /></td></tr>
 <tr class="separator:afe24649b312db36184c63f1fe04b37b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top"><a id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="logger_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
-<tr class="memdesc:a3c04138a5bfe5d72780bb7e82a18e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">The main function opens the log file, initiates the ROS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble. <br /></td></tr>
+<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="logger_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:a3c04138a5bfe5d72780bb7e82a18e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">The main function opens the log file, initiates the ROS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble.  <a href="logger_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">More...</a><br /></td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a3a6bd5f7cd72e0a16f4a2054b9a2e64e"><td class="memItemLeft" align="right" valign="top"><a id="a3a6bd5f7cd72e0a16f4a2054b9a2e64e"></a>
-FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a></td></tr>
-<tr class="memdesc:a3a6bd5f7cd72e0a16f4a2054b9a2e64e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The log file identifier is here declared. <br /></td></tr>
+<tr class="memitem:a3a6bd5f7cd72e0a16f4a2054b9a2e64e"><td class="memItemLeft" align="right" valign="top">FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a></td></tr>
+<tr class="memdesc:a3a6bd5f7cd72e0a16f4a2054b9a2e64e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The log file identifier is here declared.  <a href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">More...</a><br /></td></tr>
 <tr class="separator:a3a6bd5f7cd72e0a16f4a2054b9a2e64e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="afe24649b312db36184c63f1fe04b37b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe24649b312db36184c63f1fe04b37b8">&#9670;&nbsp;</a></span>logtopicCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void logtopicCallback </td>
+          <td>(</td>
+          <td class="paramtype">const sensor_msgs::JointState::ConstPtr &amp;&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The Callback function allows to write both a timestamp and the joint configuration values in the log file. </p>
+
+<p class="definition">Definition at line <a class="el" href="logger_8cpp_source.html#l00042">42</a> of file <a class="el" href="logger_8cpp_source.html">logger.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">char</span> st[50];</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    memset(st,0,<span class="keyword">sizeof</span>(st));</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">double</span> stamp = msg-&gt;header.stamp.toSec();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    sprintf(st,<span class="stringliteral">&quot;%f&quot;</span>,stamp);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    fprintf(<a class="code" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a>, <span class="stringliteral">&quot;%s %lf %lf %lf %lf %lf %lf %lf \n&quot;</span>, st, msg-&gt;position[0], msg-&gt;position[1], msg-&gt;position[2], msg-&gt;position[3], msg-&gt;position[4], msg-&gt;position[5], msg-&gt;position[6]);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c04138a5bfe5d72780bb7e82a18e627">&#9670;&nbsp;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The main function opens the log file, initiates the ROS subscriber to logtopic topic and calls the Callback function whenever some new data are avaialble. </p>
+
+<p class="definition">Definition at line <a class="el" href="logger_8cpp_source.html#l00054">54</a> of file <a class="el" href="logger_8cpp_source.html">logger.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;{</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a> = fopen(<span class="stringliteral">&quot;logger.txt&quot;</span>, <span class="stringliteral">&quot;w&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    ros::init(argc, argv, <span class="stringliteral">&quot;logger&quot;</span>); <span class="comment">//initialize the ros sys, giving it a name</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ros::NodeHandle n; <span class="comment">//obj of NodeHandle class</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    ros::Subscriber sub = n.subscribe(<span class="stringliteral">&quot;logtopic&quot;</span>, 1000, <a class="code" href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">logtopicCallback</a>); <span class="comment">//subscriber declaration</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ros::spin();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    fclose(<a class="code" href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a3a6bd5f7cd72e0a16f4a2054b9a2e64e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">&#9670;&nbsp;</a></span>myfile</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FILE* myfile</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The log file identifier is here declared. </p>
+
+<p class="definition">Definition at line <a class="el" href="logger_8cpp_source.html#l00038">38</a> of file <a class="el" href="logger_8cpp_source.html">logger.cpp</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
+<div class="ttc" id="alogger_8cpp_html_afe24649b312db36184c63f1fe04b37b8"><div class="ttname"><a href="logger_8cpp.html#afe24649b312db36184c63f1fe04b37b8">logtopicCallback</a></div><div class="ttdeci">void logtopicCallback(const sensor_msgs::JointState::ConstPtr &amp;msg)</div><div class="ttdoc">The Callback function allows to write both a timestamp and the joint configuration values in the log ...</div><div class="ttdef"><b>Definition:</b> <a href="logger_8cpp_source.html#l00042">logger.cpp:42</a></div></div>
+<div class="ttc" id="alogger_8cpp_html_a3a6bd5f7cd72e0a16f4a2054b9a2e64e"><div class="ttname"><a href="logger_8cpp.html#a3a6bd5f7cd72e0a16f4a2054b9a2e64e">myfile</a></div><div class="ttdeci">FILE * myfile</div><div class="ttdoc">The log file identifier is here declared.</div><div class="ttdef"><b>Definition:</b> <a href="logger_8cpp_source.html#l00038">logger.cpp:38</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

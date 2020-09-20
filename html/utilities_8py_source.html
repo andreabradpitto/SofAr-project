@@ -72,10 +72,10 @@ $(function() {
 <div class="title">utilities.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
+<a href="utilities_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespaceutilities.html">    1</a></span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">from</span> std_msgs.msg <span class="keyword">import</span> Float64MultiArray, MultiArrayDimension</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">def </span>init_float64_multiarray(rows,columns):</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="namespaceutilities.html#a4d7d9250bceb72af0c0fd04fcba4d65c">    4</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceutilities.html#a4d7d9250bceb72af0c0fd04fcba4d65c">init_float64_multiarray</a>(rows,columns):</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">    Function that initializes a Float64MultiArray of size rows x columns.</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">    @param rows: Number of rows of the returned multiarray.</span></div>
@@ -91,7 +91,7 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    a.layout.dim[1].size = columns</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">return</span> a</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">def </span>anglesCompensate(angles):</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="namespaceutilities.html#a5b3c2758714a834945ec4a1e415eb41b">   20</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceutilities.html#a5b3c2758714a834945ec4a1e415eb41b">anglesCompensate</a>(angles):</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">    Function used to filter unwanted minimal incoming data fluctuations,</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">    due to noise as well as human operator shake</span></div>
@@ -108,7 +108,7 @@ $(function() {
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> compensatedAngles</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">def </span>eulerAnglesToRotationMatrix(angles):  <span class="comment"># angles [roll, pitch, yaw]</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="namespaceutilities.html#ad0d6881ae2e8a12deb7d14105f17e4fb">   37</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceutilities.html#ad0d6881ae2e8a12deb7d14105f17e4fb">eulerAnglesToRotationMatrix</a>(angles):  <span class="comment"># angles [roll, pitch, yaw]</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">    Function that transforms euler angle coordinates into the rotation matrix</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">    @param angles: euler angles, i.e. orientation with respect to X, Y, Z axes</span></div>
@@ -134,6 +134,9 @@ $(function() {
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">return</span> R</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespaceutilities_html_ad0d6881ae2e8a12deb7d14105f17e4fb"><div class="ttname"><a href="namespaceutilities.html#ad0d6881ae2e8a12deb7d14105f17e4fb">utilities.eulerAnglesToRotationMatrix</a></div><div class="ttdeci">def eulerAnglesToRotationMatrix(angles)</div><div class="ttdoc">Function that transforms euler angle coordinates into the rotation matrix.</div><div class="ttdef"><b>Definition:</b> <a href="utilities_8py_source.html#l00037">utilities.py:37</a></div></div>
+<div class="ttc" id="anamespaceutilities_html_a4d7d9250bceb72af0c0fd04fcba4d65c"><div class="ttname"><a href="namespaceutilities.html#a4d7d9250bceb72af0c0fd04fcba4d65c">utilities.init_float64_multiarray</a></div><div class="ttdeci">def init_float64_multiarray(rows, columns)</div><div class="ttdoc">Function that initializes a Float64MultiArray of size rows x columns.</div><div class="ttdef"><b>Definition:</b> <a href="utilities_8py_source.html#l00004">utilities.py:4</a></div></div>
+<div class="ttc" id="anamespaceutilities_html_a5b3c2758714a834945ec4a1e415eb41b"><div class="ttname"><a href="namespaceutilities.html#a5b3c2758714a834945ec4a1e415eb41b">utilities.anglesCompensate</a></div><div class="ttdeci">def anglesCompensate(angles)</div><div class="ttdoc">Function used to filter unwanted minimal incoming data fluctuations, due to noise as well as human op...</div><div class="ttdef"><b>Definition:</b> <a href="utilities_8py_source.html#l00020">utilities.py:20</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

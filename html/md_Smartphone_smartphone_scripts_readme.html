@@ -94,13 +94,13 @@ How to run the package</h1>
 <li>It is possible to open another terminal and subscribe to the <em>android/imu</em> topic, by typing <b>rostopic echo /android/imu</b>, in order to check the incoming data.</li>
 </ul>
 </li>
-<li>In a second terminal, type <b>rosrun imu_calib do_calib</b> and start calibrating the smartphone IMU, following on-screen instructions. Then, apply the performed calibration by using <b>rosrun imu_calib apply_calib</b>. The calibration parameters are stored in <em>imu_calib.yaml</em>, available in the current user's home folder.<ul>
+<li>In a second terminal, type <b>rosrun <a class="el" href="namespaceimu__calib.html">imu_calib</a> do_calib</b> and start calibrating the smartphone IMU, following on-screen instructions. Then, apply the performed calibration by using <b>rosrun <a class="el" href="namespaceimu__calib.html">imu_calib</a> apply_calib</b>. The calibration parameters are stored in <em>imu_calib.yaml</em>, available in the current user's home folder.<ul>
 <li>Again, it is possible to open another terminal and type <b>rostopic echo /android/imu_corrected</b>, in order to view the incoming calibrated data.</li>
 </ul>
 </li>
-<li>In a third terminal, type <b>rosrun smartphone <a class="el" href="computeGravity_8py_source.html">computeGravity.py</a></b> to start collecting IMU data and removing the gravity influence from incoming linear acceleration samples. Notice that this step is needed only if executing the whole <em>SofAr-project</em>. Otherwise, gravity gets already neglected in the next step.</li>
-<li>In a fourth terminal, launch <b>rosrun smartphone <a class="el" href="clipping_8py_source.html">clipping.py</a></b> to start clipping IMU data, when needed, and removing the gravity influence from incoming linear acceleration samples.<ul>
-<li>Remember to set <em>flagWriteData = 1</em> in the python file if you want to analyze incoming data through plots. Otherwise set <em>flagWriteData = 0</em> to skip the offline analysis. If <em>flagWriteData</em> is set to 1, then also run <b>rosrun smartphone <a class="el" href="offlineAnalysis_8py_source.html">offlineAnalysis.py</a></b> in yet another terminal, in order to plot the data obtained by running <em><a class="el" href="clipping_8py_source.html">clipping.py</a></em> </li>
+<li>In a third terminal, type <b>rosrun smartphone computeGravity.py</b> to start collecting IMU data and removing the gravity influence from incoming linear acceleration samples. Notice that this step is needed only if executing the whole <em>SofAr-project</em>. Otherwise, gravity gets already neglected in the next step.</li>
+<li>In a fourth terminal, launch <b>rosrun smartphone clipping.py</b> to start clipping IMU data, when needed, and removing the gravity influence from incoming linear acceleration samples.<ul>
+<li>Remember to set <em>flagWriteData = 1</em> in the python file if you want to analyze incoming data through plots. Otherwise set <em>flagWriteData = 0</em> to skip the offline analysis. If <em>flagWriteData</em> is set to 1, then also run <b>rosrun smartphone offlineAnalysis.py</b> in yet another terminal, in order to plot the data obtained by running <em>clipping.py</em> </li>
 </ul>
 </li>
 </ol>

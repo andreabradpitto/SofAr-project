@@ -68,7 +68,9 @@ $(function() {
 <div class="title">SofAr-project </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand. <br  />
+<div class="textblock"><p align="center"><a class="anchor" id="md_README"></a> </p>
+<p>&lt;img height="500" width="500" src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Image.jpeg?raw=true "Title""&gt; </p>
+<p>The project's goal was to design and implement a software component for the teleoperation of the Baxter robot simulation in Coppelia. The teleoperation works as follows: the human operator moves its arm keeping a smartphone into its hand, and the sensor data from the smartphone's IMU is sent to the software and used to allow Baxter's end-effector to follow the trajectory and orientation of the human hand. <br  />
  The project's original goal was actually to not only track the end-effector's configuration, but also to replicate the motion of the human arm into Baxter's, using Mocap technology; this idea, as well as the objective of using the software on the real robot, were later rejected due to the Covid emergence and the consequent impossibility of access the EMARO Lab. <br  />
  Unfortunately, the elimination of the position measurement with the motion capture do not allow the perfect tracking, but the developed modules try to work inside this limitation. <br  />
 </p>
@@ -98,6 +100,10 @@ Installing</h2>
 <p>In order to have a working version of this package running on your computer, you need to: <br  />
 </p><ul>
 <li>Place the package in the src folder of your src foulder of the catkin workspace, and having it named "SofAr-project"</li>
+<li>In case the folder "SofAr-project/Math/imu_calib" is empty, you can solve it with the same code <div class="fragment"><div class="line">cd SofAr-project/Smartphone</div>
+<div class="line">rm <a class="code" href="namespaceimu__calib.html">imu_calib</a></div>
+<div class="line">git clone https:<span class="comment">//github.com/dpkoch/imu_calib</span></div>
+</div><!-- fragment --></li>
 <li>Have the Coppelia environment foulder in any place under the HOME directory (it is advised to put it on the Desktop or directly in HOME)</li>
 <li>If you don't have the following libraries installed on your system procede with this code <div class="fragment"><div class="line">python -m pip install numpy</div>
 <div class="line">python -m pip install -U matplotlib</div>
@@ -105,7 +111,7 @@ Installing</h2>
 <div class="line">sudo apt-get install python-scipy</div>
 <div class="line">sudo apt-get install ros-kinetic-cmake-modules</div>
 </div><!-- fragment --></li>
-<li>Change the current directory to "SofAr-project" and activate the <a class="el" href="install_8sh_source.html">install.sh</a> script <div class="fragment"><div class="line">cd <span class="stringliteral">&quot;Your catkin workspace&quot;</span>/src/SofAr-project</div>
+<li>Change the current directory to "SofAr-project" and activate the <a class="el" href="install_8sh.html">install.sh</a> script <div class="fragment"><div class="line">cd <span class="stringliteral">&quot;Your catkin workspace&quot;</span>/src/SofAr-project</div>
 <div class="line">chmod +x install.sh</div>
 </div><!-- fragment --></li>
 <li>Install the package via dedicated script <div class="fragment"><div class="line">./install.sh</div>
@@ -121,15 +127,14 @@ Running the tests: running the simulation without the smartphone to inspect that
  When stopped (not paused) you can type "set_default" to set the starting configuration. <br  />
  Once you are done, you can type "exit" and press enter to close all this project components. <br  />
  The movement that should be obtained in this test is the increment of the first joint angular position, as can be seen in the animation. <br  />
-</p>
-<h2><a class="anchor" id="autotoc_md5"></a>
+ </p><div align="center"> <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Animated%20GIF-downsized_large.gif" alt="" height="500" width="500" class="inline"/> </div><h2><a class="anchor" id="autotoc_md5"></a>
 Deployment</h2>
 <p>Here we are going to present how to use the software to attempt a tracking of the user arm using the data from the smartphone sensor. <br  />
  Note: when you are asked to take the phone in your hand during the procedures, you are to take it in your right hand, arm stretched, horizontal and at more or less 45 degrees with respect to the plane of the chest, with the smartphone screen vertical, facing you, and the camera in the direction of the thumb. When you give the command "calibration", you can take it as you are most comfortable. <br  />
  To use the whole system at once, the following action have to take place: <br  />
 </p><ul>
 <li>Start the smartphone application</li>
-<li>Verify the IP address to be inserted in the app <div class="fragment"><div class="line">ifconfig wlan0 | grep <span class="stringliteral">&quot;inet &quot;</span> | awk -F<span class="stringliteral">&#39;[: ]+&#39;</span> <span class="stringliteral">&#39;{ print $4 }&#39;</span></div>
+<li>Verify the IP address to be inserted in the app <div class="fragment"><div class="line">hostname -I</div>
 </div><!-- fragment --></li>
 <li>Start the software on the computer with the following commands <div class="fragment"><div class="line">cd <span class="stringliteral">&quot;Your catkin workspace&quot;</span>/src/SofAr-project</div>
 <div class="line">./launcher.sh</div>
@@ -152,6 +157,7 @@ License</h2>
 <p>This project is licensed under the MIT License - see the LICENSE.md file for details. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
+<div class="ttc" id="anamespaceimu__calib_html"><div class="ttname"><a href="namespaceimu__calib.html">imu_calib</a></div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00046">accel_calib.h:47</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

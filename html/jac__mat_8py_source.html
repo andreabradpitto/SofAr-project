@@ -72,7 +72,7 @@ $(function() {
 <div class="title">jac_mat.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<a href="jac__mat_8py.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="namespacejac__mat.html">    1</a></span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># Software License Agreement (BSD License)</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">#</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
@@ -96,12 +96,12 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">from</span> math_pkg.srv <span class="keyword">import</span> IK_JTAResponse</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"># Flags to define Availability of the data required by the Service</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;readyErr = <span class="keyword">False</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;readyJ = <span class="keyword">False</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;readyVel = <span class="keyword">False</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a85ca3feeaa6ba1dfd16285a59c4ef174">   25</a></span>&#160;readyErr = <span class="keyword">False</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#af336a5a7bf90772409bbb56da3c600c9">   26</a></span>&#160;readyJ = <span class="keyword">False</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a707dd549cfb0f1316be715adebc23f90">   27</a></span>&#160;readyVel = <span class="keyword">False</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">def </span>sat(x, xmin, xmax):</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#acea62356e13dcd40a0f7b69288cb1ff8">   30</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#acea62356e13dcd40a0f7b69288cb1ff8">sat</a>(x, xmin, xmax):</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    Saturates the input value in the given interval</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">    @param x: value to saturate</span></div>
@@ -116,7 +116,7 @@ $(function() {
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> x</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">def </span>bell(s):</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a701c95f46a60e0d4735aa9f3b9d1c0ad">   45</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#a701c95f46a60e0d4735aa9f3b9d1c0ad">bell</a>(s):</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">    Creates a bell shaped function to regularize singular values</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">    @param s: singular value</span></div>
@@ -129,7 +129,7 @@ $(function() {
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> p</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">def </span>regularized_pseudoinverse(J):</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a1b70eedcec80991a4a9e4befb0d4f72a">   58</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#a1b70eedcec80991a4a9e4befb0d4f72a">regularized_pseudoinverse</a>(J):</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">    Computes the regularized pseudo inverse of mxn matrix J </span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">    by applying svd decomposition and multiplication for bell shaped function</span></div>
@@ -147,7 +147,7 @@ $(function() {
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(cols):</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(rows):</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">if</span> i == j:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                Sx[i][j] = s[i]/(s[i]**2 + bell(s[i])**2)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                Sx[i][j] = s[i]/(s[i]**2 + <a class="code" href="namespacejac__mat.html#a701c95f46a60e0d4735aa9f3b9d1c0ad">bell</a>(s[i])**2)</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    Ut = U.transpose()</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    V = Vt.transpose()</div>
@@ -158,7 +158,7 @@ $(function() {
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">return</span> Jx</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">def </span>calculations_6(q_coppelia):</div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a860043b48277a9033f9576db20cc1c63">   87</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#a860043b48277a9033f9576db20cc1c63">calculations_6</a>(q_coppelia):</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="stringliteral">    Builds the 6 dof Jacobian by computing the transformation matrices,</span></div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="stringliteral">    extracting the geometric vectors from the results and finally building the matrix.</span></div>
@@ -219,7 +219,7 @@ $(function() {
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">return</span> Js</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keyword">def </span>jacobian_callback(data):</div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a3f8d14b0577487e6feb88e38d5518ad5">  148</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#a3f8d14b0577487e6feb88e38d5518ad5">jacobian_callback</a>(data):</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="stringliteral">    Callback Function for the Joints Positions</span></div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
@@ -234,7 +234,7 @@ $(function() {
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Joint positions: %s\n&quot;</span>, str(q_coppelia))</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="comment"># Compute the matrix</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    J_6 = calculations_6(q_coppelia)</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    J_6 = <a class="code" href="namespacejac__mat.html#a860043b48277a9033f9576db20cc1c63">calculations_6</a>(q_coppelia)</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Jacobian:\n%s\n&quot;</span>, J_6)</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
@@ -242,7 +242,7 @@ $(function() {
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    readyJ = <span class="keyword">True</span></div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keyword">def </span>error_callback(message):</div>
+<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#ab6fa90b8afa2d953a8f166c55b4792c5">  171</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#ab6fa90b8afa2d953a8f166c55b4792c5">error_callback</a>(message):</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="stringliteral">   Callback Function for the error on the position of the ee</span></div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
@@ -258,7 +258,7 @@ $(function() {
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    readyErr = <span class="keyword">True</span></div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="keyword">def </span>vel_callback(message):</div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a12b4ec5da8077136f06320ce5d577407">  187</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#a12b4ec5da8077136f06320ce5d577407">vel_callback</a>(message):</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="stringliteral">    Callback Function for the linear and angular velocities of the ee</span></div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
@@ -272,7 +272,7 @@ $(function() {
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    readyVel = <span class="keyword">True</span></div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keyword">def </span>handle_IK_JAnalytic(req):</div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a79b5770d439fef38364187d16902bf41">  201</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#a79b5770d439fef38364187d16902bf41">handle_IK_JAnalytic</a>(req):</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;!</span></div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="stringliteral">    Handler for the Server: computes the ee velocity Vee and the joint velocities vector q_dot </span></div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="stringliteral">        Vee is computed as: Vee = vel + K*error</span></div>
@@ -302,7 +302,7 @@ $(function() {
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        K = 10</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="comment"># Inverse of the 6dof jacobian</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        J_inv = regularized_pseudoinverse(J_6)</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        J_inv = <a class="code" href="namespacejac__mat.html#a1b70eedcec80991a4a9e4befb0d4f72a">regularized_pseudoinverse</a>(J_6)</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="comment"># Ee velocity</span></div>
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        vee = vel+K*error</div>
@@ -312,53 +312,58 @@ $(function() {
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="comment"># q_dot saturation</span></div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(6):</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            q_dot_6[i] = sat(q_dot_6[i], -1, 1)</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            q_dot_6[i] = <a class="code" href="namespacejac__mat.html#acea62356e13dcd40a0f7b69288cb1ff8">sat</a>(q_dot_6[i], -1, 1)</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="comment"># Since the third Joint is blocked, its velocity must be set to 0</span></div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        q_dot.velocity = np.insert(q_dot_6, 2, 0)</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="comment"># Set vee to multiarray</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        veeMultiArray = init_float64_multiarray(6, 1)</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        veeMultiArray.data = vee</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; </div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="keywordflow">return</span> IK_JTAResponse(q_dot, veeMultiArray)</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html">jac_mat</a>():</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="stringliteral">    This ROS node computes the 6dof analytic jacobian. </span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="stringliteral">    It subscribes to the following topics: errors, tracking, logtopic. </span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="stringliteral">    It also works as a server for the IK_JTA service, on which it sends </span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="stringliteral">    the q_dot and the end effector velocity computed by the algorithm.</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="comment"># Init node</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    rospy.init_node(<span class="stringliteral">&#39;jac_mat&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Server Analytic Initialized\n&quot;</span>)</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="comment"># Subscribe for error positions</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;errors&quot;</span>, Float64MultiArray, error_callback)</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="comment"># Subscribe for ee velocity</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;tracking&quot;</span>, Float64MultiArray, vel_callback)</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="comment"># Subscribe for joint positions</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;logtopic&quot;</span>, JointState, jacobian_callback)</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="comment"># Service Definition</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    s_vel = rospy.Service(<span class="stringliteral">&#39;IK_JAnalytic&#39;</span>, IK_JTA, handle_IK_JAnalytic)</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    rospy.spin()</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <a class="code" href="namespacejac__mat.html">jac_mat</a>()</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="keywordflow">except</span> rospy.ROSInterruptException:</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordflow">return</span> IK_JTAResponse(q_dot)</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno"><a class="line" href="namespacejac__mat.html#a8e223e62c8624094cfa20b52b1c098f0">  249</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespacejac__mat.html#a8e223e62c8624094cfa20b52b1c098f0">jac_mat</a>():</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="stringliteral">    This ROS node computes the 6dof analytic jacobian. </span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="stringliteral">    It subscribes to the following topics: errors, tracking, logtopic. </span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="stringliteral">    It also works as a server for the IK_JTA service, on which it sends </span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="stringliteral">    the q_dot and the end effector velocity computed by the algorithm.</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="comment"># Init node</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    rospy.init_node(<span class="stringliteral">&#39;jac_mat&#39;</span>, anonymous=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Server Analytic Initialized\n&quot;</span>)</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="comment"># Subscribe for error positions</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;errors&quot;</span>, Float64MultiArray, error_callback)</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="comment"># Subscribe for ee velocity</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;tracking&quot;</span>, Float64MultiArray, vel_callback)</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="comment"># Subscribe for joint positions</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    rospy.Subscriber(<span class="stringliteral">&quot;logtopic&quot;</span>, JointState, jacobian_callback)</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="comment"># Service Definition</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    s_vel = rospy.Service(<span class="stringliteral">&#39;IK_JAnalytic&#39;</span>, IK_JTA, handle_IK_JAnalytic)</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    rospy.spin()</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <a class="code" href="namespacejac__mat.html">jac_mat</a>()</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordflow">except</span> rospy.ROSInterruptException:</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keywordflow">pass</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespacejac__mat_html_a860043b48277a9033f9576db20cc1c63"><div class="ttname"><a href="namespacejac__mat.html#a860043b48277a9033f9576db20cc1c63">jac_mat.calculations_6</a></div><div class="ttdeci">def calculations_6(q_coppelia)</div><div class="ttdoc">Builds the 6 dof Jacobian by computing the transformation matrices, extracting the geometric vectors ...</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00087">jac_mat.py:87</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_a79b5770d439fef38364187d16902bf41"><div class="ttname"><a href="namespacejac__mat.html#a79b5770d439fef38364187d16902bf41">jac_mat.handle_IK_JAnalytic</a></div><div class="ttdeci">def handle_IK_JAnalytic(req)</div><div class="ttdoc">Handler for the Server: computes the ee velocity Vee and the joint velocities vector q_dot Vee is com...</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00201">jac_mat.py:201</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_a8e223e62c8624094cfa20b52b1c098f0"><div class="ttname"><a href="namespacejac__mat.html#a8e223e62c8624094cfa20b52b1c098f0">jac_mat.jac_mat</a></div><div class="ttdeci">def jac_mat()</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00249">jac_mat.py:249</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_ab6fa90b8afa2d953a8f166c55b4792c5"><div class="ttname"><a href="namespacejac__mat.html#ab6fa90b8afa2d953a8f166c55b4792c5">jac_mat.error_callback</a></div><div class="ttdeci">def error_callback(message)</div><div class="ttdoc">Callback Function for the error on the position of the ee.</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00171">jac_mat.py:171</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_a12b4ec5da8077136f06320ce5d577407"><div class="ttname"><a href="namespacejac__mat.html#a12b4ec5da8077136f06320ce5d577407">jac_mat.vel_callback</a></div><div class="ttdeci">def vel_callback(message)</div><div class="ttdoc">Callback Function for the linear and angular velocities of the ee.</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00187">jac_mat.py:187</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_a1b70eedcec80991a4a9e4befb0d4f72a"><div class="ttname"><a href="namespacejac__mat.html#a1b70eedcec80991a4a9e4befb0d4f72a">jac_mat.regularized_pseudoinverse</a></div><div class="ttdeci">def regularized_pseudoinverse(J)</div><div class="ttdoc">Computes the regularized pseudo inverse of mxn matrix J by applying svd decomposition and multiplicat...</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00058">jac_mat.py:58</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_acea62356e13dcd40a0f7b69288cb1ff8"><div class="ttname"><a href="namespacejac__mat.html#acea62356e13dcd40a0f7b69288cb1ff8">jac_mat.sat</a></div><div class="ttdeci">def sat(x, xmin, xmax)</div><div class="ttdoc">Saturates the input value in the given interval.</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00030">jac_mat.py:30</a></div></div>
 <div class="ttc" id="anamespacejac__mat_html"><div class="ttname"><a href="namespacejac__mat.html">jac_mat</a></div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00001">jac_mat.py:1</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_a3f8d14b0577487e6feb88e38d5518ad5"><div class="ttname"><a href="namespacejac__mat.html#a3f8d14b0577487e6feb88e38d5518ad5">jac_mat.jacobian_callback</a></div><div class="ttdeci">def jacobian_callback(data)</div><div class="ttdoc">Callback Function for the Joints Positions.</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00148">jac_mat.py:148</a></div></div>
+<div class="ttc" id="anamespacejac__mat_html_a701c95f46a60e0d4735aa9f3b9d1c0ad"><div class="ttname"><a href="namespacejac__mat.html#a701c95f46a60e0d4735aa9f3b9d1c0ad">jac_mat.bell</a></div><div class="ttdeci">def bell(s)</div><div class="ttdoc">Creates a bell shaped function to regularize singular values.</div><div class="ttdef"><b>Definition:</b> <a href="jac__mat_8py_source.html#l00045">jac_mat.py:45</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

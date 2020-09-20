@@ -64,24 +64,82 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>imu_calib</b></li><li class="navelem"><a class="el" href="classimu__calib_1_1ApplyCalib.html">ApplyCalib</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceimu__calib.html">imu_calib</a></li><li class="navelem"><a class="el" href="classimu__calib_1_1ApplyCalib.html">ApplyCalib</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classimu__calib_1_1ApplyCalib-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">imu_calib::ApplyCalib Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="apply__calib_8h_source.html">apply_calib.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a5ed14e1f90337a4b02ea92d0af4c3b2b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimu__calib_1_1ApplyCalib.html#a5ed14e1f90337a4b02ea92d0af4c3b2b">ApplyCalib</a> ()</td></tr>
+<tr class="separator:a5ed14e1f90337a4b02ea92d0af4c3b2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="apply__calib_8h_source.html#l00050">50</a> of file <a class="el" href="apply__calib_8h_source.html">apply_calib.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a5ed14e1f90337a4b02ea92d0af4c3b2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed14e1f90337a4b02ea92d0af4c3b2b">&#9670;&nbsp;</a></span>ApplyCalib()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">imu_calib::ApplyCalib::ApplyCalib </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="apply__calib_8cpp_source.html#l00047">47</a> of file <a class="el" href="apply__calib_8cpp_source.html">apply_calib.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                       :</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  gyro_sample_count_(0),</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  gyro_bias_x_(0.0),</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  gyro_bias_y_(0.0),</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  gyro_bias_z_(0.0)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;{</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  ros::NodeHandle nh;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  ros::NodeHandle nh_private(<span class="stringliteral">&quot;~&quot;</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  std::string calib_file;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  nh_private.param&lt;std::string&gt;(<span class="stringliteral">&quot;calib_file&quot;</span>, calib_file, <span class="stringliteral">&quot;imu_calib.yaml&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">if</span> (!calib_.<a class="code" href="classimu__calib_1_1AccelCalib.html#a2ca5069a85da989629cb248bef0f4959">loadCalib</a>(calib_file) || !calib_.<a class="code" href="classimu__calib_1_1AccelCalib.html#acc7eb6a4caca3c0193c555057de85e55">calibReady</a>())</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ROS_FATAL(<span class="stringliteral">&quot;Calibration could not be loaded&quot;</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    ros::shutdown();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  nh_private.param&lt;<span class="keywordtype">bool</span>&gt;(<span class="stringliteral">&quot;calibrate_gyros&quot;</span>, calibrate_gyros_, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  nh_private.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;gyro_calib_samples&quot;</span>, gyro_calib_samples_, 100);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordtype">int</span> queue_size;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  nh_private.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;queue_size&quot;</span>, queue_size, 5);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  raw_sub_ = nh.subscribe(<span class="stringliteral">&quot;raw&quot;</span>, queue_size, &amp;ApplyCalib::rawImuCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  corrected_pub_ = nh.advertise&lt;sensor_msgs::Imu&gt;(<span class="stringliteral">&quot;corrected&quot;</span>, queue_size);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>Smartphone/imu_calib/include/imu_calib/<a class="el" href="apply__calib_8h_source.html">apply_calib.h</a></li>
 <li>Smartphone/imu_calib/src/<a class="el" href="apply__calib_8cpp_source.html">apply_calib.cpp</a></li>
 </ul>
 </div><!-- contents -->
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_acc7eb6a4caca3c0193c555057de85e55"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#acc7eb6a4caca3c0193c555057de85e55">imu_calib::AccelCalib::calibReady</a></div><div class="ttdeci">bool calibReady()</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8cpp_source.html#l00064">accel_calib.cpp:64</a></div></div>
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a2ca5069a85da989629cb248bef0f4959"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a2ca5069a85da989629cb248bef0f4959">imu_calib::AccelCalib::loadCalib</a></div><div class="ttdeci">bool loadCalib(std::string calib_file)</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8cpp_source.html#l00069">accel_calib.cpp:69</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

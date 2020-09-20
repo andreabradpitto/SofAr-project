@@ -64,7 +64,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>imu_calib</b></li><li class="navelem"><a class="el" href="classimu__calib_1_1DoCalib.html">DoCalib</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceimu__calib.html">imu_calib</a></li><li class="navelem"><a class="el" href="classimu__calib_1_1DoCalib.html">DoCalib</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -75,21 +75,98 @@ $(function() {
 <div class="title">imu_calib::DoCalib Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="do__calib_8h_source.html">do_calib.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a273cee2f416921782ecf753bcd92f51d"><td class="memItemLeft" align="right" valign="top"><a id="a273cee2f416921782ecf753bcd92f51d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>running</b> ()</td></tr>
+<tr class="memitem:a6c84655a767ec840bfba16a8206534b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimu__calib_1_1DoCalib.html#a6c84655a767ec840bfba16a8206534b6">DoCalib</a> ()</td></tr>
+<tr class="separator:a6c84655a767ec840bfba16a8206534b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273cee2f416921782ecf753bcd92f51d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classimu__calib_1_1DoCalib.html#a273cee2f416921782ecf753bcd92f51d">running</a> ()</td></tr>
 <tr class="separator:a273cee2f416921782ecf753bcd92f51d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="do__calib_8h_source.html#l00054">54</a> of file <a class="el" href="do__calib_8h_source.html">do_calib.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6c84655a767ec840bfba16a8206534b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c84655a767ec840bfba16a8206534b6">&#9670;&nbsp;</a></span>DoCalib()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">imu_calib::DoCalib::DoCalib </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="do__calib_8cpp_source.html#l00047">47</a> of file <a class="el" href="do__calib_8cpp_source.html">do_calib.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                 :</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  state_(START)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  ros::NodeHandle nh;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  imu_sub_ = nh.subscribe(<span class="stringliteral">&quot;imu&quot;</span>, 1, &amp;DoCalib::imuCallback, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  ros::NodeHandle nh_private(<span class="stringliteral">&quot;~&quot;</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  nh_private.param&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;measurements&quot;</span>, measurements_per_orientation_, 500);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  nh_private.param&lt;<span class="keywordtype">double</span>&gt;(<span class="stringliteral">&quot;reference_acceleration&quot;</span>, reference_acceleration_, 9.80665);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  nh_private.param&lt;std::string&gt;(<span class="stringliteral">&quot;output_file&quot;</span>, output_file_, <span class="stringliteral">&quot;imu_calib.yaml&quot;</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  orientations_.push(<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157">AccelCalib::XPOS</a>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  orientations_.push(<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618">AccelCalib::XNEG</a>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  orientations_.push(<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812">AccelCalib::YPOS</a>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  orientations_.push(<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a">AccelCalib::YNEG</a>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  orientations_.push(<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c">AccelCalib::ZPOS</a>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  orientations_.push(<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9">AccelCalib::ZNEG</a>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  orientation_labels_[<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157">AccelCalib::XPOS</a>] = <span class="stringliteral">&quot;X+&quot;</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  orientation_labels_[<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618">AccelCalib::XNEG</a>] = <span class="stringliteral">&quot;X-&quot;</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  orientation_labels_[<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812">AccelCalib::YPOS</a>] = <span class="stringliteral">&quot;Y+&quot;</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  orientation_labels_[<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a">AccelCalib::YNEG</a>] = <span class="stringliteral">&quot;Y-&quot;</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  orientation_labels_[<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c">AccelCalib::ZPOS</a>] = <span class="stringliteral">&quot;Z+&quot;</span>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  orientation_labels_[<a class="code" href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9">AccelCalib::ZNEG</a>] = <span class="stringliteral">&quot;Z-&quot;</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a273cee2f416921782ecf753bcd92f51d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a273cee2f416921782ecf753bcd92f51d">&#9670;&nbsp;</a></span>running()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool imu_calib::DoCalib::running </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="do__calib_8cpp_source.html#l00073">73</a> of file <a class="el" href="do__calib_8cpp_source.html">do_calib.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">return</span> state_ != DONE;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>Smartphone/imu_calib/include/imu_calib/<a class="el" href="do__calib_8h_source.html">do_calib.h</a></li>
 <li>Smartphone/imu_calib/src/<a class="el" href="do__calib_8cpp_source.html">do_calib.cpp</a></li>
 </ul>
 </div><!-- contents -->
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da9de5100825c00cc281ccf44e94e47812">imu_calib::AccelCalib::YPOS</a></div><div class="ttdeci">@ YPOS</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00053">accel_calib.h:53</a></div></div>
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da4bc2c410d31569005d1edb8b337b5157">imu_calib::AccelCalib::XPOS</a></div><div class="ttdeci">@ XPOS</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00053">accel_calib.h:53</a></div></div>
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da5b4c1463bbe13e754b18bdae97633618">imu_calib::AccelCalib::XNEG</a></div><div class="ttdeci">@ XNEG</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00053">accel_calib.h:53</a></div></div>
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4dadc79807dedb9d4bd481ab0835b35a4b9">imu_calib::AccelCalib::ZNEG</a></div><div class="ttdeci">@ ZNEG</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00053">accel_calib.h:53</a></div></div>
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da6794054bd9c86e16accba16da553c66a">imu_calib::AccelCalib::YNEG</a></div><div class="ttdeci">@ YNEG</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00053">accel_calib.h:53</a></div></div>
+<div class="ttc" id="aclassimu__calib_1_1AccelCalib_html_a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c"><div class="ttname"><a href="classimu__calib_1_1AccelCalib.html#a8cb57ad50b2c7aa267a75b72ec54be4da2238c7766bef25b2c8640f043c36c17c">imu_calib::AccelCalib::ZPOS</a></div><div class="ttdeci">@ ZPOS</div><div class="ttdef"><b>Definition:</b> <a href="accel__calib_8h_source.html#l00053">accel_calib.h:53</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
