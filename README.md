@@ -94,7 +94,7 @@ When you type start, be sure you are more or less in the same configuration as b
 The overall system structure has been thought as an ensemble of three main blocks, each one with a specific functionality. We named these three components Processing, IK (Inverse Kinematics) and Simulation. The data flow follows this direction and they are respectively responsible for acquiring data from the human end effector motion, elaborating these data obtaining quantities applicable to the seven Baxter joints and showing how the Baxter motion results through a simulation. This is the complete UML scheme:
 
 <p align="center">
-  <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Teleop_UML_paint.png?raw=true "Title"">
+  <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Teleop_UML.jpg?raw=true "Title"">
 </p>
 
 ### Authors
