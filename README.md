@@ -95,7 +95,7 @@ The overall system structure has been thought as an ensemble of three main block
 
 <p align="center">
   <img src="https://github.com/andreabradpitto/SofAr-project/blob/master/Images%20and%20multimedia/Teleop_UML.jpg?raw=true "Title"">
-  *UML scheme. Please click on the image in order to view it properly*
+  UML scheme. In order to inspect the details, please click on the image
 </p>
 
 ### Authors
